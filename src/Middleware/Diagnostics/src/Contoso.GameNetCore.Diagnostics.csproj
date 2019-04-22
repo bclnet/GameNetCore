@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>ASP.NET Core middleware for exception handling, exception display pages, and diagnostics information. Includes developer exception page middleware, exception handler middleware, runtime info middleware, status code page middleware, and welcome page middleware</Description>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsAspNetCoreApp>true</IsAspNetCoreApp>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>aspnetcore;diagnostics</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(SharedSourceRoot)Diagnostics\*.cs" />
+    <Compile Include="$(SharedSourceRoot)RazorViews\*.cs" />
+    <Compile Include="$(SharedSourceRoot)StackTrace\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Diagnostics.Abstractions" />
+    <Reference Include="Contoso.GameNetCore.Hosting.Abstractions" />
+    <Reference Include="Contoso.GameNetCore.Proto.Extensions" />
+    <Reference Include="Contoso.GameNetCore.Routing" />
+    <Reference Include="Contoso.GameNetCore.GameUtilities" />
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical" />
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <Reference Include="Microsoft.Extensions.Options" />
+    <Reference Include="Microsoft.Extensions.TypeNameHelper.Sources" />
+  </ItemGroup>
+
+</Project>

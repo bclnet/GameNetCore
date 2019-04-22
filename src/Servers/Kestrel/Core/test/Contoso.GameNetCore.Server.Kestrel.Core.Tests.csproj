@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TestGroupName>Kestrel.Core.Tests</TestGroupName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(SharedSourceRoot)NullScope.cs" />
+    <Compile Include="$(SharedSourceRoot)Buffers.Testing\*.cs" />
+    <Compile Include="$(KestrelSharedSourceRoot)test\*.cs" LinkBase="shared" />
+    <Compile Include="$(KestrelSharedSourceRoot)KnownHeaders.cs" LinkBase="shared" />
+    <Content Include="$(KestrelSharedSourceRoot)test\TestCertificates\*.pfx" LinkBase="shared\TestCertificates" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Proto" />
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel.Core" />
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection" />
+    <Reference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+</Project>

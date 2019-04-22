@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>GAME.NET Core hosting infrastructure and startup logic for game applications running within a Windows service.</Description>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>gamenetcore;hosting</PackageTags>
+    <IsShippingPackage>true</IsShippingPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Hosting" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ServiceProcess.ServiceController" />
+  </ItemGroup>
+
+</Project>

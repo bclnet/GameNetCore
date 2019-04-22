@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Diagnostics" />
+    <Reference Include="Contoso.GameNetCore.MiddlewareAnalysis" />
+    <Reference Include="Contoso.GameNetCore.TestHost" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection" />
+    <Reference Include="Microsoft.Extensions.DiagnosticAdapter" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+﻿<!-- Auto generated. Do not edit manually, use eng/tools/BaselineGenerator/ to recreate. -->
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <AspNetCoreBaselineVersion>2.2.4</AspNetCoreBaselineVersion>
+  </PropertyGroup>
+  <!-- Package: dotnet-dev-certs-->
+  <PropertyGroup Condition=" '$(PackageId)' == 'dotnet-dev-certs' ">
+    <BaselinePackageVersion>2.2.0</BaselinePackageVersion>
+  </PropertyGroup>
+  <!-- Package: dotnet-sql-cache-->
+  <PropertyGroup Condition=" '$(PackageId)' == 'dotnet-sql-cache' ">
+    <BaselinePackageVersion>2.2.0</BaselinePackageVersion>
+  </PropertyGroup>
+  <!-- Package: dotnet-user-secrets-->
+  <PropertyGroup Condition=" '$(PackageId)' == 'dotnet-user-secrets' ">
+    <BaselinePackageVersion>2.2.0</BaselinePackageVersion>
+  </PropertyGroup>
+  <!-- Package: dotnet-watch-->
+  <PropertyGroup Condition=" '$(PackageId)' == 'dotnet-watch' ">
+    <BaselinePackageVersion>2.2.0</BaselinePackageVersion>
+  </PropertyGroup>
+</Project>

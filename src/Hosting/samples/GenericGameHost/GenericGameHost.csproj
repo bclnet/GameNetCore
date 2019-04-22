@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Hosting" />
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
+    <Reference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Localization" />
+    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine" />
+    <Reference Include="Microsoft.Extensions.Localization" />
+    <Reference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
+
+</Project>

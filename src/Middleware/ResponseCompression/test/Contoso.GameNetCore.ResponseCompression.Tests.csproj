@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="testfile1kb.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Proto" />
+    <Reference Include="Contoso.GameNetCore.ResponseCompression" />
+    <Reference Include="Contoso.GameNetCore.TestHost" />
+    <Reference Include="Microsoft.Extensions.Logging.Testing" />
+    <Reference Include="Contoso.Net.Proto.Headers" />
+  </ItemGroup>
+
+</Project>

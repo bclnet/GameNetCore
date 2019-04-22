@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameNetCore.Diagnostics.HealthChecks" />
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
+    <Reference Include="Contoso.GameNetCore.StaticFiles" />
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine" />
+    <Reference Include="Microsoft.Extensions.Configuration.Json" />
+    <Reference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
+    <Reference Include="Microsoft.Extensions.Logging.Console" />
+    <Reference Include="Newtonsoft.Json" />
+    <Reference Include="System.Data.SqlClient" />
+  </ItemGroup>
+
+</Project>

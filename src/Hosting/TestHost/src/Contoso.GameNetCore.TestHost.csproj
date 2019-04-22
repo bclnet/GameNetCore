@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>GAME.NET Core game server for writing and running tests.</Description>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>gamenetcore;hosting;testing</PackageTags>
+    <IsShippingPackage>true</IsShippingPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Contoso.GameCore.Hosting" />
+    <Reference Include="Microsoft.Extensions.HostFactoryResolver.Sources" />
+    <Reference Include="System.IO.Pipelines" />
+  </ItemGroup>
+
+</Project>

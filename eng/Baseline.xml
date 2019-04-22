@@ -1,0 +1,57 @@
+<!--
+
+This file contains a list of all the packages and their versions which were released in the last servicing
+build of ASP.NET Core 2.2.x. Update this list when preparing for a new patch.
+
+-->
+<Baseline Version="2.2.4">
+  <Package Id="dotnet-dev-certs" Version="2.2.0" />
+  <Package Id="dotnet-sql-cache" Version="2.2.0" />
+  <Package Id="dotnet-user-secrets" Version="2.2.0" />
+  <Package Id="dotnet-watch" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.AspNetCoreModule" Version="2.2.1" />
+  <Package Id="Contoso.GameNetCore.AspNetCoreModuleV2" Version="2.2.4" />
+  <Package Id="Contoso.GameNetCore.Connections.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Diagnostics.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Diagnostics" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.HostFiltering" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Hosting.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Hosting.WindowsServices" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Hosting" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Connections.Client" Version="1.1.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Connections.Common" Version="1.1.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Connections" Version="1.1.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Extensions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Proto.Features" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Proto" Version="2.2.2" />
+  <Package Id="Contoso.GameNetCore.ProtoOverrides" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Localization.Routing" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Localization" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.MiddlewareAnalysis" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.NodeServices" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Owin" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.ResponseCaching" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.ResponseCompression" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Rewrite" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Routing.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Routing" Version="2.2.2" />
+  <Package Id="Contoso.GameNetCore.Server.HttpSys" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel.Core" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel.Https" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel.Transport.Libuv" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel.Transport.Sockets" Version="2.2.1" />
+  <Package Id="Contoso.GameNetCore.Server.Kestrel" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.Session" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.StaticFiles" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.TestHost" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore.GameSockets" Version="2.2.1" />
+  <Package Id="Contoso.GameNetCore.GameUtilities" Version="2.2.0" />
+  <Package Id="Contoso.GameNetCore" Version="2.2.0" />
+  <Package Id="Contoso.Net.Proto.Headers" Version="2.2.0" />
+  <Package Id="Contoso.Owin.Security.Interop" Version="2.2.0" />
+</Baseline>

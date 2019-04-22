@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryRoot)src\Hosting\Server.IntegrationTesting\src\Contoso.GameNetCore.Server.IntegrationTesting.csproj" />
+
+    <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
+    <Reference Include="Contoso.GameNetCore.WebSockets" />
+    <Reference Include="Microsoft.Extensions.Logging.Testing" />
+  </ItemGroup>
+
+</Project>

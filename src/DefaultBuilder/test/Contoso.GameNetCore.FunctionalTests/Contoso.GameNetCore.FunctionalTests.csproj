@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <!-- https://github.com/aspnet/AspNetCore/issues/6549 -->
+    <BuildHelixPayload>false</BuildHelixPayload>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="testCert.pfx" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryRoot)src\Hosting\Server.IntegrationTesting\src\Contoso.GameNetCore.Server.IntegrationTesting.csproj" />
+
+    <Reference Include="Contoso.GameNetCore" />
+    <Reference Include="Microsoft.Extensions.Logging.Testing" />
+  </ItemGroup>
+</Project>

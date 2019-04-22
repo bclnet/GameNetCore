@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection" />
+    <Reference Include="Contoso.GameNetCore.TestHost" />
+    <Reference Include="Contoso.GameNetCore.HeaderPropagation" />
+  </ItemGroup>
+
+</Project>
