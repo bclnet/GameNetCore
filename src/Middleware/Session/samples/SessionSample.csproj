@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Reference Include="Contoso.GameNetCore.Session" />
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
     <Reference Include="Microsoft.Extensions.Caching.Memory" />
     <Reference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />

@@ -7,7 +7,6 @@
   <ItemGroup>
     <Reference Include="Contoso.GameNetCore.Diagnostics" />
 
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
     <Reference Include="Contoso.GameNetCore.StaticFiles" />
   </ItemGroup>

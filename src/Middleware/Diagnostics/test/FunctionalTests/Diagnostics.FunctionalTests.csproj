@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\testassets\DatabaseErrorPageSample\DatabaseErrorPageSample.csproj" />
     <ProjectReference Include="..\testassets\DeveloperExceptionPageSample\DeveloperExceptionPageSample.csproj" />
     <ProjectReference Include="..\testassets\ExceptionHandlerSample\ExceptionHandlerSample.csproj" />
     <ProjectReference Include="..\testassets\StatusCodePagesSample\StatusCodePagesSample.csproj" />

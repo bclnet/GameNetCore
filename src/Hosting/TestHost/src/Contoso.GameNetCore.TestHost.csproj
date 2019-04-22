@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Contoso.GameCore.Hosting" />
+    <Reference Include="Contoso.GameNetCore.Hosting" />
     <Reference Include="Microsoft.Extensions.HostFactoryResolver.Sources" />
     <Reference Include="System.IO.Pipelines" />
   </ItemGroup>

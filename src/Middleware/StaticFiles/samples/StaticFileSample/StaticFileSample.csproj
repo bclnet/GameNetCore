@@ -7,7 +7,6 @@
   <ItemGroup>
     <Reference Include="Contoso.GameNetCore.ResponseCompression" />
     <Reference Include="Contoso.GameNetCore.StaticFiles" />
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
     <Reference Include="Microsoft.Extensions.Logging.Console" />
   </ItemGroup>

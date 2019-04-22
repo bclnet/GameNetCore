@@ -8,11 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Contoso.GameNetCore.Mvc"  />
-    <Reference Include="Contoso.GameNetCore.SpaServices" />
     <Reference Include="Contoso.GameNetCore.Diagnostics" />
     <Reference Include="Contoso.GameNetCore.Hosting" />
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
     <Reference Include="Contoso.GameNetCore.StaticFiles" />
     <Reference Include="Microsoft.Extensions.Logging.Debug" />

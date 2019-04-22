@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
-    <Reference Include="Contoso.GameNetCore.Testing" />
+    <Reference Include="Microsoft.AspNetCore.Testing" />
     <Reference Include="Microsoft.NET.Test.Sdk" />
     <Reference Include="Moq" />
     <Reference Include="xunit" />

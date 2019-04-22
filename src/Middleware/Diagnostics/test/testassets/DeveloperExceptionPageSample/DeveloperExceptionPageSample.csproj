@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Reference Include="Contoso.GameNetCore.Routing" />
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel" />
   </ItemGroup>
 

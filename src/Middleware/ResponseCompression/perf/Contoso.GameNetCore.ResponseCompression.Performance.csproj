@@ -8,7 +8,7 @@
   <ItemGroup>
     <Reference Include="BenchmarkDotNet" />
     <Reference Include="Contoso.GameNetCore.Proto" />
-    <Reference Include="Contoso.GameNetCore.BenchmarkRunner.Sources" />
+    <Reference Include="Microsoft.AspNetCore.BenchmarkRunner.Sources" />
     <Reference Include="Contoso.GameNetCore.ResponseCompression" />
     <Reference Include="Microsoft.Extensions.DependencyInjection" />
   </ItemGroup>

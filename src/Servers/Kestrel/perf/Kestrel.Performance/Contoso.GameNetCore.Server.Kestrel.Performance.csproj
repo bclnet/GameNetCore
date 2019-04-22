@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="BenchmarkDotNet" />
-    <Reference Include="Contoso.GameNetCore.BenchmarkRunner.Sources" />
+    <Reference Include="Microsoft.AspNetCore.BenchmarkRunner.Sources" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel.Core" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel.Transport.Libuv" />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel.Transport.Sockets" />

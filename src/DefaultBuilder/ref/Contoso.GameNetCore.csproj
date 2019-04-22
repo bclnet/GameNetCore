@@ -9,8 +9,6 @@
     <Reference Include="Contoso.GameNetCore.HostFiltering"  />
     <Reference Include="Contoso.GameNetCore.Hosting"  />
     <Reference Include="Contoso.GameNetCore.Routing"  />
-    <Reference Include="Contoso.GameNetCore.Server.IIS"  />
-    <Reference Include="Contoso.GameNetCore.Server.IISIntegration"  />
     <Reference Include="Contoso.GameNetCore.Server.Kestrel"  />
     <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables"  />
     <Reference Include="Microsoft.Extensions.Configuration.FileExtensions"  />
