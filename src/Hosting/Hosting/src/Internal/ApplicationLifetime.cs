@@ -55,15 +55,10 @@ namespace Contoso.GameNetCore.Hosting.Internal
             // which will no-op since the first call already requested cancellation, get a chance to execute.
             lock (_stoppingSource)
             {
-                try
-                {
-                    ExecuteHandlers(_stoppingSource);
-                }
+                try { ExecuteHandlers(_stoppingSource); }
                 catch (Exception ex)
                 {
-                    _logger.ApplicationError(LoggerEventIds.ApplicationStoppingException,
-                                             "An error occurred stopping the application",
-                                             ex);
+                    _logger.ApplicationError(LoggerEventIds.ApplicationStoppingException, "An error occurred stopping the application", ex);
                 }
             }
         }
@@ -73,15 +68,10 @@ namespace Contoso.GameNetCore.Hosting.Internal
         /// </summary>
         public void NotifyStarted()
         {
-            try
-            {
-                ExecuteHandlers(_startedSource);
-            }
+            try { ExecuteHandlers(_startedSource); }
             catch (Exception ex)
             {
-                _logger.ApplicationError(LoggerEventIds.ApplicationStartupException,
-                                         "An error occurred starting the application",
-                                         ex);
+                _logger.ApplicationError(LoggerEventIds.ApplicationStartupException, "An error occurred starting the application", ex);
             }
         }
 
@@ -90,15 +80,10 @@ namespace Contoso.GameNetCore.Hosting.Internal
         /// </summary>
         public void NotifyStopped()
         {
-            try
-            {
-                ExecuteHandlers(_stoppedSource);
-            }
+            try { ExecuteHandlers(_stoppedSource); }
             catch (Exception ex)
             {
-                _logger.ApplicationError(LoggerEventIds.ApplicationStoppedException,
-                                         "An error occurred stopping the application",
-                                         ex);
+                _logger.ApplicationError(LoggerEventIds.ApplicationStoppedException, "An error occurred stopping the application", ex);
             }
         }
 

@@ -219,7 +219,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             return this;
         }
 
-        private void UseStartup(Type startupType, HostBuilderContext context, IServiceCollection services)
+        void UseStartup(Type startupType, HostBuilderContext context, IServiceCollection services)
         {
             var gameHostBuilderContext = GetGameHostBuilderContext(context);
             var gameHostOptions = (GameHostOptions)context.Properties[typeof(GameHostOptions)];

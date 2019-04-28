@@ -12,8 +12,8 @@ namespace Loader
 
         public static IGameHostBuilder CreateGameHostBuilder(string[] args) =>
             GameHost.CreateDefaultBuilder(args)
-                .UseClient()
-                .UseSimple()
+                //.UseClient()
+                //.UseSimple()
                 .UseStartup<Startup>();
     }
 }

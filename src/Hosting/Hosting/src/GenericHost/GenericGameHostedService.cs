@@ -172,10 +172,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                await Server.StopAsync(cancellationToken);
-            }
+            try { await Server.StopAsync(cancellationToken); }
             finally
             {
                 HostingEventSource.Log.HostStop();

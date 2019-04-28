@@ -37,10 +37,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                         parameters[index] = builder;
                     else
                     {
-                        try
-                        {
-                            parameters[index] = serviceProvider.GetRequiredService(parameterInfo.ParameterType);
-                        }
+                        try { parameters[index] = serviceProvider.GetRequiredService(parameterInfo.ParameterType); }
                         catch (Exception ex)
                         {
                             throw new Exception(string.Format(

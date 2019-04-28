@@ -9,7 +9,7 @@ using Contoso.GameNetCore.Hosting.Views;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using IProtoContextFactory = Microsoft.AspNetCore.Http.HttpContextFactory;
+using IProtoContextFactory = Microsoft.AspNetCore.Http.IHttpContextFactory;
 #else
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Proto;
@@ -72,13 +72,10 @@ namespace Contoso.GameNetCore.Hosting.Internal
             _applicationServiceCollection.AddSingleton<ApplicationLifetime>();
             // There's no way to to register multiple service types per definition. See https://github.com/aspnet/DependencyInjection/issues/360
 #pragma warning disable CS0618 // Type or member is obsolete
-            _applicationServiceCollection.AddSingleton(services
-                => services.GetService<ApplicationLifetime>() as IHostApplicationLifetime);
-            _applicationServiceCollection.AddSingleton(services
-                => services.GetService<ApplicationLifetime>() as GameNetCore.Hosting.IApplicationLifetime);
+            _applicationServiceCollection.AddSingleton(services => services.GetService<ApplicationLifetime>() as IHostApplicationLifetime);
+            _applicationServiceCollection.AddSingleton(services => services.GetService<ApplicationLifetime>() as GameNetCore.Hosting.IApplicationLifetime);
 #if !NET2
-            _applicationServiceCollection.AddSingleton(services
-                => services.GetService<ApplicationLifetime>() as Extensions.Hosting.IApplicationLifetime);
+            _applicationServiceCollection.AddSingleton(services => services.GetService<ApplicationLifetime>() as Extensions.Hosting.IApplicationLifetime);
 #endif
 #pragma warning restore CS0618 // Type or member is obsolete
             _applicationServiceCollection.AddSingleton<HostedServiceExecutor>();
@@ -98,10 +95,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         // Called immediately after the constructor so the properties can rely on it.
         public void Initialize()
         {
-            try
-            {
-                EnsureApplicationServices();
-            }
+            try { EnsureApplicationServices(); }
             catch (Exception ex)
             {
                 // EnsureApplicationServices may have failed due to a missing or throwing Startup class.
@@ -131,7 +125,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
             var diagnosticSource = Services.GetRequiredService<DiagnosticListener>();
             var protoContextFactory = Services.GetRequiredService<IProtoContextFactory>();
             var hostingApp = new HostingApplication(application, _logger, diagnosticSource, protoContextFactory);
-            await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
+            if (Server != null)
+                await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
 
             // Fire IApplicationLifetime.Started
             _applicationLifetime?.NotifyStarted();
@@ -179,7 +174,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 EnsureServer();
 
                 var builderFactory = Services.GetRequiredService<IApplicationBuilderFactory>();
-                var builder = builderFactory.CreateBuilder(Server.Features);
+                var builder = builderFactory.CreateBuilder(Server?.Features);
                 builder.ApplicationServices = Services;
 
                 var startupFilters = Services.GetService<IEnumerable<IStartupFilter>>();
@@ -246,7 +241,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
         void EnsureServer()
         {
-            if (Server == null)
+            if (Server == null && Services.GetService<IServer>() != null)
             {
                 Server = Services.GetRequiredService<IServer>();
 
@@ -302,10 +297,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         public async ValueTask DisposeAsync()
         {
             if (!_stopped)
-                try
-                {
-                    await StopAsync().ConfigureAwait(false);
-                }
+                try { await StopAsync().ConfigureAwait(false); }
                 catch (Exception ex)
                 {
                     _logger?.ServerShutdownException(ex);

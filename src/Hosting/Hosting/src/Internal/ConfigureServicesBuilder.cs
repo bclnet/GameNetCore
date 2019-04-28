@@ -10,10 +10,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 {
     public class ConfigureServicesBuilder
     {
-        public ConfigureServicesBuilder(MethodInfo configureServices)
-        {
-            MethodInfo = configureServices;
-        }
+        public ConfigureServicesBuilder(MethodInfo configureServices) => MethodInfo = configureServices;
 
         public MethodInfo MethodInfo { get; }
 

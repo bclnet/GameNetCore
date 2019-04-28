@@ -24,34 +24,22 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
         public void Configure(IApplicationBuilder app)
         {
-            try
-            {
-                _methods.ConfigureDelegate(app);
-            }
+            try { _methods.ConfigureDelegate(app); }
             catch (Exception ex)
             {
                 if (ex is TargetInvocationException)
-                {
                     ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                }
-
                 throw;
             }
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            try
-            {
-                return _methods.ConfigureServicesDelegate(services);
-            }
+            try { return _methods.ConfigureServicesDelegate(services); }
             catch (Exception ex)
             {
                 if (ex is TargetInvocationException)
-                {
                     ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                }
-
                 throw;
             }
         }

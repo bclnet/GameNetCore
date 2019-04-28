@@ -30,25 +30,16 @@ namespace Contoso.GameNetCore.Hosting.Internal
         async Task ExecuteAsync(Func<IHostedService, Task> callback, bool throwOnFirstFailure = true)
         {
             List<Exception> exceptions = null;
-
             foreach (var service in _services)
-            {
-                try
-                {
-                    await callback(service);
-                }
+                try { await callback(service); }
                 catch (Exception ex)
                 {
                     if (throwOnFirstFailure)
                         throw;
-
                     if (exceptions == null)
                         exceptions = new List<Exception>();
-
                     exceptions.Add(ex);
                 }
-            }
-
             // Throw an aggregate exception if there were any exceptions
             if (exceptions != null)
                 throw new AggregateException(exceptions);

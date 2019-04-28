@@ -108,7 +108,7 @@ namespace Contoso.GameNetCore.Hosting
                     Console.WriteLine($"Hosting environment: {hostingEnvironment.EnvironmentName}");
                     Console.WriteLine($"Content root path: {hostingEnvironment.ContentRootPath}");
 
-                    var serverAddresses = host.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
+                    var serverAddresses = host.ServerFeatures?.Get<IServerAddressesFeature>()?.Addresses;
                     if (serverAddresses != null)
                         foreach (var address in serverAddresses)
                             Console.WriteLine($"Now listening on: {address}");

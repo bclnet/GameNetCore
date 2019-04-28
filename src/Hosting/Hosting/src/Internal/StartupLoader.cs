@@ -122,7 +122,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 IServiceProvider ConfigureServicesWithContainerConfiguration(IServiceCollection services)
                 {
                     // Call ConfigureServices, if that returned an IServiceProvider, we're done
-                    IServiceProvider applicationServiceProvider = configureServicesCallback.Invoke(services);
+                    var applicationServiceProvider = configureServicesCallback.Invoke(services);
 
                     if (applicationServiceProvider != null)
                         return applicationServiceProvider;
