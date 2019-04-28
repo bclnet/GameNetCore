@@ -5,8 +5,14 @@ using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Server;
 using Contoso.GameNetCore.Hosting.Server.Features;
 using Contoso.GameNetCore.Hosting.Views;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using IProtoContextFactory = Microsoft.AspNetCore.Http.IHttpContextFactory;
+#else
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Proto;
+#endif
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -28,7 +34,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                                      IServer server,
                                      ILoggerFactory loggerFactory,
                                      DiagnosticListener diagnosticListener,
-                                     IProtoContextFactory httpContextFactory,
+                                     IProtoContextFactory protoContextFactory,
                                      IApplicationBuilderFactory applicationBuilderFactory,
                                      IEnumerable<IStartupFilter> startupFilters,
                                      IConfiguration configuration,
@@ -39,7 +45,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             Logger = loggerFactory.CreateLogger<GenericGameHostService>();
             LifetimeLogger = loggerFactory.CreateLogger("Microsoft.Hosting.Lifetime");
             DiagnosticListener = diagnosticListener;
-            ProtoContextFactory = httpContextFactory;
+            ProtoContextFactory = protoContextFactory;
             ApplicationBuilderFactory = applicationBuilderFactory;
             StartupFilters = startupFilters;
             Configuration = configuration;

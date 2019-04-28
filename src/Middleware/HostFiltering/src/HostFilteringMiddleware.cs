@@ -6,7 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Contoso.GameNetCore.Http;
+#if NETX
+using Microsoft.AspNetCore.Http;
+#else
+using Contoso.GameNetCore.Proto;
+#endif
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;

@@ -3,7 +3,11 @@
 
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Hosting;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+#else
 using Contoso.GameNetCore.Builder;
+#endif
 using System;
 
 namespace Contoso.GameNetCore

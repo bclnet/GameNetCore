@@ -4,7 +4,11 @@
 using System;
 using System.Reflection;
 using Contoso.GameNetCore.Hosting.Internal;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+#else
 using Contoso.GameNetCore.Builder;
+#endif
 using Contoso.GameNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

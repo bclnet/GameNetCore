@@ -162,7 +162,7 @@ namespace Contoso.GameNetCore.Server.Kestrel.Core
             }
             catch (Exception ex)
             {
-                Trace.LogCritical(0, ex, "Unable to start Kestrel.");
+                Trace.LogCritical(0, ex, "Unable to start Simple.");
                 Dispose();
                 throw;
             }

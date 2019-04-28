@@ -2,7 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Contoso.GameNetCore.Hosting.Builder;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using IProtoContextFactory = Microsoft.AspNetCore.Http.IHttpContextFactory;
+using DefaultProtoContextFactory = Microsoft.AspNetCore.Http.DefaultHttpContextFactory;
+#else
 using Contoso.GameNetCore.Builder;
+#endif
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -93,8 +100,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 services.TryAddSingleton<DiagnosticListener>(listener);
                 services.TryAddSingleton<DiagnosticSource>(listener);
 
-                //services.TryAddSingleton<IProtoContextFactory, DefaultProtoContextFactory>();
-                //services.TryAddScoped<IMiddlewareFactory, MiddlewareFactory>();
+                services.TryAddSingleton<IProtoContextFactory, DefaultProtoContextFactory>();
+                services.TryAddScoped<IMiddlewareFactory, MiddlewareFactory>();
                 services.TryAddSingleton<IApplicationBuilderFactory, ApplicationBuilderFactory>();
 
                 // Support UseStartup(assemblyName)

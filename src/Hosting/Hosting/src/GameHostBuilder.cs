@@ -3,6 +3,13 @@
 
 using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Internal;
+#if NETX
+using Microsoft.AspNetCore.Http;
+using IProtoContextFactory = Microsoft.AspNetCore.Http.IHttpContextFactory;
+using DefaultProtoContextFactory = Microsoft.AspNetCore.Http.DefaultHttpContextFactory;
+#else
+using Contoso.GameNetCore.Proto;
+#endif
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -14,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-using Microsoft.Extensions.Hosting;
 #if NET2
 using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 #endif
@@ -264,8 +270,8 @@ namespace Contoso.GameNetCore.Hosting
             services.AddSingleton<DiagnosticSource>(listener);
 
             services.AddTransient<IApplicationBuilderFactory, ApplicationBuilderFactory>();
-            //services.AddTransient<IProtoContextFactory, DefaultProtoContextFactory>();
-            //services.AddScoped<IMiddlewareFactory, MiddlewareFactory>();
+            services.AddTransient<IProtoContextFactory, DefaultProtoContextFactory>();
+            services.AddScoped<IMiddlewareFactory, MiddlewareFactory>();
             services.AddOptions();
             services.AddLogging();
 

@@ -5,9 +5,16 @@ using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Server;
 using Contoso.GameNetCore.Hosting.Server.Features;
 using Contoso.GameNetCore.Hosting.Views;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using IProtoContextFactory = Microsoft.AspNetCore.Http.HttpContextFactory;
+#else
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Proto;
 using Contoso.GameNetCore.Proto.Features;
+#endif
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,7 +27,6 @@ using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 #if NET2
 using IHostEnvironment = Contoso.GameNetCore.Hosting.IHostingEnvironment;
 using IHostApplicationLifetime = Contoso.GameNetCore.Hosting.IApplicationLifetime;
@@ -123,8 +129,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
             _applicationLifetime = Services.GetRequiredService<ApplicationLifetime>();
             _hostedServiceExecutor = Services.GetRequiredService<HostedServiceExecutor>();
             var diagnosticSource = Services.GetRequiredService<DiagnosticListener>();
-            var httpContextFactory = Services.GetRequiredService<IProtoContextFactory>();
-            var hostingApp = new HostingApplication(application, _logger, diagnosticSource, httpContextFactory);
+            var protoContextFactory = Services.GetRequiredService<IProtoContextFactory>();
+            var hostingApp = new HostingApplication(application, _logger, diagnosticSource, protoContextFactory);
             await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
 
             // Fire IApplicationLifetime.Started

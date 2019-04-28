@@ -1,12 +1,21 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#if NETX
+using Microsoft.AspNetCore.Http;
+using ProtoContext = Microsoft.AspNetCore.Http.HttpContext;
+#else
 using Contoso.GameNetCore.Proto;
+#endif
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Diagnostics;
+#if NETX
+using System.Net.Http.Headers;
+#else
 using System.Net.Proto.Headers;
+#endif
 using System.Runtime.CompilerServices;
 
 namespace Contoso.GameNetCore.Hosting.Internal

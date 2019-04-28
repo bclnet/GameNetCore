@@ -1,6 +1,10 @@
 namespace Contoso.GameNetCore.Hosting.Views
 {
+#if NETX
+    using ProtoContext = Microsoft.AspNetCore.Http.HttpContext;
+#else
     using Contoso.GameNetCore.Proto;
+#endif
     using System.Threading.Tasks;
 
     internal class ErrorPage

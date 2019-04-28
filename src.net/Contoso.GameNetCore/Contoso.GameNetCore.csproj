@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\DefaultBuilder\src\GameHost.cs" Link="DefaultBuilder\GameHost.cs" />
+    <Compile Include="..\..\src\DefaultBuilder\src\GenericHostBuilderExtensions.cs" Link="DefaultBuilder\GenericHostBuilderExtensions.cs" />
+    <Compile Include="..\..\src\DefaultBuilder\src\HostFilteringStartupFilter.cs" Link="DefaultBuilder\HostFilteringStartupFilter.cs" />
+    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringBuilderExtensions.cs" Link="Middleware\HostFiltering\HostFilteringBuilderExtensions.cs" />
+    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringMiddleware.cs" Link="Middleware\HostFiltering\HostFilteringMiddleware.cs" />
+    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringOptions.cs" Link="Middleware\HostFiltering\HostFilteringOptions.cs" />
+    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringServicesExtensions.cs" Link="Middleware\HostFiltering\HostFilteringServicesExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DefaultBuilder\" />
+    <Folder Include="Middleware\HostFiltering\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contoso.GameNetCore.Hosting\Contoso.GameNetCore.Hosting.csproj" />
+  </ItemGroup>
+</Project>

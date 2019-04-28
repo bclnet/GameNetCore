@@ -12,7 +12,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     internal class GenericGameHostApplicationLifetime : IApplicationLifetime
 #pragma warning restore CS0618 // Type or member is obsolete
     {
-        private readonly IHostApplicationLifetime _applicationLifetime;
+        readonly IHostApplicationLifetime _applicationLifetime;
 
         public GenericGameHostApplicationLifetime(IHostApplicationLifetime applicationLifetime) =>
             _applicationLifetime = applicationLifetime;

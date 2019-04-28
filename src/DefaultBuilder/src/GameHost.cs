@@ -1,8 +1,14 @@
 ﻿using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+#if NETX
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+#else
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Http;
 using Contoso.GameNetCore.Routing;
+#endif
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
