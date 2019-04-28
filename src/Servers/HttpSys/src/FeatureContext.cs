@@ -11,14 +11,14 @@ using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Http.Features.Authentication;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal class FeatureContext :
         IHttpRequestFeature,

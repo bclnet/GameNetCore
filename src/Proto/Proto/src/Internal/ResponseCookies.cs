@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     /// <summary>
     /// A wrapper for the response Set-Cookie header.
@@ -63,8 +63,8 @@ namespace Microsoft.AspNetCore.Http.Internal
                 Expires = options.Expires,
                 MaxAge = options.MaxAge,
                 Secure = options.Secure,
-                SameSite = (Net.Http.Headers.SameSiteMode)options.SameSite,
-                HttpOnly = options.HttpOnly
+                SameSite = (Net.Proto.Headers.SameSiteMode)options.SameSite,
+                ProtoOnly = options.ProtoOnly
             };
 
             var cookieValue = setCookieHeaderValue.ToString();
@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Http.Internal
                 Domain = options.Domain,
                 Expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 Secure = options.Secure,
-                HttpOnly = options.HttpOnly,
+                ProtoOnly = options.ProtoOnly,
                 SameSite = options.SameSite
             });
         }

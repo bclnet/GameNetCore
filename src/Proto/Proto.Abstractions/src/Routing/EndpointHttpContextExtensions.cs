@@ -2,21 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http.Endpoints
+namespace Contoso.GameNetCore.Proto.Endpoints
 {
     /// <summary>
-    /// Extension methods to expose Endpoint on HttpContext.
+    /// Extension methods to expose Endpoint on ProtoContext.
     /// </summary>
-    public static class EndpointHttpContextExtensions
+    public static class EndpointProtoContextExtensions
     {
         /// <summary>
         /// Extension method for getting the <see cref="Endpoint"/> for the current request.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/> context.</param>
+        /// <param name="context">The <see cref="ProtoContext"/> context.</param>
         /// <returns>The <see cref="Endpoint"/>.</returns>
-        public static Endpoint GetEndpoint(this HttpContext context)
+        public static Endpoint GetEndpoint(this ProtoContext context)
         {
             if (context == null)
             {
@@ -29,9 +29,9 @@ namespace Microsoft.AspNetCore.Http.Endpoints
         /// <summary>
         /// Extension method for setting the <see cref="Endpoint"/> for the current request.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/> context.</param>
+        /// <param name="context">The <see cref="ProtoContext"/> context.</param>
         /// <param name="endpoint">The <see cref="Endpoint"/>.</param>
-        public static void SetEndpoint(this HttpContext context, Endpoint endpoint)
+        public static void SetEndpoint(this ProtoContext context, Endpoint endpoint)
         {
             if (context == null)
             {

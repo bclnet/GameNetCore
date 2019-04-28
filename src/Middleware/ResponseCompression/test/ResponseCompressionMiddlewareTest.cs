@@ -9,19 +9,19 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.TestHost;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.ResponseCompression.Tests
+namespace Contoso.GameNetCore.ResponseCompression.Tests
 {
     public class ResponseCompressionMiddlewareTest
     {

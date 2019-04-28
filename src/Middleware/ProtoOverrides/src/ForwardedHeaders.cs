@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.ProtoOverrides
 {
     [Flags]
     public enum ForwardedHeaders

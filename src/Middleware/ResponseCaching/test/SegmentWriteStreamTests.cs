@@ -4,10 +4,10 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.ResponseCaching.Internal;
+using Contoso.GameNetCore.ResponseCaching.Internal;
 using Xunit;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Tests
+namespace Contoso.GameNetCore.ResponseCaching.Tests
 {
     public class SegmentWriteStreamTests
     {

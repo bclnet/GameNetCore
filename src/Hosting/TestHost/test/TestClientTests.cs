@@ -9,15 +9,15 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     public class TestClientTests
     {

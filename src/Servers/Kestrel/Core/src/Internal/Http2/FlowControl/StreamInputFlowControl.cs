@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl
 {
     internal class StreamInputFlowControl
     {
@@ -11,11 +11,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
         private readonly InputFlowControl _streamLevelFlowControl;
 
         private readonly int _streamId;
-        private readonly Http2FrameWriter _frameWriter;
+        private readonly Proto2FrameWriter _frameWriter;
 
         public StreamInputFlowControl(
             int streamId,
-            Http2FrameWriter frameWriter,
+            Proto2FrameWriter frameWriter,
             InputFlowControl connectionLevelFlowControl,
             uint initialWindowSize,
             uint minWindowSizeIncrement)

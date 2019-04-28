@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Hosting.Server.Features;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     public class KestrelServer : IServer
     {
@@ -50,7 +50,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
             _serverAddresses = new ServerAddressesFeature();
             Features.Set(_serverAddresses);
 
-            HttpCharacters.Initialize();
+            ProtoCharacters.Initialize();
         }
 
         private static ServiceContext CreateServiceContext(IOptions<KestrelServerOptions> options, ILoggerFactory loggerFactory)
@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
                 trace);
 
             // TODO: This logic will eventually move into the IConnectionHandler<T> and off
-            // the service context once we get to https://github.com/aspnet/KestrelHttpServer/issues/1662
+            // the service context once we get to https://github.com/aspnet/KestrelProtoServer/issues/1662
             PipeScheduler scheduler = null;
             switch (serverOptions.ApplicationSchedulingMode)
             {
@@ -98,7 +98,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
             return new ServiceContext
             {
                 Log = trace,
-                HttpParser = new HttpParser<Http1ParsingHandler>(trace.IsEnabled(LogLevel.Information)),
+                ProtoParser = new ProtoParser<Proto1ParsingHandler>(trace.IsEnabled(LogLevel.Information)),
                 Scheduler = scheduler,
                 SystemClock = heartbeatManager,
                 DateHeaderValueManager = dateHeaderValueManager,
@@ -118,7 +118,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
 
         private ConnectionManager ConnectionManager => ServiceContext.ConnectionManager;
 
-        public async Task StartAsync<TContext>(IHttpApplication<TContext> application, CancellationToken cancellationToken)
+        public async Task StartAsync<TContext>(IProtoApplication<TContext> application, CancellationToken cancellationToken)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
                 async Task OnBind(ListenOptions endpoint)
                 {
                     // Add the HTTP middleware as the terminal connection middleware
-                    endpoint.UseHttpServer(endpoint.ConnectionAdapters, ServiceContext, application, endpoint.Protocols);
+                    endpoint.UseProtoServer(endpoint.ConnectionAdapters, ServiceContext, application, endpoint.Protocols);
 
                     var connectionDelegate = endpoint.Build();
 

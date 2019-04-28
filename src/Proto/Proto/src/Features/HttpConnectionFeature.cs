@@ -3,9 +3,9 @@
 
 using System.Net;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpConnectionFeature : IHttpConnectionFeature
+    public class ProtoConnectionFeature : IProtoConnectionFeature
     {
         public string ConnectionId { get; set; }
 

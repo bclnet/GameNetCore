@@ -5,13 +5,13 @@ using System;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class BodyControlTests
     {

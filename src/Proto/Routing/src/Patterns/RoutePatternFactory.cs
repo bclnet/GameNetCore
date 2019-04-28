@@ -6,9 +6,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Constraints;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// Contains factory methods for creating <see cref="RoutePattern"/> and related types.

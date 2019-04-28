@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// Various extensions for converting multipart sections
@@ -19,18 +19,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         public static FileMultipartSection AsFileSection(this MultipartSection section)
         {
             if (section == null)
-            {
                 throw new ArgumentNullException(nameof(section));
-            }
-
-            try
-            {
-                return new FileMultipartSection(section);
-            }
-            catch
-            {
-                return null;
-            }
+            try { return new FileMultipartSection(section); }
+            catch { return null; }
         }
 
         /// <summary>
@@ -41,18 +32,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         public static FormMultipartSection AsFormDataSection(this MultipartSection section)
         {
             if (section == null)
-            {
                 throw new ArgumentNullException(nameof(section));
-            }
-
-            try
-            {
-                return new FormMultipartSection(section);
-            }
-            catch
-            {
-                return null;
-            }
+            try { return new FormMultipartSection(section); }
+            catch { return null; }
         }
 
         /// <summary>
@@ -60,15 +42,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// </summary>
         /// <param name="section">The section from which to retrieve</param>
         /// <returns>A <see cref="ContentDispositionHeaderValue"/> if the header was found, null otherwise</returns>
-        public static ContentDispositionHeaderValue GetContentDispositionHeader(this MultipartSection section)
-        {
-            ContentDispositionHeaderValue header;
-            if (!ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out header))
-            {
-                return null;
-            }
-
-            return header;
-        }
+        public static ContentDispositionHeaderValue GetContentDispositionHeader(this MultipartSection section) =>
+            !ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var header) ? null : header;
     }
 }

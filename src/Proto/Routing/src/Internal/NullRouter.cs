@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     internal class NullRouter : IRouter
     {

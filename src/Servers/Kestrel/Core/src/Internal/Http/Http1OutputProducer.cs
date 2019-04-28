@@ -8,20 +8,20 @@ using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
+using Contoso.GameNetCore.Connections;
 using Microsoft.AspNetCore.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class Http1OutputProducer : IHttpOutputProducer, IHttpOutputAborter, IDisposable
+    internal class Proto1OutputProducer : IProtoOutputProducer, IProtoOutputAborter, IDisposable
     {
         // Use C#7.3's ReadOnlySpan<byte> optimization for static data https://vcsjones.com/2019/02/01/csharp-readonly-span-bytes-static/
         // "HTTP/1.1 100 Continue\r\n\r\n"
         private static ReadOnlySpan<byte> ContinueBytes => new byte[] { (byte)'H', (byte)'T', (byte)'T', (byte)'P', (byte)'/', (byte)'1', (byte)'.', (byte)'1', (byte)' ', (byte)'1', (byte)'0', (byte)'0', (byte)' ', (byte)'C', (byte)'o', (byte)'n', (byte)'t', (byte)'i', (byte)'n', (byte)'u', (byte)'e', (byte)'\r', (byte)'\n', (byte)'\r', (byte)'\n' };
         // "HTTP/1.1 "
-        private static ReadOnlySpan<byte> HttpVersion11Bytes => new byte[] { (byte)'H', (byte)'T', (byte)'T', (byte)'P', (byte)'/', (byte)'1', (byte)'.', (byte)'1', (byte)' ' };
+        private static ReadOnlySpan<byte> ProtoVersion11Bytes => new byte[] { (byte)'H', (byte)'T', (byte)'T', (byte)'P', (byte)'/', (byte)'1', (byte)'.', (byte)'1', (byte)' ' };
         // "\r\n\r\n"
         private static ReadOnlySpan<byte> EndHeadersBytes => new byte[] { (byte)'\r', (byte)'\n', (byte)'\r', (byte)'\n' };
         // "0\r\n\r\n"
@@ -33,7 +33,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private readonly string _connectionId;
         private readonly ConnectionContext _connectionContext;
         private readonly IKestrelTrace _log;
-        private readonly IHttpMinResponseDataRateFeature _minResponseDataRateFeature;
+        private readonly IProtoMinResponseDataRateFeature _minResponseDataRateFeature;
         private readonly TimingPipeFlusher _flusher;
         private readonly MemoryPool<byte> _memoryPool;
 
@@ -68,13 +68,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private int _position;
         private bool _startCalled;
 
-        public Http1OutputProducer(
+        public Proto1OutputProducer(
             PipeWriter pipeWriter,
             string connectionId,
             ConnectionContext connectionContext,
             IKestrelTrace log,
             ITimeoutControl timeoutControl,
-            IHttpMinResponseDataRateFeature minResponseDataRateFeature,
+            IProtoMinResponseDataRateFeature minResponseDataRateFeature,
             MemoryPool<byte> memoryPool)
         {
             _pipeWriter = pipeWriter;
@@ -141,7 +141,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 return _flusher.FlushAsync(_minResponseDataRateFeature.MinDataRate, bytesWritten, this, cancellationToken);
             }
 
-            ValueTask<FlushResult> FlushAsyncChunked(Http1OutputProducer producer, CancellationToken token)
+            ValueTask<FlushResult> FlushAsyncChunked(Proto1OutputProducer producer, CancellationToken token)
             {
                 // Local function so in the common-path the stack space for BufferWriter isn't reservered and cleared when it isn't used.
 
@@ -290,7 +290,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             writer.Commit();
         }
 
-        public void WriteResponseHeaders(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk)
+        public void WriteResponseHeaders(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk)
         {
             lock (_contextLock)
             {
@@ -305,9 +305,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        private void WriteResponseHeadersInternal(ref BufferWriter<PipeWriter> writer, int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk)
+        private void WriteResponseHeadersInternal(ref BufferWriter<PipeWriter> writer, int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk)
         {
-            writer.Write(HttpVersion11Bytes);
+            writer.Write(ProtoVersion11Bytes);
             var statusBytes = ReasonPhrases.ToStatusBytes(statusCode, reasonPhrase);
             writer.Write(statusBytes);
             responseHeaders.CopyTo(ref writer);
@@ -437,7 +437,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             return WriteAsync(ContinueBytes);
         }
 
-        public ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> buffer, CancellationToken cancellationToken)
+        public ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> buffer, CancellationToken cancellationToken)
         {
             lock (_contextLock)
             {
@@ -455,7 +455,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        public ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> buffer, CancellationToken cancellationToken)
+        public ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> buffer, CancellationToken cancellationToken)
         {
             lock (_contextLock)
             {

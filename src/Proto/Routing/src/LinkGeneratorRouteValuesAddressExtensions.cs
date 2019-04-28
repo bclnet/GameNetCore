@@ -1,10 +1,10 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using System;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Extension methods for using <see cref="LinkGenerator"/> with <see cref="RouteValuesAddress"/>.
@@ -15,11 +15,11 @@ namespace Microsoft.AspNetCore.Routing
         /// Generates a URI with an absolute path based on the provided values.
         /// </summary>
         /// <param name="generator">The <see cref="LinkGenerator"/>.</param>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="routeName">The route name. Used to resolve endpoints. Optional.</param>
         /// <param name="values">The route values. Used to resolve endpoints and expand parameters in the route template. Optional.</param>
         /// <param name="pathBase">
-        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="HttpRequest.PathBase"/> will be used.
+        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="ProtoRequest.PathBase"/> will be used.
         /// </param>
         /// <param name="fragment">An optional URI fragment. Appended to the resulting URI.</param>
         /// <param name="options">
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Routing
         /// <returns>A URI with an absolute path, or <c>null</c>.</returns>
         public static string GetPathByRouteValues(
             this LinkGenerator generator,
-            HttpContext httpContext,
+            ProtoContext httpContext,
             string routeName,
             object values,
             PathString? pathBase = default,
@@ -91,18 +91,18 @@ namespace Microsoft.AspNetCore.Routing
         /// Generates an absolute URI based on the provided values.
         /// </summary>
         /// <param name="generator">The <see cref="LinkGenerator"/>.</param>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="routeName">The route name. Used to resolve endpoints. Optional.</param>
         /// <param name="values">The route values. Used to resolve endpoints and expand parameters in the route template. Optional.</param>
         /// <param name="scheme">
-        /// The URI scheme, applied to the resulting URI. Optional. If not provided, the value of <see cref="HttpRequest.Scheme"/> will be used.
+        /// The URI scheme, applied to the resulting URI. Optional. If not provided, the value of <see cref="ProtoRequest.Scheme"/> will be used.
         /// </param>
         /// <param name="host">
-        /// The URI host/authority, applied to the resulting URI. Optional. If not provided, the value <see cref="HttpRequest.Host"/> will be used.
+        /// The URI host/authority, applied to the resulting URI. Optional. If not provided, the value <see cref="ProtoRequest.Host"/> will be used.
         /// See the remarks section for details about the security implications of the <paramref name="host"/>.
         /// </param>
         /// <param name="pathBase">
-        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="HttpRequest.PathBase"/> will be used.
+        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="ProtoRequest.PathBase"/> will be used.
         /// </param>
         /// <param name="fragment">An optional URI fragment. Appended to the resulting URI.</param>
         /// <param name="options">
@@ -120,7 +120,7 @@ namespace Microsoft.AspNetCore.Routing
         /// </remarks>
         public static string GetUriByRouteValues(
             this LinkGenerator generator,
-            HttpContext httpContext,
+            ProtoContext httpContext,
             string routeName,
             object values,
             string scheme = default,
@@ -197,7 +197,7 @@ namespace Microsoft.AspNetCore.Routing
             return generator.GetUriByAddress<RouteValuesAddress>(address, address.ExplicitValues, scheme, host, pathBase, fragment, options);
         }
 
-        private static RouteValuesAddress CreateAddress(HttpContext httpContext, string routeName, object values)
+        private static RouteValuesAddress CreateAddress(ProtoContext httpContext, string routeName, object values)
         {
             return new RouteValuesAddress()
             {

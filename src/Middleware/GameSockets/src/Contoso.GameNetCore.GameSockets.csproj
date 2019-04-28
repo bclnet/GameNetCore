@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>ASP.NET Core web socket middleware for use on top of opaque servers.</Description>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <IsAspNetCoreApp>true</IsAspNetCoreApp>
+    <IsGameNetCoreApp>true</IsGameNetCoreApp>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

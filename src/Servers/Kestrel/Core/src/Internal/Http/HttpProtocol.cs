@@ -12,18 +12,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.AspNetCore.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal abstract partial class HttpProtocol : IDefaultHttpContextContainer, IHttpResponseControl
+    internal abstract partial class ProtoProtocol : IDefaultProtoContextContainer, IProtoResponseControl
     {
         private static readonly byte[] _bytesConnectionClose = Encoding.ASCII.GetBytes("\r\nConnection: close");
         private static readonly byte[] _bytesConnectionKeepAlive = Encoding.ASCII.GetBytes("\r\nConnection: keep-alive");
@@ -52,33 +52,33 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private bool _isLeasedMemoryInvalid = true;
         private bool _autoChunk;
         protected Exception _applicationException;
-        private BadHttpRequestException _requestRejectedException;
+        private BadProtoRequestException _requestRejectedException;
 
-        protected HttpVersion _httpVersion;
+        protected ProtoVersion _httpVersion;
 
         private string _requestId;
         private int _requestHeadersParsed;
 
         private long _responseBytesWritten;
 
-        private readonly HttpConnectionContext _context;
-        private DefaultHttpContext _httpContext;
+        private readonly ProtoConnectionContext _context;
+        private DefaultProtoContext _httpContext;
 
         protected string _methodText = null;
         private string _scheme = null;
 
         private List<IDisposable> _wrapperObjectsToDispose;
 
-        public HttpProtocol(HttpConnectionContext context)
+        public ProtoProtocol(ProtoConnectionContext context)
         {
             _context = context;
 
             ServerOptions = ServiceContext.ServerOptions;
-            HttpRequestHeaders = new HttpRequestHeaders(reuseHeaderValues: !ServerOptions.DisableStringReuse);
-            HttpResponseControl = this;
+            ProtoRequestHeaders = new ProtoRequestHeaders(reuseHeaderValues: !ServerOptions.DisableStringReuse);
+            ProtoResponseControl = this;
         }
 
-        public IHttpResponseControl HttpResponseControl { get; set; }
+        public IProtoResponseControl ProtoResponseControl { get; set; }
 
         public ServiceContext ServiceContext => _context.ServiceContext;
         private IPEndPoint LocalEndPoint => _context.LocalEndPoint;
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public ITimeoutControl TimeoutControl => _context.TimeoutControl;
 
         public IFeatureCollection ConnectionFeatures => _context.ConnectionFeatures;
-        public IHttpOutputProducer Output { get; protected set; }
+        public IProtoOutputProducer Output { get; protected set; }
 
         protected IKestrelTrace Log => ServiceContext.Log;
         private DateHeaderValueManager DateHeaderValueManager => ServiceContext.DateHeaderValueManager;
@@ -100,7 +100,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public bool AllowSynchronousIO { get; set; }
 
         /// <summary>
-        /// The request id. <seealso cref="HttpContext.TraceIdentifier"/>
+        /// The request id. <seealso cref="ProtoContext.TraceIdentifier"/>
         /// </summary>
         public string TraceIdentifier
         {
@@ -123,7 +123,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public IPAddress LocalIpAddress { get; set; }
         public int LocalPort { get; set; }
         public string Scheme { get; set; }
-        public HttpMethod Method { get; set; }
+        public ProtoMethod Method { get; set; }
         public string PathBase { get; set; }
 
         protected string _parsedPath = null;
@@ -135,21 +135,21 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         protected string _parsedRawTarget = null;
         public string RawTarget { get; set; }
 
-        public string HttpVersion
+        public string ProtoVersion
         {
             get
             {
-                if (_httpVersion == Http.HttpVersion.Http11)
+                if (_httpVersion == Proto.ProtoVersion.Proto11)
                 {
-                    return HttpUtilities.Http11Version;
+                    return ProtoUtilities.Proto11Version;
                 }
-                if (_httpVersion == Http.HttpVersion.Http10)
+                if (_httpVersion == Proto.ProtoVersion.Proto10)
                 {
-                    return HttpUtilities.Http10Version;
+                    return ProtoUtilities.Proto10Version;
                 }
-                if (_httpVersion == Http.HttpVersion.Http2)
+                if (_httpVersion == Proto.ProtoVersion.Proto2)
                 {
-                    return HttpUtilities.Http2Version;
+                    return ProtoUtilities.Proto2Version;
                 }
 
                 return string.Empty;
@@ -160,43 +160,43 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 // GetKnownVersion returns versions which ReferenceEquals interned string
                 // As most common path, check for this only in fast-path and inline
-                if (ReferenceEquals(value, HttpUtilities.Http11Version))
+                if (ReferenceEquals(value, ProtoUtilities.Proto11Version))
                 {
-                    _httpVersion = Http.HttpVersion.Http11;
+                    _httpVersion = Proto.ProtoVersion.Proto11;
                 }
-                else if (ReferenceEquals(value, HttpUtilities.Http10Version))
+                else if (ReferenceEquals(value, ProtoUtilities.Proto10Version))
                 {
-                    _httpVersion = Http.HttpVersion.Http10;
+                    _httpVersion = Proto.ProtoVersion.Proto10;
                 }
-                else if (ReferenceEquals(value, HttpUtilities.Http2Version))
+                else if (ReferenceEquals(value, ProtoUtilities.Proto2Version))
                 {
-                    _httpVersion = Http.HttpVersion.Http2;
+                    _httpVersion = Proto.ProtoVersion.Proto2;
                 }
                 else
                 {
-                    HttpVersionSetSlow(value);
+                    ProtoVersionSetSlow(value);
                 }
             }
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void HttpVersionSetSlow(string value)
+        private void ProtoVersionSetSlow(string value)
         {
-            if (value == HttpUtilities.Http11Version)
+            if (value == ProtoUtilities.Proto11Version)
             {
-                _httpVersion = Http.HttpVersion.Http11;
+                _httpVersion = Proto.ProtoVersion.Proto11;
             }
-            else if (value == HttpUtilities.Http10Version)
+            else if (value == ProtoUtilities.Proto10Version)
             {
-                _httpVersion = Http.HttpVersion.Http10;
+                _httpVersion = Proto.ProtoVersion.Proto10;
             }
-            else if (value == HttpUtilities.Http2Version)
+            else if (value == ProtoUtilities.Proto2Version)
             {
-                _httpVersion = Http.HttpVersion.Http2;
+                _httpVersion = Proto.ProtoVersion.Proto2;
             }
             else
             {
-                _httpVersion = Http.HttpVersion.Unknown;
+                _httpVersion = Proto.ProtoVersion.Unknown;
             }
         }
 
@@ -273,7 +273,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             set
             {
                 // Set an abort token, overriding one we create internally.  This setter and associated
-                // field exist purely to support IHttpRequestLifetimeFeature.set_RequestAborted.
+                // field exist purely to support IProtoRequestLifetimeFeature.set_RequestAborted.
                 _manuallySetRequestAbortToken = value;
             }
         }
@@ -282,17 +282,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public bool HasFlushedHeaders => _requestProcessingStatus == RequestProcessingStatus.HeadersFlushed;
 
-        protected HttpRequestHeaders HttpRequestHeaders { get; }
+        protected ProtoRequestHeaders ProtoRequestHeaders { get; }
 
-        protected HttpResponseHeaders HttpResponseHeaders { get; } = new HttpResponseHeaders();
+        protected ProtoResponseHeaders ProtoResponseHeaders { get; } = new ProtoResponseHeaders();
 
-        DefaultHttpContext IDefaultHttpContextContainer.HttpContext
+        DefaultProtoContext IDefaultProtoContextContainer.ProtoContext
         {
             get
             {
                 if (_httpContext is null)
                 {
-                    _httpContext = new DefaultHttpContext(this);
+                    _httpContext = new DefaultProtoContext(this);
                 }
                 else
                 {
@@ -337,13 +337,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             MaxRequestBodySize = ServerOptions.Limits.MaxRequestBodySize;
             AllowSynchronousIO = ServerOptions.AllowSynchronousIO;
             TraceIdentifier = null;
-            Method = HttpMethod.None;
+            Method = ProtoMethod.None;
             _methodText = null;
             PathBase = null;
             Path = null;
             RawTarget = null;
             QueryString = null;
-            _httpVersion = Http.HttpVersion.Unknown;
+            _httpVersion = Proto.ProtoVersion.Unknown;
             _statusCode = StatusCodes.Status200OK;
             _reasonPhrase = null;
 
@@ -357,10 +357,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
             ConnectionIdFeature = ConnectionId;
 
-            HttpRequestHeaders.Reset();
-            HttpResponseHeaders.Reset();
-            RequestHeaders = HttpRequestHeaders;
-            ResponseHeaders = HttpResponseHeaders;
+            ProtoRequestHeaders.Reset();
+            ProtoResponseHeaders.Reset();
+            RequestHeaders = ProtoRequestHeaders;
+            ResponseHeaders = ProtoResponseHeaders;
 
             _isLeasedMemoryInvalid = true;
             _hasAdvanced = false;
@@ -482,7 +482,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             if (shouldScheduleCancellation)
             {
                 // Potentially calling user code. CancelRequestAbortedToken logs any exceptions.
-                ServiceContext.Scheduler.Schedule(state => ((HttpProtocol)state).CancelRequestAbortedToken(), this);
+                ServiceContext.Scheduler.Schedule(state => ((ProtoProtocol)state).CancelRequestAbortedToken(), this);
             }
         }
 
@@ -510,26 +510,26 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _requestHeadersParsed++;
             if (_requestHeadersParsed > ServerOptions.Limits.MaxRequestHeaderCount)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.TooManyHeaders);
+                BadProtoRequestException.Throw(RequestRejectionReason.TooManyHeaders);
             }
 
-            HttpRequestHeaders.Append(name, value);
+            ProtoRequestHeaders.Append(name, value);
         }
 
         public void OnHeadersComplete()
         {
-            HttpRequestHeaders.OnHeadersComplete();
+            ProtoRequestHeaders.OnHeadersComplete();
         }
 
-        public async Task ProcessRequestsAsync<TContext>(IHttpApplication<TContext> application)
+        public async Task ProcessRequestsAsync<TContext>(IProtoApplication<TContext> application)
         {
             try
             {
                 await ProcessRequests(application);
             }
-            catch (BadHttpRequestException ex)
+            catch (BadProtoRequestException ex)
             {
-                // Handle BadHttpRequestException thrown during request line or header parsing.
+                // Handle BadProtoRequestException thrown during request line or header parsing.
                 // SetBadRequestState logs the error.
                 SetBadRequestState(ex);
             }
@@ -566,7 +566,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        private async Task ProcessRequests<TContext>(IHttpApplication<TContext> application)
+        private async Task ProcessRequests<TContext>(IProtoApplication<TContext> application)
         {
             while (_keepAlive)
             {
@@ -612,10 +612,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                         VerifyResponseContentLength();
                     }
                 }
-                catch (BadHttpRequestException ex)
+                catch (BadProtoRequestException ex)
                 {
-                    // Capture BadHttpRequestException for further processing
-                    // This has to be caught here so StatusCode is set properly before disposing the HttpContext
+                    // Capture BadProtoRequestException for further processing
+                    // This has to be caught here so StatusCode is set properly before disposing the ProtoContext
                     // (DisposeContext logs StatusCode).
                     SetBadRequestState(ex);
                     ReportApplicationError(ex);
@@ -630,7 +630,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 // Trigger OnStarting if it hasn't been called yet and the app hasn't
                 // already failed. If an OnStarting callback throws we can go through
                 // our normal error handling in ProduceEnd.
-                // https://github.com/aspnet/KestrelHttpServer/issues/43
+                // https://github.com/aspnet/KestrelProtoServer/issues/43
                 if (!HasResponseStarted && _applicationException == null && _onStarting?.Count > 0)
                 {
                     await FireOnStarting();
@@ -652,11 +652,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                         //
                         // This also prevents the 100 Continue response from being sent if the app
                         // never tried to read the body.
-                        // https://github.com/aspnet/KestrelHttpServer/issues/2102
+                        // https://github.com/aspnet/KestrelProtoServer/issues/2102
                         //
                         // ProduceEnd() must be called before _application.DisposeContext(), to ensure
-                        // HttpContext.Response.StatusCode is correctly set when
-                        // IHttpContextFactory.Dispose(HttpContext) is called.
+                        // ProtoContext.Response.StatusCode is correctly set when
+                        // IProtoContextFactory.Dispose(ProtoContext) is called.
                         await ProduceEnd();
                     }
                     else if (!HasResponseStarted)
@@ -827,7 +827,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         private void VerifyAndUpdateWrite(int count)
         {
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
 
             if (responseHeaders != null &&
                 !responseHeaders.HasTransferEncoding &&
@@ -850,14 +850,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         [MethodImpl(MethodImplOptions.NoInlining)]
         private InvalidOperationException GetTooManyBytesWrittenException(int count)
         {
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
             return new InvalidOperationException(
                 CoreStrings.FormatTooManyBytesWritten(_responseBytesWritten + count, responseHeaders.ContentLength.Value));
         }
 
         private void CheckLastWrite()
         {
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
 
             // Prevent firing request aborted token if this is the last write, to avoid
             // aborting the request if the app is still running when the client receives
@@ -875,9 +875,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         protected void VerifyResponseContentLength()
         {
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
 
-            if (Method != HttpMethod.Head &&
+            if (Method != ProtoMethod.Head &&
                 StatusCode != StatusCodes.Status304NotModified &&
                 !responseHeaders.HasTransferEncoding &&
                 responseHeaders.ContentLength.HasValue &&
@@ -902,7 +902,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 return;
             }
 
-            if (_httpVersion != Http.HttpVersion.Http10 &&
+            if (_httpVersion != Proto.ProtoVersion.Proto10 &&
                 RequestHeaders.TryGetValue("Expect", out var expect) &&
                 (expect.FirstOrDefault() ?? "").Equals("100-continue", StringComparison.OrdinalIgnoreCase))
             {
@@ -936,7 +936,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             ProduceStart(appCompleted: false);
         }
 
-        private HttpResponseHeaders InitializeResponseFirstWrite(int firstWriteByteCount)
+        private ProtoResponseHeaders InitializeResponseFirstWrite(int firstWriteByteCount)
         {
             VerifyInitializeState(firstWriteByteCount);
 
@@ -1022,7 +1022,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             // _autoChunk should be checked after we are sure ProduceStart() has been called
             // since ProduceStart() may set _autoChunk to true.
-            if (_autoChunk || _httpVersion == Http.HttpVersion.Http2)
+            if (_autoChunk || _httpVersion == Proto.ProtoVersion.Proto2)
             {
                 return WriteSuffixAwaited();
             }
@@ -1032,7 +1032,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 Log.ConnectionKeepAlive(ConnectionId);
             }
 
-            if (Method == HttpMethod.Head && _responseBytesWritten > 0)
+            if (Method == ProtoMethod.Head && _responseBytesWritten > 0)
             {
                 Log.ConnectionHeadResponseBodyWrite(ConnectionId, _responseBytesWritten);
             }
@@ -1060,17 +1060,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 Log.ConnectionKeepAlive(ConnectionId);
             }
 
-            if (Method == HttpMethod.Head && _responseBytesWritten > 0)
+            if (Method == ProtoMethod.Head && _responseBytesWritten > 0)
             {
                 Log.ConnectionHeadResponseBodyWrite(ConnectionId, _responseBytesWritten);
             }
         }
 
-        private HttpResponseHeaders CreateResponseHeaders(bool appCompleted)
+        private ProtoResponseHeaders CreateResponseHeaders(bool appCompleted)
         {
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
             var hasConnection = responseHeaders.HasConnection;
-            var connectionOptions = HttpHeaders.ParseConnection(responseHeaders.HeaderConnection);
+            var connectionOptions = ProtoHeaders.ParseConnection(responseHeaders.HeaderConnection);
             var hasTransferEncoding = responseHeaders.HasTransferEncoding;
 
             if (_keepAlive && hasConnection && (connectionOptions & ConnectionOptions.KeepAlive) != ConnectionOptions.KeepAlive)
@@ -1084,7 +1084,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             // apply chunked as the final transfer coding or terminate the message
             // by closing the connection.
             if (hasTransferEncoding &&
-                HttpHeaders.GetFinalTransferCoding(responseHeaders.HeaderTransferEncoding) != TransferCoding.Chunked)
+                ProtoHeaders.GetFinalTransferCoding(responseHeaders.HeaderTransferEncoding) != TransferCoding.Chunked)
             {
                 _keepAlive = false;
             }
@@ -1122,7 +1122,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 // This also covers HTTP/2, which forbids chunked encoding in RFC 7540 (section 8.1:
                 //
                 // The chunked transfer encoding defined in Section 4.1 of [RFC7230] MUST NOT be used in HTTP/2.
-                else if (_httpVersion == Http.HttpVersion.Http11)
+                else if (_httpVersion == Proto.ProtoVersion.Proto11)
                 {
                     _autoChunk = true;
                     responseHeaders.SetRawTransferEncoding("chunked", _bytesTransferEncodingChunked);
@@ -1135,13 +1135,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
             responseHeaders.SetReadOnly();
 
-            if (!hasConnection && _httpVersion != Http.HttpVersion.Http2)
+            if (!hasConnection && _httpVersion != Proto.ProtoVersion.Proto2)
             {
                 if (!_keepAlive)
                 {
                     responseHeaders.SetRawConnection("close", _bytesConnectionClose);
                 }
-                else if (_httpVersion == Http.HttpVersion.Http10)
+                else if (_httpVersion == Proto.ProtoVersion.Proto10)
                 {
                     responseHeaders.SetRawConnection("keep-alive", _bytesConnectionKeepAlive);
                 }
@@ -1163,8 +1163,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         private bool CanWriteResponseBody()
         {
-            // List of status codes taken from Microsoft.Net.Http.Server.Response
-            return Method != HttpMethod.Head &&
+            // List of status codes taken from Microsoft.Net.Proto.Server.Response
+            return Method != ProtoMethod.Head &&
                    StatusCode != StatusCodes.Status204NoContent &&
                    StatusCode != StatusCodes.Status205ResetContent &&
                    StatusCode != StatusCodes.Status304NotModified;
@@ -1172,7 +1172,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         private bool CanAutoSetContentLengthZeroResponseHeader()
         {
-            return Method != HttpMethod.Head &&
+            return Method != ProtoMethod.Head &&
                    StatusCode != StatusCodes.Status204NoContent &&
                    StatusCode != StatusCodes.Status304NotModified;
         }
@@ -1200,13 +1200,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        private void SetErrorResponseException(BadHttpRequestException ex)
+        private void SetErrorResponseException(BadProtoRequestException ex)
         {
             SetErrorResponseHeaders(ex.StatusCode);
 
             if (!StringValues.IsNullOrEmpty(ex.AllowedHeader))
             {
-                HttpResponseHeaders.HeaderAllow = ex.AllowedHeader;
+                ProtoResponseHeaders.HeaderAllow = ex.AllowedHeader;
             }
         }
 
@@ -1217,7 +1217,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             StatusCode = statusCode;
             ReasonPhrase = null;
 
-            var responseHeaders = HttpResponseHeaders;
+            var responseHeaders = ProtoResponseHeaders;
             responseHeaders.Reset();
             var dateHeaderValues = DateHeaderValueManager.GetDateHeaderValues();
 
@@ -1234,7 +1234,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public void HandleNonBodyResponseWrite()
         {
             // Writes to HEAD response are ignored and logged at the end of the request
-            if (Method != HttpMethod.Head)
+            if (Method != ProtoMethod.Head)
             {
                 ThrowWritingToResponseBodyNotSupported();
             }
@@ -1258,14 +1258,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             => throw GetInvalidRequestTargetException(target);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private BadHttpRequestException GetInvalidRequestTargetException(Span<byte> target)
-            => BadHttpRequestException.GetException(
+        private BadProtoRequestException GetInvalidRequestTargetException(Span<byte> target)
+            => BadProtoRequestException.GetException(
                 RequestRejectionReason.InvalidRequestTarget,
                 Log.IsEnabled(LogLevel.Information)
                     ? target.GetAsciiStringEscaped(Constants.MaxExceptionDetailSize)
                     : string.Empty);
 
-        public void SetBadRequestState(BadHttpRequestException ex)
+        public void SetBadRequestState(BadProtoRequestException ex)
         {
             Log.ConnectionBadRequest(ConnectionId, ex);
 

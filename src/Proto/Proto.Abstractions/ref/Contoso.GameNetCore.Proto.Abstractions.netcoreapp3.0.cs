@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Authorization
+namespace Contoso.GameNetCore.Authorization
 {
     public partial interface IAllowAnonymous
     {
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Authorization
         string Roles { get; set; }
     }
 }
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public abstract partial class EndpointBuilder
     {
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseWhen(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, System.Func<Microsoft.AspNetCore.Http.HttpContext, bool> predicate, System.Action<Microsoft.AspNetCore.Builder.IApplicationBuilder> configuration) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     public partial class MapMiddleware
     {
@@ -99,13 +99,13 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         public System.Threading.Tasks.Task Invoke(Microsoft.AspNetCore.Http.HttpContext context) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Cors.Infrastructure
+namespace Contoso.GameNetCore.Cors.Infrastructure
 {
     public partial interface ICorsMetadata
     {
     }
 }
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Http
 {
     public abstract partial class ConnectionInfo
     {
@@ -463,7 +463,7 @@ namespace Microsoft.AspNetCore.Http
         public abstract System.Threading.Tasks.Task<System.Net.WebSockets.WebSocket> AcceptWebSocketAsync(string subProtocol);
     }
 }
-namespace Microsoft.AspNetCore.Http.Endpoints
+namespace Contoso.GameNetCore.Http.Endpoints
 {
     public static partial class EndpointHttpContextExtensions
     {
@@ -471,7 +471,7 @@ namespace Microsoft.AspNetCore.Http.Endpoints
         public static void SetEndpoint(this Microsoft.AspNetCore.Http.HttpContext context, Microsoft.AspNetCore.Http.Endpoint endpoint) { }
     }
 }
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Http.Features
 {
     public partial interface IEndpointFeature
     {
@@ -482,7 +482,7 @@ namespace Microsoft.AspNetCore.Http.Features
         Microsoft.AspNetCore.Routing.RouteValueDictionary RouteValues { get; set; }
     }
 }
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Http.Internal
 {
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct HeaderSegment : System.IEquatable<Microsoft.AspNetCore.Http.Internal.HeaderSegment>
@@ -534,7 +534,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         public static void SetHeaderUnmodified(Microsoft.AspNetCore.Http.IHeaderDictionary headers, string key, Microsoft.Extensions.Primitives.StringValues? values) { }
     }
 }
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public partial class RouteValueDictionary : System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<string, object>>, System.Collections.Generic.IDictionary<string, object>, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, object>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, object>>, System.Collections.Generic.IReadOnlyDictionary<string, object>, System.Collections.IEnumerable
     {

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Provides correct handling for FragmentString value when needed to generate a URI string

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // This class includes features that we have not yet implemented in the DFA
     // and instruction matchers.

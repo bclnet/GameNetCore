@@ -4,7 +4,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Used by the <see cref="IAuthenticationService"/> for claims transformation.

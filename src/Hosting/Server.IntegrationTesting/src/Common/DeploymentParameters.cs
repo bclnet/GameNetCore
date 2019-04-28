@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     /// <summary>
     /// Parameters to control application deployment.

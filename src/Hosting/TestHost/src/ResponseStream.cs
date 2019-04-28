@@ -10,7 +10,7 @@ using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     // This steam accepts writes from the server/app, buffers them internally, and returns the data via Reads
     // when requested by the client.
@@ -208,7 +208,7 @@ namespace Microsoft.AspNetCore.TestHost
 
         internal void CompleteWrites()
         {
-            // If HttpClient.Dispose gets called while HttpClient.SetTask...() is called
+            // If ProtoClient.Dispose gets called while ProtoClient.SetTask...() is called
             // there is a chance that this method will be called twice and hang on the lock
             // to prevent this we can check if there is already a thread inside the lock
             if (_complete)

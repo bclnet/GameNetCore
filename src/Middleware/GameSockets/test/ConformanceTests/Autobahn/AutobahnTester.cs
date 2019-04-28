@@ -7,12 +7,12 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Server.IntegrationTesting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     public class AutobahnTester : IDisposable
     {

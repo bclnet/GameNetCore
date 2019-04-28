@@ -13,25 +13,25 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class Http2TestBase : TestApplicationErrorLoggerLoggedTest, IDisposable, IHttpHeadersHandler
     {

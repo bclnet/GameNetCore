@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.X86;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal abstract class HttpHeaders : IHeaderDictionary
+    internal abstract class ProtoHeaders : IHeaderDictionary
     {
         protected long _bits = 0;
         protected long? _contentLength;
@@ -274,7 +274,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             if (headerCharacters != null)
             {
-                var invalid = HttpCharacters.IndexOfInvalidFieldValueChar(headerCharacters);
+                var invalid = ProtoCharacters.IndexOfInvalidFieldValueChar(headerCharacters);
                 if (invalid >= 0)
                 {
                     ThrowInvalidHeaderCharacter(headerCharacters[invalid]);
@@ -284,7 +284,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public static void ValidateHeaderNameCharacters(string headerCharacters)
         {
-            var invalid = HttpCharacters.IndexOfInvalidTokenChar(headerCharacters);
+            var invalid = ProtoCharacters.IndexOfInvalidTokenChar(headerCharacters);
             if (invalid >= 0)
             {
                 ThrowInvalidHeaderCharacter(headerCharacters[invalid]);

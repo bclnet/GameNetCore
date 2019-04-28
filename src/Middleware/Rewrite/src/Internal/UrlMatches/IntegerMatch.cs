@@ -3,9 +3,9 @@
 
 using System;
 using System.Globalization;
-using Microsoft.AspNetCore.Rewrite;
+using Contoso.GameNetCore.Rewrite;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.UrlMatches
+namespace Contoso.GameNetCore.Rewrite.Internal.UrlMatches
 {
     public class IntegerMatch : UrlMatch
     {

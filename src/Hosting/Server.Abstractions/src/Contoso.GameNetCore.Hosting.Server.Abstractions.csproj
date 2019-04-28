@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>GAME.NET Core hosting server abstractions for game applications.</Description>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <IsAspNetCoreApp>true</IsAspNetCoreApp>
+    <IsGameNetCoreApp>true</IsGameNetCoreApp>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>gamenetcore;hosting</PackageTags>

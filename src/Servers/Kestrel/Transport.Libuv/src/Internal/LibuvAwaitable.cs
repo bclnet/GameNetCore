@@ -5,9 +5,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal
 {
     internal class LibuvAwaitable<TRequest> : ICriticalNotifyCompletion where TRequest : UvRequest
     {

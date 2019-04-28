@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public class UrlRewriteRuleBuilder
     {

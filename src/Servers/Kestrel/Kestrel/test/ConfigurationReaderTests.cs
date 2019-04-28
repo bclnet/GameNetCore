@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Tests
 {
     public class ConfigurationReaderTests
     {

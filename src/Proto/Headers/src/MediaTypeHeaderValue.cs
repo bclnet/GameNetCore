@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     /// <summary>
     /// Representation of the media type header. See <see href="https://tools.ietf.org/html/rfc6838"/>.
@@ -28,9 +28,9 @@ namespace Microsoft.Net.Http.Headers
 
         private static readonly char[] PeriodCharacterArray = new char[] { PeriodCharacter };
 
-        private static readonly HttpHeaderParser<MediaTypeHeaderValue> SingleValueParser
+        private static readonly ProtoHeaderParser<MediaTypeHeaderValue> SingleValueParser
             = new GenericHeaderParser<MediaTypeHeaderValue>(false, GetMediaTypeLength);
-        private static readonly HttpHeaderParser<MediaTypeHeaderValue> MultipleValueParser
+        private static readonly ProtoHeaderParser<MediaTypeHeaderValue> MultipleValueParser
             = new GenericHeaderParser<MediaTypeHeaderValue>(true, GetMediaTypeLength);
 
         // Use a collection instead of a dictionary since we may have multiple parameters with the same name.
@@ -106,7 +106,7 @@ namespace Microsoft.Net.Http.Headers
 
         /// <summary>
         /// Gets or sets the value of the Encoding parameter. Setting the Encoding will set
-        /// the <see cref="Charset"/> to <see cref="Encoding.WebName"/>.
+        /// the <see cref="Charset"/> to <see cref="Encoding.GameName"/>.
         /// </summary>
         public Encoding Encoding
         {
@@ -135,7 +135,7 @@ namespace Microsoft.Net.Http.Headers
                 }
                 else
                 {
-                    Charset = value.WebName;
+                    Charset = value.GameName;
                 }
             }
         }
@@ -549,7 +549,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             var current = startIndex + mediaTypeLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
             MediaTypeHeaderValue mediaTypeHeader = null;
 
             // If we're not done and we have a parameter delimiter, then we have a list of parameters.
@@ -581,7 +581,7 @@ namespace Microsoft.Net.Http.Headers
             mediaType = null;
 
             // Parse the type, i.e. <type> in media type string "<type>/<subtype>; param1=value1; param2=value2"
-            var typeLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var typeLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (typeLength == 0)
             {
@@ -589,7 +589,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             var current = startIndex + typeLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // Parse the separator between type and subtype
             if ((current >= input.Length) || (input[current] != '/'))
@@ -597,10 +597,10 @@ namespace Microsoft.Net.Http.Headers
                 return 0;
             }
             current++; // skip delimiter.
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // Parse the subtype, i.e. <subtype> in media type string "<type>/<subtype>; param1=value1; param2=value2"
-            var subtypeLength = HttpRuleParser.GetTokenLength(input, current);
+            var subtypeLength = ProtoRuleParser.GetTokenLength(input, current);
 
             if (subtypeLength == 0)
             {

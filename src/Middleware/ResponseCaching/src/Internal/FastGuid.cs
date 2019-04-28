@@ -4,7 +4,7 @@
 using System;
 using System.Threading;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     internal class FastGuid
     {

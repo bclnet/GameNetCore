@@ -9,10 +9,10 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.IntegrationTesting.Common;
+using Contoso.GameNetCore.Server.IntegrationTesting.Common;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     /// <summary>
     /// Deployer for Kestrel on Nginx.

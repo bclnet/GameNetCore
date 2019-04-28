@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Template.Tests
+namespace Contoso.GameNetCore.Routing.Template.Tests
 {
     public class TemplateMatcherTests
     {

@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class DataSourceDependentMatcherTest
     {
@@ -162,7 +162,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         {
             public IReadOnlyList<RouteEndpoint> Endpoints { get; set; }
 
-            public override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+            public override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
             {
                 throw new NotImplementedException();
             }

@@ -6,9 +6,9 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.InMemory.FunctionalTests.Http2
 {
     internal class PipeReaderFactory
     {

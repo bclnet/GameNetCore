@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     /// <summary>
     /// Abstracts the system clock to facilitate testing.

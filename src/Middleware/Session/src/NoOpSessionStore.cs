@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Session
+namespace Contoso.GameNetCore.Session
 {
     internal class NoOpSessionStore : IDictionary<EncodedKey, byte[]>
     {

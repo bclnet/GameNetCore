@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 // Note that this sample will not run. It is only here to illustrate usage patterns.

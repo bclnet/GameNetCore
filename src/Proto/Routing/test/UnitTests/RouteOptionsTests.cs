@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class RouteOptionsTests
     {
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             public string Pattern { get; private set; }
             public bool Match(
-                HttpContext httpContext,
+                ProtoContext httpContext,
                 IRouter route,
                 string routeKey,
                 RouteValueDictionary values,

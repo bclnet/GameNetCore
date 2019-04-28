@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting.Fakes;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting.Fakes;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Hosting.Server.Features;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +24,7 @@ using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public partial class WebHostTests
     {

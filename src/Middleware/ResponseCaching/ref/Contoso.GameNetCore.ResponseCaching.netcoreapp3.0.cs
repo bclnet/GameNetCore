@@ -1,14 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class ResponseCachingExtensions
     {
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseResponseCaching(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.ResponseCaching
+namespace Contoso.GameNetCore.ResponseCaching
 {
     public partial class ResponseCachingFeature : Microsoft.AspNetCore.ResponseCaching.IResponseCachingFeature
     {
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.ResponseCaching
         public bool UseCaseSensitivePaths { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     public partial class CachedResponse : Microsoft.AspNetCore.ResponseCaching.Internal.IResponseCacheEntry
     {

@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http.Abstractions;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto.Abstractions;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public class UseMiddlewareTest
     {
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Http
                 Resources.FormatException_UseMiddlewareNoParameters(
                     UseMiddlewareExtensions.InvokeMethodName,
                     UseMiddlewareExtensions.InvokeAsyncMethodName,
-                    nameof(HttpContext)),
+                    nameof(ProtoContext)),
                 exception.Message);
         }
 
@@ -39,7 +39,7 @@ namespace Microsoft.AspNetCore.Http
                 Resources.FormatException_UseMiddlewareNoParameters(
                     UseMiddlewareExtensions.InvokeMethodName,
                     UseMiddlewareExtensions.InvokeAsyncMethodName,
-                    nameof(HttpContext)),
+                    nameof(ProtoContext)),
                 exception.Message);
         }
 
@@ -135,7 +135,7 @@ namespace Microsoft.AspNetCore.Http
             var builder = new ApplicationBuilder(new DummyServiceProvider());
             builder.UseMiddleware(typeof(MiddlewareInjectInvokeNoService));
             var app = builder.Build();
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => app(new DefaultHttpContext()));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => app(new DefaultProtoContext()));
             Assert.Equal(
                 Resources.FormatException_InvokeMiddlewareNoService(
                     typeof(object),
@@ -149,7 +149,7 @@ namespace Microsoft.AspNetCore.Http
             var builder = new ApplicationBuilder(new DummyServiceProvider());
             builder.UseMiddleware(typeof(MiddlewareInjectInvoke));
             var app = builder.Build();
-            app(new DefaultHttpContext());
+            app(new DefaultProtoContext());
         }
 
         [Fact]
@@ -179,7 +179,7 @@ namespace Microsoft.AspNetCore.Http
             var app = builder.Build();
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
-                var context = new DefaultHttpContext();
+                var context = new DefaultProtoContext();
                 var sp = new DummyServiceProvider();
                 context.RequestServices = sp;
                 await app(context);
@@ -196,7 +196,7 @@ namespace Microsoft.AspNetCore.Http
             var app = builder.Build();
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
-                var context = new DefaultHttpContext();
+                var context = new DefaultProtoContext();
                 var sp = new DummyServiceProvider();
                 sp.AddService(typeof(IMiddlewareFactory), new BadMiddlewareFactory());
                 context.RequestServices = sp;
@@ -217,7 +217,7 @@ namespace Microsoft.AspNetCore.Http
             var builder = new ApplicationBuilder(mockServiceProvider);
             builder.UseMiddleware(typeof(Middleware));
             var app = builder.Build();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var sp = new DummyServiceProvider();
             var middlewareFactory = new BasicMiddlewareFactory();
             sp.AddService(typeof(IMiddlewareFactory), middlewareFactory);
@@ -234,7 +234,7 @@ namespace Microsoft.AspNetCore.Http
 
         public class Middleware : IMiddleware
         {
-            public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+            public async Task InvokeAsync(ProtoContext context, RequestDelegate next)
             {
                 context.Items["before"] = true;
                 await next(context);
@@ -291,7 +291,7 @@ namespace Microsoft.AspNetCore.Http
         {
             public MiddlewareInjectWithOutAndRefParams(RequestDelegate next) { }
 
-            public Task Invoke(HttpContext context, ref IServiceProvider sp1, out IServiceProvider sp2)
+            public Task Invoke(ProtoContext context, ref IServiceProvider sp1, out IServiceProvider sp2)
             {
                 sp1 = null;
                 sp2 = null;
@@ -303,14 +303,14 @@ namespace Microsoft.AspNetCore.Http
         {
             public MiddlewareInjectInvokeNoService(RequestDelegate next) { }
 
-            public Task Invoke(HttpContext context, object value) => Task.CompletedTask;
+            public Task Invoke(ProtoContext context, object value) => Task.CompletedTask;
         }
 
         private class MiddlewareInjectInvoke
         {
             public MiddlewareInjectInvoke(RequestDelegate next) { }
 
-            public Task Invoke(HttpContext context, IServiceProvider provider) => Task.CompletedTask;
+            public Task Invoke(ProtoContext context, IServiceProvider provider) => Task.CompletedTask;
         }
 
         private class MiddlewareNoParametersStub
@@ -350,27 +350,27 @@ namespace Microsoft.AspNetCore.Http
         {
             public MiddlewareMultipleInvokesStub(RequestDelegate next) { }
 
-            public Task Invoke(HttpContext context) => Task.CompletedTask;
+            public Task Invoke(ProtoContext context) => Task.CompletedTask;
 
-            public Task Invoke(HttpContext context, int i) => Task.CompletedTask;
+            public Task Invoke(ProtoContext context, int i) => Task.CompletedTask;
         }
 
         private class MiddlewareMultipleInvokeAsyncStub
         {
             public MiddlewareMultipleInvokeAsyncStub(RequestDelegate next) { }
 
-            public Task InvokeAsync(HttpContext context) => Task.CompletedTask;
+            public Task InvokeAsync(ProtoContext context) => Task.CompletedTask;
 
-            public Task InvokeAsync(HttpContext context, int i) => Task.CompletedTask;
+            public Task InvokeAsync(ProtoContext context, int i) => Task.CompletedTask;
         }
 
         private class MiddlewareMultipleInvokeAndInvokeAsyncStub
         {
             public MiddlewareMultipleInvokeAndInvokeAsyncStub(RequestDelegate next) { }
 
-            public Task Invoke(HttpContext context) => Task.CompletedTask;
+            public Task Invoke(ProtoContext context) => Task.CompletedTask;
 
-            public Task InvokeAsync(HttpContext context) => Task.CompletedTask;
+            public Task InvokeAsync(ProtoContext context) => Task.CompletedTask;
         }
     }
 }

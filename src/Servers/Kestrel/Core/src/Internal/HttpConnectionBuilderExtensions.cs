@@ -3,22 +3,22 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
-    internal static class HttpConnectionBuilderExtensions
+    internal static class ProtoConnectionBuilderExtensions
     {
-        public static IConnectionBuilder UseHttpServer<TContext>(this IConnectionBuilder builder, ServiceContext serviceContext, IHttpApplication<TContext> application, HttpProtocols protocols)
+        public static IConnectionBuilder UseProtoServer<TContext>(this IConnectionBuilder builder, ServiceContext serviceContext, IProtoApplication<TContext> application, ProtoProtocols protocols)
         {
-            return builder.UseHttpServer(Array.Empty<IConnectionAdapter>(), serviceContext, application, protocols);
+            return builder.UseProtoServer(Array.Empty<IConnectionAdapter>(), serviceContext, application, protocols);
         }
 
-        public static IConnectionBuilder UseHttpServer<TContext>(this IConnectionBuilder builder, IList<IConnectionAdapter> adapters, ServiceContext serviceContext, IHttpApplication<TContext> application, HttpProtocols protocols)
+        public static IConnectionBuilder UseProtoServer<TContext>(this IConnectionBuilder builder, IList<IConnectionAdapter> adapters, ServiceContext serviceContext, IProtoApplication<TContext> application, ProtoProtocols protocols)
         {
-            var middleware = new HttpConnectionMiddleware<TContext>(adapters, serviceContext, application, protocols);
+            var middleware = new ProtoConnectionMiddleware<TContext>(adapters, serviceContext, application, protocols);
             return builder.Use(next =>
             {
                 return middleware.OnConnectionAsync;

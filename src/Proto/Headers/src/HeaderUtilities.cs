@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public static class HeaderUtilities
     {
@@ -26,7 +26,7 @@ namespace Microsoft.Net.Http.Headers
             {
                 // Note that even if we check the value here, we can't prevent a user from adding an invalid quality
                 // value using Parameters.Add(). Even if we would prevent the user from adding an invalid value
-                // using Parameters.Add() he could always add invalid values using HttpHeaders.AddWithoutValidation().
+                // using Parameters.Add() he could always add invalid values using ProtoHeaders.AddWithoutValidation().
                 // So this check is really for convenience to show users that they're trying to add an invalid
                 // value.
                 if ((value < 0) || (value > 1))
@@ -79,7 +79,7 @@ namespace Microsoft.Net.Http.Headers
                 throw new ArgumentException("An empty string is not allowed.", parameterName);
             }
 
-            if (HttpRuleParser.GetTokenLength(value, 0) != value.Length)
+            if (ProtoRuleParser.GetTokenLength(value, 0) != value.Length)
             {
                 throw new FormatException(string.Format(CultureInfo.InvariantCulture, "Invalid token '{0}.", value));
             }
@@ -161,7 +161,7 @@ namespace Microsoft.Net.Http.Headers
             Contract.Requires(startIndex <= input.Length); // it's OK if index == value.Length.
 
             separatorFound = false;
-            var current = startIndex + HttpRuleParser.GetWhitespaceLength(input, startIndex);
+            var current = startIndex + ProtoRuleParser.GetWhitespaceLength(input, startIndex);
 
             if ((current == input.Length) || (input[current] != ','))
             {
@@ -172,14 +172,14 @@ namespace Microsoft.Net.Http.Headers
             // empty values, continue until the current character is neither a separator nor a whitespace.
             separatorFound = true;
             current++; // skip delimiter.
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             if (skipEmptyValues)
             {
                 while ((current < input.Length) && (input[current] == ','))
                 {
                     current++; // skip delimiter.
-                    current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                    current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
                 }
             }
 
@@ -189,7 +189,7 @@ namespace Microsoft.Net.Http.Headers
         private static int AdvanceCacheDirectiveIndex(int current, string headerValue)
         {
             // Skip until the next potential name
-            current += HttpRuleParser.GetWhitespaceLength(headerValue, current);
+            current += ProtoRuleParser.GetWhitespaceLength(headerValue, current);
 
             // Skip the value if present
             if (current < headerValue.Length && headerValue[current] == '=')
@@ -208,7 +208,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip ','
-            current += HttpRuleParser.GetWhitespaceLength(headerValue, current);
+            current += ProtoRuleParser.GetWhitespaceLength(headerValue, current);
 
             return current;
         }
@@ -245,13 +245,13 @@ namespace Microsoft.Net.Http.Headers
             for (var i = 0; i < headerValues.Count; i++)
             {
                 // Trim leading white space
-                var current = HttpRuleParser.GetWhitespaceLength(headerValues[i], 0);
+                var current = ProtoRuleParser.GetWhitespaceLength(headerValues[i], 0);
 
                 while (current < headerValues[i].Length)
                 {
                     long seconds;
                     var initial = current;
-                    var tokenLength = HttpRuleParser.GetTokenLength(headerValues[i], current);
+                    var tokenLength = ProtoRuleParser.GetTokenLength(headerValues[i], current);
                     if (tokenLength == targetValue.Length
                         && string.Compare(headerValues[i], current, targetValue, 0, tokenLength, StringComparison.OrdinalIgnoreCase) == 0
                         && TryParseNonNegativeInt64FromHeaderValue(current + tokenLength, headerValues[i], out seconds))
@@ -299,13 +299,13 @@ namespace Microsoft.Net.Http.Headers
             for (var i = 0; i < cacheControlDirectives.Count; i++)
             {
                 // Trim leading white space
-                var current = HttpRuleParser.GetWhitespaceLength(cacheControlDirectives[i], 0);
+                var current = ProtoRuleParser.GetWhitespaceLength(cacheControlDirectives[i], 0);
 
                 while (current < cacheControlDirectives[i].Length)
                 {
                     var initial = current;
 
-                    var tokenLength = HttpRuleParser.GetTokenLength(cacheControlDirectives[i], current);
+                    var tokenLength = ProtoRuleParser.GetTokenLength(cacheControlDirectives[i], current);
                     if (tokenLength == targetDirectives.Length
                         && string.Compare(cacheControlDirectives[i], current, targetDirectives, 0, tokenLength, StringComparison.OrdinalIgnoreCase) == 0)
                     {
@@ -330,7 +330,7 @@ namespace Microsoft.Net.Http.Headers
         private static unsafe bool TryParseNonNegativeInt64FromHeaderValue(int startIndex, string headerValue, out long result)
         {
             // Trim leading whitespace
-            startIndex += HttpRuleParser.GetWhitespaceLength(headerValue, startIndex);
+            startIndex += ProtoRuleParser.GetWhitespaceLength(headerValue, startIndex);
 
             // Match and skip '=', it also can't be the last character in the headerValue
             if (startIndex >= headerValue.Length - 1 || headerValue[startIndex] != '=')
@@ -341,10 +341,10 @@ namespace Microsoft.Net.Http.Headers
             startIndex++;
 
             // Trim trailing whitespace
-            startIndex += HttpRuleParser.GetWhitespaceLength(headerValue, startIndex);
+            startIndex += ProtoRuleParser.GetWhitespaceLength(headerValue, startIndex);
 
             // Try parse the number
-            if (TryParseNonNegativeInt64(new StringSegment(headerValue, startIndex, HttpRuleParser.GetNumberLength(headerValue, startIndex, false)), out result))
+            if (TryParseNonNegativeInt64(new StringSegment(headerValue, startIndex, ProtoRuleParser.GetNumberLength(headerValue, startIndex, false)), out result))
             {
                 return true;
             }
@@ -579,7 +579,7 @@ namespace Microsoft.Net.Http.Headers
 
         public static bool TryParseDate(StringSegment input, out DateTimeOffset result)
         {
-            return HttpRuleParser.TryStringToDate(input, out result);
+            return ProtoRuleParser.TryStringToDate(input, out result);
         }
 
         public static string FormatDate(DateTimeOffset dateTime)

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public class FileBufferingReadStreamTests
     {
@@ -291,9 +291,6 @@ namespace Microsoft.AspNetCore.WebUtilities
             Assert.False(File.Exists(tempFileName));
         }
 
-        private static string GetCurrentDirectory()
-        {
-            return AppContext.BaseDirectory;
-        }
+        private static string GetCurrentDirectory() => AppContext.BaseDirectory;
     }
 }

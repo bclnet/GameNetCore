@@ -4,22 +4,22 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
-    internal class HttpConnectionMiddleware<TContext>
+    internal class ProtoConnectionMiddleware<TContext>
     {
         private readonly IList<IConnectionAdapter> _connectionAdapters;
         private readonly ServiceContext _serviceContext;
-        private readonly IHttpApplication<TContext> _application;
-        private readonly HttpProtocols _protocols;
+        private readonly IProtoApplication<TContext> _application;
+        private readonly ProtoProtocols _protocols;
 
-        public HttpConnectionMiddleware(IList<IConnectionAdapter> adapters, ServiceContext serviceContext, IHttpApplication<TContext> application, HttpProtocols protocols)
+        public ProtoConnectionMiddleware(IList<IConnectionAdapter> adapters, ServiceContext serviceContext, IProtoApplication<TContext> application, ProtoProtocols protocols)
         {
             _serviceContext = serviceContext;
             _application = application;
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             // This is a bit of a hack but it preserves the existing semantics
             var memoryPoolFeature = connectionContext.Features.Get<IMemoryPoolFeature>();
 
-            var httpConnectionContext = new HttpConnectionContext
+            var httpConnectionContext = new ProtoConnectionContext
             {
                 ConnectionId = connectionContext.ConnectionId,
                 ConnectionContext = connectionContext,
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                 Transport = connectionContext.Transport
             };
 
-            var connectionFeature = connectionContext.Features.Get<IHttpConnectionFeature>();
+            var connectionFeature = connectionContext.Features.Get<IProtoConnectionFeature>();
 
             if (connectionFeature != null)
             {
@@ -62,7 +62,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                 }
             }
 
-            var connection = new HttpConnection(httpConnectionContext);
+            var connection = new ProtoConnection(httpConnectionContext);
 
             return connection.ProcessRequestsAsync(_application);
         }

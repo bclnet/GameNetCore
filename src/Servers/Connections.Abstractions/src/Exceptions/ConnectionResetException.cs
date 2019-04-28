@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public class ConnectionResetException : IOException
     {

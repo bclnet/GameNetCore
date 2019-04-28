@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class ContentRangeHeaderValueTest
     {

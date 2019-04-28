@@ -3,53 +3,53 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class DefaultHttpContextFactoryTests
+    public class DefaultProtoContextFactoryTests
     {
         [Fact]
-        public void CreateHttpContextSetsHttpContextAccessor()
+        public void CreateProtoContextSetsProtoContextAccessor()
         {
             // Arrange
             var services = new ServiceCollection()
                 .AddOptions()
-                .AddHttpContextAccessor()
+                .AddProtoContextAccessor()
                 .BuildServiceProvider();
-            var accessor = services.GetRequiredService<IHttpContextAccessor>();
-            var contextFactory = new DefaultHttpContextFactory(services);
+            var accessor = services.GetRequiredService<IProtoContextAccessor>();
+            var contextFactory = new DefaultProtoContextFactory(services);
 
             // Act
             var context = contextFactory.Create(new FeatureCollection());
 
             // Assert
-            Assert.Same(context, accessor.HttpContext);
+            Assert.Same(context, accessor.ProtoContext);
         }
 
         [Fact]
-        public void DisposeHttpContextSetsHttpContextAccessorToNull()
+        public void DisposeProtoContextSetsProtoContextAccessorToNull()
         {
             // Arrange
             var services = new ServiceCollection()
                 .AddOptions()
-                .AddHttpContextAccessor()
+                .AddProtoContextAccessor()
                 .BuildServiceProvider();
-            var accessor = services.GetRequiredService<IHttpContextAccessor>();
-            var contextFactory = new DefaultHttpContextFactory(services);
+            var accessor = services.GetRequiredService<IProtoContextAccessor>();
+            var contextFactory = new DefaultProtoContextFactory(services);
 
             // Act
             var context = contextFactory.Create(new FeatureCollection());
 
             // Assert
-            Assert.Same(context, accessor.HttpContext);
+            Assert.Same(context, accessor.ProtoContext);
 
             contextFactory.Dispose(context);
 
-            Assert.Null(accessor.HttpContext);
+            Assert.Null(accessor.ProtoContext);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.Http
             var services = new ServiceCollection()
                 .AddOptions()
                 .BuildServiceProvider();
-            var contextFactory = new DefaultHttpContextFactory(services);
+            var contextFactory = new DefaultProtoContextFactory(services);
 
             // Act & Assert
             var context = contextFactory.Create(new FeatureCollection());
@@ -67,16 +67,16 @@ namespace Microsoft.AspNetCore.Http
         }
 
         [Fact]
-        public void SetsDefaultPropertiesOnHttpContext()
+        public void SetsDefaultPropertiesOnProtoContext()
         {
             // Arrange
             var services = new ServiceCollection()
                 .AddOptions()
                 .BuildServiceProvider();
-            var contextFactory = new DefaultHttpContextFactory(services);
+            var contextFactory = new DefaultProtoContextFactory(services);
 
             // Act & Assert
-            var context = contextFactory.Create(new FeatureCollection()) as DefaultHttpContext;
+            var context = contextFactory.Create(new FeatureCollection()) as DefaultProtoContext;
             Assert.NotNull(context);
             Assert.NotNull(context.FormOptions);
             Assert.NotNull(context.ServiceScopeFactory);

@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Proto.Extensions;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Headers
+namespace Contoso.GameNetCore.Proto.Headers
 {
     public class RequestHeaders
     {

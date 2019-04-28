@@ -7,10 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     internal class LocalhostListenOptions : ListenOptions
     {
@@ -24,11 +24,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         }
 
         /// <summary>
-        /// Gets the name of this endpoint to display on command-line when the web server starts.
+        /// Gets the name of this endpoint to display on command-line when the game server starts.
         /// </summary>
         internal override string GetDisplayName()
         {
-            var scheme = ConnectionAdapters.Any(f => f.IsHttps)
+            var scheme = ConnectionAdapters.Any(f => f.IsProtos)
                 ? "https"
                 : "http";
 

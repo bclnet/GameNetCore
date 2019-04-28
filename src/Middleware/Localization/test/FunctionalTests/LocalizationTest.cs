@@ -6,11 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using LocalizationWebsite;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.TestHost;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Localization.FunctionalTests
+namespace Contoso.GameNetCore.Localization.FunctionalTests
 {
     public class LocalizationTest
     {

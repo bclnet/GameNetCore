@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Testing
+namespace Contoso.GameNetCore.Testing
 {
     /// <summary>
     /// Summary description for TestConnection

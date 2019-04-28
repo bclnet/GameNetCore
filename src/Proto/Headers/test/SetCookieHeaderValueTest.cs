@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class SetCookieHeaderValueTest
     {
@@ -21,7 +21,7 @@ namespace Microsoft.Net.Http.Headers
                     Domain = "domain1",
                     Expires = new DateTimeOffset(1994, 11, 6, 8, 49, 37, TimeSpan.Zero),
                     SameSite = SameSiteMode.Strict,
-                    HttpOnly = true,
+                    ProtoOnly = true,
                     MaxAge = TimeSpan.FromDays(1),
                     Path = "path1",
                     Secure = true
@@ -121,7 +121,7 @@ namespace Microsoft.Net.Http.Headers
                     Domain = "domain1",
                     Expires = new DateTimeOffset(1994, 11, 6, 8, 49, 37, TimeSpan.Zero),
                     SameSite = SameSiteMode.Strict,
-                    HttpOnly = true,
+                    ProtoOnly = true,
                     MaxAge = TimeSpan.FromDays(1),
                     Path = "path1",
                     Secure = true
@@ -188,7 +188,7 @@ namespace Microsoft.Net.Http.Headers
                     Domain = "domain1",
                     Expires = new DateTimeOffset(1994, 11, 6, 8, 49, 37, TimeSpan.Zero),
                     SameSite = SameSiteMode.Strict,
-                    HttpOnly = true,
+                    ProtoOnly = true,
                     MaxAge = TimeSpan.FromDays(1),
                     Path = "path1",
                     Secure = true

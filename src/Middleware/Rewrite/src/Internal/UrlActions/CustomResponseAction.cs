@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Text;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Rewrite.Logging;
+using Contoso.GameNetCore.Http.Extensions;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Rewrite.Logging;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.UrlActions
+namespace Contoso.GameNetCore.Rewrite.Internal.UrlActions
 {
     public class CustomResponseAction : UrlAction
     {

@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal;
+using Contoso.GameNetCore.Testing;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers
 {
     internal class TestLibuvTransportContext : LibuvTransportContext
     {

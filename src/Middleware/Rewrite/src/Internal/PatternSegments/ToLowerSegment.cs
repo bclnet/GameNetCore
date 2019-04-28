@@ -3,7 +3,7 @@
 
 using System.Text;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Internal.PatternSegments
 {
     public class ToLowerSegment : PatternSegment
     {

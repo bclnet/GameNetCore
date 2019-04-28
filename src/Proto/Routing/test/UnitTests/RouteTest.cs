@@ -3,24 +3,24 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.TestObjects;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.WebEncoders.Testing;
+using Microsoft.Extensions.GameEncoders.Testing;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouteTest
     {
@@ -381,7 +381,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.Null(context.Handler);
         }
 
-        // PathString in HttpAbstractions guarantees a leading slash - so no value in testing other cases.
+        // PathString in ProtoAbstractions guarantees a leading slash - so no value in testing other cases.
         [Fact]
         public async Task Match_Success_LeadingSlash()
         {
@@ -591,10 +591,10 @@ namespace Microsoft.AspNetCore.Routing
                 factory = NullLoggerFactory.Instance;
             }
 
-            var request = new Mock<HttpRequest>(MockBehavior.Strict);
+            var request = new Mock<ProtoRequest>(MockBehavior.Strict);
             request.SetupGet(r => r.Path).Returns(requestPath);
 
-            var context = new Mock<HttpContext>(MockBehavior.Strict);
+            var context = new Mock<ProtoContext>(MockBehavior.Strict);
             context.Setup(m => m.RequestServices.GetService(typeof(ILoggerFactory)))
                 .Returns(factory);
             context.SetupGet(c => c.Request).Returns(request.Object);
@@ -661,7 +661,7 @@ namespace Microsoft.AspNetCore.Routing
             services.AddRouting();
             // This test encoder should not be used by Routing and should always use the default one.
             services.AddSingleton<UrlEncoder>(new UrlTestEncoder());
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = services.BuildServiceProvider(),
             };
@@ -961,7 +961,7 @@ namespace Microsoft.AspNetCore.Routing
             target
                 .Setup(
                     e => e.Match(
-                        It.IsAny<HttpContext>(),
+                        It.IsAny<ProtoContext>(),
                         It.IsAny<IRouter>(),
                         It.IsAny<string>(),
                         It.IsAny<RouteValueDictionary>(),
@@ -1522,7 +1522,7 @@ namespace Microsoft.AspNetCore.Routing
             services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
             services.AddRouting();
 
-            var context = new DefaultHttpContext
+            var context = new DefaultProtoContext
             {
                 RequestServices = services.BuildServiceProvider(),
             };

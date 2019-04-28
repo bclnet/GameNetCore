@@ -4,10 +4,10 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
+using Contoso.GameNetCore.WebUtilities;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Diagnostics.FunctionalTests
+namespace Contoso.GameNetCore.Diagnostics.FunctionalTests
 {
     public class StatusCodeSampleTest : IClassFixture<TestFixture<StatusCodePagesSample.Startup>>
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.NodeServices.HostingModels;
+using Contoso.GameNetCore.NodeServices.HostingModels;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     /// <summary>
     /// Default implementation of INodeServices. This is the primary API surface through which developers

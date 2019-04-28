@@ -3,9 +3,9 @@
 
 using System;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class EndpointMetadataCollectionBenchmark
     {

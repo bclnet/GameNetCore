@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// A collection of arbitrary metadata associated with an endpoint.

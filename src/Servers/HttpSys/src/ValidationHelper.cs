@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal static class ValidationHelper
     {

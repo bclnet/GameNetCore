@@ -1,12 +1,12 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.ProtoOverrides
 {
     /// <summary>
     /// Default values related to <see cref="ForwardedHeadersMiddleware"/> middleware
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Builder.ForwardedHeadersOptions"/>
+    /// <seealso cref="Microsoft.GameNetCore.Builder.ForwardedHeadersOptions"/>
     public static class ForwardedHeadersDefaults
     {
         /// <summary>

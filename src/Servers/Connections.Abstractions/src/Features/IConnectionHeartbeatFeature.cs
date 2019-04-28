@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Connections.Features
+namespace Contoso.GameNetCore.Connections.Features
 {
     public interface IConnectionHeartbeatFeature
     {

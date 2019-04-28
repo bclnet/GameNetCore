@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.ObjectPool;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     public class TreeRouterTest
     {
@@ -1991,10 +1991,10 @@ namespace Microsoft.AspNetCore.Routing.Tree
 
         private static RouteContext CreateRouteContext(string requestPath)
         {
-            var request = new Mock<HttpRequest>(MockBehavior.Strict);
+            var request = new Mock<ProtoRequest>(MockBehavior.Strict);
             request.SetupGet(r => r.Path).Returns(new PathString(requestPath));
 
-            var context = new Mock<HttpContext>(MockBehavior.Strict);
+            var context = new Mock<ProtoContext>(MockBehavior.Strict);
             context.Setup(m => m.RequestServices.GetService(typeof(ILoggerFactory)))
                 .Returns(NullLoggerFactory.Instance);
 
@@ -2008,12 +2008,12 @@ namespace Microsoft.AspNetCore.Routing.Tree
             object ambientValues = null,
             string name = null)
         {
-            var mockHttpContext = new Mock<HttpContext>();
-            mockHttpContext.Setup(h => h.RequestServices.GetService(typeof(ILoggerFactory)))
+            var mockProtoContext = new Mock<ProtoContext>();
+            mockProtoContext.Setup(h => h.RequestServices.GetService(typeof(ILoggerFactory)))
                 .Returns(NullLoggerFactory.Instance);
 
             return new VirtualPathContext(
-                mockHttpContext.Object,
+                mockProtoContext.Object,
                 new RouteValueDictionary(ambientValues),
                 new RouteValueDictionary(values),
                 name);

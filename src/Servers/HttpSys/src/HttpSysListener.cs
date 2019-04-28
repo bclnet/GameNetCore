@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     /// <summary>
     /// An HTTP server wrapping the Http.Sys APIs that accepts requests.

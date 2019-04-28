@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     public class NonFileNameRouteConstraintTest
     {

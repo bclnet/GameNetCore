@@ -3,11 +3,11 @@
 
 using System.IO;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpRequestFeature : IHttpRequestFeature
+    public class ProtoRequestFeature : IProtoRequestFeature
     {
-        public HttpRequestFeature()
+        public ProtoRequestFeature()
         {
             Headers = new HeaderDictionary();
             Body = Stream.Null;

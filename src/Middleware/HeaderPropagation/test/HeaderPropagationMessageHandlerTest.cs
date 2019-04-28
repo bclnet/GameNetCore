@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.HeaderPropagation.Tests
+namespace Contoso.GameNetCore.HeaderPropagation.Tests
 {
     public class HeaderPropagationMessageHandlerTest
     {

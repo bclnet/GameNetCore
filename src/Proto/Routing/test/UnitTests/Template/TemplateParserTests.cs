@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Template.Tests
+namespace Contoso.GameNetCore.Routing.Template.Tests
 {
     public class TemplateRouteParserTests
     {

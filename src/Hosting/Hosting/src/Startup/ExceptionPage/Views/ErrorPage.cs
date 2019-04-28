@@ -1,6 +1,6 @@
 namespace Contoso.GameNetCore.Hosting.Views
 {
-    using Microsoft.AspNetCore.Http;
+    using Contoso.GameNetCore.Proto;
     using System.Threading.Tasks;
 
     internal class ErrorPage
@@ -13,7 +13,7 @@ namespace Contoso.GameNetCore.Hosting.Views
         public ErrorPage() { }
 
 #pragma warning disable 1998
-        public async Task ExecuteAsync(HttpContext context)
+        public async Task ExecuteAsync(ProtoContext context)
         {
         }
 #pragma warning restore 1998

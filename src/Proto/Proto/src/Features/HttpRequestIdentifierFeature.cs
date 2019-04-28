@@ -4,9 +4,9 @@
 using System;
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpRequestIdentifierFeature : IHttpRequestIdentifierFeature
+    public class ProtoRequestIdentifierFeature : IProtoRequestIdentifierFeature
     {
         // Base32 encoding - in ascii sort order for easy text based sorting
         private static readonly char[] s_encode32Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV".ToCharArray();

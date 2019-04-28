@@ -6,10 +6,10 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal class DisconnectListener
     {

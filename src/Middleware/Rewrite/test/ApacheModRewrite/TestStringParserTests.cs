@@ -3,12 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.ModRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.ModRewrite
 {
     public class TestStringParserTests
     {

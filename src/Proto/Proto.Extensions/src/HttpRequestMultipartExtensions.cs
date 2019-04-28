@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Proto.Extensions
 {
-    public static class HttpRequestMultipartExtensions
+    public static class ProtoRequestMultipartExtensions
     {
-        public static string GetMultipartBoundary(this HttpRequest request)
+        public static string GetMultipartBoundary(this ProtoRequest request)
         {
             if (request == null)
             {

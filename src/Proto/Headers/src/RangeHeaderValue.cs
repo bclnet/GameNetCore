@@ -7,11 +7,11 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class RangeHeaderValue
     {
-        private static readonly HttpHeaderParser<RangeHeaderValue> Parser
+        private static readonly ProtoHeaderParser<RangeHeaderValue> Parser
             = new GenericHeaderParser<RangeHeaderValue>(false, GetRangeLength);
 
         private StringSegment _unit;
@@ -126,7 +126,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             // Parse the unit string: <unit> in '<unit>=<from1>-<to1>, <from2>-<to2>'
-            var unitLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var unitLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (unitLength == 0)
             {
@@ -136,7 +136,7 @@ namespace Microsoft.Net.Http.Headers
             RangeHeaderValue result = new RangeHeaderValue();
             result._unit = input.Subsegment(startIndex, unitLength);
             var current = startIndex + unitLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             if ((current == input.Length) || (input[current] != '='))
             {
@@ -144,7 +144,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip '=' separator
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             var rangesLength = RangeItemHeaderValue.GetRangeItemListLength(input, current, result.Ranges);
 

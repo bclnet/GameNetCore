@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     public class DefaultContentTypeProviderTests
     {

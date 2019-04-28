@@ -1,13 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Implementation of <see cref="IAuthenticationHandlerProvider"/>.
@@ -18,10 +12,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// Constructor.
         /// </summary>
         /// <param name="schemes">The <see cref="IAuthenticationHandlerProvider"/>.</param>
-        public AuthenticationHandlerProvider(IAuthenticationSchemeProvider schemes)
-        {
-            Schemes = schemes;
-        }
+        public AuthenticationHandlerProvider(IAuthenticationSchemeProvider schemes) => Schemes = schemes;
 
         /// <summary>
         /// The <see cref="IAuthenticationHandlerProvider"/>.
@@ -37,18 +28,14 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="context">The context.</param>
         /// <param name="authenticationScheme">The name of the authentication scheme being handled.</param>
         /// <returns>The handler instance.</returns>
-        public async Task<IAuthenticationHandler> GetHandlerAsync(HttpContext context, string authenticationScheme)
+        public async Task<IAuthenticationHandler> GetHandlerAsync(ProtoContext context, string authenticationScheme)
         {
             if (_handlerMap.ContainsKey(authenticationScheme))
-            {
                 return _handlerMap[authenticationScheme];
-            }
 
             var scheme = await Schemes.GetSchemeAsync(authenticationScheme);
             if (scheme == null)
-            {
                 return null;
-            }
             var handler = (context.RequestServices.GetService(scheme.HandlerType) ??
                 ActivatorUtilities.CreateInstance(context.RequestServices, scheme.HandlerType))
                 as IAuthenticationHandler;

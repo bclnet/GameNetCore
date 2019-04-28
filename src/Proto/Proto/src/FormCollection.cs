@@ -4,10 +4,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto.Internal;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Contains the parsed form values.

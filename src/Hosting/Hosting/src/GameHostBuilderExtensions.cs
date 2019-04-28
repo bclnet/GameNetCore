@@ -4,14 +4,14 @@
 using System;
 using System.Reflection;
 using Contoso.GameNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-#if !NET3
+#if NET2
 using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 #endif
 
@@ -20,7 +20,7 @@ namespace Contoso.GameNetCore.Hosting
     public static class GameHostBuilderExtensions
     {
         /// <summary>
-        /// Specify the startup method to be used to configure the web application.
+        /// Specify the startup method to be used to configure the game application.
         /// </summary>
         /// <param name="hostBuilder">The <see cref="IGameHostBuilder"/> to configure.</param>
         /// <param name="configureApp">The delegate that configures the <see cref="IApplicationBuilder"/>.</param>
@@ -29,7 +29,7 @@ namespace Contoso.GameNetCore.Hosting
             hostBuilder.Configure((_, app) => configureApp(app), configureApp.GetMethodInfo().DeclaringType.GetTypeInfo().Assembly.GetName().Name);
 
         /// <summary>
-        /// Specify the startup method to be used to configure the web application.
+        /// Specify the startup method to be used to configure the game application.
         /// </summary>
         /// <param name="hostBuilder">The <see cref="IGameHostBuilder"/> to configure.</param>
         /// <param name="configureApp">The delegate that configures the <see cref="IApplicationBuilder"/>.</param>
@@ -67,7 +67,7 @@ namespace Contoso.GameNetCore.Hosting
 
             hostBuilder.UseSetting(GameHostDefaults.ApplicationKey, startupAssemblyName);
 
-            // Light up the GenericWebHostBuilder implementation
+            // Light up the GenericGameHostBuilder implementation
             if (hostBuilder is ISupportsStartup supportsStartup)
                 return supportsStartup.UseStartup(startupType);
 
@@ -111,7 +111,7 @@ namespace Contoso.GameNetCore.Hosting
         /// <returns>The <see cref="IGameHostBuilder"/>.</returns>
         public static IGameHostBuilder UseDefaultServiceProvider(this IGameHostBuilder hostBuilder, Action<GameHostBuilderContext, ServiceProviderOptions> configure)
         {
-            // Light up the GenericWebHostBuilder implementation
+            // Light up the GenericGameHostBuilder implementation
             if (hostBuilder is ISupportsUseDefaultServiceProvider supportsDefaultServiceProvider)
                 return supportsDefaultServiceProvider.UseDefaultServiceProvider(configure);
 

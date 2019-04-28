@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Text;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Rewrite
+namespace Contoso.GameNetCore.Rewrite
 {
     /// <summary>
     /// A context object for <see cref="RewriteMiddleware"/>

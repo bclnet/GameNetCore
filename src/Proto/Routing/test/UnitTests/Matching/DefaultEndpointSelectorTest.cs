@@ -3,13 +3,13 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class DefaultEndpointSelectorTest
     {
@@ -172,10 +172,10 @@ namespace Microsoft.AspNetCore.Routing.Matching
             Assert.Null(context.Endpoint);
         }
 
-        private static (HttpContext httpContext, EndpointSelectorContext context) CreateContext()
+        private static (ProtoContext httpContext, EndpointSelectorContext context) CreateContext()
         {
             var context = new EndpointSelectorContext();
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Features.Set<IEndpointFeature>(context);
             httpContext.Features.Set<IRouteValuesFeature>(context);
 

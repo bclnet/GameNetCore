@@ -6,13 +6,13 @@ using System.Buffers;
 using System.IO.Pipelines;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class Http2FrameWriterTests
     {

@@ -8,61 +8,61 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Features.Authentication;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Proto.Features.Authentication;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     using SendFileFunc = Func<string, long, long?, CancellationToken, Task>;
-    using WebSocketAcceptAlt =
+    using GameSocketAcceptAlt =
         Func
         <
-            WebSocketAcceptContext, // WebSocket Accept parameters
-            Task<WebSocket>
+            GameSocketAcceptContext, // GameSocket Accept parameters
+            Task<GameSocket>
         >;
 
     public class OwinEnvironment : IDictionary<string, object>
     {
-        private HttpContext _context;
+        private ProtoContext _context;
         private IDictionary<string, FeatureMap> _entries;
 
-        public OwinEnvironment(HttpContext context)
+        public OwinEnvironment(ProtoContext context)
         {
-            if (context.Features.Get<IHttpRequestFeature>() == null)
+            if (context.Features.Get<IProtoRequestFeature>() == null)
             {
-                throw new ArgumentException("Missing required feature: " + nameof(IHttpRequestFeature) + ".", nameof(context));
+                throw new ArgumentException("Missing required feature: " + nameof(IProtoRequestFeature) + ".", nameof(context));
             }
-            if (context.Features.Get<IHttpResponseFeature>() == null)
+            if (context.Features.Get<IProtoResponseFeature>() == null)
             {
-                throw new ArgumentException("Missing required feature: " + nameof(IHttpResponseFeature) + ".", nameof(context));
+                throw new ArgumentException("Missing required feature: " + nameof(IProtoResponseFeature) + ".", nameof(context));
             }
 
             _context = context;
             _entries = new Dictionary<string, FeatureMap>()
             {
-                { OwinConstants.RequestProtocol, new FeatureMap<IHttpRequestFeature>(feature => feature.Protocol, () => string.Empty, (feature, value) => feature.Protocol = Convert.ToString(value)) },
-                { OwinConstants.RequestScheme, new FeatureMap<IHttpRequestFeature>(feature => feature.Scheme, () => string.Empty, (feature, value) => feature.Scheme = Convert.ToString(value)) },
-                { OwinConstants.RequestMethod, new FeatureMap<IHttpRequestFeature>(feature => feature.Method, () => string.Empty, (feature, value) => feature.Method = Convert.ToString(value)) },
-                { OwinConstants.RequestPathBase, new FeatureMap<IHttpRequestFeature>(feature => feature.PathBase, () => string.Empty, (feature, value) => feature.PathBase = Convert.ToString(value)) },
-                { OwinConstants.RequestPath, new FeatureMap<IHttpRequestFeature>(feature => feature.Path, () => string.Empty, (feature, value) => feature.Path = Convert.ToString(value)) },
-                { OwinConstants.RequestQueryString, new FeatureMap<IHttpRequestFeature>(feature => Utilities.RemoveQuestionMark(feature.QueryString), () => string.Empty,
+                { OwinConstants.RequestProtocol, new FeatureMap<IProtoRequestFeature>(feature => feature.Protocol, () => string.Empty, (feature, value) => feature.Protocol = Convert.ToString(value)) },
+                { OwinConstants.RequestScheme, new FeatureMap<IProtoRequestFeature>(feature => feature.Scheme, () => string.Empty, (feature, value) => feature.Scheme = Convert.ToString(value)) },
+                { OwinConstants.RequestMethod, new FeatureMap<IProtoRequestFeature>(feature => feature.Method, () => string.Empty, (feature, value) => feature.Method = Convert.ToString(value)) },
+                { OwinConstants.RequestPathBase, new FeatureMap<IProtoRequestFeature>(feature => feature.PathBase, () => string.Empty, (feature, value) => feature.PathBase = Convert.ToString(value)) },
+                { OwinConstants.RequestPath, new FeatureMap<IProtoRequestFeature>(feature => feature.Path, () => string.Empty, (feature, value) => feature.Path = Convert.ToString(value)) },
+                { OwinConstants.RequestQueryString, new FeatureMap<IProtoRequestFeature>(feature => Utilities.RemoveQuestionMark(feature.QueryString), () => string.Empty,
                     (feature, value) => feature.QueryString = Utilities.AddQuestionMark(Convert.ToString(value))) },
-                { OwinConstants.RequestHeaders, new FeatureMap<IHttpRequestFeature>(feature => Utilities.MakeDictionaryStringArray(feature.Headers), (feature, value) => feature.Headers = Utilities.MakeHeaderDictionary((IDictionary<string, string[]>)value)) },
-                { OwinConstants.RequestBody, new FeatureMap<IHttpRequestFeature>(feature => feature.Body, () => Stream.Null, (feature, value) => feature.Body = (Stream)value) },
-                { OwinConstants.RequestUser, new FeatureMap<IHttpAuthenticationFeature>(feature => feature.User, () => null, (feature, value) => feature.User = (ClaimsPrincipal)value) },
+                { OwinConstants.RequestHeaders, new FeatureMap<IProtoRequestFeature>(feature => Utilities.MakeDictionaryStringArray(feature.Headers), (feature, value) => feature.Headers = Utilities.MakeHeaderDictionary((IDictionary<string, string[]>)value)) },
+                { OwinConstants.RequestBody, new FeatureMap<IProtoRequestFeature>(feature => feature.Body, () => Stream.Null, (feature, value) => feature.Body = (Stream)value) },
+                { OwinConstants.RequestUser, new FeatureMap<IProtoAuthenticationFeature>(feature => feature.User, () => null, (feature, value) => feature.User = (ClaimsPrincipal)value) },
 
-                { OwinConstants.ResponseStatusCode, new FeatureMap<IHttpResponseFeature>(feature => feature.StatusCode, () => 200, (feature, value) => feature.StatusCode = Convert.ToInt32(value)) },
-                { OwinConstants.ResponseReasonPhrase, new FeatureMap<IHttpResponseFeature>(feature => feature.ReasonPhrase, (feature, value) => feature.ReasonPhrase = Convert.ToString(value)) },
-                { OwinConstants.ResponseHeaders, new FeatureMap<IHttpResponseFeature>(feature => Utilities.MakeDictionaryStringArray(feature.Headers), (feature, value) => feature.Headers = Utilities.MakeHeaderDictionary((IDictionary<string, string[]>)value)) },
-                { OwinConstants.ResponseBody, new FeatureMap<IHttpResponseFeature>(feature => feature.Body, () => Stream.Null, (feature, value) => feature.Body = (Stream)value) },
-                { OwinConstants.CommonKeys.OnSendingHeaders, new FeatureMap<IHttpResponseFeature>(
+                { OwinConstants.ResponseStatusCode, new FeatureMap<IProtoResponseFeature>(feature => feature.StatusCode, () => 200, (feature, value) => feature.StatusCode = Convert.ToInt32(value)) },
+                { OwinConstants.ResponseReasonPhrase, new FeatureMap<IProtoResponseFeature>(feature => feature.ReasonPhrase, (feature, value) => feature.ReasonPhrase = Convert.ToString(value)) },
+                { OwinConstants.ResponseHeaders, new FeatureMap<IProtoResponseFeature>(feature => Utilities.MakeDictionaryStringArray(feature.Headers), (feature, value) => feature.Headers = Utilities.MakeHeaderDictionary((IDictionary<string, string[]>)value)) },
+                { OwinConstants.ResponseBody, new FeatureMap<IProtoResponseFeature>(feature => feature.Body, () => Stream.Null, (feature, value) => feature.Body = (Stream)value) },
+                { OwinConstants.CommonKeys.OnSendingHeaders, new FeatureMap<IProtoResponseFeature>(
                     feature => new Action<Action<object>, object>((cb, state) => {
                         feature.OnStarting(s =>
                         {
@@ -72,36 +72,36 @@ namespace Microsoft.AspNetCore.Owin
                     }))
                 },
 
-                { OwinConstants.CommonKeys.ConnectionId, new FeatureMap<IHttpConnectionFeature>(feature => feature.ConnectionId,
+                { OwinConstants.CommonKeys.ConnectionId, new FeatureMap<IProtoConnectionFeature>(feature => feature.ConnectionId,
                     (feature, value) => feature.ConnectionId = Convert.ToString(value, CultureInfo.InvariantCulture)) },
 
-                { OwinConstants.CommonKeys.LocalPort, new FeatureMap<IHttpConnectionFeature>(feature => feature.LocalPort.ToString(CultureInfo.InvariantCulture),
+                { OwinConstants.CommonKeys.LocalPort, new FeatureMap<IProtoConnectionFeature>(feature => feature.LocalPort.ToString(CultureInfo.InvariantCulture),
                     (feature, value) => feature.LocalPort = Convert.ToInt32(value, CultureInfo.InvariantCulture)) },
-                { OwinConstants.CommonKeys.RemotePort, new FeatureMap<IHttpConnectionFeature>(feature => feature.RemotePort.ToString(CultureInfo.InvariantCulture),
+                { OwinConstants.CommonKeys.RemotePort, new FeatureMap<IProtoConnectionFeature>(feature => feature.RemotePort.ToString(CultureInfo.InvariantCulture),
                     (feature, value) => feature.RemotePort = Convert.ToInt32(value, CultureInfo.InvariantCulture)) },
 
-                { OwinConstants.CommonKeys.LocalIpAddress, new FeatureMap<IHttpConnectionFeature>(feature => feature.LocalIpAddress.ToString(),
+                { OwinConstants.CommonKeys.LocalIpAddress, new FeatureMap<IProtoConnectionFeature>(feature => feature.LocalIpAddress.ToString(),
                     (feature, value) => feature.LocalIpAddress = IPAddress.Parse(Convert.ToString(value))) },
-                { OwinConstants.CommonKeys.RemoteIpAddress, new FeatureMap<IHttpConnectionFeature>(feature => feature.RemoteIpAddress.ToString(),
+                { OwinConstants.CommonKeys.RemoteIpAddress, new FeatureMap<IProtoConnectionFeature>(feature => feature.RemoteIpAddress.ToString(),
                     (feature, value) => feature.RemoteIpAddress = IPAddress.Parse(Convert.ToString(value))) },
 
-                { OwinConstants.SendFiles.SendAsync, new FeatureMap<IHttpSendFileFeature>(feature => new SendFileFunc(feature.SendFileAsync)) },
+                { OwinConstants.SendFiles.SendAsync, new FeatureMap<IProtoSendFileFeature>(feature => new SendFileFunc(feature.SendFileAsync)) },
 
-                { OwinConstants.Security.User, new FeatureMap<IHttpAuthenticationFeature>(feature => feature.User,
+                { OwinConstants.Security.User, new FeatureMap<IProtoAuthenticationFeature>(feature => feature.User,
                     ()=> null, (feature, value) => feature.User = Utilities.MakeClaimsPrincipal((IPrincipal)value),
-                    () => new HttpAuthenticationFeature())
+                    () => new ProtoAuthenticationFeature())
                 },
 
-                { OwinConstants.RequestId, new FeatureMap<IHttpRequestIdentifierFeature>(feature => feature.TraceIdentifier,
+                { OwinConstants.RequestId, new FeatureMap<IProtoRequestIdentifierFeature>(feature => feature.TraceIdentifier,
                     ()=> null, (feature, value) => feature.TraceIdentifier = (string)value,
-                    () => new HttpRequestIdentifierFeature())
+                    () => new ProtoRequestIdentifierFeature())
                 }
             };
 
             // owin.CallCancelled is required but the feature may not be present.
-            if (context.Features.Get<IHttpRequestLifetimeFeature>() != null)
+            if (context.Features.Get<IProtoRequestLifetimeFeature>() != null)
             {
-                _entries[OwinConstants.CallCancelled] = new FeatureMap<IHttpRequestLifetimeFeature>(feature => feature.RequestAborted);
+                _entries[OwinConstants.CallCancelled] = new FeatureMap<IProtoRequestLifetimeFeature>(feature => feature.RequestAborted);
             }
             else if (!_context.Items.ContainsKey(OwinConstants.CallCancelled))
             {
@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Owin
                 _context.Items[OwinConstants.OwinVersion] = "1.0";
             }
 
-            if (context.Request.IsHttps)
+            if (context.Request.IsProtos)
             {
                 _entries.Add(OwinConstants.CommonKeys.ClientCertificate, new FeatureMap<ITlsConnectionFeature>(feature => feature.ClientCertificate,
                     (feature, value) => feature.ClientCertificate = (X509Certificate2)value));
@@ -122,12 +122,12 @@ namespace Microsoft.AspNetCore.Owin
                     feature => new Func<Task>(() => feature.GetClientCertificateAsync(CancellationToken.None))));
             }
 
-            if (context.WebSockets.IsWebSocketRequest)
+            if (context.GameSockets.IsGameSocketRequest)
             {
-                _entries.Add(OwinConstants.WebSocket.AcceptAlt, new FeatureMap<IHttpWebSocketFeature>(feature => new WebSocketAcceptAlt(feature.AcceptAsync)));
+                _entries.Add(OwinConstants.GameSocket.AcceptAlt, new FeatureMap<IProtoGameSocketFeature>(feature => new GameSocketAcceptAlt(feature.AcceptAsync)));
             }
 
-            _context.Items[typeof(HttpContext).FullName] = _context; // Store for lookup when we transition back out of OWIN
+            _context.Items[typeof(ProtoContext).FullName] = _context; // Store for lookup when we transition back out of OWIN
         }
 
         // Public in case there's a new/custom feature interface that needs to be added.
@@ -331,7 +331,7 @@ namespace Microsoft.AspNetCore.Owin
                 get { return Setter != null; }
             }
 
-            internal bool TryGet(HttpContext context, out object value)
+            internal bool TryGet(ProtoContext context, out object value)
             {
                 object featureInstance = context.Features[FeatureInterface];
                 if (featureInstance == null)
@@ -347,7 +347,7 @@ namespace Microsoft.AspNetCore.Owin
                 return true;
             }
 
-            internal void Set(HttpContext context, object value)
+            internal void Set(ProtoContext context, object value)
             {
                 var feature = context.Features[FeatureInterface];
                 if (feature == null)

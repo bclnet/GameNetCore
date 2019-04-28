@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     // REVIEW: this appears to be very similar to System.Net.AuthenticationSchemes
     [Flags]

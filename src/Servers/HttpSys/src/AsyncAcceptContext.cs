@@ -6,10 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.HttpSys.Internal;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal unsafe class AsyncAcceptContext : IAsyncResult, IDisposable
     {

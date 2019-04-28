@@ -5,12 +5,12 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Extensions;
+using Contoso.GameNetCore.Http.Features;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Stream wrapper that create specific compression stream only if necessary.

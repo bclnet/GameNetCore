@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlMatches
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlMatches
 {
     public class IntegerMatchTests
     {

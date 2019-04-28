@@ -4,7 +4,7 @@
 param([Parameter(Mandatory=$true)][string]$ServerUrl, [string[]]$Cases = @("*"), [string]$OutputDir, [int]$Iterations = 1)
 
 if(!(Get-Command wstest -ErrorAction SilentlyContinue)) {
-    throw "Missing required command 'wstest'. See README.md in Microsoft.AspNetCore.WebSockets.Server.Test project for information on installing Autobahn Test Suite."
+    throw "Missing required command 'wstest'. See README.md in Microsoft.AspNetCore.GameSockets.Server.Test project for information on installing Autobahn Test Suite."
 }
 
 if(!$OutputDir) {

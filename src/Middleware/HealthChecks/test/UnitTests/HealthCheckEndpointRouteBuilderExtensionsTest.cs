@@ -5,16 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.TestHost;
 using Moq;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
-namespace Microsoft.AspNetCore.Diagnostics.HealthChecks
+namespace Contoso.GameNetCore.Diagnostics.HealthChecks
 {
     public class HealthCheckEndpointRouteBuilderExtensionsTest
     {

@@ -3,14 +3,14 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     [Flags]
-    public enum HttpProtocols
+    public enum ProtoProtocols
     {
         None = 0x0,
-        Http1 = 0x1,
-        Http2 = 0x2,
-        Http1AndHttp2 = Http1 | Http2,
+        Proto1 = 0x1,
+        Proto2 = 0x2,
+        Proto1AndProto2 = Proto1 | Proto2,
     }
 }

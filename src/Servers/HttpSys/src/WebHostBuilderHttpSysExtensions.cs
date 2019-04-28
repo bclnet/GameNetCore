@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Server.HttpSys;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Server.HttpSys;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static class WebHostBuilderHttpSysExtensions
     {

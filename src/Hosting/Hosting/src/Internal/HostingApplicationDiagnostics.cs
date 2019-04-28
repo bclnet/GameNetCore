@@ -1,12 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Diagnostics;
-using System.Net.Http.Headers;
+using System.Net.Proto.Headers;
 using System.Runtime.CompilerServices;
 
 namespace Contoso.GameNetCore.Hosting.Internal
@@ -15,8 +15,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
     {
         static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)Stopwatch.Frequency;
 
-        const string ActivityName = "Contoso.GameNetCore.Hosting.HttpRequestIn";
-        const string ActivityStartKey = "Contoso.GameNetCore.Hosting.HttpRequestIn.Start";
+        const string ActivityName = "Contoso.GameNetCore.Hosting.ProtoRequestIn";
+        const string ActivityStartKey = "Contoso.GameNetCore.Hosting.ProtoRequestIn.Start";
 
         const string DeprecatedDiagnosticsBeginRequestKey = "Contoso.GameNetCore.Hosting.BeginRequest";
         const string DeprecatedDiagnosticsEndRequestKey = "Contoso.GameNetCore.Hosting.EndRequest";
@@ -37,7 +37,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void BeginRequest(HttpContext httpContext, ref HostingApplication.Context context)
+        public void BeginRequest(ProtoContext httpContext, ref HostingApplication.Context context)
         {
             var startTimestamp = 0L;
 
@@ -88,7 +88,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void RequestEnd(HttpContext httpContext, Exception exception, HostingApplication.Context context)
+        public void RequestEnd(ProtoContext httpContext, Exception exception, HostingApplication.Context context)
         {
             // Local cache items resolved multiple items, in order of use so they are primed in cpu pipeline when used
             var startTimestamp = context.StartTimestamp;
@@ -153,7 +153,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void LogRequestStarting(HttpContext httpContext)
+        void LogRequestStarting(ProtoContext httpContext)
         {
             // IsEnabled is checked in the caller, so if we are here just log
             _logger.Log(
@@ -165,7 +165,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void LogRequestFinished(HttpContext httpContext, long startTimestamp, long currentTimestamp)
+        void LogRequestFinished(ProtoContext httpContext, long startTimestamp, long currentTimestamp)
         {
             // IsEnabled isn't checked in the caller, startTimestamp > 0 is used as a fast proxy check
             // but that may be because diagnostics are enabled, which also uses startTimestamp, so check here
@@ -183,7 +183,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void RecordBeginRequestDiagnostics(HttpContext httpContext, long startTimestamp)
+        void RecordBeginRequestDiagnostics(ProtoContext httpContext, long startTimestamp)
         {
             _diagnosticListener.Write(
                 DeprecatedDiagnosticsBeginRequestKey,
@@ -195,7 +195,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void RecordEndRequestDiagnostics(HttpContext httpContext, long currentTimestamp)
+        void RecordEndRequestDiagnostics(ProtoContext httpContext, long currentTimestamp)
         {
             _diagnosticListener.Write(
                 DeprecatedDiagnosticsEndRequestKey,
@@ -207,7 +207,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void RecordUnhandledExceptionDiagnostics(HttpContext httpContext, long currentTimestamp, Exception exception)
+        void RecordUnhandledExceptionDiagnostics(ProtoContext httpContext, long currentTimestamp, Exception exception)
         {
             _diagnosticListener.Write(
                 DiagnosticsUnhandledExceptionKey,
@@ -220,11 +220,11 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        static void RecordRequestStartEventLog(HttpContext httpContext) =>
+        static void RecordRequestStartEventLog(ProtoContext httpContext) =>
             HostingEventSource.Log.RequestStart(httpContext.Request.Method, httpContext.Request.Path);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        Activity StartActivity(HttpContext httpContext)
+        Activity StartActivity(ProtoContext httpContext)
         {
             var activity = new Activity(ActivityName);
 
@@ -234,7 +234,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             if (!StringValues.IsNullOrEmpty(requestId))
             {
                 activity.SetParentId(requestId);
-#if NET3
+#if !NET2
                 if (httpContext.Request.Headers.TryGetValue(TraceStateHeaderName, out var traceState))
                     activity.TraceStateString = traceState;
 #endif
@@ -249,7 +249,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             }
 
             if (_diagnosticListener.IsEnabled(ActivityStartKey))
-                _diagnosticListener.StartActivity(activity, new { HttpContext = httpContext });
+                _diagnosticListener.StartActivity(activity, new { ProtoContext = httpContext });
             else
                 activity.Start();
 
@@ -257,7 +257,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        void StopActivity(HttpContext httpContext, Activity activity) =>
-            _diagnosticListener.StopActivity(activity, new { HttpContext = httpContext });
+        void StopActivity(ProtoContext httpContext, Activity activity) =>
+            _diagnosticListener.StopActivity(activity, new { ProtoContext = httpContext });
     }
 }

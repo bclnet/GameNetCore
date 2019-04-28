@@ -4,7 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public class IISRewriteMapCollection : IEnumerable<IISRewriteMap>
     {

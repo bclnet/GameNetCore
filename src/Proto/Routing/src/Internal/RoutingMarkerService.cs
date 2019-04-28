@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     /// <summary>
     /// A marker class used to determine if all the routing services were added

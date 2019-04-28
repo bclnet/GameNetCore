@@ -1,12 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.StaticFiles;
+using Contoso.GameNetCore.StaticFiles.Infrastructure;
 using System;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Options for serving static files
@@ -16,18 +16,13 @@ namespace Microsoft.AspNetCore.Builder
         /// <summary>
         /// Defaults to all request paths
         /// </summary>
-        public StaticFileOptions() : this(new SharedOptions())
-        {
-        }
+        public StaticFileOptions() : this(new SharedOptions()) { }
 
         /// <summary>
         /// Defaults to all request paths
         /// </summary>
         /// <param name="sharedOptions"></param>
-        public StaticFileOptions(SharedOptions sharedOptions) : base(sharedOptions)
-        {
-            OnPrepareResponse = _ => { };
-        }
+        public StaticFileOptions(SharedOptions sharedOptions) : base(sharedOptions) => OnPrepareResponse = _ => { };
 
         /// <summary>
         /// Used to map files to content-types.
@@ -49,12 +44,12 @@ namespace Microsoft.AspNetCore.Builder
 
         /// <summary>
         /// Indicates if files should be compressed for HTTPS requests when the Response Compression middleware is available.
-        /// The default value is <see cref="HttpsCompressionMode.Compress"/>.
+        /// The default value is <see cref="ProtosCompressionMode.Compress"/>.
         /// </summary>
         /// <remarks>
         /// Enabling compression on HTTPS requests for remotely manipulable content may expose security problems.
         /// </remarks>
-        public HttpsCompressionMode HttpsCompression { get; set; } = HttpsCompressionMode.Compress;
+        public ProtosCompressionMode ProtosCompression { get; set; } = ProtosCompressionMode.Compress;
 
         /// <summary>
         /// Called after the status code and headers have been set, but before the body has been written.

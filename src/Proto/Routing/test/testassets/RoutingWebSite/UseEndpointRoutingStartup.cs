@@ -6,18 +6,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.AspNetCore.Internal;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace RoutingWebSite
+namespace RoutingGameSite
 {
     public class UseEndpointRoutingStartup
     {

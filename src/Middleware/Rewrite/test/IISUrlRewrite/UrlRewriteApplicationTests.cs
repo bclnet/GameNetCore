@@ -3,11 +3,11 @@
 
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlRewrite
 {
     // TODO add more of these
     public class UrlRewriteApplicationTests

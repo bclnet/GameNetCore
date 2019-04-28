@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public class BindingAddress
     {

@@ -4,9 +4,9 @@
 using System;
 using System.Buffers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    public interface IHttpParser<TRequestHandler> where TRequestHandler : IHttpHeadersHandler, IHttpRequestLineHandler
+    public interface IProtoParser<TRequestHandler> where TRequestHandler : IProtoHeadersHandler, IProtoRequestLineHandler
     {
         bool ParseRequestLine(TRequestHandler handler, in ReadOnlySequence<byte> buffer, out SequencePosition consumed, out SequencePosition examined);
 

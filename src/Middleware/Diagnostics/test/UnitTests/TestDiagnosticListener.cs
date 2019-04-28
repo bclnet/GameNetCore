@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DiagnosticAdapter;
 
-namespace Microsoft.AspNetCore.Diagnostics
+namespace Contoso.GameNetCore.Diagnostics
 {
     public class TestDiagnosticListener
     {

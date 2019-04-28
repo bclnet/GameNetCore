@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Tests.PatternSegments
 {
     public class ConditionMatchSegmentTests
     {

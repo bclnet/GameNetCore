@@ -4,7 +4,7 @@
 using System.IO;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public class BufferingHelperTests
     {

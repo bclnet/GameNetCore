@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Extension methods for adding the <see cref="RouterMiddleware"/> middleware to an <see cref="IApplicationBuilder"/>.

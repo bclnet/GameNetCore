@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
-namespace Microsoft.AspNetCore.Diagnostics
+namespace Contoso.GameNetCore.Diagnostics
 {
     /// <summary>
     /// Provides context about the error currently being handled bt the DeveloperExceptionPageMiddleware.

@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal
 {
     internal class LibuvTransportFactory : ITransportFactory
     {

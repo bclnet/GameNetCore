@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     /// <summary>
     /// Makes it easier to pass script files to Node in a way that's sure to clean up after the process exits.

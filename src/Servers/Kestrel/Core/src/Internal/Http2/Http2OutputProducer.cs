@@ -7,25 +7,25 @@ using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
+using Contoso.GameNetCore.Connections;
 using Microsoft.AspNetCore.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2OutputProducer : IHttpOutputProducer, IHttpOutputAborter
+    internal class Proto2OutputProducer : IProtoOutputProducer, IProtoOutputAborter
     {
         private readonly int _streamId;
-        private readonly Http2FrameWriter _frameWriter;
+        private readonly Proto2FrameWriter _frameWriter;
         private readonly TimingPipeFlusher _flusher;
 
         // This should only be accessed via the FrameWriter. The connection-level output flow control is protected by the
         // FrameWriter's connection-level write lock.
         private readonly StreamOutputFlowControl _flowControl;
-        private readonly Http2Stream _stream;
+        private readonly Proto2Stream _stream;
         private readonly object _dataWriterLock = new object();
         private readonly Pipe _dataPipe;
         private readonly ValueTask<FlushResult> _dataWriteProcessingTask;
@@ -33,13 +33,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         private bool _completed;
         private bool _disposed;
 
-        public Http2OutputProducer(
+        public Proto2OutputProducer(
             int streamId,
-            Http2FrameWriter frameWriter,
+            Proto2FrameWriter frameWriter,
             StreamOutputFlowControl flowControl,
             ITimeoutControl timeoutControl,
             MemoryPool<byte> pool,
-            Http2Stream stream,
+            Proto2Stream stream,
             IKestrelTrace log)
         {
             _streamId = streamId;
@@ -78,9 +78,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         // This is called when a CancellationToken fires mid-write. In HTTP/1.x, this aborts the entire connection.
         // For HTTP/2 we abort the stream.
-        void IHttpOutputAborter.Abort(ConnectionAbortedException abortReason)
+        void IProtoOutputAborter.Abort(ConnectionAbortedException abortReason)
         {
-            _stream.ResetAndAbort(abortReason, Http2ErrorCode.INTERNAL_ERROR);
+            _stream.ResetAndAbort(abortReason, Proto2ErrorCode.INTERNAL_ERROR);
             Dispose();
         }
 
@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        public void WriteResponseHeaders(int statusCode, string ReasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk)
+        public void WriteResponseHeaders(int statusCode, string ReasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk)
         {
             lock (_dataWriterLock)
             {
@@ -185,7 +185,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        public ValueTask<FlushResult> WriteRstStreamAsync(Http2ErrorCode error)
+        public ValueTask<FlushResult> WriteRstStreamAsync(Proto2ErrorCode error)
         {
             lock (_dataWriterLock)
             {
@@ -254,7 +254,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        public ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken)
+        public ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken)
         {
             lock (_dataWriterLock)
             {
@@ -264,12 +264,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        ValueTask<FlushResult> IHttpOutputProducer.WriteChunkAsync(ReadOnlySpan<byte> data, CancellationToken cancellationToken)
+        ValueTask<FlushResult> IProtoOutputProducer.WriteChunkAsync(ReadOnlySpan<byte> data, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken)
+        public ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

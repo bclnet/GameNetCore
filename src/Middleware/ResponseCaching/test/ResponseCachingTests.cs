@@ -5,14 +5,14 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.TestHost;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Tests
+namespace Contoso.GameNetCore.ResponseCaching.Tests
 {
     public class ResponseCachingTests
     {

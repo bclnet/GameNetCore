@@ -1,4 +1,4 @@
-namespace Microsoft.AspNetCore.Diagnostics.Views
+namespace Contoso.GameNetCore.Diagnostics.Views
 {
 #line 1 "WelcomePage.cshtml"
 using System
@@ -7,7 +7,7 @@ using System
 #line hidden
     ;
 #line 2 "WelcomePage.cshtml"
-using Microsoft.AspNetCore.Diagnostics
+using Contoso.GameNetCore.Diagnostics
 
 #line default
 #line hidden

@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.FileProviders;
+using System;
 
-namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
+namespace Contoso.GameNetCore.StaticFiles.Infrastructure
 {
     /// <summary>
     /// Options common to several middleware components
@@ -16,15 +16,8 @@ namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
         /// Creates an new instance of the SharedOptionsBase.
         /// </summary>
         /// <param name="sharedOptions"></param>
-        protected SharedOptionsBase(SharedOptions sharedOptions)
-        {
-            if (sharedOptions == null)
-            {
-                throw new ArgumentNullException(nameof(sharedOptions));
-            }
-
-            SharedOptions = sharedOptions;
-        }
+        protected SharedOptionsBase(SharedOptions sharedOptions) =>
+            SharedOptions = sharedOptions ?? throw new ArgumentNullException(nameof(sharedOptions));
 
         /// <summary>
         /// Options common to several middleware components
@@ -36,8 +29,8 @@ namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
         /// </summary>
         public PathString RequestPath
         {
-            get { return SharedOptions.RequestPath; }
-            set { SharedOptions.RequestPath = value; }
+            get => SharedOptions.RequestPath;
+            set => SharedOptions.RequestPath = value;
         }
 
         /// <summary>
@@ -45,8 +38,8 @@ namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
         /// </summary>
         public IFileProvider FileProvider
         {
-            get { return SharedOptions.FileProvider; }
-            set { SharedOptions.FileProvider = value; }
+            get => SharedOptions.FileProvider;
+            set => SharedOptions.FileProvider = value;
         }
     }
 }

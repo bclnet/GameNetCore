@@ -1,17 +1,16 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
+using System;
+using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// This examines a directory path and determines if there is a default file present.
@@ -29,27 +28,14 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// Creates a new instance of the DefaultFilesMiddleware.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="hostingEnv">The <see cref="IWebHostEnvironment"/> used by this middleware.</param>
+        /// <param name="hostingEnv">The <see cref="IGameHostEnvironment"/> used by this middleware.</param>
         /// <param name="options">The configuration options for this middleware.</param>
-        public DefaultFilesMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, IOptions<DefaultFilesOptions> options)
+        public DefaultFilesMiddleware(RequestDelegate next, IGameHostEnvironment hostingEnv, IOptions<DefaultFilesOptions> options)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-
             if (hostingEnv == null)
-            {
                 throw new ArgumentNullException(nameof(hostingEnv));
-            }
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            
-            _next = next;
-            _options = options.Value;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
             _fileProvider = _options.FileProvider ?? Helpers.ResolveFileProvider(hostingEnv);
             _matchUrl = _options.RequestPath;
         }
@@ -61,7 +47,7 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task Invoke(HttpContext context)
+        public Task Invoke(ProtoContext context)
         {
             if (context.GetEndpoint() == null &&
                 Helpers.IsGetOrHeadMethod(context.Request.Method)
@@ -71,9 +57,9 @@ namespace Microsoft.AspNetCore.StaticFiles
                 if (dirContents.Exists)
                 {
                     // Check if any of our default files exist.
-                    for (int matchIndex = 0; matchIndex < _options.DefaultFileNames.Count; matchIndex++)
+                    for (var matchIndex = 0; matchIndex < _options.DefaultFileNames.Count; matchIndex++)
                     {
-                        string defaultFile = _options.DefaultFileNames[matchIndex];
+                        var defaultFile = _options.DefaultFileNames[matchIndex];
                         var file = _fileProvider.GetFileInfo(subpath.Value + defaultFile);
                         // TryMatchPath will make sure subpath always ends with a "/" by adding it if needed.
                         if (file.Exists)
@@ -94,7 +80,6 @@ namespace Microsoft.AspNetCore.StaticFiles
                     }
                 }
             }
-
             return _next(context);
         }
     }

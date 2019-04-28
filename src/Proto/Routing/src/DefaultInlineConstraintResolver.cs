@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Internal;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// The default implementation of <see cref="IInlineConstraintResolver"/>. Resolves constraints by parsing

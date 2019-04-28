@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public readonly struct HeaderSegment : IEquatable<HeaderSegment>
     {

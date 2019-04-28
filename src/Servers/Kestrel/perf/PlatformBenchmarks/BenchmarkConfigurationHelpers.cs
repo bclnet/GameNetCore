@@ -3,9 +3,9 @@
 
 using System;
 using System.Net;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 
 namespace PlatformBenchmarks

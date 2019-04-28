@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     // http://tools.ietf.org/html/rfc6265
     public class SetCookieHeaderValue
@@ -22,15 +22,15 @@ namespace Microsoft.Net.Http.Headers
         private const string SameSiteToken = "samesite";
         private static readonly string SameSiteLaxToken = SameSiteMode.Lax.ToString().ToLower();
         private static readonly string SameSiteStrictToken = SameSiteMode.Strict.ToString().ToLower();
-        private const string HttpOnlyToken = "httponly";
+        private const string ProtoOnlyToken = "httponly";
         private const string SeparatorToken = "; ";
         private const string EqualsToken = "=";
         private const int ExpiresDateLength = 29;
         private const string ExpiresDateFormat = "r";
 
-        private static readonly HttpHeaderParser<SetCookieHeaderValue> SingleValueParser
+        private static readonly ProtoHeaderParser<SetCookieHeaderValue> SingleValueParser
             = new GenericHeaderParser<SetCookieHeaderValue>(false, GetSetCookieLength);
-        private static readonly HttpHeaderParser<SetCookieHeaderValue> MultipleValueParser
+        private static readonly ProtoHeaderParser<SetCookieHeaderValue> MultipleValueParser
             = new GenericHeaderParser<SetCookieHeaderValue>(true, GetSetCookieLength);
 
         private StringSegment _name;
@@ -94,7 +94,7 @@ namespace Microsoft.Net.Http.Headers
 
         public SameSiteMode SameSite { get; set; }
 
-        public bool HttpOnly { get; set; }
+        public bool ProtoOnly { get; set; }
 
         // name="value"; expires=Sun, 06 Nov 1994 08:49:37 GMT; max-age=86400; domain=domain1; path=path1; secure; samesite={Strict|Lax}; httponly
         public override string ToString()
@@ -135,9 +135,9 @@ namespace Microsoft.Net.Http.Headers
                 length += SeparatorToken.Length + SameSiteToken.Length + EqualsToken.Length + sameSite.Length;
             }
 
-            if (HttpOnly)
+            if (ProtoOnly)
             {
-                length += SeparatorToken.Length + HttpOnlyToken.Length;
+                length += SeparatorToken.Length + ProtoOnlyToken.Length;
             }
 
             return string.Create(length, (this, maxAge), (span, tuple) =>
@@ -185,9 +185,9 @@ namespace Microsoft.Net.Http.Headers
                     AppendSegment(ref span, SameSiteToken, headerValue.SameSite == SameSiteMode.Lax ? SameSiteLaxToken : SameSiteStrictToken);
                 }
 
-                if (headerValue.HttpOnly)
+                if (headerValue.ProtoOnly)
                 {
-                    AppendSegment(ref span, HttpOnlyToken, null);
+                    AppendSegment(ref span, ProtoOnlyToken, null);
                 }
             });
         }
@@ -253,9 +253,9 @@ namespace Microsoft.Net.Http.Headers
                 AppendSegment(builder, SameSiteToken, SameSite == SameSiteMode.Lax ? SameSiteLaxToken : SameSiteStrictToken);
             }
 
-            if (HttpOnly)
+            if (ProtoOnly)
             {
-                AppendSegment(builder, HttpOnlyToken, null);
+                AppendSegment(builder, ProtoOnlyToken, null);
             }
         }
 
@@ -322,7 +322,7 @@ namespace Microsoft.Net.Http.Headers
             // Name=value;
 
             // Name
-            var itemLength = HttpRuleParser.GetTokenLength(input, offset);
+            var itemLength = ProtoRuleParser.GetTokenLength(input, offset);
             if (itemLength == 0)
             {
                 return 0;
@@ -355,10 +355,10 @@ namespace Microsoft.Net.Http.Headers
                 }
                 offset++;
 
-                offset += HttpRuleParser.GetWhitespaceLength(input, offset);
+                offset += ProtoRuleParser.GetWhitespaceLength(input, offset);
 
                 //  cookie-av = expires-av / max-age-av / domain-av / path-av / secure-av / samesite-av / httponly-av / extension-av
-                itemLength = HttpRuleParser.GetTokenLength(input, offset);
+                itemLength = ProtoRuleParser.GetTokenLength(input, offset);
                 if (itemLength == 0)
                 {
                     // Trailing ';' or leading into garbage. Let the next parser fail.
@@ -377,7 +377,7 @@ namespace Microsoft.Net.Http.Headers
                     }
                     var dateString = ReadToSemicolonOrEnd(input, ref offset);
                     DateTimeOffset expirationDate;
-                    if (!HttpRuleParser.TryStringToDate(dateString, out expirationDate))
+                    if (!ProtoRuleParser.TryStringToDate(dateString, out expirationDate))
                     {
                         // Invalid expiration date, abort
                         return 0;
@@ -393,7 +393,7 @@ namespace Microsoft.Net.Http.Headers
                         return 0;
                     }
 
-                    itemLength = HttpRuleParser.GetNumberLength(input, offset, allowDecimal: false);
+                    itemLength = ProtoRuleParser.GetNumberLength(input, offset, allowDecimal: false);
                     if (itemLength == 0)
                     {
                         return 0;
@@ -459,10 +459,10 @@ namespace Microsoft.Net.Http.Headers
                         }
                     }
                 }
-                // httponly-av = "HttpOnly"
-                else if (StringSegment.Equals(token, HttpOnlyToken, StringComparison.OrdinalIgnoreCase))
+                // httponly-av = "ProtoOnly"
+                else if (StringSegment.Equals(token, ProtoOnlyToken, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.HttpOnly = true;
+                    result.ProtoOnly = true;
                 }
                 // extension-av = <any CHAR except CTLs or ";">
                 else
@@ -523,7 +523,7 @@ namespace Microsoft.Net.Http.Headers
                 && StringSegment.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase)
                 && Secure == other.Secure
                 && SameSite == other.SameSite
-                && HttpOnly == other.HttpOnly;
+                && ProtoOnly == other.ProtoOnly;
         }
 
         public override int GetHashCode()
@@ -536,7 +536,7 @@ namespace Microsoft.Net.Http.Headers
                 ^ (Path != null ? StringSegmentComparer.OrdinalIgnoreCase.GetHashCode(Path) : 0)
                 ^ Secure.GetHashCode()
                 ^ SameSite.GetHashCode()
-                ^ HttpOnly.GetHashCode();
+                ^ ProtoOnly.GetHashCode();
         }
     }
 }

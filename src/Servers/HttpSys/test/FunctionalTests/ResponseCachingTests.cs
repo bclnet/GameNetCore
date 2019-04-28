@@ -8,12 +8,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Testing;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Testing;
+using Contoso.GameNetCore.Testing.xunit;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.HttpSys.FunctionalTests
+namespace Contoso.GameNetCore.Server.HttpSys.FunctionalTests
 {
     public class ResponseCachingTests
     {

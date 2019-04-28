@@ -3,9 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     /// <summary>
     /// Parses the TestString segment of the mod_rewrite condition.

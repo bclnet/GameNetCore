@@ -5,17 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Many of these are integration tests that exercise the system end to end,
     // so we're reusing the services here.
@@ -401,8 +401,8 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
             var endpointSelector = new Mock<EndpointSelector>();
             endpointSelector
-                .Setup(s => s.SelectAsync(It.IsAny<HttpContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
-                .Callback<HttpContext, IEndpointFeature, CandidateSet>((c, f, cs) =>
+                .Setup(s => s.SelectAsync(It.IsAny<ProtoContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
+                .Callback<ProtoContext, IEndpointFeature, CandidateSet>((c, f, cs) =>
                 {
                     Assert.Equal(2, cs.Count);
 
@@ -622,8 +622,8 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 .Setup(p => p.AppliesToEndpoints(It.IsAny<IReadOnlyList<Endpoint>>())).Returns(true);
             policy
                 .As<IEndpointSelectorPolicy>()
-                .Setup(p => p.ApplyAsync(It.IsAny<HttpContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
-                .Returns<HttpContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
+                .Setup(p => p.ApplyAsync(It.IsAny<ProtoContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
+                .Returns<ProtoContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
                 {
                     cs.SetValidity(1, false);
                     return Task.CompletedTask;
@@ -658,8 +658,8 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 .Setup(p => p.AppliesToEndpoints(It.IsAny<IReadOnlyList<Endpoint>>())).Returns(false);
             policy
                 .As<IEndpointSelectorPolicy>()
-                .Setup(p => p.ApplyAsync(It.IsAny<HttpContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
-                .Returns<HttpContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
+                .Setup(p => p.ApplyAsync(It.IsAny<ProtoContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
+                .Returns<ProtoContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
                 {
                     throw null; // Won't be called.
                 });
@@ -693,8 +693,8 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 .Setup(p => p.AppliesToEndpoints(It.IsAny<IReadOnlyList<Endpoint>>())).Returns(true);
             policy1
                 .As<IEndpointSelectorPolicy>()
-                .Setup(p => p.ApplyAsync(It.IsAny<HttpContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
-                .Returns<HttpContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
+                .Setup(p => p.ApplyAsync(It.IsAny<ProtoContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
+                .Returns<ProtoContext, EndpointSelectorContext, CandidateSet>((c, f, cs) =>
                 {
                     f.Endpoint = cs[0].Endpoint;
                     return Task.CompletedTask;
@@ -710,7 +710,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 .Setup(p => p.AppliesToEndpoints(It.IsAny<IReadOnlyList<Endpoint>>())).Returns(true);
             policy2
                 .As<IEndpointSelectorPolicy>()
-                .Setup(p => p.ApplyAsync(It.IsAny<HttpContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
+                .Setup(p => p.ApplyAsync(It.IsAny<ProtoContext>(), It.IsAny<EndpointSelectorContext>(), It.IsAny<CandidateSet>()))
                 .Throws(new InvalidOperationException());
 
             var matcher = CreateDfaMatcher(dataSource, policies: new[] { policy1.Object, policy2.Object, });
@@ -725,11 +725,11 @@ namespace Microsoft.AspNetCore.Routing.Matching
             Assert.Same(dataSource.Endpoints[0], context.Endpoint);
         }
 
-        private (HttpContext httpContext, EndpointSelectorContext context) CreateContext()
+        private (ProtoContext httpContext, EndpointSelectorContext context) CreateContext()
         {
             var context = new EndpointSelectorContext();
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Features.Set<IEndpointFeature>(context);
             httpContext.Features.Set<IRouteValuesFeature>(context);
 

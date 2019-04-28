@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.IO;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Hosting.Internal;
 using Microsoft.Extensions.FileProviders;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting.Tests
+namespace Contoso.GameNetCore.Hosting.Tests
 {
     public class HostingEnvironmentExtensionsTests
     {

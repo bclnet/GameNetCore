@@ -1,24 +1,24 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public interface IHttpWebSocketFeature
+    public interface IProtoGameSocketFeature
     {
         /// <summary>
-        /// Indicates if this is a WebSocket upgrade request.
+        /// Indicates if this is a GameSocket upgrade request.
         /// </summary>
-        bool IsWebSocketRequest { get; }
+        bool IsGameSocketRequest { get; }
 
         /// <summary>
-        /// Attempts to upgrade the request to a <see cref="WebSocket"/>. Check <see cref="IsWebSocketRequest"/>
+        /// Attempts to upgrade the request to a <see cref="GameSocket"/>. Check <see cref="IsGameSocketRequest"/>
         /// before invoking this.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task<WebSocket> AcceptAsync(WebSocketAcceptContext context);
+        Task<GameSocket> AcceptAsync(GameSocketAcceptContext context);
     }
 }

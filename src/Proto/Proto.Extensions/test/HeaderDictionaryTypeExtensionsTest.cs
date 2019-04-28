@@ -4,17 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Headers
+namespace Contoso.GameNetCore.Proto.Headers
 {
     public class HeaderDictionaryTypeExtensionsTest
     {
         [Fact]
         public void GetT_KnownTypeWithValidValue_Success()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers[HeaderNames.ContentType] = "text/plain";
 
             var result = context.Request.GetTypedHeaders().Get<MediaTypeHeaderValue>(HeaderNames.ContentType);
@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_KnownTypeWithMissingValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var result = context.Request.GetTypedHeaders().Get<MediaTypeHeaderValue>(HeaderNames.ContentType);
 
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_KnownTypeWithInvalidValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers[HeaderNames.ContentType] = "invalid";
 
             var result = context.Request.GetTypedHeaders().Get<MediaTypeHeaderValue>(HeaderNames.ContentType);
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_UnknownTypeWithTryParseAndValidValue_Success()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "valid";
 
             var result = context.Request.GetTypedHeaders().Get<TestHeaderValue>("custom");
@@ -57,7 +57,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_UnknownTypeWithTryParseAndInvalidValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "invalid";
 
             var result = context.Request.GetTypedHeaders().Get<TestHeaderValue>("custom");
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_UnknownTypeWithTryParseAndMissingValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var result = context.Request.GetTypedHeaders().Get<TestHeaderValue>("custom");
             Assert.Null(result);
@@ -76,7 +76,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetT_UnknownTypeWithoutTryParse_Throws()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "valid";
 
             Assert.Throws<NotSupportedException>(() => context.Request.GetTypedHeaders().Get<object>("custom"));
@@ -85,7 +85,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_KnownTypeWithValidValue_Success()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers[HeaderNames.Accept] = "text/plain; q=0.9, text/other, */*";
 
             var result = context.Request.GetTypedHeaders().GetList<MediaTypeHeaderValue>(HeaderNames.Accept);
@@ -101,7 +101,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_KnownTypeWithMissingValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var result = context.Request.GetTypedHeaders().GetList<MediaTypeHeaderValue>(HeaderNames.Accept);
 
@@ -111,7 +111,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_KnownTypeWithInvalidValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers[HeaderNames.Accept] = "invalid";
 
             var result = context.Request.GetTypedHeaders().GetList<MediaTypeHeaderValue>(HeaderNames.Accept);
@@ -122,7 +122,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_UnknownTypeWithTryParseListAndValidValue_Success()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "valid";
 
             var results = context.Request.GetTypedHeaders().GetList<TestHeaderValue>("custom");
@@ -133,7 +133,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_UnknownTypeWithTryParseListAndInvalidValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "invalid";
 
             var results = context.Request.GetTypedHeaders().GetList<TestHeaderValue>("custom");
@@ -143,7 +143,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_UnknownTypeWithTryParseListAndMissingValue_Null()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var results = context.Request.GetTypedHeaders().GetList<TestHeaderValue>("custom");
             Assert.Null(results);
@@ -152,7 +152,7 @@ namespace Microsoft.AspNetCore.Http.Headers
         [Fact]
         public void GetListT_UnknownTypeWithoutTryParseList_Throws()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Headers["custom"] = "valid";
 
             Assert.Throws<NotSupportedException>(() => context.Request.GetTypedHeaders().GetList<object>("custom"));

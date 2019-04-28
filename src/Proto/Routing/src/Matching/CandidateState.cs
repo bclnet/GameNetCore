@@ -1,9 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// The state associated with a candidate in a <see cref="CandidateSet"/>.
@@ -25,12 +25,12 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         /// <summary>
-        /// Gets the <see cref="Http.Endpoint"/>.
+        /// Gets the <see cref="Proto.Endpoint"/>.
         /// </summary>
         public Endpoint Endpoint { get; }
 
         /// <summary>
-        /// Gets the score of the <see cref="Http.Endpoint"/> within the current
+        /// Gets the score of the <see cref="Proto.Endpoint"/> within the current
         /// <see cref="CandidateSet"/>.
         /// </summary>
         /// <remarks>
@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
         /// <summary>
         /// Gets <see cref="RouteValueDictionary"/> associated with the
-        /// <see cref="Http.Endpoint"/> and the current request.
+        /// <see cref="Proto.Endpoint"/> and the current request.
         /// </summary>
         public RouteValueDictionary Values { get; internal set; }
     }

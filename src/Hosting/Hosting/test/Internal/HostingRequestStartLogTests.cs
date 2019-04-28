@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Hosting.Internal;
 using Moq;
 using Xunit;
-namespace Microsoft.AspNetCore.Hosting.Tests.Internal
+namespace Contoso.GameNetCore.Hosting.Tests.Internal
 {
     public class HostingRequestStartLogTests
     {

@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     public class RuleBuilder
     {

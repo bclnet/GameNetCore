@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     public class PublishedApplication: IDisposable
     {

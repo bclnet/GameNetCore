@@ -3,9 +3,9 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Testing.xunit;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     /// <summary>
     /// Skips a 64 bit test if the current OS is 32-bit.

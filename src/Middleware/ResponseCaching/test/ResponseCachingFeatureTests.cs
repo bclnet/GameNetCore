@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Tests
+namespace Contoso.GameNetCore.ResponseCaching.Tests
 {
     public class ResponseCachingFeatureTests
     {

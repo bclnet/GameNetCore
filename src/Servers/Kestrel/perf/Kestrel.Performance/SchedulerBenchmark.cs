@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Sockets.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Performance
+namespace Contoso.GameNetCore.Server.Kestrel.Performance
 {
     public class SchedulerBenchmark
     {

@@ -5,18 +5,18 @@ using System;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2MessageBody : MessageBody
+    internal class Proto2MessageBody : MessageBody
     {
-        private readonly Http2Stream _context;
+        private readonly Proto2Stream _context;
         private ReadResult _readResult;
         private long _alreadyExaminedInNextReadResult;
 
-        private Http2MessageBody(Http2Stream context, MinDataRate minRequestBodyDataRate)
+        private Proto2MessageBody(Proto2Stream context, MinDataRate minRequestBodyDataRate)
             : base(context, minRequestBodyDataRate)
         {
             _context = context;
@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             // Note ContentLength or MaxRequestBodySize may be null
             if (_context.RequestHeaders.ContentLength > _context.MaxRequestBodySize)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
+                BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
             }
         }
 
@@ -47,14 +47,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             AddAndCheckConsumedBytes(bytesRead);
         }
 
-        public static MessageBody For(Http2Stream context, MinDataRate minRequestBodyDataRate)
+        public static MessageBody For(Proto2Stream context, MinDataRate minRequestBodyDataRate)
         {
             if (context.ReceivedEmptyRequestBody)
             {
                 return ZeroContentLengthClose;
             }
 
-            return new Http2MessageBody(context, minRequestBodyDataRate);
+            return new Proto2MessageBody(context, minRequestBodyDataRate);
         }
 
         public override void AdvanceTo(SequencePosition consumed)

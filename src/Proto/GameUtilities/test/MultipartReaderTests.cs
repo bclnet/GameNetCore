@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public class MultipartReaderTests
     {
@@ -95,15 +95,9 @@ namespace Microsoft.AspNetCore.WebUtilities
 "\r\n" +
 "--9051914041544843365";
 
-        private static MemoryStream MakeStream(string text)
-        {
-            return new MemoryStream(Encoding.UTF8.GetBytes(text));
-        }
+        private static MemoryStream MakeStream(string text) => new MemoryStream(Encoding.UTF8.GetBytes(text));
 
-        private static string GetString(byte[] buffer, int count)
-        {
-            return Encoding.ASCII.GetString(buffer, 0, count);
-        }
+        private static string GetString(byte[] buffer, int count) => Encoding.ASCII.GetString(buffer, 0, count);
 
         [Fact]
         public async Task MultipartReader_ReadSinglePartBody_Success()

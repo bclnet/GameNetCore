@@ -12,10 +12,10 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     // This class is used to load the client certificate on-demand.  Because client certs are optional, all
     // failures are handled internally and reported via ClientCertException or ClientCertError.

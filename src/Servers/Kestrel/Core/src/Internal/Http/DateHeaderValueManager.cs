@@ -4,10 +4,10 @@
 using System;
 using System.Text;
 using System.Threading;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     /// <summary>
     /// Manages the generation of the date header value.

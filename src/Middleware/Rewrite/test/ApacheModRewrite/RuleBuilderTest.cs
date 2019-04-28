@@ -3,13 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests
+namespace Contoso.GameNetCore.Rewrite.Tests
 {
     public class RuleBuilderTest
     {

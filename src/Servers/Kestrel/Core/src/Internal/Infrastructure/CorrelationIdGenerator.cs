@@ -4,7 +4,7 @@
 using System;
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal static class CorrelationIdGenerator
     {

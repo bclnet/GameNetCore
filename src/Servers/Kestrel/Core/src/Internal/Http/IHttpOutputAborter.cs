@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Connections;
+using Contoso.GameNetCore.Connections;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal interface IHttpOutputAborter
+    internal interface IProtoOutputAborter
     {
         void Abort(ConnectionAbortedException abortReason);
     }

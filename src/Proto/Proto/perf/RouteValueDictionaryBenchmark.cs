@@ -4,7 +4,7 @@
 using System;
 using BenchmarkDotNet.Attributes;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouteValueDictionaryBenchmark
     {

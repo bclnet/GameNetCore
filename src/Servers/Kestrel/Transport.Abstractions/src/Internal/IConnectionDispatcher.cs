@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
     public interface IConnectionDispatcher
     {

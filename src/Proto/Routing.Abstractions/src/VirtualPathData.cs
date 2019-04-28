@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Represents information about the route and virtual path that are the result of

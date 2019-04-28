@@ -4,10 +4,10 @@
 using System;
 using System.IO.Pipelines;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
-    ///     Represents the HttpResponseBody as a PipeWriter
+    ///     Represents the ProtoResponseBody as a PipeWriter
     /// </summary>
     public interface IResponseBodyPipeFeature
     {

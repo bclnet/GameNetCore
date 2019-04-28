@@ -5,10 +5,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     public struct PathTokenizer : IReadOnlyList<StringSegment>
     {

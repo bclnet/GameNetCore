@@ -7,13 +7,13 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class StringWithQualityHeaderValue
     {
-        private static readonly HttpHeaderParser<StringWithQualityHeaderValue> SingleValueParser
+        private static readonly ProtoHeaderParser<StringWithQualityHeaderValue> SingleValueParser
             = new GenericHeaderParser<StringWithQualityHeaderValue>(false, GetStringWithQualityLength);
-        private static readonly HttpHeaderParser<StringWithQualityHeaderValue> MultipleValueParser
+        private static readonly ProtoHeaderParser<StringWithQualityHeaderValue> MultipleValueParser
             = new GenericHeaderParser<StringWithQualityHeaderValue>(true, GetStringWithQualityLength);
 
         private StringSegment _value;
@@ -147,7 +147,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             // Parse the value string: <value> in '<value>; q=<quality>'
-            var valueLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var valueLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (valueLength == 0)
             {
@@ -157,7 +157,7 @@ namespace Microsoft.Net.Http.Headers
             StringWithQualityHeaderValue result = new StringWithQualityHeaderValue();
             result._value = input.Subsegment(startIndex, valueLength);
             var current = startIndex + valueLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             if ((current == input.Length) || (input[current] != ';'))
             {
@@ -166,7 +166,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip ';' separator
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // If we found a ';' separator, it must be followed by a quality information
             if (!TryReadQuality(input, result, ref current))
@@ -189,7 +189,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip 'q' identifier
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // If we found "q" it must be followed by "="
             if ((current == input.Length) || (input[current] != '='))
@@ -198,7 +198,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip '=' separator
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             if (current == input.Length)
             {
@@ -213,7 +213,7 @@ namespace Microsoft.Net.Http.Headers
             result._quality = quality;
 
             current = current + qualityLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             index = current;
             return true;

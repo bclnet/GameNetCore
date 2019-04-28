@@ -7,12 +7,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
+using Contoso.GameNetCore.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests
 {
     /// <summary>
     /// Summary description for NetworkingTests

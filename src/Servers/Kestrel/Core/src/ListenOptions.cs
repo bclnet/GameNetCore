@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     /// <summary>
     /// Describes either an <see cref="IPEndPoint"/>, Unix domain socket path, or a file descriptor for an already open
@@ -127,12 +127,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// The protocols enabled on this endpoint.
         /// </summary>
         /// <remarks>Defaults to HTTP/1.x and HTTP/2.</remarks>
-        public HttpProtocols Protocols { get; set; } = HttpProtocols.Http1AndHttp2;
+        public ProtoProtocols Protocols { get; set; } = ProtoProtocols.Proto1AndProto2;
 
         /// <summary>
         /// Gets the <see cref="List{IConnectionAdapter}"/> that allows each connection <see cref="System.IO.Stream"/>
         /// to be intercepted and transformed.
-        /// Configured by the <c>UseHttps()</c> and <see cref="Hosting.ListenOptionsConnectionLoggingExtensions.UseConnectionLogging(ListenOptions)"/>
+        /// Configured by the <c>UseProtos()</c> and <see cref="Hosting.ListenOptionsConnectionLoggingExtensions.UseConnectionLogging(ListenOptions)"/>
         /// extension methods.
         /// </summary>
         /// <remarks>
@@ -145,11 +145,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         public IServiceProvider ApplicationServices => KestrelServerOptions?.ApplicationServices;
 
         /// <summary>
-        /// Gets the name of this endpoint to display on command-line when the web server starts.
+        /// Gets the name of this endpoint to display on command-line when the game server starts.
         /// </summary>
         internal virtual string GetDisplayName()
         {
-            var scheme = ConnectionAdapters.Any(f => f.IsHttps)
+            var scheme = ConnectionAdapters.Any(f => f.IsProtos)
                 ? "https"
                 : "http";
 

@@ -8,11 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal sealed partial class HttpResponseHeaders : HttpHeaders
+    internal sealed partial class ProtoResponseHeaders : ProtoHeaders
     {
         private static ReadOnlySpan<byte> _CrLf => new[] { (byte)'\r', (byte)'\n' };
         private static ReadOnlySpan<byte> _colonSpace => new[] { (byte)':', (byte)' ' };
@@ -80,14 +80,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public partial struct Enumerator : IEnumerator<KeyValuePair<string, StringValues>>
         {
-            private readonly HttpResponseHeaders _collection;
+            private readonly ProtoResponseHeaders _collection;
             private readonly long _bits;
             private int _next;
             private KeyValuePair<string, StringValues> _current;
             private readonly bool _hasUnknown;
             private Dictionary<string, StringValues>.Enumerator _unknownEnumerator;
 
-            internal Enumerator(HttpResponseHeaders collection)
+            internal Enumerator(ProtoResponseHeaders collection)
             {
                 _collection = collection;
                 _bits = collection._bits;

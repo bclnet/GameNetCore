@@ -9,17 +9,17 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
-using Microsoft.AspNetCore.Testing;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
+using Contoso.GameNetCore.Testing;
+using Contoso.GameNetCore.Testing.xunit;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests
 {
     public class LibuvTransportTests
     {

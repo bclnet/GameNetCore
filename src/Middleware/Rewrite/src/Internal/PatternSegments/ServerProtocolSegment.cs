@@ -1,9 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Http.Features;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Internal.PatternSegments
 {
     public class ServerProtocolSegment : PatternSegment
     {

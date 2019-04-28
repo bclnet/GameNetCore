@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Provides a specific compression implementation to compress HTTP responses.

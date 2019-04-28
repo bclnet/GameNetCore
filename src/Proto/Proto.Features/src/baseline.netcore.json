@@ -1,8 +1,8 @@
 {
-  "AssemblyIdentity": "Microsoft.AspNetCore.Http.Features, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+  "AssemblyIdentity": "Microsoft.AspNetCore.Proto.Features, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
-      "Name": "Microsoft.AspNetCore.Http.CookieOptions",
+      "Name": "Microsoft.AspNetCore.Proto.CookieOptions",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -95,7 +95,7 @@
           "Kind": "Method",
           "Name": "get_SameSite",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.SameSiteMode",
+          "ReturnType": "Microsoft.AspNetCore.Proto.SameSiteMode",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -105,7 +105,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.SameSiteMode"
+              "Type": "Microsoft.AspNetCore.Proto.SameSiteMode"
             }
           ],
           "ReturnType": "System.Void",
@@ -114,7 +114,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_HttpOnly",
+          "Name": "get_ProtoOnly",
           "Parameters": [],
           "ReturnType": "System.Boolean",
           "Visibility": "Public",
@@ -122,7 +122,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "set_HttpOnly",
+          "Name": "set_ProtoOnly",
           "Parameters": [
             {
               "Name": "value",
@@ -186,7 +186,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IFormCollection",
+      "Name": "Microsoft.AspNetCore.Proto.IFormCollection",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -253,14 +253,14 @@
           "Kind": "Method",
           "Name": "get_Files",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IFormFileCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IFormFileCollection",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IFormFile",
+      "Name": "Microsoft.AspNetCore.Proto.IFormFile",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -284,7 +284,7 @@
           "Kind": "Method",
           "Name": "get_Headers",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
           "GenericParameter": []
         },
         {
@@ -348,12 +348,12 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IFormFileCollection",
+      "Name": "Microsoft.AspNetCore.Proto.IFormFileCollection",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
       "ImplementedInterfaces": [
-        "System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Http.IFormFile>"
+        "System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Proto.IFormFile>"
       ],
       "Members": [
         {
@@ -365,7 +365,7 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.IFormFile",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IFormFile",
           "GenericParameter": []
         },
         {
@@ -377,7 +377,7 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.IFormFile",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IFormFile",
           "GenericParameter": []
         },
         {
@@ -389,14 +389,14 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Http.IFormFile>",
+          "ReturnType": "System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Proto.IFormFile>",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+      "Name": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -455,7 +455,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IQueryCollection",
+      "Name": "Microsoft.AspNetCore.Proto.IQueryCollection",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -522,7 +522,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IRequestCookieCollection",
+      "Name": "Microsoft.AspNetCore.Proto.IRequestCookieCollection",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -589,7 +589,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.IResponseCookies",
+      "Name": "Microsoft.AspNetCore.Proto.IResponseCookies",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -625,7 +625,7 @@
             },
             {
               "Name": "options",
-              "Type": "Microsoft.AspNetCore.Http.CookieOptions"
+              "Type": "Microsoft.AspNetCore.Proto.CookieOptions"
             }
           ],
           "ReturnType": "System.Void",
@@ -653,7 +653,7 @@
             },
             {
               "Name": "options",
-              "Type": "Microsoft.AspNetCore.Http.CookieOptions"
+              "Type": "Microsoft.AspNetCore.Proto.CookieOptions"
             }
           ],
           "ReturnType": "System.Void",
@@ -663,7 +663,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.ISession",
+      "Name": "Microsoft.AspNetCore.Proto.ISession",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -772,7 +772,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.SameSiteMode",
+      "Name": "Microsoft.AspNetCore.Proto.SameSiteMode",
       "Visibility": "Public",
       "Kind": "Enumeration",
       "Sealed": true,
@@ -803,7 +803,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.WebSocketAcceptContext",
+      "Name": "Microsoft.AspNetCore.Proto.GameSocketAcceptContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -842,11 +842,11 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.FeatureCollection",
+      "Name": "Microsoft.AspNetCore.Proto.Features.FeatureCollection",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [
-        "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+        "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
       ],
       "Members": [
         {
@@ -866,7 +866,7 @@
           "Parameters": [],
           "ReturnType": "System.Int32",
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -877,7 +877,7 @@
           "ReturnType": "System.Boolean",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -893,7 +893,7 @@
           "ReturnType": "System.Object",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -913,7 +913,7 @@
           "ReturnType": "System.Void",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -924,7 +924,7 @@
           "ReturnType": "T0",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": [
             {
@@ -946,7 +946,7 @@
           "ReturnType": "System.Void",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": [
             {
@@ -969,7 +969,7 @@
           "Parameters": [
             {
               "Name": "defaults",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             }
           ],
           "Visibility": "Public",
@@ -979,7 +979,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.FeatureReference<T0>",
+      "Name": "Microsoft.AspNetCore.Proto.Features.FeatureReference<T0>",
       "Visibility": "Public",
       "Kind": "Struct",
       "Sealed": true,
@@ -991,7 +991,7 @@
           "Parameters": [
             {
               "Name": "features",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             }
           ],
           "ReturnType": "T0",
@@ -1004,7 +1004,7 @@
           "Parameters": [
             {
               "Name": "features",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             },
             {
               "Name": "feature",
@@ -1019,7 +1019,7 @@
           "Kind": "Field",
           "Name": "Default",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.FeatureReference<T0>",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.FeatureReference<T0>",
           "Static": true,
           "ReadOnly": true,
           "Visibility": "Public",
@@ -1035,7 +1035,7 @@
       ]
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.FeatureReferences<T0>",
+      "Name": "Microsoft.AspNetCore.Proto.Features.FeatureReferences<T0>",
       "Visibility": "Public",
       "Kind": "Struct",
       "Sealed": true,
@@ -1045,7 +1045,7 @@
           "Kind": "Method",
           "Name": "get_Collection",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1102,7 +1102,7 @@
             },
             {
               "Name": "factory",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.Features.IFeatureCollection, T0>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.Features.IFeatureCollection, T0>"
             }
           ],
           "ReturnType": "T0",
@@ -1122,7 +1122,7 @@
           "Parameters": [
             {
               "Name": "collection",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             }
           ],
           "Visibility": "Public",
@@ -1146,7 +1146,7 @@
       ]
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1231,7 +1231,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IFormFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IFormFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1248,7 +1248,7 @@
           "Kind": "Method",
           "Name": "get_Form",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IFormCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IFormCollection",
           "GenericParameter": []
         },
         {
@@ -1257,7 +1257,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.IFormCollection"
+              "Type": "Microsoft.AspNetCore.Proto.IFormCollection"
             }
           ],
           "ReturnType": "System.Void",
@@ -1267,7 +1267,7 @@
           "Kind": "Method",
           "Name": "ReadForm",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IFormCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IFormCollection",
           "GenericParameter": []
         },
         {
@@ -1279,14 +1279,14 @@
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<Microsoft.AspNetCore.Http.IFormCollection>",
+          "ReturnType": "System.Threading.Tasks.Task<Microsoft.AspNetCore.Proto.IFormCollection>",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoBodyControlFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1315,7 +1315,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpBufferingFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoBufferingFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1339,7 +1339,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpConnectionFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoConnectionFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1444,7 +1444,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpMaxRequestBodySizeFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoMaxRequestBodySizeFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1480,7 +1480,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpRequestFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoRequestFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1623,7 +1623,7 @@
           "Kind": "Method",
           "Name": "get_Headers",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
           "GenericParameter": []
         },
         {
@@ -1632,7 +1632,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary"
+              "Type": "Microsoft.AspNetCore.Proto.IHeaderDictionary"
             }
           ],
           "ReturnType": "System.Void",
@@ -1661,7 +1661,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpRequestIdentifierFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoRequestIdentifierFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1690,7 +1690,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpRequestLifetimeFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoRequestLifetimeFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1726,7 +1726,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpResponseFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoResponseFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1774,7 +1774,7 @@
           "Kind": "Method",
           "Name": "get_Headers",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
           "GenericParameter": []
         },
         {
@@ -1783,7 +1783,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary"
+              "Type": "Microsoft.AspNetCore.Proto.IHeaderDictionary"
             }
           ],
           "ReturnType": "System.Void",
@@ -1851,7 +1851,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpSendFileFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoSendFileFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1885,7 +1885,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpUpgradeFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoUpgradeFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1909,7 +1909,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IHttpWebSocketFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IProtoGameSocketFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1917,7 +1917,7 @@
       "Members": [
         {
           "Kind": "Method",
-          "Name": "get_IsWebSocketRequest",
+          "Name": "get_IsGameSocketRequest",
           "Parameters": [],
           "ReturnType": "System.Boolean",
           "GenericParameter": []
@@ -1928,17 +1928,17 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.WebSocketAcceptContext"
+              "Type": "Microsoft.AspNetCore.Proto.GameSocketAcceptContext"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.WebSockets.WebSocket>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.GameSockets.GameSocket>",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IItemsFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IItemsFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1967,7 +1967,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IQueryFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IQueryFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -1977,7 +1977,7 @@
           "Kind": "Method",
           "Name": "get_Query",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IQueryCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IQueryCollection",
           "GenericParameter": []
         },
         {
@@ -1986,7 +1986,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.IQueryCollection"
+              "Type": "Microsoft.AspNetCore.Proto.IQueryCollection"
             }
           ],
           "ReturnType": "System.Void",
@@ -1996,7 +1996,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IRequestCookiesFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IRequestCookiesFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2006,7 +2006,7 @@
           "Kind": "Method",
           "Name": "get_Cookies",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IRequestCookieCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IRequestCookieCollection",
           "GenericParameter": []
         },
         {
@@ -2015,7 +2015,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.IRequestCookieCollection"
+              "Type": "Microsoft.AspNetCore.Proto.IRequestCookieCollection"
             }
           ],
           "ReturnType": "System.Void",
@@ -2025,7 +2025,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IResponseCookiesFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IResponseCookiesFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2035,14 +2035,14 @@
           "Kind": "Method",
           "Name": "get_Cookies",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IResponseCookies",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IResponseCookies",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.IServiceProvidersFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.IServiceProvidersFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2071,7 +2071,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.ISessionFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.ISessionFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2081,7 +2081,7 @@
           "Kind": "Method",
           "Name": "get_Session",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.ISession",
+          "ReturnType": "Microsoft.AspNetCore.Proto.ISession",
           "GenericParameter": []
         },
         {
@@ -2090,7 +2090,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             }
           ],
           "ReturnType": "System.Void",
@@ -2100,7 +2100,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.ITlsConnectionFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.ITlsConnectionFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2141,7 +2141,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.ITlsTokenBindingFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.ITlsTokenBindingFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2165,7 +2165,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.ITrackingConsentFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.ITrackingConsentFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2217,7 +2217,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.AuthenticateContext",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.AuthenticateContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -2331,7 +2331,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.ChallengeBehavior",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeBehavior",
       "Visibility": "Public",
       "Kind": "Enumeration",
       "Sealed": true,
@@ -2362,7 +2362,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.ChallengeContext",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -2379,7 +2379,7 @@
           "Kind": "Method",
           "Name": "get_Behavior",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.Authentication.ChallengeBehavior",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeBehavior",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -2433,7 +2433,7 @@
             },
             {
               "Name": "behavior",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.ChallengeBehavior"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeBehavior"
             }
           ],
           "Visibility": "Public",
@@ -2443,7 +2443,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.DescribeSchemesContext",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.DescribeSchemesContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -2480,7 +2480,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2492,7 +2492,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.DescribeSchemesContext"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.DescribeSchemesContext"
             }
           ],
           "ReturnType": "System.Void",
@@ -2504,7 +2504,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.AuthenticateContext"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.AuthenticateContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -2516,7 +2516,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.ChallengeContext"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -2528,7 +2528,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.SignInContext"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.SignInContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -2540,7 +2540,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.SignOutContext"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.SignOutContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -2550,7 +2550,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.IHttpAuthenticationFeature",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.IProtoAuthenticationFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2579,7 +2579,7 @@
           "Kind": "Method",
           "Name": "get_Handler",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler",
           "GenericParameter": []
         },
         {
@@ -2588,7 +2588,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler"
+              "Type": "Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler"
             }
           ],
           "ReturnType": "System.Void",
@@ -2598,7 +2598,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.SignInContext",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.SignInContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -2667,7 +2667,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Features.Authentication.SignOutContext",
+      "Name": "Microsoft.AspNetCore.Proto.Features.Authentication.SignOutContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],

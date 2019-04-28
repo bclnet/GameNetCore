@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // Tests LinkGenerator functionality using GetXyzByAddress - see tests for the extension
     // methods for more E2E tests.
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Routing
     public class DefaultLinkGeneratorTest : LinkGeneratorTestBase
     {
         [Fact]
-        public void GetPathByAddress_WithoutHttpContext_NoMatches_ReturnsNull()
+        public void GetPathByAddress_WithoutProtoContext_NoMatches_ReturnsNull()
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id?}", metadata: new object[] { new IntMetadata(1), });
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_NoMatches_ReturnsNull()
+        public void GetPathByAddress_WithProtoContext_NoMatches_ReturnsNull()
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id?}", metadata: new object[] { new IntMetadata(1), });
@@ -43,14 +43,14 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(endpoint);
 
             // Act
-            var path = linkGenerator.GetPathByAddress(CreateHttpContext(), 0, values: null);
+            var path = linkGenerator.GetPathByAddress(CreateProtoContext(), 0, values: null);
 
             // Assert
             Assert.Null(path);
         }
 
         [Fact]
-        public void GetUriByAddress_WithoutHttpContext_NoMatches_ReturnsNull()
+        public void GetUriByAddress_WithoutProtoContext_NoMatches_ReturnsNull()
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id?}", metadata: new object[] { new IntMetadata(1), });
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithHttpContext_NoMatches_ReturnsNull()
+        public void GetUriByAddress_WithProtoContext_NoMatches_ReturnsNull()
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id?}", metadata: new object[] { new IntMetadata(1), });
@@ -73,14 +73,14 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(endpoint);
 
             // Act
-            var uri = linkGenerator.GetUriByAddress(CreateHttpContext(), 0, values: null);
+            var uri = linkGenerator.GetUriByAddress(CreateProtoContext(), 0, values: null);
 
             // Assert
             Assert.Null(uri);
         }
 
         [Fact]
-        public void GetPathByAddress_WithoutHttpContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
+        public void GetPathByAddress_WithoutProtoContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -96,7 +96,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
+        public void GetPathByAddress_WithProtoContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -105,14 +105,14 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
             // Act
-            var path = linkGenerator.GetPathByAddress(CreateHttpContext(), 1, values: new RouteValueDictionary(new { controller = "Home", action = "Index", }));
+            var path = linkGenerator.GetPathByAddress(CreateProtoContext(), 1, values: new RouteValueDictionary(new { controller = "Home", action = "Index", }));
 
             // Assert
             Assert.Equal("/Home/Index", path);
         }
 
         [Fact]
-        public void GetUriByAddress_WithoutHttpContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
+        public void GetUriByAddress_WithoutProtoContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -132,7 +132,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithHttpContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
+        public void GetUriByAddress_WithProtoContext_HasMatches_ReturnsFirstSuccessfulTemplateResult()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -140,7 +140,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
 
@@ -152,7 +152,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithoutHttpContext_WithLinkOptions()
+        public void GetPathByAddress_WithoutProtoContext_WithLinkOptions()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -224,7 +224,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_WithLinkOptions()
+        public void GetPathByAddress_WithProtoContext_WithLinkOptions()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -234,7 +234,7 @@ namespace Microsoft.AspNetCore.Routing
 
             // Act
             var path = linkGenerator.GetPathByAddress(
-                CreateHttpContext(),
+                CreateProtoContext(),
                 1,
                 values: new RouteValueDictionary(new { controller = "Home", action = "Index", }),
                 options: new LinkOptions() { AppendTrailingSlash = true, });
@@ -244,7 +244,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithoutHttpContext_WithLinkOptions()
+        public void GetUriByAddress_WithoutProtoContext_WithLinkOptions()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -265,7 +265,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithHttpContext_WithLinkOptions()
+        public void GetUriByAddress_WithProtoContext_WithLinkOptions()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -273,7 +273,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
 
@@ -290,7 +290,7 @@ namespace Microsoft.AspNetCore.Routing
 
         // Includes characters that need to be encoded
         [Fact]
-        public void GetPathByAddress_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetPathByAddress_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -360,7 +360,7 @@ namespace Microsoft.AspNetCore.Routing
 
         // Includes characters that need to be encoded
         [Fact]
-        public void GetPathByAddress_WithHttpContext_WithPathBaseAndFragment()
+        public void GetPathByAddress_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -368,7 +368,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
 
             // Act
@@ -384,7 +384,7 @@ namespace Microsoft.AspNetCore.Routing
 
         // Includes characters that need to be encoded
         [Fact]
-        public void GetUriByAddress_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetUriByAddress_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -407,7 +407,7 @@ namespace Microsoft.AspNetCore.Routing
 
         // Includes characters that need to be encoded
         [Fact]
-        public void GetUriByAddress_WithHttpContext_WithPathBaseAndFragment()
+        public void GetUriByAddress_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -415,7 +415,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
@@ -432,7 +432,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_IncludesAmbientValues()
+        public void GetPathByAddress_WithProtoContext_IncludesAmbientValues()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -440,7 +440,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
 
@@ -456,7 +456,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithHttpContext_IncludesAmbientValues()
+        public void GetUriByAddress_WithProtoContext_IncludesAmbientValues()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -464,7 +464,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
 
@@ -480,7 +480,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_CanOverrideUriParts()
+        public void GetPathByAddress_WithProtoContext_CanOverrideUriParts()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -488,7 +488,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.PathBase = "/Foo";
 
             // Act
@@ -503,7 +503,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByAddress_WithHttpContext_CanOverrideUriParts()
+        public void GetUriByAddress_WithProtoContext_CanOverrideUriParts()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{id}", metadata: new object[] { new IntMetadata(1), });
@@ -511,7 +511,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
             httpContext.Request.PathBase = "/Foo";
@@ -530,7 +530,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByAddress_WithHttpContext_ContextPassedToConstraint()
+        public void GetPathByAddress_WithProtoContext_ContextPassedToConstraint()
         {
             // Arrange
             var constraint = new TestRouteConstraint();
@@ -539,7 +539,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.PathBase = "/Foo";
 
             // Act
@@ -551,16 +551,16 @@ namespace Microsoft.AspNetCore.Routing
 
             // Assert
             Assert.Equal("/Home/Index", uri);
-            Assert.True(constraint.HasHttpContext);
+            Assert.True(constraint.HasProtoContext);
         }
 
         private class TestRouteConstraint : IRouteConstraint
         {
-            public bool HasHttpContext { get; set; }
+            public bool HasProtoContext { get; set; }
 
-            public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+            public bool Match(ProtoContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
             {
-                HasHttpContext = (httpContext != null);
+                HasProtoContext = (httpContext != null);
                 return true;
             }
         }
@@ -639,7 +639,7 @@ namespace Microsoft.AspNetCore.Routing
             {
                 RouteValues = new RouteValueDictionary(new { controller = "Home", action = "Index", })
             };
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Features.Set<IRouteValuesFeature>(context);
 
             var values = new RouteValueDictionary();
@@ -682,7 +682,7 @@ namespace Microsoft.AspNetCore.Routing
             {
                 RouteValues = new RouteValueDictionary(new { controller = "Home", action = "Index", })
             };
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Features.Set<IRouteValuesFeature>(context);
 
             var values = new RouteValueDictionary();
@@ -722,7 +722,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(homeIndex, homeLogin);
 
             var context = new EndpointSelectorContext();
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Features.Set<IRouteValuesFeature>(context);
 
             var values = new RouteValueDictionary();

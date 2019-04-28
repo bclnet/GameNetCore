@@ -1,11 +1,11 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// A <see cref="MatcherPolicy"/> interface that can implemented to filter endpoints
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         /// Applies the policy to the <see cref="CandidateSet"/>.
         /// </summary>
         /// <param name="httpContext">
-        /// The <see cref="HttpContext"/> associated with the current request.
+        /// The <see cref="ProtoContext"/> associated with the current request.
         /// </param>
         /// <param name="context">
         /// The <see cref="EndpointSelectorContext"/> associated with the current request.
@@ -46,6 +46,6 @@ namespace Microsoft.AspNetCore.Routing.Matching
         /// <see cref="Endpoint"/> value that will produce the desired error when executed.
         /// </para>
         /// </remarks>
-        Task ApplyAsync(HttpContext httpContext, EndpointSelectorContext context, CandidateSet candidates);
+        Task ApplyAsync(ProtoContext httpContext, EndpointSelectorContext context, CandidateSet candidates);
     }
 }

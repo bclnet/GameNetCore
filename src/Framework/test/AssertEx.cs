@@ -4,7 +4,7 @@
 using System.IO;
 using Xunit.Sdk;
 
-namespace Microsoft.AspNetCore
+namespace Contoso.GameNetCore
 {
     public class AssertEx
     {

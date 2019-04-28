@@ -5,9 +5,9 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// Represents a set of <see cref="Endpoint"/> candidates that have been matched
@@ -228,7 +228,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         /// <summary>
-        /// Gets a value which indicates where the <see cref="Http.Endpoint"/> is considered
+        /// Gets a value which indicates where the <see cref="Proto.Endpoint"/> is considered
         /// a valid candiate for the current request.
         /// </summary>
         /// <param name="index">The candidate index.</param>

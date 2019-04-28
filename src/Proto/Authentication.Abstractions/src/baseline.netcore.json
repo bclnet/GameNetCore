@@ -156,7 +156,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Authentication.AuthenticationHttpContextExtensions",
+      "Name": "Microsoft.AspNetCore.Authentication.AuthenticationProtoContextExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -170,7 +170,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task<Microsoft.AspNetCore.Authentication.AuthenticateResult>",
@@ -185,7 +185,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -204,7 +204,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -223,7 +223,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -238,7 +238,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "properties",
@@ -257,7 +257,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -280,7 +280,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -299,7 +299,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -314,7 +314,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "properties",
@@ -333,7 +333,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -356,7 +356,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -379,7 +379,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "principal",
@@ -398,7 +398,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "principal",
@@ -421,7 +421,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -448,7 +448,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -463,7 +463,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "properties",
@@ -482,7 +482,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -501,7 +501,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -524,7 +524,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -547,7 +547,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "tokenName",
@@ -1174,7 +1174,7 @@
           "Kind": "Method",
           "Name": "get_OriginalPathBase",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.PathString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.PathString",
           "GenericParameter": []
         },
         {
@@ -1183,7 +1183,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             }
           ],
           "ReturnType": "System.Void",
@@ -1193,7 +1193,7 @@
           "Kind": "Method",
           "Name": "get_OriginalPath",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.PathString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.PathString",
           "GenericParameter": []
         },
         {
@@ -1202,7 +1202,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             }
           ],
           "ReturnType": "System.Void",
@@ -1228,7 +1228,7 @@
             },
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -1281,7 +1281,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "authenticationScheme",
@@ -1421,7 +1421,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -1437,7 +1437,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -1457,7 +1457,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -1477,7 +1477,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -1501,7 +1501,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",
@@ -1687,7 +1687,7 @@
             },
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "tokenName",
@@ -1710,7 +1710,7 @@
             },
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "scheme",

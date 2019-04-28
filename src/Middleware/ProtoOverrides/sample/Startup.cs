@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.HttpOverrides;
 
 namespace HttpOverridesSample
 {

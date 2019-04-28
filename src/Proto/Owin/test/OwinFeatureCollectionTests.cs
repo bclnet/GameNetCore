@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
-    public class OwinHttpEnvironmentTests
+    public class OwinProtoEnvironmentTests
     {
         private T Get<T>(IFeatureCollection features)
         {
@@ -22,43 +22,43 @@ namespace Microsoft.AspNetCore.Owin
         }
 
         [Fact]
-        public void OwinHttpEnvironmentCanBeCreated()
+        public void OwinProtoEnvironmentCanBeCreated()
         {
             var env = new Dictionary<string, object>
             {
-                { "owin.RequestMethod", HttpMethods.Post },
+                { "owin.RequestMethod", ProtoMethods.Post },
                 { "owin.RequestPath", "/path" },
                 { "owin.RequestPathBase", "/pathBase" },
                 { "owin.RequestQueryString", "name=value" },
             };
             var features = new OwinFeatureCollection(env);
 
-            var requestFeature = Get<IHttpRequestFeature>(features);
-            Assert.Equal(requestFeature.Method, HttpMethods.Post);
+            var requestFeature = Get<IProtoRequestFeature>(features);
+            Assert.Equal(requestFeature.Method, ProtoMethods.Post);
             Assert.Equal("/path", requestFeature.Path);
             Assert.Equal("/pathBase", requestFeature.PathBase);
             Assert.Equal("?name=value", requestFeature.QueryString);
         }
 
         [Fact]
-        public void OwinHttpEnvironmentCanBeModified()
+        public void OwinProtoEnvironmentCanBeModified()
         {
             var env = new Dictionary<string, object>
             {
-                { "owin.RequestMethod", HttpMethods.Post },
+                { "owin.RequestMethod", ProtoMethods.Post },
                 { "owin.RequestPath", "/path" },
                 { "owin.RequestPathBase", "/pathBase" },
                 { "owin.RequestQueryString", "name=value" },
             };
             var features = new OwinFeatureCollection(env);
 
-            var requestFeature = Get<IHttpRequestFeature>(features);
-            requestFeature.Method = HttpMethods.Get;
+            var requestFeature = Get<IProtoRequestFeature>(features);
+            requestFeature.Method = ProtoMethods.Get;
             requestFeature.Path = "/path2";
             requestFeature.PathBase = "/pathBase2";
             requestFeature.QueryString = "?name=value2";
 
-            Assert.Equal(HttpMethods.Get, Get<string>(env, "owin.RequestMethod"));
+            Assert.Equal(ProtoMethods.Get, Get<string>(env, "owin.RequestMethod"));
             Assert.Equal("/path2", Get<string>(env, "owin.RequestPath"));
             Assert.Equal("/pathBase2", Get<string>(env, "owin.RequestPathBase"));
             Assert.Equal("name=value2", Get<string>(env, "owin.RequestQueryString"));

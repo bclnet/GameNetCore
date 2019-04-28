@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// Used to read an 'application/x-www-form-urlencoded' form.
@@ -34,44 +34,29 @@ namespace Microsoft.AspNetCore.WebUtilities
         private bool _disposed;
 
         public FormReader(string data)
-            : this(data, ArrayPool<char>.Shared)
-        {
-        }
+            : this(data, ArrayPool<char>.Shared) { }
 
         public FormReader(string data, ArrayPool<char> charPool)
         {
             if (data == null)
-            {
                 throw new ArgumentNullException(nameof(data));
-            }
-
             _buffer = charPool.Rent(_rentedCharPoolLength);
             _charPool = charPool;
             _reader = new StringReader(data);
         }
 
         public FormReader(Stream stream)
-            : this(stream, Encoding.UTF8, ArrayPool<char>.Shared)
-        {
-        }
+            : this(stream, Encoding.UTF8, ArrayPool<char>.Shared) { }
 
         public FormReader(Stream stream, Encoding encoding)
-            : this(stream, encoding, ArrayPool<char>.Shared)
-        {
-        }
+            : this(stream, encoding, ArrayPool<char>.Shared) { }
 
         public FormReader(Stream stream, Encoding encoding, ArrayPool<char> charPool)
         {
             if (stream == null)
-            {
                 throw new ArgumentNullException(nameof(stream));
-            }
-
             if (encoding == null)
-            {
                 throw new ArgumentNullException(nameof(encoding));
-            }
-
             _buffer = charPool.Rent(_rentedCharPoolLength);
             _charPool = charPool;
             _reader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true, bufferSize: 1024 * 2, leaveOpen: true);
@@ -101,11 +86,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         public KeyValuePair<string, string>? ReadNextPair()
         {
             ReadNextPairImpl();
-            if (ReadSucceeded())
-            {
-                return new KeyValuePair<string, string>(_currentKey, _currentValue);
-            }
-            return null;
+            return ReadSucceeded() ? (KeyValuePair<string, string>?)new KeyValuePair<string, string>(_currentKey, _currentValue) : null;
         }
 
         private void ReadNextPairImpl()
@@ -115,13 +96,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             {
                 // Empty
                 if (_bufferCount == 0)
-                {
                     Buffer();
-                }
                 if (TryReadNextPair())
-                {
                     break;
-                }
             }
         }
 
@@ -134,11 +111,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         public async Task<KeyValuePair<string, string>?> ReadNextPairAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             await ReadNextPairAsyncImpl(cancellationToken);
-            if (ReadSucceeded())
-            {
-                return new KeyValuePair<string, string>(_currentKey, _currentValue);
-            }
-            return null;
+            return ReadSucceeded() ? (KeyValuePair<string, string>?)new KeyValuePair<string, string>(_currentKey, _currentValue) : null;
         }
 
         private async Task ReadNextPairAsyncImpl(CancellationToken cancellationToken = new CancellationToken())
@@ -148,13 +121,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             {
                 // Empty
                 if (_bufferCount == 0)
-                {
                     await BufferAsync(cancellationToken);
-                }
                 if (TryReadNextPair())
-                {
                     break;
-                }
             }
         }
 
@@ -169,22 +138,15 @@ namespace Microsoft.AspNetCore.WebUtilities
             if (_currentKey == null)
             {
                 if (!TryReadWord('=', KeyLengthLimit, out _currentKey))
-                {
                     return false;
-                }
-
                 if (_bufferCount == 0)
-                {
                     return false;
-                }
             }
 
             if (_currentValue == null)
             {
                 if (!TryReadWord('&', ValueLengthLimit, out _currentValue))
-                {
                     return false;
-                }
             }
             return true;
         }
@@ -194,9 +156,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             do
             {
                 if (ReadChar(separator, limit, out value))
-                {
                     return true;
-                }
             } while (_bufferCount > 0);
             return false;
         }
@@ -219,9 +179,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 return true;
             }
             if (_builder.Length >= limit)
-            {
                 throw new InvalidDataException($"Form key or value length limit {limit} exceeded.");
-            }
             _builder.Append(c);
             word = null;
             return false;
@@ -283,10 +241,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             return accumulator.GetResults();
         }
 
-        private bool ReadSucceeded()
-        {
-            return _currentKey != null && _currentValue != null;
-        }
+        private bool ReadSucceeded() => _currentKey != null && _currentValue != null;
 
         private void Append(ref KeyValueAccumulator accumulator)
         {
@@ -294,9 +249,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             {
                 accumulator.Append(_currentKey, _currentValue);
                 if (accumulator.ValueCount > ValueCountLimit)
-                {
                     throw new InvalidDataException($"Form value count limit {ValueCountLimit} exceeded.");
-                }
             }
         }
 

@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Abstractions.Tests
+namespace Contoso.GameNetCore.Proto.Abstractions.Tests
 {
     public class CookieBuilderTests
     {
@@ -15,14 +15,14 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         [InlineData(CookieSecurePolicy.SameAsRequest, false, false)]
         [InlineData(CookieSecurePolicy.None, true, false)]
         [InlineData(CookieSecurePolicy.None, false, false)]
-        public void ConfiguresSecurePolicy(CookieSecurePolicy policy, bool requestIsHttps, bool secure)
+        public void ConfiguresSecurePolicy(CookieSecurePolicy policy, bool requestIsProtos, bool secure)
         {
             var builder = new CookieBuilder
             {
                 SecurePolicy = policy
             };
-            var context = new DefaultHttpContext();
-            context.Request.IsHttps = requestIsHttps;
+            var context = new DefaultProtoContext();
+            context.Request.IsProtos = requestIsProtos;
             var options = builder.Build(context);
 
             Assert.Equal(secure, options.Secure);
@@ -31,27 +31,27 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         [Fact]
         public void ComputesExpiration()
         {
-            Assert.Null(new CookieBuilder().Build(new DefaultHttpContext()).Expires);
+            Assert.Null(new CookieBuilder().Build(new DefaultProtoContext()).Expires);
 
             var now = DateTimeOffset.Now;
-            var options = new CookieBuilder { Expiration = TimeSpan.FromHours(1) }.Build(new DefaultHttpContext(), now);
+            var options = new CookieBuilder { Expiration = TimeSpan.FromHours(1) }.Build(new DefaultProtoContext(), now);
             Assert.Equal(now.AddHours(1), options.Expires);
         }
 
         [Fact]
         public void ComputesMaxAge()
         {
-            Assert.Null(new CookieBuilder().Build(new DefaultHttpContext()).MaxAge);
+            Assert.Null(new CookieBuilder().Build(new DefaultProtoContext()).MaxAge);
 
             var now = TimeSpan.FromHours(1);
-            var options = new CookieBuilder { MaxAge = now }.Build(new DefaultHttpContext());
+            var options = new CookieBuilder { MaxAge = now }.Build(new DefaultProtoContext());
             Assert.Equal(now, options.MaxAge);
         }
 
         [Fact]
         public void CookieBuilderPreservesDefaultPath()
         {
-            Assert.Equal(new CookieOptions().Path, new CookieBuilder().Build(new DefaultHttpContext()).Path);
+            Assert.Equal(new CookieOptions().Path, new CookieBuilder().Build(new DefaultProtoContext()).Path);
         }
     }
 }

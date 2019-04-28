@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
 {
     internal class UvPipeHandle : UvStreamHandle
     {

@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.FileProviders;
+using System;
 
-namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
+namespace Contoso.GameNetCore.StaticFiles.Infrastructure
 {
     /// <summary>
     /// Options common to several middleware components
@@ -17,23 +17,18 @@ namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
         /// <summary>
         /// Defaults to all request paths.
         /// </summary>
-        public SharedOptions()
-        {
-            RequestPath = PathString.Empty;
-        }
+        public SharedOptions() => RequestPath = PathString.Empty;
 
         /// <summary>
         /// The request path that maps to static resources
         /// </summary>
         public PathString RequestPath
         {
-            get { return _requestPath; }
+            get => _requestPath;
             set
             {
                 if (value.HasValue && value.Value.EndsWith("/", StringComparison.Ordinal))
-                {
                     throw new ArgumentException("Request path must not end in a slash");
-                }
                 _requestPath = value;
             }
         }

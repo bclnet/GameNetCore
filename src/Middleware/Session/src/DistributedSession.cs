@@ -8,11 +8,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Session
+namespace Contoso.GameNetCore.Session
 {
     public class DistributedSession : ISession
     {

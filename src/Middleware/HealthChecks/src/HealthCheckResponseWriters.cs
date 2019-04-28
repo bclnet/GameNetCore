@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Microsoft.AspNetCore.Diagnostics.HealthChecks
+namespace Contoso.GameNetCore.Diagnostics.HealthChecks
 {
     internal static class HealthCheckResponseWriters
     {

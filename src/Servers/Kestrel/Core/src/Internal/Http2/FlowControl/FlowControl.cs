@@ -3,13 +3,13 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl
 {
     internal struct FlowControl
     {
         public FlowControl(uint initialWindowSize)
         {
-            Debug.Assert(initialWindowSize <= Http2PeerSettings.MaxWindowSize, $"{nameof(initialWindowSize)} too large.");
+            Debug.Assert(initialWindowSize <= Proto2PeerSettings.MaxWindowSize, $"{nameof(initialWindowSize)} too large.");
 
             Available = (int)initialWindowSize;
             IsAborted = false;
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
         // https://httpwg.org/specs/rfc7540.html#rfc.section.6.9.2
         public bool TryUpdateWindow(int bytes)
         {
-            var maxUpdate = Http2PeerSettings.MaxWindowSize - Available;
+            var maxUpdate = Proto2PeerSettings.MaxWindowSize - Available;
 
             if (bytes > maxUpdate)
             {

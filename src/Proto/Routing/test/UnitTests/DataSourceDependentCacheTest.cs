@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class DataSourceDependentCacheTest
     {

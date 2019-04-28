@@ -1,5 +1,5 @@
 {
-  "AssemblyIdentity": "Microsoft.AspNetCore.HttpOverrides, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+  "AssemblyIdentity": "Microsoft.AspNetCore.ProtoOverrides, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
       "Name": "Microsoft.AspNetCore.Builder.ForwardedHeadersExtensions",
@@ -183,7 +183,7 @@
           "Kind": "Method",
           "Name": "get_ForwardedHeaders",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders",
+          "ReturnType": "Microsoft.AspNetCore.ProtoOverrides.ForwardedHeaders",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -193,7 +193,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders"
+              "Type": "Microsoft.AspNetCore.ProtoOverrides.ForwardedHeaders"
             }
           ],
           "ReturnType": "System.Void",
@@ -233,7 +233,7 @@
           "Kind": "Method",
           "Name": "get_KnownNetworks",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.AspNetCore.HttpOverrides.IPNetwork>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.AspNetCore.ProtoOverrides.IPNetwork>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -290,7 +290,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Builder.HttpMethodOverrideExtensions",
+      "Name": "Microsoft.AspNetCore.Builder.ProtoMethodOverrideExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -300,7 +300,7 @@
       "Members": [
         {
           "Kind": "Method",
-          "Name": "UseHttpMethodOverride",
+          "Name": "UseProtoMethodOverride",
           "Parameters": [
             {
               "Name": "builder",
@@ -315,7 +315,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttpMethodOverride",
+          "Name": "UseProtoMethodOverride",
           "Parameters": [
             {
               "Name": "builder",
@@ -323,7 +323,7 @@
             },
             {
               "Name": "options",
-              "Type": "Microsoft.AspNetCore.Builder.HttpMethodOverrideOptions"
+              "Type": "Microsoft.AspNetCore.Builder.ProtoMethodOverrideOptions"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Builder.IApplicationBuilder",
@@ -336,7 +336,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Builder.HttpMethodOverrideOptions",
+      "Name": "Microsoft.AspNetCore.Builder.ProtoMethodOverrideOptions",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -373,7 +373,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders",
+      "Name": "Microsoft.AspNetCore.ProtoOverrides.ForwardedHeaders",
       "Visibility": "Public",
       "Kind": "Enumeration",
       "Sealed": true,
@@ -418,7 +418,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.HttpOverrides.ForwardedHeadersDefaults",
+      "Name": "Microsoft.AspNetCore.ProtoOverrides.ForwardedHeadersDefaults",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -484,7 +484,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.HttpOverrides.ForwardedHeadersMiddleware",
+      "Name": "Microsoft.AspNetCore.ProtoOverrides.ForwardedHeadersMiddleware",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -495,7 +495,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -508,7 +508,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Void",
@@ -521,7 +521,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "loggerFactory",
@@ -539,7 +539,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.HttpOverrides.HttpMethodOverrideMiddleware",
+      "Name": "Microsoft.AspNetCore.ProtoOverrides.ProtoMethodOverrideMiddleware",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -550,7 +550,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -563,11 +563,11 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "options",
-              "Type": "Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.HttpMethodOverrideOptions>"
+              "Type": "Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.ProtoMethodOverrideOptions>"
             }
           ],
           "Visibility": "Public",
@@ -577,7 +577,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.HttpOverrides.IPNetwork",
+      "Name": "Microsoft.AspNetCore.ProtoOverrides.IPNetwork",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],

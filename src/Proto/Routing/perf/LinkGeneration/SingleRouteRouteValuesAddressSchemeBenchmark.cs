@@ -3,16 +3,16 @@
 
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.LinkGeneration
+namespace Contoso.GameNetCore.Routing.LinkGeneration
 {
     public class SingleRouteRouteValuesAddressSchemeBenchmark : EndpointRoutingBenchmarkBase
     {
         private IEndpointAddressScheme<RouteValuesAddress> _implementation;
         private TestAddressScheme _baseline;
-        private (HttpContext HttpContext, RouteValueDictionary AmbientValues) _requestContext;
+        private (ProtoContext ProtoContext, RouteValueDictionary AmbientValues) _requestContext;
 
         [GlobalSetup]
         public void Setup()

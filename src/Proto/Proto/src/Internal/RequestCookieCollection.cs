@@ -4,9 +4,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public class RequestCookieCollection : IRequestCookieCollection
     {

@@ -4,17 +4,17 @@
 using System;
 using System.IO.Pipelines;
 using System.Linq;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Testing;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class HttpProtocolFeatureCollectionTests
     {

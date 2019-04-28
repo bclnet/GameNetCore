@@ -6,22 +6,22 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Https
+namespace Contoso.GameNetCore.Server.Kestrel.Protos
 {
     /// <summary>
     /// Settings for how Kestrel should handle HTTPS connections.
     /// </summary>
-    public class HttpsConnectionAdapterOptions
+    public class ProtosConnectionAdapterOptions
     {
         private TimeSpan _handshakeTimeout;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HttpsConnectionAdapterOptions"/>.
+        /// Initializes a new instance of <see cref="ProtosConnectionAdapterOptions"/>.
         /// </summary>
-        public HttpsConnectionAdapterOptions()
+        public ProtosConnectionAdapterOptions()
         {
             ClientCertificateMode = ClientCertificateMode.NoCertificate;
             SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls11;
@@ -68,7 +68,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https
         /// The protocols enabled on this endpoint.
         /// </summary>
         /// <remarks>Defaults to HTTP/1.x only.</remarks>
-        internal HttpProtocols HttpProtocols { get; set; }
+        internal ProtoProtocols ProtoProtocols { get; set; }
 
         /// <summary>
         /// Specifies whether the certificate revocation list is checked during authentication.

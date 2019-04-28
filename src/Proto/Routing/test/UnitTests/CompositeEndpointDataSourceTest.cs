@@ -5,14 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class CompositeEndpointDataSourceTest
     {

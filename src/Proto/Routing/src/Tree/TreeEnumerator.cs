@@ -4,9 +4,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Internal;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     internal struct TreeEnumerator : IEnumerator<UrlMatchingNode>
     {

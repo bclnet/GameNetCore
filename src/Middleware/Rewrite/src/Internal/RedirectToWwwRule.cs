@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Rewrite.Logging;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Extensions;
+using Contoso.GameNetCore.Rewrite.Logging;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal
+namespace Contoso.GameNetCore.Rewrite.Internal
 {
     public class RedirectToWwwRule : IRule
     {

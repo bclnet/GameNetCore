@@ -3,18 +3,18 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Logging;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public static class RouteConstraintMatcher
     {
         public static bool Match(
             IDictionary<string, IRouteConstraint> constraints,
             RouteValueDictionary routeValues,
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             RouteDirection routeDirection,
             ILogger logger)

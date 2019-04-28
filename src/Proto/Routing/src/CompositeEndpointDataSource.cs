@@ -9,10 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Represents an <see cref="EndpointDataSource"/> whose values come from a collection of <see cref="EndpointDataSource"/> instances.
@@ -180,11 +180,11 @@ namespace Microsoft.AspNetCore.Routing
                         sb.Append(", Order: ");
                         sb.Append(routeEndpoint.Order);
 
-                        var httpMethodMetadata = routeEndpoint.Metadata.GetMetadata<IHttpMethodMetadata>();
+                        var httpMethodMetadata = routeEndpoint.Metadata.GetMetadata<IProtoMethodMetadata>();
                         if (httpMethodMetadata != null)
                         {
-                            sb.Append(", Http Methods: ");
-                            sb.Append(string.Join(", ", httpMethodMetadata.HttpMethods));
+                            sb.Append(", Proto Methods: ");
+                            sb.Append(string.Join(", ", httpMethodMetadata.ProtoMethods));
                         }
                         sb.Append(", Display Name: ");
                         sb.Append(routeEndpoint.DisplayName);

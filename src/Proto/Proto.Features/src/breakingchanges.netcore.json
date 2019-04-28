@@ -1,57 +1,57 @@
   [
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Features.Authentication.AuthenticateContext",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Features.Authentication.AuthenticateContext",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Features.Authentication.ChallengeContext",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeContext",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Features.Authentication.DescribeSchemesContext",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Features.Authentication.DescribeSchemesContext",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticateInfo",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticateInfo",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticationDescription",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticationDescription",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticationProperties",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public abstract class Microsoft.AspNetCore.Http.HttpContext",
-      "MemberId": "public abstract Microsoft.AspNetCore.Http.Authentication.AuthenticationManager get_Authentication()",
+      "TypeId": "public abstract class Microsoft.AspNetCore.Proto.ProtoContext",
+      "MemberId": "public abstract Microsoft.AspNetCore.Proto.Authentication.AuthenticationManager get_Authentication()",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Features.Authentication.SignInContext",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Features.Authentication.SignInContext",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Features.Authentication.SignOutContext",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Features.Authentication.SignOutContext",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public enum Microsoft.AspNetCore.Http.Features.Authentication.ChallengeBehavior",
+      "TypeId": "public enum Microsoft.AspNetCore.Proto.Features.Authentication.ChallengeBehavior",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public interface Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler",
+      "TypeId": "public interface Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public interface Microsoft.AspNetCore.Http.Features.Authentication.IHttpAuthenticationFeature",
-      "MemberId": "Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler get_Handler()",
+      "TypeId": "public interface Microsoft.AspNetCore.Proto.Features.Authentication.IProtoAuthenticationFeature",
+      "MemberId": "Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler get_Handler()",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public interface Microsoft.AspNetCore.Http.Features.Authentication.IHttpAuthenticationFeature",
-      "MemberId": "System.Void set_Handler(Microsoft.AspNetCore.Http.Features.Authentication.IAuthenticationHandler value)",
+      "TypeId": "public interface Microsoft.AspNetCore.Proto.Features.Authentication.IProtoAuthenticationFeature",
+      "MemberId": "System.Void set_Handler(Microsoft.AspNetCore.Proto.Features.Authentication.IAuthenticationHandler value)",
       "Kind": "Removal"
     }
   ]

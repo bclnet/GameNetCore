@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Diagnostics
+namespace Contoso.GameNetCore.Diagnostics
 {
     /// <summary>
     /// Describes a failure compiling a specific file.

@@ -3,15 +3,15 @@
 
 using System;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.TestObjects;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouteConstraintBuilderTest
     {
@@ -170,7 +170,7 @@ namespace Microsoft.AspNetCore.Routing
 
             Assert.Equal(shouldMatch,
                 constraint.Match(
-                    httpContext: new Mock<HttpContext>().Object,
+                    httpContext: new Mock<ProtoContext>().Object,
                     route: new Mock<IRouter>().Object,
                     routeKey: "controller",
                     values: routeValues,

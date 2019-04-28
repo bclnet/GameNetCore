@@ -4,11 +4,11 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class FastPathTokenizerTest
     {
-        // Generally this will only happen in tests when the HttpContext hasn't been
+        // Generally this will only happen in tests when the ProtoContext hasn't been
         // initialized. We still don't want to crash in this case.
         [Fact]
         public void Tokenize_EmptyString()

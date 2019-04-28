@@ -3,9 +3,9 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    public interface IHttpHeadersHandler
+    public interface IProtoHeadersHandler
     {
         void OnHeader(Span<byte> name, Span<byte> value);
         void OnHeadersComplete();

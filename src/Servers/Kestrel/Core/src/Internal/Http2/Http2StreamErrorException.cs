@@ -3,11 +3,11 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2StreamErrorException : Exception
+    internal class Proto2StreamErrorException : Exception
     {
-        public Http2StreamErrorException(int streamId, string message, Http2ErrorCode errorCode)
+        public Proto2StreamErrorException(int streamId, string message, Proto2ErrorCode errorCode)
             : base($"HTTP/2 stream ID {streamId} error ({errorCode}): {message}")
         {
             StreamId = streamId;
@@ -16,6 +16,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         public int StreamId { get; }
 
-        public Http2ErrorCode ErrorCode { get; }
+        public Proto2ErrorCode ErrorCode { get; }
     }
 }

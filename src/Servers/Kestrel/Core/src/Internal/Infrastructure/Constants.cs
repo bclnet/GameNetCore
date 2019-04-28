@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal static class Constants
     {
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// <summary>
         /// The endpoint Kestrel will bind to if nothing else is specified and a default certificate is available.
         /// </summary>
-        public static readonly string DefaultServerHttpsAddress = "https://localhost:5001";
+        public static readonly string DefaultServerProtosAddress = "https://localhost:5001";
 
         /// <summary>
         /// Prefix of host name used to specify Unix sockets in the configuration.

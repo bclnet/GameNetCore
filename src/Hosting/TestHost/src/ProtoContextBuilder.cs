@@ -4,40 +4,40 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using static Microsoft.GameNetCore.Hosting.Internal.HostingApplication;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
-    internal class HttpContextBuilder : IHttpBodyControlFeature
+    internal class ProtoContextBuilder : IProtoBodyControlFeature
     {
-        private readonly IHttpApplication<Context> _application;
-        private readonly HttpContext _httpContext;
+        private readonly IProtoApplication<Context> _application;
+        private readonly ProtoContext _httpContext;
         
-        private TaskCompletionSource<HttpContext> _responseTcs = new TaskCompletionSource<HttpContext>(TaskCreationOptions.RunContinuationsAsynchronously);
+        private TaskCompletionSource<ProtoContext> _responseTcs = new TaskCompletionSource<ProtoContext>(TaskCreationOptions.RunContinuationsAsynchronously);
         private ResponseStream _responseStream;
         private ResponseFeature _responseFeature = new ResponseFeature();
         private CancellationTokenSource _requestAbortedSource = new CancellationTokenSource();
         private bool _pipelineFinished;
         private Context _testContext;
 
-        internal HttpContextBuilder(IHttpApplication<Context> application, bool allowSynchronousIO)
+        internal ProtoContextBuilder(IProtoApplication<Context> application, bool allowSynchronousIO)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
             AllowSynchronousIO = allowSynchronousIO;
-            _httpContext = new DefaultHttpContext();
+            _httpContext = new DefaultProtoContext();
 
             var request = _httpContext.Request;
             request.Protocol = "HTTP/1.1";
-            request.Method = HttpMethods.Get;
+            request.Method = ProtoMethods.Get;
 
-            _httpContext.Features.Set<IHttpBodyControlFeature>(this);
-            _httpContext.Features.Set<IHttpResponseFeature>(_responseFeature);
-            var requestLifetimeFeature = new HttpRequestLifetimeFeature();
+            _httpContext.Features.Set<IProtoBodyControlFeature>(this);
+            _httpContext.Features.Set<IProtoResponseFeature>(_responseFeature);
+            var requestLifetimeFeature = new ProtoRequestLifetimeFeature();
             requestLifetimeFeature.RequestAborted = _requestAbortedSource.Token;
-            _httpContext.Features.Set<IHttpRequestLifetimeFeature>(requestLifetimeFeature);
+            _httpContext.Features.Set<IProtoRequestLifetimeFeature>(requestLifetimeFeature);
             
             _responseStream = new ResponseStream(ReturnResponseMessageAsync, AbortRequest, () => AllowSynchronousIO);
             _responseFeature.Body = _responseStream;
@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.TestHost
 
         public bool AllowSynchronousIO { get; set; }
 
-        internal void Configure(Action<HttpContext> configureContext)
+        internal void Configure(Action<ProtoContext> configureContext)
         {
             if (configureContext == null)
             {
@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.TestHost
         /// Start processing the request.
         /// </summary>
         /// <returns></returns>
-        internal Task<HttpContext> SendAsync(CancellationToken cancellationToken)
+        internal Task<ProtoContext> SendAsync(CancellationToken cancellationToken)
         {
             var registration = cancellationToken.Register(AbortRequest);
 
@@ -129,7 +129,7 @@ namespace Microsoft.AspNetCore.TestHost
                 {
                     newFeatures[pair.Key] = pair.Value;
                 }
-                _responseTcs.TrySetResult(new DefaultHttpContext(newFeatures));
+                _responseTcs.TrySetResult(new DefaultProtoContext(newFeatures));
             }
         }
 

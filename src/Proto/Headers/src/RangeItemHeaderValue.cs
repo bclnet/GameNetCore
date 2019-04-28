@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class RangeItemHeaderValue
     {
@@ -158,15 +158,15 @@ namespace Microsoft.Net.Http.Headers
 
             // Try parse the first value of a value pair.
             var fromStartIndex = current;
-            var fromLength = HttpRuleParser.GetNumberLength(input, current, false);
+            var fromLength = ProtoRuleParser.GetNumberLength(input, current, false);
 
-            if (fromLength > HttpRuleParser.MaxInt64Digits)
+            if (fromLength > ProtoRuleParser.MaxInt64Digits)
             {
                 return 0;
             }
 
             current = current + fromLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // After the first value, the '-' character must follow.
             if ((current == input.Length) || (input[current] != '-'))
@@ -176,7 +176,7 @@ namespace Microsoft.Net.Http.Headers
             }
 
             current++; // skip the '-' character
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             var toStartIndex = current;
             var toLength = 0;
@@ -184,15 +184,15 @@ namespace Microsoft.Net.Http.Headers
             // If we didn't reach the end of the string, try parse the second value of the range.
             if (current < input.Length)
             {
-                toLength = HttpRuleParser.GetNumberLength(input, current, false);
+                toLength = ProtoRuleParser.GetNumberLength(input, current, false);
 
-                if (toLength > HttpRuleParser.MaxInt64Digits)
+                if (toLength > ProtoRuleParser.MaxInt64Digits)
                 {
                     return 0;
                 }
 
                 current = current + toLength;
-                current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
             }
 
             if ((fromLength == 0) && (toLength == 0))

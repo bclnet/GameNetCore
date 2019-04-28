@@ -3,13 +3,13 @@
 
 using Contoso.GameNetCore.Hosting;
 using Contoso.GameNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
-namespace Microsoft.AspNetCore.Hosting.Internal
+namespace Contoso.GameNetCore.Hosting.Internal
 {
     public class ConventionBasedStartup : IStartup
     {

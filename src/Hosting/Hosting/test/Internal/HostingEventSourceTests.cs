@@ -4,11 +4,11 @@
 using System;
 using System.Diagnostics.Tracing;
 using System.Reflection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Testing.xunit;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting.Internal
+namespace Contoso.GameNetCore.Hosting.Internal
 {
     public class HostingEventSourceTests
     {

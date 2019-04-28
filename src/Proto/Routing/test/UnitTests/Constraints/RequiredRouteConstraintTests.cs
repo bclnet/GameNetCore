@@ -1,12 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class RequiredRouteConstraintTests
     {
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var result = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 Mock.Of<IRouter>(),
                 "area",
                 new RouteValueDictionary(new { controller = "Home", action = "Index" }),
@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var result = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 Mock.Of<IRouter>(),
                 "area",
                 new RouteValueDictionary(new { controller = "Home", action = "Index", area = (string)null }),
@@ -60,7 +60,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var result = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 Mock.Of<IRouter>(),
                 "area",
                 new RouteValueDictionary(new { controller = "Home", action = "Index", area = string.Empty}),
@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var result = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 Mock.Of<IRouter>(),
                 "area",
                 new RouteValueDictionary(new { controller = "Home", action = "Index", area = "Store" }),

@@ -6,17 +6,17 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class HttpRequestStream : ReadOnlyPipeStream
+    internal class ProtoRequestStream : ReadOnlyPipeStream
     {
-        private HttpRequestPipeReader _pipeReader;
-        private readonly IHttpBodyControlFeature _bodyControl;
+        private ProtoRequestPipeReader _pipeReader;
+        private readonly IProtoBodyControlFeature _bodyControl;
 
-        public HttpRequestStream(IHttpBodyControlFeature bodyControl, HttpRequestPipeReader pipeReader)
+        public ProtoRequestStream(IProtoBodyControlFeature bodyControl, ProtoRequestPipeReader pipeReader)
             : base (pipeReader)
         {
             _bodyControl = bodyControl;

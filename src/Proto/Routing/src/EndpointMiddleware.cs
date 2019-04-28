@@ -3,14 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Authorization;
+using Contoso.GameNetCore.Cors.Infrastructure;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     internal sealed class EndpointMiddleware
     {
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Routing
             _routeOptions = routeOptions?.Value ?? throw new ArgumentNullException(nameof(routeOptions));
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(ProtoContext httpContext)
         {
             var endpoint = httpContext.Features.Get<IEndpointFeature>()?.Endpoint;
             if (endpoint?.RequestDelegate != null)

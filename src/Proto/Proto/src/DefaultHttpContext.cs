@@ -5,44 +5,44 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Proto.Features.Authentication;
+using Contoso.GameNetCore.Proto.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public sealed class DefaultHttpContext : HttpContext
+    public sealed class DefaultProtoContext : ProtoContext
     {
         // Lambdas hoisted to static readonly fields to improve inlining https://github.com/dotnet/roslyn/issues/13624
         private readonly static Func<IFeatureCollection, IItemsFeature> _newItemsFeature = f => new ItemsFeature();
-        private readonly static Func<DefaultHttpContext, IServiceProvidersFeature> _newServiceProvidersFeature = context => new RequestServicesFeature(context, context.ServiceScopeFactory);
-        private readonly static Func<IFeatureCollection, IHttpAuthenticationFeature> _newHttpAuthenticationFeature = f => new HttpAuthenticationFeature();
-        private readonly static Func<IFeatureCollection, IHttpRequestLifetimeFeature> _newHttpRequestLifetimeFeature = f => new HttpRequestLifetimeFeature();
+        private readonly static Func<DefaultProtoContext, IServiceProvidersFeature> _newServiceProvidersFeature = context => new RequestServicesFeature(context, context.ServiceScopeFactory);
+        private readonly static Func<IFeatureCollection, IProtoAuthenticationFeature> _newProtoAuthenticationFeature = f => new ProtoAuthenticationFeature();
+        private readonly static Func<IFeatureCollection, IProtoRequestLifetimeFeature> _newProtoRequestLifetimeFeature = f => new ProtoRequestLifetimeFeature();
         private readonly static Func<IFeatureCollection, ISessionFeature> _newSessionFeature = f => new DefaultSessionFeature();
         private readonly static Func<IFeatureCollection, ISessionFeature> _nullSessionFeature = f => null;
-        private readonly static Func<IFeatureCollection, IHttpRequestIdentifierFeature> _newHttpRequestIdentifierFeature = f => new HttpRequestIdentifierFeature();
+        private readonly static Func<IFeatureCollection, IProtoRequestIdentifierFeature> _newProtoRequestIdentifierFeature = f => new ProtoRequestIdentifierFeature();
 
         private FeatureReferences<FeatureInterfaces> _features;
 
-        private readonly DefaultHttpRequest _request;
-        private readonly DefaultHttpResponse _response;
+        private readonly DefaultProtoRequest _request;
+        private readonly DefaultProtoResponse _response;
 
         private DefaultConnectionInfo _connection;
-        private DefaultWebSocketManager _websockets;
+        private DefaultGameSocketManager _gamesockets;
 
-        public DefaultHttpContext()
+        public DefaultProtoContext()
             : this(new FeatureCollection())
         {
-            Features.Set<IHttpRequestFeature>(new HttpRequestFeature());
-            Features.Set<IHttpResponseFeature>(new HttpResponseFeature());
+            Features.Set<IProtoRequestFeature>(new ProtoRequestFeature());
+            Features.Set<IProtoResponseFeature>(new ProtoResponseFeature());
         }
 
-        public DefaultHttpContext(IFeatureCollection features)
+        public DefaultProtoContext(IFeatureCollection features)
         {
             _features.Initalize(features);
-            _request = new DefaultHttpRequest(this);
-            _response = new DefaultHttpResponse(this);
+            _request = new DefaultProtoRequest(this);
+            _response = new DefaultProtoResponse(this);
         }
 
         public void Initialize(IFeatureCollection features)
@@ -52,7 +52,7 @@ namespace Microsoft.AspNetCore.Http
             _request.Initialize(revision);
             _response.Initialize(revision);
             _connection?.Initialize(features, revision);
-            _websockets?.Initialize(features, revision);
+            _gamesockets?.Initialize(features, revision);
         }
 
         public void Uninitialize()
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Http
             _request.Uninitialize();
             _response.Uninitialize();
             _connection?.Uninitialize();
-            _websockets?.Uninitialize();
+            _gamesockets?.Uninitialize();
         }
 
         public FormOptions FormOptions { get; set; }
@@ -74,11 +74,11 @@ namespace Microsoft.AspNetCore.Http
         private IServiceProvidersFeature ServiceProvidersFeature =>
             _features.Fetch(ref _features.Cache.ServiceProviders, this, _newServiceProvidersFeature);
 
-        private IHttpAuthenticationFeature HttpAuthenticationFeature =>
-            _features.Fetch(ref _features.Cache.Authentication, _newHttpAuthenticationFeature);
+        private IProtoAuthenticationFeature ProtoAuthenticationFeature =>
+            _features.Fetch(ref _features.Cache.Authentication, _newProtoAuthenticationFeature);
 
-        private IHttpRequestLifetimeFeature LifetimeFeature =>
-            _features.Fetch(ref _features.Cache.Lifetime, _newHttpRequestLifetimeFeature);
+        private IProtoRequestLifetimeFeature LifetimeFeature =>
+            _features.Fetch(ref _features.Cache.Lifetime, _newProtoRequestLifetimeFeature);
 
         private ISessionFeature SessionFeature =>
             _features.Fetch(ref _features.Cache.Session, _newSessionFeature);
@@ -87,32 +87,32 @@ namespace Microsoft.AspNetCore.Http
             _features.Fetch(ref _features.Cache.Session, _nullSessionFeature);
 
 
-        private IHttpRequestIdentifierFeature RequestIdentifierFeature =>
-            _features.Fetch(ref _features.Cache.RequestIdentifier, _newHttpRequestIdentifierFeature);
+        private IProtoRequestIdentifierFeature RequestIdentifierFeature =>
+            _features.Fetch(ref _features.Cache.RequestIdentifier, _newProtoRequestIdentifierFeature);
 
         public override IFeatureCollection Features => _features.Collection;
 
-        public override HttpRequest Request => _request;
+        public override ProtoRequest Request => _request;
 
-        public override HttpResponse Response => _response;
+        public override ProtoResponse Response => _response;
 
         public override ConnectionInfo Connection => _connection ?? (_connection = new DefaultConnectionInfo(_features.Collection));
 
-        public override WebSocketManager WebSockets => _websockets ?? (_websockets = new DefaultWebSocketManager(_features.Collection));
+        public override GameSocketManager GameSockets => _gamesockets ?? (_gamesockets = new DefaultGameSocketManager(_features.Collection));
 
         public override ClaimsPrincipal User
         {
             get
             {
-                var user = HttpAuthenticationFeature.User;
+                var user = ProtoAuthenticationFeature.User;
                 if (user == null)
                 {
                     user = new ClaimsPrincipal(new ClaimsIdentity());
-                    HttpAuthenticationFeature.User = user;
+                    ProtoAuthenticationFeature.User = user;
                 }
                 return user;
             }
-            set { HttpAuthenticationFeature.User = value; }
+            set { ProtoAuthenticationFeature.User = value; }
         }
 
         public override IDictionary<object, object> Items
@@ -167,10 +167,10 @@ namespace Microsoft.AspNetCore.Http
         {
             public IItemsFeature Items;
             public IServiceProvidersFeature ServiceProviders;
-            public IHttpAuthenticationFeature Authentication;
-            public IHttpRequestLifetimeFeature Lifetime;
+            public IProtoAuthenticationFeature Authentication;
+            public IProtoRequestLifetimeFeature Lifetime;
             public ISessionFeature Session;
-            public IHttpRequestIdentifierFeature RequestIdentifier;
+            public IProtoRequestIdentifierFeature RequestIdentifier;
         }
     }
 }

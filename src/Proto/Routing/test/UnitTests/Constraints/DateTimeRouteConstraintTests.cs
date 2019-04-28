@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Constraints;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class DateTimeRouteConstraintTests
     {

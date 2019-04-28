@@ -5,22 +5,22 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal partial class Http1Connection : IHttpMinRequestBodyDataRateFeature,
-                                           IHttpMinResponseDataRateFeature
+    internal partial class Proto1Connection : IProtoMinRequestBodyDataRateFeature,
+                                           IProtoMinResponseDataRateFeature
     {
-        MinDataRate IHttpMinRequestBodyDataRateFeature.MinDataRate
+        MinDataRate IProtoMinRequestBodyDataRateFeature.MinDataRate
         {
             get => MinRequestBodyDataRate;
             set => MinRequestBodyDataRate = value;
         }
 
-        MinDataRate IHttpMinResponseDataRateFeature.MinDataRate
+        MinDataRate IProtoMinResponseDataRateFeature.MinDataRate
         {
             get => MinResponseDataRate;
             set => MinResponseDataRate = value;

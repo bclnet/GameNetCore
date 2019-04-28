@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // This is an adapter to use Route in the conformance tests
     internal class RouteMatcher : Matcher
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             _inner = inner;
         }
 
-        public async override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public async override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             if (httpContext == null)
             {

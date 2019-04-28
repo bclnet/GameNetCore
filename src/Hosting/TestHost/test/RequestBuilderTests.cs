@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 using Xunit;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     public class RequestBuilderTests
     {

@@ -3,11 +3,11 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Rewrite.Logging;
+using Contoso.GameNetCore.Rewrite.Logging;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal
+namespace Contoso.GameNetCore.Rewrite.Internal
 {
     public class RedirectRule : IRule
     {

@@ -2,28 +2,28 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebSockets.Test
+namespace Contoso.GameNetCore.GameSockets.Test
 {
-    public class AddWebSocketsTests
+    public class AddGameSocketsTests
     {
         [Fact]
-        public void AddWebSocketsConfiguresOptions()
+        public void AddGameSocketsConfiguresOptions()
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddWebSockets(o =>
+            serviceCollection.AddGameSockets(o =>
             {
                 o.KeepAliveInterval = TimeSpan.FromSeconds(1000);
                 o.AllowedOrigins.Add("someString");
             });
 
             var services = serviceCollection.BuildServiceProvider();
-            var socketOptions = services.GetRequiredService<IOptions<WebSocketOptions>>().Value;
+            var socketOptions = services.GetRequiredService<IOptions<GameSocketOptions>>().Value;
 
             Assert.Equal(TimeSpan.FromSeconds(1000), socketOptions.KeepAliveInterval);
             Assert.Single(socketOptions.AllowedOrigins);

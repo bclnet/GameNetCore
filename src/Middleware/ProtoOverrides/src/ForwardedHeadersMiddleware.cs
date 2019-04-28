@@ -7,13 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.ProtoOverrides
 {
     public class ForwardedHeadersMiddleware
     {
@@ -33,8 +33,8 @@ namespace Microsoft.AspNetCore.HttpOverrides
             SchemeCharValidity['-'] = true;
             SchemeCharValidity['.'] = true;
 
-            // Host Matches Http.Sys and Kestrel
-            // Host Matches RFC 3986 except "*" / "+" / "," / ";" / "=" and "%" HEXDIG HEXDIG which are not allowed by Http.Sys
+            // Host Matches Proto.Sys and Kestrel
+            // Host Matches RFC 3986 except "*" / "+" / "," / ";" / "=" and "%" HEXDIG HEXDIG which are not allowed by Proto.Sys
             HostCharValidity['!'] = true;
             HostCharValidity['$'] = true;
             HostCharValidity['&'] = true;
@@ -111,7 +111,7 @@ namespace Microsoft.AspNetCore.HttpOverrides
             var allowedHosts = new List<StringSegment>();
             foreach (var entry in _options.AllowedHosts)
             {
-                // Punycode. Http.Sys requires you to register Unicode hosts, but the headers contain punycode.
+                // Punycode. Proto.Sys requires you to register Unicode hosts, but the headers contain punycode.
                 var host = new HostString(entry).ToUriComponent();
 
                 if (IsTopLevelWildcard(host))
@@ -132,18 +132,18 @@ namespace Microsoft.AspNetCore.HttpOverrides
 
         private bool IsTopLevelWildcard(string host)
         {
-            return (string.Equals("*", host, StringComparison.Ordinal) // HttpSys wildcard
+            return (string.Equals("*", host, StringComparison.Ordinal) // ProtoSys wildcard
                            || string.Equals("[::]", host, StringComparison.Ordinal) // Kestrel wildcard, IPv6 Any
                            || string.Equals("0.0.0.0", host, StringComparison.Ordinal)); // IPv4 Any
         }
 
-        public Task Invoke(HttpContext context)
+        public Task Invoke(ProtoContext context)
         {
             ApplyForwarders(context);
             return _next(context);
         }
 
-        public void ApplyForwarders(HttpContext context)
+        public void ApplyForwarders(ProtoContext context)
         {
             // Gather expected headers.
             string[] forwardedFor = null, forwardedProto = null, forwardedHost = null;

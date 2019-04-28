@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     public class IISExpressAncmSchema
     {

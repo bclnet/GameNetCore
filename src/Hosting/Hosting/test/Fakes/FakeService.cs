@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Hosting.Fakes
+namespace Contoso.GameNetCore.Hosting.Fakes
 {
     public class FakeService : IFakeEveryService, IDisposable
     {

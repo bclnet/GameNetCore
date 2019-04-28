@@ -7,7 +7,7 @@ using System.Linq;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class MediaTypeHeaderValueTest
     {
@@ -545,7 +545,7 @@ namespace Microsoft.Net.Http.Headers
         [Fact]
         public void ParseList_SetOfValidValueStrings_ReturnsValues()
         {
-            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/webp,*/*;q=0.8" };
+            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/gamep,*/*;q=0.8" };
             var results = MediaTypeHeaderValue.ParseList(inputs);
 
             var expectedResults = new[]
@@ -553,7 +553,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("text/html"),
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -563,7 +563,7 @@ namespace Microsoft.Net.Http.Headers
         [Fact]
         public void ParseStrictList_SetOfValidValueStrings_ReturnsValues()
         {
-            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/webp,*/*;q=0.8" };
+            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/gamep,*/*;q=0.8" };
             var results = MediaTypeHeaderValue.ParseStrictList(inputs);
 
             var expectedResults = new[]
@@ -571,7 +571,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("text/html"),
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -581,7 +581,7 @@ namespace Microsoft.Net.Http.Headers
         [Fact]
         public void TryParseList_SetOfValidValueStrings_ReturnsTrue()
         {
-            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/webp,*/*;q=0.8" };
+            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/gamep,*/*;q=0.8" };
             IList<MediaTypeHeaderValue> results;
             Assert.True(MediaTypeHeaderValue.TryParseList(inputs, out results));
 
@@ -590,7 +590,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("text/html"),
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -600,7 +600,7 @@ namespace Microsoft.Net.Http.Headers
         [Fact]
         public void TryParseStrictList_SetOfValidValueStrings_ReturnsTrue()
         {
-            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/webp,*/*;q=0.8" };
+            var inputs = new[] { "text/html,application/xhtml+xml,", "application/xml;q=0.9,image/gamep,*/*;q=0.8" };
             IList<MediaTypeHeaderValue> results;
             Assert.True(MediaTypeHeaderValue.TryParseStrictList(inputs, out results));
 
@@ -609,7 +609,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("text/html"),
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -622,7 +622,7 @@ namespace Microsoft.Net.Http.Headers
             var inputs = new[]
             {
                 "text/html,application/xhtml+xml, ignore-this, ignore/this",
-                "application/xml;q=0.9,image/webp,*/*;q=0.8"
+                "application/xml;q=0.9,image/gamep,*/*;q=0.8"
             };
             var results = MediaTypeHeaderValue.ParseList(inputs);
 
@@ -632,7 +632,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("ignore/this"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -645,7 +645,7 @@ namespace Microsoft.Net.Http.Headers
             var inputs = new[]
             {
                 "text/html,application/xhtml+xml, ignore-this, ignore/this",
-                "application/xml;q=0.9,image/webp,*/*;q=0.8"
+                "application/xml;q=0.9,image/gamep,*/*;q=0.8"
             };
             Assert.Throws<FormatException>(() => MediaTypeHeaderValue.ParseStrictList(inputs));
         }
@@ -656,7 +656,7 @@ namespace Microsoft.Net.Http.Headers
             var inputs = new[]
             {
                 "text/html,application/xhtml+xml, ignore-this, ignore/this",
-                "application/xml;q=0.9,image/webp,*/*;q=0.8",
+                "application/xml;q=0.9,image/gamep,*/*;q=0.8",
                 "application/xml;q=0 4"
             };
             IList<MediaTypeHeaderValue> results;
@@ -668,7 +668,7 @@ namespace Microsoft.Net.Http.Headers
                 new MediaTypeHeaderValue("application/xhtml+xml"),
                 new MediaTypeHeaderValue("ignore/this"),
                 new MediaTypeHeaderValue("application/xml", 0.9),
-                new MediaTypeHeaderValue("image/webp"),
+                new MediaTypeHeaderValue("image/gamep"),
                 new MediaTypeHeaderValue("*/*", 0.8),
             }.ToList();
 
@@ -681,7 +681,7 @@ namespace Microsoft.Net.Http.Headers
             var inputs = new[]
             {
                 "text/html,application/xhtml+xml, ignore-this, ignore/this",
-                "application/xml;q=0.9,image/webp,*/*;q=0.8",
+                "application/xml;q=0.9,image/gamep,*/*;q=0.8",
                 "application/xml;q=0 4"
             };
             IList<MediaTypeHeaderValue> results;

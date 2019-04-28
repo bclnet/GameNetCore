@@ -6,13 +6,13 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class HPackDecoderTests : IHttpHeadersHandler
     {

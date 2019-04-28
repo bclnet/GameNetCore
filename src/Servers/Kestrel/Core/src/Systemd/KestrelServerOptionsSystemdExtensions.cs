@@ -4,9 +4,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static class KestrelServerOptionsSystemdExtensions
     {

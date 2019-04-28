@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Routing.DecisionTree
+namespace Contoso.GameNetCore.Routing.DecisionTree
 {
     internal class DecisionCriterion<TItem>
     {

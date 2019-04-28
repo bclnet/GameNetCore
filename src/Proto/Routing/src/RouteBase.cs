@@ -3,17 +3,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Logging;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Logging;
+using Contoso.GameNetCore.Routing.Template;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public abstract class RouteBase : IRouter, INamedRouter
     {
@@ -80,9 +80,9 @@ namespace Microsoft.AspNetCore.Routing
             }
 
             EnsureMatcher();
-            EnsureLoggers(context.HttpContext);
+            EnsureLoggers(context.ProtoContext);
 
-            var requestPath = context.HttpContext.Request.Path;
+            var requestPath = context.ProtoContext.Request.Path;
 
             if (!_matcher.TryMatch(requestPath, context.RouteData.Values))
             {
@@ -100,7 +100,7 @@ namespace Microsoft.AspNetCore.Routing
             if (!RouteConstraintMatcher.Match(
                 Constraints,
                 context.RouteData.Values,
-                context.HttpContext,
+                context.ProtoContext,
                 this,
                 RouteDirection.IncomingRequest,
                 _constraintLogger))
@@ -115,8 +115,8 @@ namespace Microsoft.AspNetCore.Routing
         /// <inheritdoc />
         public virtual VirtualPathData GetVirtualPath(VirtualPathContext context)
         {
-            EnsureBinder(context.HttpContext);
-            EnsureLoggers(context.HttpContext);
+            EnsureBinder(context.ProtoContext);
+            EnsureLoggers(context.ProtoContext);
 
             var values = _binder.GetValues(context.AmbientValues, context.Values);
             if (values == null)
@@ -128,7 +128,7 @@ namespace Microsoft.AspNetCore.Routing
             if (!RouteConstraintMatcher.Match(
                 Constraints,
                 values.CombinedValues,
-                context.HttpContext,
+                context.ProtoContext,
                 this,
                 RouteDirection.UrlGeneration,
                 _constraintLogger))
@@ -246,7 +246,7 @@ namespace Microsoft.AspNetCore.Routing
             }
         }
 
-        private void EnsureBinder(HttpContext context)
+        private void EnsureBinder(ProtoContext context)
         {
             if (_binder == null)
             {
@@ -255,7 +255,7 @@ namespace Microsoft.AspNetCore.Routing
             }
         }
 
-        private void EnsureLoggers(HttpContext context)
+        private void EnsureLoggers(ProtoContext context)
         {
             if (_logger == null)
             {

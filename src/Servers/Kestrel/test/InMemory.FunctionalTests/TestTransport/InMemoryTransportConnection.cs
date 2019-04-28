@@ -6,11 +6,11 @@ using System.Buffers;
 using System.IO.Pipelines;
 using System.Net;
 using System.Threading;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
+namespace Contoso.GameNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
 {
     internal class InMemoryTransportConnection : TransportConnection, IDisposable
     {

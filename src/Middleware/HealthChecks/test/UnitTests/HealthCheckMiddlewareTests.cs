@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Net.Http.Headers;
@@ -15,7 +15,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Diagnostics.HealthChecks
+namespace Contoso.GameNetCore.Diagnostics.HealthChecks
 {
     public class HealthCheckMiddlewareTests
     {

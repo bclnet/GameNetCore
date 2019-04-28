@@ -3,14 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // These are really more like integration tests. They verify that these extensions
     // add routes that behave as advertised.
@@ -18,11 +18,11 @@ namespace Microsoft.AspNetCore.Routing
     {
         private static readonly RequestDelegate NullHandler = (c) => Task.CompletedTask;
 
-        public static TheoryData<Action<IRouteBuilder>, Action<HttpContext>> MatchingActions
+        public static TheoryData<Action<IRouteBuilder>, Action<ProtoContext>> MatchingActions
         {
             get
             {
-                return new TheoryData<Action<IRouteBuilder>, Action<HttpContext>>()
+                return new TheoryData<Action<IRouteBuilder>, Action<ProtoContext>>()
                 {
                     { b => { b.MapRoute("api/{id}", NullHandler); }, null },
                     { b => { b.MapMiddlewareRoute("api/{id}", app => { }); }, null },
@@ -46,14 +46,14 @@ namespace Microsoft.AspNetCore.Routing
         [MemberData(nameof(MatchingActions))]
         public async Task Map_MatchesRequest(
             Action<IRouteBuilder> routeSetup,
-            Action<HttpContext> requestSetup)
+            Action<ProtoContext> requestSetup)
         {
             // Arrange
             var services = CreateServices();
 
             var context = CreateRouteContext(services);
-            context.HttpContext.Request.Path = new PathString("/api/5");
-            requestSetup?.Invoke(context.HttpContext);
+            context.ProtoContext.Request.Path = new PathString("/api/5");
+            requestSetup?.Invoke(context.ProtoContext);
 
             var builder = CreateRouteBuilder(services);
             routeSetup(builder);
@@ -66,11 +66,11 @@ namespace Microsoft.AspNetCore.Routing
             Assert.Same(NullHandler, context.Handler);
         }
 
-        public static TheoryData<Action<IRouteBuilder>, Action<HttpContext>> NonmatchingActions
+        public static TheoryData<Action<IRouteBuilder>, Action<ProtoContext>> NonmatchingActions
         {
             get
             {
-                return new TheoryData<Action<IRouteBuilder>, Action<HttpContext>>()
+                return new TheoryData<Action<IRouteBuilder>, Action<ProtoContext>>()
                 {
                     { b => { b.MapRoute("api/{id}/extra", NullHandler); }, null },
                     { b => { b.MapMiddlewareRoute("api/{id}/extra", app => { }); }, null },
@@ -104,14 +104,14 @@ namespace Microsoft.AspNetCore.Routing
         [MemberData(nameof(NonmatchingActions))]
         public async Task Map_DoesNotMatchRequest(
             Action<IRouteBuilder> routeSetup,
-            Action<HttpContext> requestSetup)
+            Action<ProtoContext> requestSetup)
         {
             // Arrange
             var services = CreateServices();
 
             var context = CreateRouteContext(services);
-            context.HttpContext.Request.Path = new PathString("/api/5");
-            requestSetup?.Invoke(context.HttpContext);
+            context.ProtoContext.Request.Path = new PathString("/api/5");
+            requestSetup?.Invoke(context.ProtoContext);
 
             var builder = CreateRouteBuilder(services);
             routeSetup(builder);
@@ -135,7 +135,7 @@ namespace Microsoft.AspNetCore.Routing
 
         private static RouteContext CreateRouteContext(IServiceProvider services)
         {
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = services;
             return new RouteContext(httpContext);
         }

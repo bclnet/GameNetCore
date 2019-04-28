@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -11,10 +12,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Internal;
-using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// Used to read an 'application/x-www-form-urlencoded' form.
@@ -39,17 +38,12 @@ namespace Microsoft.AspNetCore.WebUtilities
         private readonly Encoding _encoding;
 
         public FormPipeReader(PipeReader pipeReader)
-            : this(pipeReader, Encoding.UTF8)
-        {
-        }
+            : this(pipeReader, Encoding.UTF8) { }
 
         public FormPipeReader(PipeReader pipeReader, Encoding encoding)
         {
             if (encoding == Encoding.UTF7)
-            {
                 throw new ArgumentException("UTF7 is unsupported and insecure. Please select a different encoding.");
-            }
-
             _pipeReader = pipeReader;
             _encoding = encoding;
 
@@ -90,18 +84,14 @@ namespace Microsoft.AspNetCore.WebUtilities
                 var buffer = readResult.Buffer;
 
                 if (!buffer.IsEmpty)
-                {
                     ParseFormValues(ref buffer, ref accumulator, readResult.IsCompleted);
-                }
 
                 if (readResult.IsCompleted)
                 {
                     _pipeReader.AdvanceTo(buffer.End);
 
                     if (!buffer.IsEmpty)
-                    {
                         throw new InvalidOperationException("End of body before form was fully parsed.");
-                    }
                     break;
                 }
 
@@ -152,16 +142,12 @@ namespace Microsoft.AspNetCore.WebUtilities
                 if (equals == -1)
                 {
                     if (span.Length > KeyLengthLimit)
-                    {
                         ThrowKeyTooLargeException();
-                    }
                     break;
                 }
 
                 if (equals > KeyLengthLimit)
-                {
                     ThrowKeyTooLargeException();
-                }
 
                 key = span.Slice(0, equals);
 
@@ -179,11 +165,9 @@ namespace Microsoft.AspNetCore.WebUtilities
                     }
 
                     if (!isFinalBlock)
-                    {
                         // We can't know that what is currently read is the end of the form value, that's only the case if this is the final block
                         // If we're not in the final block, then consume nothing
                         break;
-                    }
 
                     // If we are on the final block, the remaining content in value is what we want to add to the KVAccumulator.
                     // Clear out the remaining span such that the loop will exit.
@@ -192,9 +176,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 else
                 {
                     if (ampersand > ValueLengthLimit)
-                    {
                         ThrowValueTooLargeException();
-                    }
 
                     value = span.Slice(0, ampersand);
                     span = span.Slice(ampersand + andDelimiter.Length);
@@ -228,17 +210,12 @@ namespace Microsoft.AspNetCore.WebUtilities
                     !sequenceReader.IsNext(equalsDelimiter, true))
                 {
                     if (sequenceReader.Consumed > KeyLengthLimit)
-                    {
                         ThrowKeyTooLargeException();
-                    }
-
                     break;
                 }
 
                 if (key.Length > KeyLengthLimit)
-                {
                     ThrowKeyTooLargeException();
-                }
 
                 if (!sequenceReader.TryReadTo(out ReadOnlySequence<byte> value, andDelimiter, false) ||
                     !sequenceReader.IsNext(andDelimiter, true))
@@ -246,9 +223,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                     if (!isFinalBlock)
                     {
                         if (sequenceReader.Consumed - key.Length > ValueLengthLimit)
-                        {
                             ThrowValueTooLargeException();
-                        }
                         break;
                     }
 
@@ -258,9 +233,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 }
 
                 if (value.Length > ValueLengthLimit)
-                {
                     ThrowValueTooLargeException();
-                }
 
                 // Need to call ToArray if the key/value spans multiple segments 
                 var decodedKey = GetDecodedStringFromReadOnlySequence(key);
@@ -274,22 +247,14 @@ namespace Microsoft.AspNetCore.WebUtilities
             buffer = buffer.Slice(consumed);
         }
 
-        private void ThrowKeyTooLargeException()
-        {
-            throw new InvalidDataException($"Form key length limit {KeyLengthLimit} exceeded.");
-        }
+        private void ThrowKeyTooLargeException() => throw new InvalidDataException($"Form key length limit {KeyLengthLimit} exceeded.");
 
-        private void ThrowValueTooLargeException()
-        {
-            throw new InvalidDataException($"Form value length limit {ValueLengthLimit} exceeded.");
-        }
+        private void ThrowValueTooLargeException() => throw new InvalidDataException($"Form value length limit {ValueLengthLimit} exceeded.");
 
         private string GetDecodedStringFromReadOnlySequence(ReadOnlySequence<byte> ros)
         {
             if (ros.IsSingleSegment)
-            {
                 return GetDecodedString(ros.First.Span);
-            }
 
             if (ros.Length < StackAllocThreshold)
             {
@@ -320,17 +285,13 @@ namespace Microsoft.AspNetCore.WebUtilities
             accumulator.Append(decodedKey, decodedValue);
 
             if (accumulator.ValueCount > ValueCountLimit)
-            {
                 throw new InvalidDataException($"Form value count limit {ValueCountLimit} exceeded.");
-            }
         }
 
         private string GetDecodedString(ReadOnlySpan<byte> readOnlySpan)
         {
             if (readOnlySpan.Length == 0)
-            {
                 return string.Empty;
-            }
             else if (_encoding == Encoding.UTF8 || _encoding == Encoding.ASCII)
             {
                 // UrlDecoder only works on UTF8 (and implicitly ASCII)
@@ -354,28 +315,8 @@ namespace Microsoft.AspNetCore.WebUtilities
             }
         }
 
-        private ReadOnlySpan<byte> GetEqualsForEncoding()
-        {
-            if (_encoding == Encoding.UTF8 || _encoding == Encoding.ASCII)
-            {
-                return UTF8EqualEncoded;
-            }
-            else
-            {
-                return _otherEqualEncoding;
-            }
-        }
+        private ReadOnlySpan<byte> GetEqualsForEncoding() => _encoding == Encoding.UTF8 || _encoding == Encoding.ASCII ? UTF8EqualEncoded : (ReadOnlySpan<byte>)_otherEqualEncoding;
 
-        private ReadOnlySpan<byte> GetAndForEncoding()
-        {
-            if (_encoding == Encoding.UTF8 || _encoding == Encoding.ASCII)
-            {
-                return UTF8AndEncoded;
-            }
-            else
-            {
-                return _otherAndEncoding;
-            }
-        }
+        private ReadOnlySpan<byte> GetAndForEncoding() => _encoding == Encoding.UTF8 || _encoding == Encoding.ASCII ? UTF8AndEncoded : (ReadOnlySpan<byte>)_otherAndEncoding;
     }
 }

@@ -4,7 +4,7 @@
 using System;
 using System.Security.Claims;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Contains the result of an Authenticate call
@@ -48,33 +48,20 @@ namespace Microsoft.AspNetCore.Authentication
         /// </summary>
         /// <param name="ticket">The ticket representing the authentication result.</param>
         /// <returns>The result.</returns>
-        public static AuthenticateResult Success(AuthenticationTicket ticket)
-        {
-            if (ticket == null)
-            {
-                throw new ArgumentNullException(nameof(ticket));
-            }
-            return new AuthenticateResult() { Ticket = ticket, Properties = ticket.Properties };
-        }
+        public static AuthenticateResult Success(AuthenticationTicket ticket) => new AuthenticateResult { Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket)), Properties = ticket.Properties };
 
         /// <summary>
         /// Indicates that there was no information returned for this authentication scheme.
         /// </summary>
         /// <returns>The result.</returns>
-        public static AuthenticateResult NoResult()
-        {
-            return new AuthenticateResult() { None = true };
-        }
+        public static AuthenticateResult NoResult() => new AuthenticateResult { None = true };
 
         /// <summary>
         /// Indicates that there was a failure during authentication.
         /// </summary>
         /// <param name="failure">The failure exception.</param>
         /// <returns>The result.</returns>
-        public static AuthenticateResult Fail(Exception failure)
-        {
-            return new AuthenticateResult() { Failure = failure };
-        }
+        public static AuthenticateResult Fail(Exception failure) => new AuthenticateResult { Failure = failure };
 
         /// <summary>
         /// Indicates that there was a failure during authentication.
@@ -82,18 +69,14 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="failure">The failure exception.</param>
         /// <param name="properties">Additional state values for the authentication session.</param>
         /// <returns>The result.</returns>
-        public static AuthenticateResult Fail(Exception failure, AuthenticationProperties properties)
-        {
-            return new AuthenticateResult() { Failure = failure, Properties = properties };
-        }
+        public static AuthenticateResult Fail(Exception failure, AuthenticationProperties properties) => new AuthenticateResult { Failure = failure, Properties = properties };
 
         /// <summary>
         /// Indicates that there was a failure during authentication.
         /// </summary>
         /// <param name="failureMessage">The failure message.</param>
         /// <returns>The result.</returns>
-        public static AuthenticateResult Fail(string failureMessage)
-            => Fail(new Exception(failureMessage));
+        public static AuthenticateResult Fail(string failureMessage) => Fail(new Exception(failureMessage));
 
         /// <summary>
         /// Indicates that there was a failure during authentication.
@@ -101,7 +84,6 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="failureMessage">The failure message.</param>
         /// <param name="properties">Additional state values for the authentication session.</param>
         /// <returns>The result.</returns>
-        public static AuthenticateResult Fail(string failureMessage, AuthenticationProperties properties)
-            => Fail(new Exception(failureMessage), properties);
+        public static AuthenticateResult Fail(string failureMessage, AuthenticationProperties properties) => Fail(new Exception(failureMessage), properties);
     }
 }

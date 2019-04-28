@@ -1,18 +1,17 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
+using System;
+using System.Text.Encodings.Game;
+using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// Enables directory browsing
@@ -29,44 +28,26 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// Creates a new instance of the SendFileMiddleware. Using <see cref="HtmlEncoder.Default"/> instance.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="hostingEnv">The <see cref="IWebHostEnvironment"/> used by this middleware.</param>
+        /// <param name="hostingEnv">The <see cref="IGameHostEnvironment"/> used by this middleware.</param>
         /// <param name="options">The configuration for this middleware.</param>
-        public DirectoryBrowserMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, IOptions<DirectoryBrowserOptions> options) 
-            : this(next, hostingEnv, HtmlEncoder.Default, options)
-        {
-        }
+        public DirectoryBrowserMiddleware(RequestDelegate next, IGameHostEnvironment hostingEnv, IOptions<DirectoryBrowserOptions> options) 
+            : this(next, hostingEnv, HtmlEncoder.Default, options) { }
 
         /// <summary>
         /// Creates a new instance of the SendFileMiddleware.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="hostingEnv">The <see cref="IWebHostEnvironment"/> used by this middleware.</param>
+        /// <param name="hostingEnv">The <see cref="IGameHostEnvironment"/> used by this middleware.</param>
         /// <param name="encoder">The <see cref="HtmlEncoder"/> used by the default <see cref="HtmlDirectoryFormatter"/>.</param>
         /// <param name="options">The configuration for this middleware.</param>
-        public DirectoryBrowserMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, HtmlEncoder encoder, IOptions<DirectoryBrowserOptions> options)
+        public DirectoryBrowserMiddleware(RequestDelegate next, IGameHostEnvironment hostingEnv, HtmlEncoder encoder, IOptions<DirectoryBrowserOptions> options)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-
             if (hostingEnv == null)
-            {
                 throw new ArgumentNullException(nameof(hostingEnv));
-            }
-
             if (encoder == null)
-            {
                 throw new ArgumentNullException(nameof(encoder));
-            }
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
-            _next = next;
-            _options = options.Value;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
             _fileProvider = _options.FileProvider ?? Helpers.ResolveFileProvider(hostingEnv);
             _formatter = options.Value.Formatter ?? new HtmlDirectoryFormatter(encoder);
             _matchUrl = _options.RequestPath;
@@ -77,7 +58,7 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task Invoke(HttpContext context)
+        public Task Invoke(ProtoContext context)
         {
             // Check if the URL matches any expected paths, skip if an endpoint was selected
             if (context.GetEndpoint() == null &&
@@ -93,10 +74,8 @@ namespace Microsoft.AspNetCore.StaticFiles
                     context.Response.Headers[HeaderNames.Location] = context.Request.PathBase + context.Request.Path + "/" + context.Request.QueryString;
                     return Task.CompletedTask;
                 }
-
                 return _formatter.GenerateContentAsync(context, contents);
             }
-
             return _next(context);
         }
 

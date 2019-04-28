@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouteCollectionTest
     {
@@ -603,7 +603,7 @@ namespace Microsoft.AspNetCore.Routing
                 loggerFactory = NullLoggerFactory.Instance;
             }
 
-            var request = new Mock<HttpRequest>(MockBehavior.Strict);
+            var request = new Mock<ProtoRequest>(MockBehavior.Strict);
 
             var services = new ServiceCollection();
             services.AddOptions();
@@ -613,7 +613,7 @@ namespace Microsoft.AspNetCore.Routing
                 services.Configure(options);
             }
 
-            var context = new Mock<HttpContext>(MockBehavior.Strict);
+            var context = new Mock<ProtoContext>(MockBehavior.Strict);
             context.SetupGet(m => m.RequestServices).Returns(services.BuildServiceProvider());
             context.SetupGet(c => c.Request).Returns(request.Object);
 
@@ -634,7 +634,7 @@ namespace Microsoft.AspNetCore.Routing
                 services.Configure<RouteOptions>(options);
             }
 
-            var context = new DefaultHttpContext
+            var context = new DefaultProtoContext
             {
                 RequestServices = services.BuildServiceProvider(),
             };
@@ -661,13 +661,13 @@ namespace Microsoft.AspNetCore.Routing
                 options = new RouteOptions();
             }
 
-            var request = new Mock<HttpRequest>(MockBehavior.Strict);
+            var request = new Mock<ProtoRequest>(MockBehavior.Strict);
             request.SetupGet(r => r.Path).Returns(requestPath);
 
             var optionsAccessor = new Mock<IOptions<RouteOptions>>(MockBehavior.Strict);
             optionsAccessor.SetupGet(o => o.Value).Returns(options);
 
-            var context = new Mock<HttpContext>(MockBehavior.Strict);
+            var context = new Mock<ProtoContext>(MockBehavior.Strict);
             context.Setup(m => m.RequestServices.GetService(typeof(ILoggerFactory)))
                 .Returns(loggerFactory);
             context.Setup(m => m.RequestServices.GetService(typeof(IOptions<RouteOptions>)))

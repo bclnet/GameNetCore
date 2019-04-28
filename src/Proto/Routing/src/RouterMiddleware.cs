@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Logging;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public class RouterMiddleware
     {
@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Builder
             _logger = loggerFactory.CreateLogger<RouterMiddleware>();
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(ProtoContext httpContext)
         {
             var context = new RouteContext(httpContext);
             context.RouteData.Routers.Add(_router);
@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Builder
                     RouteData = context.RouteData,
                 };
 
-                await context.Handler(context.HttpContext);
+                await context.Handler(context.ProtoContext);
             }
         }
     }

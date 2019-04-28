@@ -4,17 +4,17 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Proto.Extensions
 {
     public class ResponseExtensionTests
     {
         [Fact]
         public void Clear_ResetsResponse()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Response.StatusCode = 201;
             context.Response.Headers["custom"] = "value";
             context.Response.Body.Write(new byte[100], 0, 100);
@@ -29,13 +29,13 @@ namespace Microsoft.AspNetCore.Http.Extensions
         [Fact]
         public void Clear_AlreadyStarted_Throws()
         {
-            var context = new DefaultHttpContext();
-            context.Features.Set<IHttpResponseFeature>(new StartedResponseFeature());
+            var context = new DefaultProtoContext();
+            context.Features.Set<IProtoResponseFeature>(new StartedResponseFeature());
 
             Assert.Throws<InvalidOperationException>(() => context.Response.Clear());
         }
 
-        private class StartedResponseFeature : IHttpResponseFeature
+        private class StartedResponseFeature : IProtoResponseFeature
         {
             public Stream Body { get; set; }
 

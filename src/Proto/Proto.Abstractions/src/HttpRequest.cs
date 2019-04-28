@@ -5,19 +5,19 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Routing;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Represents the incoming side of an individual HTTP request.
     /// </summary>
-    public abstract class HttpRequest
+    public abstract class ProtoRequest
     {
         /// <summary>
-        /// Gets the <see cref="HttpContext"/> for this request.
+        /// Gets the <see cref="ProtoContext"/> for this request.
         /// </summary>
-        public abstract HttpContext HttpContext { get; }
+        public abstract ProtoContext ProtoContext { get; }
 
         /// <summary>
         /// Gets or sets the HTTP method.
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Http
         /// Returns true if the RequestScheme is https.
         /// </summary>
         /// <returns>true if this request is using https; otherwise, false.</returns>
-        public abstract bool IsHttps { get; set; }
+        public abstract bool IsProtos { get; set; }
 
         /// <summary>
         /// Gets or sets the Host header. May include the port.

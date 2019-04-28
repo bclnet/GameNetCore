@@ -3,13 +3,13 @@
 
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.ResponseCompression.Benchmarks
+namespace Contoso.GameNetCore.ResponseCompression.Benchmarks
 {
     public class ResponseCompressionProviderBenchmark
     {

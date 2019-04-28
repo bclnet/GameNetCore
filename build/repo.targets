@@ -64,8 +64,8 @@
     </MSBuild>
 
     <ItemGroup>
-      <_SharedFrameworkAndPackageRef Include="@(_ProjectReferenceProvider->WithMetadataValue('IsAspNetCoreApp','true')->WithMetadataValue('IsShippingPackage', 'true')->Distinct())" />
-      <_SharedFrameworkRef Include="@(_ProjectReferenceProvider->WithMetadataValue('IsAspNetCoreApp','true')->WithMetadataValue('IsShippingPackage', 'false')->Distinct())" />
+      <_SharedFrameworkAndPackageRef Include="@(_ProjectReferenceProvider->WithMetadataValue('IsGameNetCoreApp','true')->WithMetadataValue('IsShippingPackage', 'true')->Distinct())" />
+      <_SharedFrameworkRef Include="@(_ProjectReferenceProvider->WithMetadataValue('IsGameNetCoreApp','true')->WithMetadataValue('IsShippingPackage', 'false')->Distinct())" />
       <_ProjectReferenceProviderWithRefAssembly Include="@(_ProjectReferenceProvider->HasMetadata('ReferenceAssemblyProjectFileRelativePath'))" />
       <_ProjectReferenceProvider Remove="@(_ProjectReferenceProviderWithRefAssembly)" />
     </ItemGroup>
@@ -101,7 +101,7 @@
 
   This file contains a complete list of the assemblies which are part of the shared framework.
 
-  This project is generated using the <IsAspNetCoreApp> and <IsShippingPackage> properties from each .csproj in this repository.
+  This project is generated using the <IsGameNetCoreApp> and <IsShippingPackage> properties from each .csproj in this repository.
 -->
 <Project>
   <ItemGroup>

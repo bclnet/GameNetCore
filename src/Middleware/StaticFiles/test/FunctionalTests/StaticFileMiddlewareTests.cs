@@ -11,19 +11,19 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
-using Microsoft.AspNetCore.Server.IntegrationTesting.Common;
-using Microsoft.AspNetCore.Testing;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Endpoints;
+using Contoso.GameNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Server.IntegrationTesting.Common;
+using Contoso.GameNetCore.Testing;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     public class StaticFileMiddlewareTests : LoggedTest
     {

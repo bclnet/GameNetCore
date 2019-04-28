@@ -7,10 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     public class OwinEnvironmentTests
     {
@@ -23,7 +23,7 @@ namespace Microsoft.AspNetCore.Owin
         [Fact]
         public void OwinEnvironmentCanBeCreated()
         {
-            HttpContext context = CreateContext();
+            ProtoContext context = CreateContext();
             context.Request.Method = "SomeMethod";
             context.User = new ClaimsPrincipal(new ClaimsIdentity("Foo"));
             context.Request.Body = Stream.Null;
@@ -62,7 +62,7 @@ namespace Microsoft.AspNetCore.Owin
         [Fact]
         public void OwinEnvironmentCanBeModified()
         {
-            HttpContext context = CreateContext();
+            ProtoContext context = CreateContext();
             IDictionary<string, object> env = new OwinEnvironment(context);
 
             env["owin.RequestMethod"] = "SomeMethod";
@@ -104,7 +104,7 @@ namespace Microsoft.AspNetCore.Owin
         [InlineData("server.LocalPort")]
         public void OwinEnvironmentDoesNotContainEntriesForMissingFeatures(string key)
         {
-            HttpContext context = CreateContext();
+            ProtoContext context = CreateContext();
             IDictionary<string, object> env = new OwinEnvironment(context);
 
             object value;
@@ -119,7 +119,7 @@ namespace Microsoft.AspNetCore.Owin
         [Fact]
         public void OwinEnvironmentSuppliesDefaultsForMissingRequiredEntries()
         {
-            HttpContext context = CreateContext();
+            ProtoContext context = CreateContext();
             IDictionary<string, object> env = new OwinEnvironment(context);
 
             object value;
@@ -139,9 +139,9 @@ namespace Microsoft.AspNetCore.Owin
             Assert.NotNull(((IEnumerable)owinEnvironment).GetEnumerator());
         }
 
-        private HttpContext CreateContext()
+        private ProtoContext CreateContext()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             return context;
         }
     }

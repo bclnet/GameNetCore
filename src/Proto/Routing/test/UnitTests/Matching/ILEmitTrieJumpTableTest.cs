@@ -5,7 +5,7 @@ using Moq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // We get a lot of good coverage of basics since this implementation is used
     // as the default in many cases. The tests here are focused on details of the

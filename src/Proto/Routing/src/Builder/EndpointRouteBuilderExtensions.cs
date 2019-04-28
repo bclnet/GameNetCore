@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Patterns;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Provides extension methods for <see cref="IEndpointRouteBuilder"/> to add endpoints.
@@ -108,7 +108,7 @@ namespace Microsoft.AspNetCore.Builder
 
             var builder = endpoints.Map(RoutePatternFactory.Parse(pattern), requestDelegate);
             builder.WithDisplayName($"{pattern} HTTP: {string.Join(", ", httpMethods)}");
-            builder.WithMetadata(new HttpMethodMetadata(httpMethods));
+            builder.WithMetadata(new ProtoMethodMetadata(httpMethods));
             return builder;
         }
 

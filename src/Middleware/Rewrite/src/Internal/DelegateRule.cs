@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal
+namespace Contoso.GameNetCore.Rewrite.Internal
 {
     public class DelegateRule : IRule
     {

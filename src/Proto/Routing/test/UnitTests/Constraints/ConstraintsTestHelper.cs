@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Moq;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class ConstraintsTestHelper
     {

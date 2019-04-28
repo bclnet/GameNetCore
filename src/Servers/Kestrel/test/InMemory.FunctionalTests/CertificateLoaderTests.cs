@@ -3,12 +3,12 @@
 
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Server.Kestrel.Https.Internal;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Logging.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests
+namespace Contoso.GameNetCore.Server.Kestrel.InMemory.FunctionalTests
 {
     public class CertificateLoaderTests : LoggedTest
     {

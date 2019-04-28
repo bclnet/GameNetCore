@@ -9,7 +9,7 @@ Microsoft.AspNetCore.Http.HttpContext
 Microsoft.AspNetCore.Http.HttpRequest
 Microsoft.AspNetCore.Http.HttpResponse</Description>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <IsAspNetCoreApp>true</IsAspNetCoreApp>
+    <IsGameNetCoreApp>true</IsGameNetCoreApp>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>aspnetcore</PackageTags>
     <NoWarn>$(NoWarn);CS1591</NoWarn>

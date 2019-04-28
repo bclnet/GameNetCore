@@ -3,12 +3,12 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Logging.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouterMiddlewareTest
     {
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Routing
                 TestSink.EnableWithTypeName<RouterMiddleware>);
             var loggerFactory = new TestLoggerFactory(sink, enabled: true);
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = new ServiceProvider();
 
             RequestDelegate next = (c) =>
@@ -55,7 +55,7 @@ namespace Microsoft.AspNetCore.Routing
                 TestSink.EnableWithTypeName<RouterMiddleware>);
             var loggerFactory = new TestLoggerFactory(sink, enabled: true);
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = new ServiceProvider();
 
             RequestDelegate next = (c) =>

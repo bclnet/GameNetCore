@@ -4,12 +4,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore.Hosting.Tests.Fakes
+namespace Contoso.GameNetCore.Hosting.Tests.Fakes
 {
     internal class GenericWebHost : IWebHost
     {

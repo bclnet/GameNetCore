@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     internal class MultipartReaderStream : Stream
     {
@@ -27,9 +27,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="stream">The <see cref="BufferedReadStream"/>.</param>
         /// <param name="boundary">The boundary pattern to use.</param>
         public MultipartReaderStream(BufferedReadStream stream, MultipartBoundary boundary)
-            : this(stream, boundary, ArrayPool<byte>.Shared)
-        {
-        }
+            : this(stream, boundary, ArrayPool<byte>.Shared) { }
 
         /// <summary>
         /// Creates a stream that reads until it reaches the given boundary pattern.
@@ -39,110 +37,62 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="bytePool">The ArrayPool pool to use for temporary byte arrays.</param>
         public MultipartReaderStream(BufferedReadStream stream, MultipartBoundary boundary, ArrayPool<byte> bytePool)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            if (boundary == null)
-            {
-                throw new ArgumentNullException(nameof(boundary));
-            }
-
             _bytePool = bytePool;
-            _innerStream = stream;
+            _innerStream = stream ?? throw new ArgumentNullException(nameof(stream));
             _innerOffset = _innerStream.CanSeek ? _innerStream.Position : 0;
-            _boundary = boundary;
+            _boundary = boundary ?? throw new ArgumentNullException(nameof(boundary));
         }
 
         public bool FinalBoundaryFound { get; private set; }
 
         public long? LengthLimit { get; set; }
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
-        public override bool CanSeek
-        {
-            get { return _innerStream.CanSeek; }
-        }
+        public override bool CanSeek => _innerStream.CanSeek;
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
-        public override long Length
-        {
-            get { return _observedLength; }
-        }
+        public override long Length => _observedLength;
 
         public override long Position
         {
-            get { return _position; }
+            get => _position;
             set
             {
                 if (value < 0)
-                {
                     throw new ArgumentOutOfRangeException(nameof(value), value, "The Position must be positive.");
-                }
                 if (value > _observedLength)
-                {
                     throw new ArgumentOutOfRangeException(nameof(value), value, "The Position must be less than length.");
-                }
                 _position = value;
                 if (_position < _observedLength)
-                {
                     _finished = false;
-                }
             }
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
             if (origin == SeekOrigin.Begin)
-            {
                 Position = offset;
-            }
             else if (origin == SeekOrigin.Current)
-            {
-                Position = Position + offset;
-            }
+                Position += offset;
             else // if (origin == SeekOrigin.End)
-            {
                 Position = Length + offset;
-            }
             return Position;
         }
 
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException();
-        }
+        public override void SetLength(long value) => throw new NotSupportedException();
 
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException();
-        }
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            throw new NotSupportedException();
-        }
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => throw new NotSupportedException();
 
-        public override void Flush()
-        {
-            throw new NotSupportedException();
-        }
+        public override void Flush() => throw new NotSupportedException();
 
         private void PositionInnerStream()
         {
             if (_innerStream.CanSeek && _innerStream.Position != (_innerOffset + _position))
-            {
                 _innerStream.Position = _innerOffset + _position;
-            }
         }
 
         private int UpdatePosition(int read)
@@ -152,9 +102,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             {
                 _observedLength = _position;
                 if (LengthLimit.HasValue && _observedLength > LengthLimit.GetValueOrDefault())
-                {
                     throw new InvalidDataException($"Multipart body length limit {LengthLimit.GetValueOrDefault()} exceeded.");
-                }
             }
             return read;
         }
@@ -162,15 +110,11 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (_finished)
-            {
                 return 0;
-            }
 
             PositionInnerStream();
             if (!_innerStream.EnsureBuffered(_boundary.FinalBoundaryLength))
-            {
                 throw new IOException("Unexpected end of Stream, the content may have already been read by another component. ");
-            }
             var bufferedData = _innerStream.BufferedData;
 
             // scan for a boundary match, full or partial.
@@ -198,9 +142,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 var remainder = _innerStream.ReadLine(lengthLimit: 100); // Whitespace may exceed the buffer.
                 remainder = remainder.Trim();
                 if (string.Equals("--", remainder, StringComparison.Ordinal))
-                {
                     FinalBoundaryFound = true;
-                }
                 Debug.Assert(FinalBoundaryFound || string.Equals(string.Empty, remainder, StringComparison.Ordinal), "Un-expected data found on the boundary line: " + remainder);
                 _finished = true;
                 return 0;
@@ -214,22 +156,16 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (_finished)
-            {
                 return 0;
-            }
 
             PositionInnerStream();
             if (!await _innerStream.EnsureBufferedAsync(_boundary.FinalBoundaryLength, cancellationToken))
-            {
                 throw new IOException("Unexpected end of Stream, the content may have already been read by another component. ");
-            }
             var bufferedData = _innerStream.BufferedData;
 
             // scan for a boundary match, full or partial.
-            int matchOffset;
-            int matchCount;
             int read;
-            if (SubMatch(bufferedData, _boundary.BoundaryBytes, out matchOffset, out matchCount))
+            if (SubMatch(bufferedData, _boundary.BoundaryBytes, out var matchOffset, out var matchCount))
             {
                 // We found a possible match, return any data before it.
                 if (matchOffset > bufferedData.Offset)
@@ -253,9 +189,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 var remainder = await _innerStream.ReadLineAsync(lengthLimit: 100, cancellationToken: cancellationToken); // Whitespace may exceed the buffer.
                 remainder = remainder.Trim();
                 if (string.Equals("--", remainder, StringComparison.Ordinal))
-                {
                     FinalBoundaryFound = true;
-                }
                 Debug.Assert(FinalBoundaryFound || string.Equals(string.Empty, remainder, StringComparison.Ordinal), "Un-expected data found on the boundary line: " + remainder);
 
                 _finished = true;
@@ -314,9 +248,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                     }
                 }
                 if (matchCount > 0)
-                {
                     break;
-                }
             }
             return matchCount > 0;
         }
@@ -324,12 +256,8 @@ namespace Microsoft.AspNetCore.WebUtilities
         private static int CompareBuffers(byte[] buffer1, int offset1, byte[] buffer2, int offset2, int count)
         {
             for (; count-- > 0; offset1++, offset2++)
-            {
                 if (buffer1[offset1] != buffer2[offset2])
-                {
                     return buffer1[offset1] - buffer2[offset2];
-                }
-            }
             return 0;
         }
     }

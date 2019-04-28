@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// An exception that is thrown for error constructing a <see cref="RoutePattern"/>.

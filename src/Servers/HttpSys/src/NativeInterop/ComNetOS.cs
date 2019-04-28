@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Internal;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal static class ComNetOS
     {

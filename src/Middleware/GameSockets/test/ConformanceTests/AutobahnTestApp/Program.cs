@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Runtime.Loader;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +17,7 @@ namespace AutobahnTestApp
                 .AddCommandLine(args)
                 .Build();
 
-            var builder = new WebHostBuilder()
+            var builder = new GameHostBuilder()
                 .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseConfiguration(config)
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -41,8 +41,8 @@ namespace AutobahnTestApp
             else
             {
                 // Also check "server.urls" for back-compat.
-                var urls = builder.GetSetting(WebHostDefaults.ServerUrlsKey) ?? builder.GetSetting("server.urls");
-                builder.UseSetting(WebHostDefaults.ServerUrlsKey, string.Empty);
+                var urls = builder.GetSetting(GameHostDefaults.ServerUrlsKey) ?? builder.GetSetting("server.urls");
+                builder.UseSetting(GameHostDefaults.ServerUrlsKey, string.Empty);
 
                 Console.WriteLine($"Using Kestrel, URL: {urls}");
 

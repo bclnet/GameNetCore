@@ -4,7 +4,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Performance
+namespace Contoso.GameNetCore.Server.Kestrel.Performance
 {
     public class RequestParsingData
     {

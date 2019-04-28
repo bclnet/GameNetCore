@@ -6,7 +6,7 @@ using System.Globalization;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class HeaderUtilitiesTest
     {

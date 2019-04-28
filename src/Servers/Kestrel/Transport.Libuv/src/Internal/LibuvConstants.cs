@@ -4,7 +4,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal
 {
     internal static class LibuvConstants
     {

@@ -3,23 +3,23 @@
 
 using System;
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.TestHost;
-using RoutingWebSite;
+using Contoso.GameNetCore.TestHost;
+using RoutingGameSite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
     public class RouterSampleTest : IDisposable
     {
-        private readonly HttpClient _client;
+        private readonly ProtoClient _client;
         private readonly TestServer _testServer;
 
         public RouterSampleTest()
         {
-            var webHostBuilder = Program.GetWebHostBuilder(new[] { Program.RouterScenario, });
-            _testServer = new TestServer(webHostBuilder);
+            var gameHostBuilder = Program.GetGameHostBuilder(new[] { Program.RouterScenario, });
+            _testServer = new TestServer(gameHostBuilder);
             _client = _testServer.CreateClient();
             _client.BaseAddress = new Uri("http://localhost");
         }
@@ -30,27 +30,27 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Routing_CanRouteRequest_ToBranchRouter(string branch)
         {
             // Arrange
-            var message = new HttpRequestMessage(HttpMethod.Get, $"{branch}/api/get/5");
+            var message = new ProtoRequestMessage(ProtoMethod.Get, $"{branch}/api/get/5");
 
             // Act
             var response = await _client.SendAsync(message);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal($"{branch} - API Get 5", await response.Content.ReadAsStringAsync());
         }
 
         [Fact]
-        public async Task Routing_CanRouteRequestDelegate_ToSpecificHttpVerb()
+        public async Task Routing_CanRouteRequestDelegate_ToSpecificProtoVerb()
         {
             // Arrange
-            var message = new HttpRequestMessage(HttpMethod.Get, "api/get/5");
+            var message = new ProtoRequestMessage(ProtoMethod.Get, "api/get/5");
 
             // Act
             var response = await _client.SendAsync(message);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal($"API Get 5", await response.Content.ReadAsStringAsync());
         }
 
@@ -58,13 +58,13 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Routing_CanRouteRequest_ToSpecificMiddleware()
         {
             // Arrange
-            var message = new HttpRequestMessage(HttpMethod.Get, "api/middleware");
+            var message = new ProtoRequestMessage(ProtoMethod.Get, "api/middleware");
 
             // Act
             var response = await _client.SendAsync(message);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal($"Middleware!", await response.Content.ReadAsStringAsync());
         }
 
@@ -79,14 +79,14 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Routing_CanRouteRequest_ToDefaultHandler(string httpVerb)
         {
             // Arrange
-            var message = new HttpRequestMessage(new HttpMethod(httpVerb), "api/all/Joe/Duf");
+            var message = new ProtoRequestMessage(new ProtoMethod(httpVerb), "api/all/Joe/Duf");
             var expectedBody = $"Verb =  {httpVerb} - Path = /api/all/Joe/Duf - Route values - [name, Joe], [lastName, Duf]";
 
             // Act
             var response = await _client.SendAsync(message);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
 
             var body = await response.Content.ReadAsStringAsync();
             Assert.Equal(expectedBody, body);

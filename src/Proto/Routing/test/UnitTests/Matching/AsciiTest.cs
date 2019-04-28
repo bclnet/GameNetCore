@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Note that while we don't intend for this code to be used with non-ASCII test,
     // we still call into these methods with some non-ASCII characters so that

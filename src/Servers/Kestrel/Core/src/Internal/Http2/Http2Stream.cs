@@ -8,20 +8,20 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal abstract partial class Http2Stream : HttpProtocol, IThreadPoolWorkItem
+    internal abstract partial class Proto2Stream : ProtoProtocol, IThreadPoolWorkItem
     {
-        private readonly Http2StreamContext _context;
-        private readonly Http2OutputProducer _http2Output;
+        private readonly Proto2StreamContext _context;
+        private readonly Proto2OutputProducer _http2Output;
         private readonly StreamInputFlowControl _inputFlowControl;
         private readonly StreamOutputFlowControl _outputFlowControl;
 
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         private StreamCompletionFlags _completionState;
         private readonly object _completionLock = new object();
 
-        public Http2Stream(Http2StreamContext context)
+        public Proto2Stream(Proto2StreamContext context)
             : base(context)
         {
             _context = context;
@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                 context.ConnectionOutputFlowControl,
                 context.ClientPeerSettings.InitialWindowSize);
 
-            _http2Output = new Http2OutputProducer(
+            _http2Output = new Proto2OutputProducer(
                 context.StreamId,
                 context.FrameWriter,
                 _outputFlowControl,
@@ -83,7 +83,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         protected override void OnReset()
         {
-            ResetHttp2Features();
+            ResetProto2Features();
         }
 
         protected override void OnRequestProcessingEnded()
@@ -100,7 +100,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     if (states.OldState != states.NewState)
                     {
                         // Don't block on IO. This never faults.
-                        _ = _http2Output.WriteRstStreamAsync(Http2ErrorCode.NO_ERROR);
+                        _ = _http2Output.WriteRstStreamAsync(Proto2ErrorCode.NO_ERROR);
                         RequestBodyPipe.Writer.Complete();
                     }
                 }
@@ -125,9 +125,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             => StringUtilities.ConcatAsHexSuffix(ConnectionId, ':', (uint)StreamId);
 
         protected override MessageBody CreateMessageBody()
-            => Http2MessageBody.For(this, ServerOptions.Limits.MinRequestBodyDataRate);
+            => Proto2MessageBody.For(this, ServerOptions.Limits.MinRequestBodyDataRate);
 
-        // Compare to Http1Connection.OnStartLine
+        // Compare to Proto1Connection.OnStartLine
         protected override bool TryParseRequest(ReadResult result, out bool endConnection)
         {
             // We don't need any of the parameters because we don't implement BeginRead to actually
@@ -138,10 +138,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         private bool TryValidatePseudoHeaders()
         {
-            // The initial pseudo header validation takes place in Http2Connection.ValidateHeader and StartStream
+            // The initial pseudo header validation takes place in Proto2Connection.ValidateHeader and StartStream
             // They make sure the right fields are at least present (except for Connect requests) exactly once.
 
-            _httpVersion = Http.HttpVersion.Http2;
+            _httpVersion = Proto.ProtoVersion.Proto2;
 
             if (!TryValidateMethod())
             {
@@ -154,11 +154,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
 
             // CONNECT - :scheme and :path must be excluded
-            if (Method == HttpMethod.Connect)
+            if (Method == ProtoMethod.Connect)
             {
                 if (!String.IsNullOrEmpty(RequestHeaders[HeaderNames.Scheme]) || !String.IsNullOrEmpty(RequestHeaders[HeaderNames.Path]))
                 {
-                    ResetAndAbort(new ConnectionAbortedException(CoreStrings.Http2ErrorConnectMustNotSendSchemeOrPath), Http2ErrorCode.PROTOCOL_ERROR);
+                    ResetAndAbort(new ConnectionAbortedException(CoreStrings.Proto2ErrorConnectMustNotSendSchemeOrPath), Proto2ErrorCode.PROTOCOL_ERROR);
                     return false;
                 }
 
@@ -178,7 +178,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             if (!string.Equals(RequestHeaders[HeaderNames.Scheme], Scheme, StringComparison.OrdinalIgnoreCase))
             {
                 ResetAndAbort(new ConnectionAbortedException(
-                    CoreStrings.FormatHttp2StreamErrorSchemeMismatch(RequestHeaders[HeaderNames.Scheme], Scheme)), Http2ErrorCode.PROTOCOL_ERROR);
+                    CoreStrings.FormatProto2StreamErrorSchemeMismatch(RequestHeaders[HeaderNames.Scheme], Scheme)), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
 
@@ -194,9 +194,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             // OPTIONS request for an "http" or "https" URI that does not include
             // a path component; these MUST include a ":path" pseudo-header field
             // with a value of '*'.
-            if (Method == HttpMethod.Options && path.Length == 1 && path[0] == '*')
+            if (Method == ProtoMethod.Options && path.Length == 1 && path[0] == '*')
             {
-                // * is stored in RawTarget only since HttpRequest expects Path to be empty or start with a /.
+                // * is stored in RawTarget only since ProtoRequest expects Path to be empty or start with a /.
                 Path = string.Empty;
                 QueryString = string.Empty;
                 return true;
@@ -206,7 +206,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             var requestLineLength = _methodText.Length + Scheme.Length + hostText.Length + path.Length;
             if (requestLineLength > ServerOptions.Limits.MaxRequestLineSize)
             {
-                ResetAndAbort(new ConnectionAbortedException(CoreStrings.BadRequest_RequestLineTooLong), Http2ErrorCode.PROTOCOL_ERROR);
+                ResetAndAbort(new ConnectionAbortedException(CoreStrings.BadRequest_RequestLineTooLong), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
 
@@ -222,19 +222,19 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         {
             // :method
             _methodText = RequestHeaders[HeaderNames.Method].ToString();
-            Method = HttpUtilities.GetKnownMethod(_methodText);
+            Method = ProtoUtilities.GetKnownMethod(_methodText);
 
-            if (Method == HttpMethod.None)
+            if (Method == ProtoMethod.None)
             {
-                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatHttp2ErrorMethodInvalid(_methodText)), Http2ErrorCode.PROTOCOL_ERROR);
+                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatProto2ErrorMethodInvalid(_methodText)), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
 
-            if (Method == HttpMethod.Custom)
+            if (Method == ProtoMethod.Custom)
             {
-                if (HttpCharacters.IndexOfInvalidTokenChar(_methodText) >= 0)
+                if (ProtoCharacters.IndexOfInvalidTokenChar(_methodText) >= 0)
                 {
-                    ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatHttp2ErrorMethodInvalid(_methodText)), Http2ErrorCode.PROTOCOL_ERROR);
+                    ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatProto2ErrorMethodInvalid(_methodText)), Proto2ErrorCode.PROTOCOL_ERROR);
                     return false;
                 }
             }
@@ -248,7 +248,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             // Prefer this over Host
 
             var authority = RequestHeaders[HeaderNames.Authority];
-            var host = HttpRequestHeaders.HeaderHost;
+            var host = ProtoRequestHeaders.HeaderHost;
             if (!StringValues.IsNullOrEmpty(authority))
             {
                 // https://tools.ietf.org/html/rfc7540#section-8.1.2.3
@@ -261,7 +261,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                 // We take this one step further, we don't want mismatched :authority
                 // and Host headers, replace Host if :authority is defined. The application
                 // will operate on the Host header.
-                HttpRequestHeaders.HeaderHost = authority;
+                ProtoRequestHeaders.HeaderHost = authority;
                 host = authority;
             }
 
@@ -271,10 +271,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             // request message that contains more than one Host header field or a
             // Host header field with an invalid field-value.
             hostText = host.ToString();
-            if (host.Count > 1 || !HttpUtilities.IsHostHeaderValid(hostText))
+            if (host.Count > 1 || !ProtoUtilities.IsHostHeaderValid(hostText))
             {
                 // RST replaces 400
-                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatBadRequest_InvalidHostHeader_Detail(hostText)), Http2ErrorCode.PROTOCOL_ERROR);
+                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatBadRequest_InvalidHostHeader_Detail(hostText)), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
 
@@ -286,13 +286,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             // Must start with a leading slash
             if (pathSegment.Length == 0 || pathSegment[0] != '/')
             {
-                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatHttp2StreamErrorPathInvalid(RawTarget)), Http2ErrorCode.PROTOCOL_ERROR);
+                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatProto2StreamErrorPathInvalid(RawTarget)), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
 
             var pathEncoded = pathSegment.Contains('%');
 
-            // Compare with Http1Connection.OnOriginFormTarget
+            // Compare with Proto1Connection.OnOriginFormTarget
 
             // URIs are always encoded/escaped to ASCII https://tools.ietf.org/html/rfc3986#page-11
             // Multibyte Internationalized Resource Identifiers (IRIs) are first converted to utf8;
@@ -316,12 +316,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
             catch (InvalidOperationException)
             {
-                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatHttp2StreamErrorPathInvalid(RawTarget)), Http2ErrorCode.PROTOCOL_ERROR);
+                ResetAndAbort(new ConnectionAbortedException(CoreStrings.FormatProto2StreamErrorPathInvalid(RawTarget)), Proto2ErrorCode.PROTOCOL_ERROR);
                 return false;
             }
         }
 
-        public Task OnDataAsync(Http2Frame dataFrame, ReadOnlySequence<byte> payload)
+        public Task OnDataAsync(Proto2Frame dataFrame, ReadOnlySequence<byte> payload)
         {
             // Since padding isn't buffered, immediately count padding bytes as read for flow control purposes.
             if (dataFrame.DataHasPadding)
@@ -355,7 +355,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                         // https://tools.ietf.org/html/rfc7540#section-8.1.2.6
                         if (dataPayload.Length > InputRemaining.Value)
                         {
-                            throw new Http2StreamErrorException(StreamId, CoreStrings.Http2StreamErrorMoreDataThanLength, Http2ErrorCode.PROTOCOL_ERROR);
+                            throw new Proto2StreamErrorException(StreamId, CoreStrings.Proto2StreamErrorMoreDataThanLength, Proto2ErrorCode.PROTOCOL_ERROR);
                         }
 
                         InputRemaining -= dataPayload.Length;
@@ -399,7 +399,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                 // https://tools.ietf.org/html/rfc7540#section-8.1.2.6
                 if (InputRemaining.Value != 0)
                 {
-                    throw new Http2StreamErrorException(StreamId, CoreStrings.Http2StreamErrorLessDataThanLength, Http2ErrorCode.PROTOCOL_ERROR);
+                    throw new Proto2StreamErrorException(StreamId, CoreStrings.Proto2StreamErrorLessDataThanLength, Proto2ErrorCode.PROTOCOL_ERROR);
                 }
             }
 
@@ -421,7 +421,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         public void AbortRstStreamReceived()
         {
             ApplyCompletionFlag(StreamCompletionFlags.RstStreamReceived);
-            Abort(new IOException(CoreStrings.Http2StreamResetByClient));
+            Abort(new IOException(CoreStrings.Proto2StreamResetByClient));
         }
 
         public void Abort(IOException abortReason)
@@ -439,17 +439,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         protected override void OnErrorAfterResponseStarted()
         {
             // We can no longer change the response, send a Reset instead.
-            var abortReason = new ConnectionAbortedException(CoreStrings.Http2StreamErrorAfterHeaders);
-            ResetAndAbort(abortReason, Http2ErrorCode.INTERNAL_ERROR);
+            var abortReason = new ConnectionAbortedException(CoreStrings.Proto2StreamErrorAfterHeaders);
+            ResetAndAbort(abortReason, Proto2ErrorCode.INTERNAL_ERROR);
         }
 
         protected override void ApplicationAbort()
         {
             var abortReason = new ConnectionAbortedException(CoreStrings.ConnectionAbortedByApplication);
-            ResetAndAbort(abortReason, Http2ErrorCode.INTERNAL_ERROR);
+            ResetAndAbort(abortReason, Proto2ErrorCode.INTERNAL_ERROR);
         }
 
-        internal void ResetAndAbort(ConnectionAbortedException abortReason, Http2ErrorCode error)
+        internal void ResetAndAbort(ConnectionAbortedException abortReason, Proto2ErrorCode error)
         {
             // Future incoming frames will drain for a default grace period to avoid destabilizing the connection.
             var states = ApplyCompletionFlag(StreamCompletionFlags.Aborted);
@@ -459,7 +459,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                 return;
             }
 
-            Log.Http2StreamResetAbort(TraceIdentifier, error, abortReason);
+            Log.Proto2StreamResetAbort(TraceIdentifier, error, abortReason);
 
             // Don't block on IO. This never faults.
             _ = _http2Output.WriteRstStreamAsync(error);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public interface IConnectionBuilder
     {

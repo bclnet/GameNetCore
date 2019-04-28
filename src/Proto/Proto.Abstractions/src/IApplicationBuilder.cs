@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Defines a class that provides the mechanisms to configure an application's request pipeline.

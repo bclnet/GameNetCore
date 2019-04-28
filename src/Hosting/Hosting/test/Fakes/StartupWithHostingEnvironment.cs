@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore.Hosting.Tests.Fakes
+namespace Contoso.GameNetCore.Hosting.Tests.Fakes
 {
     public class StartupWithHostingEnvironment
     {

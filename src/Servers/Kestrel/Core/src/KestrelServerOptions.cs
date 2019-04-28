@@ -6,16 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Certificates.Generation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Certificates.Generation;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Protos;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     /// <summary>
     /// Provides programmatic configuration of Kestrel-specific features.
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
 #pragma warning restore PUB0001 // Pubternal type in public API
 
         /// <summary>
-        /// Gets or sets a value that controls whether synchronous IO is allowed for the <see cref="HttpContext.Request"/> and <see cref="HttpContext.Response"/>
+        /// Gets or sets a value that controls whether synchronous IO is allowed for the <see cref="ProtoContext.Request"/> and <see cref="ProtoContext.Response"/>
         /// </summary>
         /// <remarks>
         /// Defaults to false.
@@ -88,10 +88,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// <summary>
         /// A default configuration action for all https endpoints.
         /// </summary>
-        private Action<HttpsConnectionAdapterOptions> HttpsDefaults { get; set; } = _ => { };
+        private Action<ProtosConnectionAdapterOptions> ProtosDefaults { get; set; } = _ => { };
 
         /// <summary>
-        /// The default server certificate for https endpoints. This is applied lazily after HttpsDefaults and user options.
+        /// The default server certificate for https endpoints. This is applied lazily after ProtosDefaults and user options.
         /// </summary>
         internal X509Certificate2 DefaultCertificate { get; set; }
 
@@ -120,17 +120,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// Specifies a configuration Action to run for each newly created https endpoint. Calling this again will replace
         /// the prior action.
         /// </summary>
-        public void ConfigureHttpsDefaults(Action<HttpsConnectionAdapterOptions> configureOptions)
+        public void ConfigureProtosDefaults(Action<ProtosConnectionAdapterOptions> configureOptions)
         {
-            HttpsDefaults = configureOptions ?? throw new ArgumentNullException(nameof(configureOptions));
+            ProtosDefaults = configureOptions ?? throw new ArgumentNullException(nameof(configureOptions));
         }
 
-        internal void ApplyHttpsDefaults(HttpsConnectionAdapterOptions httpsOptions)
+        internal void ApplyProtosDefaults(ProtosConnectionAdapterOptions httpsOptions)
         {
-            HttpsDefaults(httpsOptions);
+            ProtosDefaults(httpsOptions);
         }
 
-        internal void ApplyDefaultCert(HttpsConnectionAdapterOptions httpsOptions)
+        internal void ApplyDefaultCert(ProtosConnectionAdapterOptions httpsOptions)
         {
             if (httpsOptions.ServerCertificate != null || httpsOptions.ServerCertificateSelector != null)
             {

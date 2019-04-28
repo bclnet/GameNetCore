@@ -4,12 +4,12 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Testing;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Testing;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.Logging.Testing;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
+namespace Contoso.GameNetCore.Server.Kestrel.FunctionalTests
 {
     [OSSkipCondition(OperatingSystems.Windows, SkipReason = "Listening to open TCP socket and/or pipe handles is not supported on Windows.")]
     public class ListenHandleTests : LoggedTest

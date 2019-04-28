@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static partial class WebHostBuilderSocketExtensions
     {
@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static Microsoft.AspNetCore.Hosting.IWebHostBuilder UseSockets(this Microsoft.AspNetCore.Hosting.IWebHostBuilder hostBuilder, System.Action<Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions> configureOptions) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Sockets
 {
     public sealed partial class SocketTransportFactory : Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal.ITransportFactory
     {
@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets
         public int IOQueueCount { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Sockets.Internal
 {
     public static partial class BufferExtensions
     {

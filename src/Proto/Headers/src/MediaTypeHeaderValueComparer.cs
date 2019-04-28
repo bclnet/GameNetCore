@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     /// <summary>
     /// Implementation of <see cref="IComparer{T}"/> that can compare accept media type header fields

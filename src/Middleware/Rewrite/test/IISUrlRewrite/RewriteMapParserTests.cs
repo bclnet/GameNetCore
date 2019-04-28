@@ -4,10 +4,10 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.IISUrlRewrite
 {
     public class RewriteMapParserTests
     {

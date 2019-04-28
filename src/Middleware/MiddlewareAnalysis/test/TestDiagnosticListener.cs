@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.DiagnosticAdapter;
 
-namespace Microsoft.AspNetCore.MiddlewareAnalysis
+namespace Contoso.GameNetCore.MiddlewareAnalysis
 {
     public class TestDiagnosticListener
     {

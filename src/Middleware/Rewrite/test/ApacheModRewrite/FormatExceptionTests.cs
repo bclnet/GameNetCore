@@ -3,10 +3,10 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.ModRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.ModRewrite
 {
     public class FormatExceptionTests
     {

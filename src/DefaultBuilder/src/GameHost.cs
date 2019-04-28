@@ -1,8 +1,8 @@
 ﻿using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

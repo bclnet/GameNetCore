@@ -3,7 +3,7 @@
 
 using System;
 using System.Net.Http;
-using Microsoft.AspNetCore.HeaderPropagation;
+using Contoso.GameNetCore.HeaderPropagation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection

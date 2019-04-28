@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     [Flags]
     public enum TransferFormat

@@ -3,9 +3,9 @@
 
 using System;
 using System.Diagnostics;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal class ServerSession : IDisposable
     {

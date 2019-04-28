@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     /// <summary>
     /// Wrapper around the Autobahn Test Suite's "wstest" app.

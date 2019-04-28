@@ -7,19 +7,19 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Extensions;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.TestHost;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlRewrite
 {
     public class MiddlewareTests
     {

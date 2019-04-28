@@ -2,35 +2,35 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    [Obsolete("This is obsolete and will be removed in a future version. Use DefaultHttpContextFactory instead.")]
-    public class HttpContextFactory : IHttpContextFactory
+    [Obsolete("This is obsolete and will be removed in a future version. Use DefaultProtoContextFactory instead.")]
+    public class ProtoContextFactory : IProtoContextFactory
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IProtoContextAccessor _httpContextAccessor;
         private readonly FormOptions _formOptions;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public HttpContextFactory(IOptions<FormOptions> formOptions)
+        public ProtoContextFactory(IOptions<FormOptions> formOptions)
             : this(formOptions, serviceScopeFactory: null)
         {
         }
 
-        public HttpContextFactory(IOptions<FormOptions> formOptions, IServiceScopeFactory serviceScopeFactory)
+        public ProtoContextFactory(IOptions<FormOptions> formOptions, IServiceScopeFactory serviceScopeFactory)
             : this(formOptions, serviceScopeFactory, httpContextAccessor: null)
         {
         }
 
-        public HttpContextFactory(IOptions<FormOptions> formOptions, IHttpContextAccessor httpContextAccessor)
+        public ProtoContextFactory(IOptions<FormOptions> formOptions, IProtoContextAccessor httpContextAccessor)
             : this(formOptions, serviceScopeFactory: null, httpContextAccessor: httpContextAccessor)
         {
         }
 
-        public HttpContextFactory(IOptions<FormOptions> formOptions, IServiceScopeFactory serviceScopeFactory, IHttpContextAccessor httpContextAccessor)
+        public ProtoContextFactory(IOptions<FormOptions> formOptions, IServiceScopeFactory serviceScopeFactory, IProtoContextAccessor httpContextAccessor)
         {
             if (formOptions == null)
             {
@@ -47,17 +47,17 @@ namespace Microsoft.AspNetCore.Http
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public HttpContext Create(IFeatureCollection featureCollection)
+        public ProtoContext Create(IFeatureCollection featureCollection)
         {
             if (featureCollection == null)
             {
                 throw new ArgumentNullException(nameof(featureCollection));
             }
 
-            var httpContext = CreateHttpContext(featureCollection);
+            var httpContext = CreateProtoContext(featureCollection);
             if (_httpContextAccessor != null)
             {
-                _httpContextAccessor.HttpContext = httpContext;
+                _httpContextAccessor.ProtoContext = httpContext;
             }
 
             httpContext.FormOptions = _formOptions;
@@ -66,21 +66,21 @@ namespace Microsoft.AspNetCore.Http
             return httpContext;
         }
 
-        private static DefaultHttpContext CreateHttpContext(IFeatureCollection featureCollection)
+        private static DefaultProtoContext CreateProtoContext(IFeatureCollection featureCollection)
         {
-            if (featureCollection is IDefaultHttpContextContainer container)
+            if (featureCollection is IDefaultProtoContextContainer container)
             {
-                return container.HttpContext;
+                return container.ProtoContext;
             }
 
-            return new DefaultHttpContext(featureCollection);
+            return new DefaultProtoContext(featureCollection);
         }
 
-        public void Dispose(HttpContext httpContext)
+        public void Dispose(ProtoContext httpContext)
         {
             if (_httpContextAccessor != null)
             {
-                _httpContextAccessor.HttpContext = null;
+                _httpContextAccessor.ProtoContext = null;
             }
         }
     }

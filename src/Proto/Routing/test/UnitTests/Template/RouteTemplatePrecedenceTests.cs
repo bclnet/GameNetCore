@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     public class RouteTemplatePrecedenceTests : RoutePrecedenceTestsBase
     {

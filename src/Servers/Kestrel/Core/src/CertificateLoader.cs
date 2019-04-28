@@ -4,9 +4,9 @@
 using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Protos.Internal
 {
     public static class CertificateLoader
     {

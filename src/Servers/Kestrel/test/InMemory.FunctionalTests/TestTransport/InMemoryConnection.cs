@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Testing;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
+namespace Contoso.GameNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
 {
     internal class InMemoryConnection : StreamBackedTestConnection
     {

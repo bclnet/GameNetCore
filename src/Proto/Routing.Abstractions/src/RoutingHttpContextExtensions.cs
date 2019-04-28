@@ -2,21 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
-    /// Extension methods for <see cref="HttpContext"/> related to routing.
+    /// Extension methods for <see cref="ProtoContext"/> related to routing.
     /// </summary>
-    public static class RoutingHttpContextExtensions
+    public static class RoutingProtoContextExtensions
     {
         /// <summary>
         /// Gets the <see cref="RouteData"/> associated with the provided <paramref name="httpContext"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <returns>The <see cref="RouteData"/>, or null.</returns>
-        public static RouteData GetRouteData(this HttpContext httpContext)
+        public static RouteData GetRouteData(this ProtoContext httpContext)
         {
             if (httpContext == null)
             {
@@ -31,10 +31,10 @@ namespace Microsoft.AspNetCore.Routing
         /// Gets a route value from <see cref="RouteData.Values"/> associated with the provided
         /// <paramref name="httpContext"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="key">The key of the route value.</param>
         /// <returns>The corresponding route value, or null.</returns>
-        public static object GetRouteValue(this HttpContext httpContext, string key)
+        public static object GetRouteValue(this ProtoContext httpContext, string key)
         {
             if (httpContext == null)
             {

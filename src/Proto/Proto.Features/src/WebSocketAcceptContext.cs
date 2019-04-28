@@ -1,9 +1,9 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class WebSocketAcceptContext
+    public class GameSocketAcceptContext
     {
         public virtual string SubProtocol { get; set; }
     }

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public interface IServiceProvidersFeature
     {

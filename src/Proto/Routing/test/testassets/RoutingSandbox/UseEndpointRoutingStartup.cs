@@ -7,10 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using RoutingSandbox.Framework;
 
@@ -103,13 +103,13 @@ namespace RoutingSandbox
         }
 
         [Authorize]
-        private Task HandlerWithAttributes(HttpContext context)
+        private Task HandlerWithAttributes(ProtoContext context)
         {
             return context.Response.WriteAsync("I have ann authorize attribute");
         }
 
-        [HttpGet]
-        private Task Handler(HttpContext context)
+        [ProtoGet]
+        private Task Handler(ProtoContext context)
         {
             return context.Response.WriteAsync("I have a method metadata attribute");
         }
@@ -119,11 +119,11 @@ namespace RoutingSandbox
 
         }
 
-        private class HttpGetAttribute : Attribute, IHttpMethodMetadata
+        private class ProtoGetAttribute : Attribute, IProtoMethodMetadata
         {
             public bool AcceptCorsPreflight => false;
 
-            public IReadOnlyList<string> HttpMethods { get; } = new List<string> { "GET" };
+            public IReadOnlyList<string> ProtoMethods { get; } = new List<string> { "GET" };
         }
     }
 }

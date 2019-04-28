@@ -5,14 +5,14 @@ using System.IO;
 using System.IO.Pipelines;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class ResponseBodyPipeFeatureTests
     {
         [Fact]
         public void ResponseBodyReturnsStreamPipeReader()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var expectedStream = new MemoryStream();
             context.Response.Body = expectedStream;
 
@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void ResponseBodySetPipeReaderReturnsSameValue()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var feature = new ResponseBodyPipeFeature(context);
 
             var pipeWriter = new Pipe().Writer;
@@ -39,7 +39,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void ResponseBodyGetPipeWriterAfterSettingBodyTwice()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var expectedStream = new MemoryStream();
             context.Response.Body = new MemoryStream();
 

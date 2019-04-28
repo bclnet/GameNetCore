@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.HeaderPropagation
+namespace Contoso.GameNetCore.HeaderPropagation
 {
     /// <summary>
     /// Define the configuration of a header for the <see cref="HeaderPropagationMiddleware"/>.

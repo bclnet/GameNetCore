@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     internal static class TaskExtensions
     {

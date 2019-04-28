@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.AspNetCore.WebUtilities {
+namespace Contoso.GameNetCore.GameUtilities {
     using System;
     using System.Reflection;
     
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.WebUtilities {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.AspNetCore.WebUtilities.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.AspNetCore.GameUtilities.Resources", typeof(Resources).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,27 +62,27 @@ namespace Microsoft.AspNetCore.WebUtilities {
         /// <summary>
         ///    Looks up a localized string similar to The stream must support reading..
         /// </summary>
-        internal static string HttpRequestStreamReader_StreamNotReadable {
+        internal static string ProtoRequestStreamReader_StreamNotReadable {
             get {
-                return ResourceManager.GetString("HttpRequestStreamReader_StreamNotReadable", resourceCulture);
+                return ResourceManager.GetString("ProtoRequestStreamReader_StreamNotReadable", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to The stream must support writing..
         /// </summary>
-        internal static string HttpResponseStreamWriter_StreamNotWritable {
+        internal static string ProtoResponseStreamWriter_StreamNotWritable {
             get {
-                return ResourceManager.GetString("HttpResponseStreamWriter_StreamNotWritable", resourceCulture);
+                return ResourceManager.GetString("ProtoResponseStreamWriter_StreamNotWritable", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to Invalid {0}, {1} or {2} length..
         /// </summary>
-        internal static string WebEncoders_InvalidCountOffsetOrLength {
+        internal static string GameEncoders_InvalidCountOffsetOrLength {
             get {
-                return ResourceManager.GetString("WebEncoders_InvalidCountOffsetOrLength", resourceCulture);
+                return ResourceManager.GetString("GameEncoders_InvalidCountOffsetOrLength", resourceCulture);
             }
         }
     }

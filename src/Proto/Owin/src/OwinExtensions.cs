@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Owin;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Owin;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     using AddMiddleware = Action<Func<
           Func<IDictionary<string, object>, Task>,
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Builder
                 {
                     AppFunc exitMiddleware = env =>
                     {
-                        return next1((HttpContext)env[typeof(HttpContext).FullName]);
+                        return next1((ProtoContext)env[typeof(ProtoContext).FullName]);
                     };
                     var app = middleware(exitMiddleware);
                     return httpContext =>
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Builder
                         if (owinEnvFeature != null)
                         {
                             env = owinEnvFeature.Environment;
-                            env[typeof(HttpContext).FullName] = httpContext;
+                            env[typeof(ProtoContext).FullName] = httpContext;
                         }
                         else
                         {
@@ -58,8 +58,8 @@ namespace Microsoft.AspNetCore.Builder
                 };
                 builder.Use(middleware1);
             };
-            // Adapt WebSockets by default.
-            add(WebSocketAcceptAdapter.AdaptWebSockets);
+            // Adapt GameSockets by default.
+            add(GameSocketAcceptAdapter.AdaptGameSockets);
             return add;
         }
 
@@ -97,8 +97,8 @@ namespace Microsoft.AspNetCore.Builder
                 serviceProvider = new EmptyProvider();
             }
 
-            // Adapt WebSockets by default.
-            app(OwinWebSocketAcceptAdapter.AdaptWebSockets);
+            // Adapt GameSockets by default.
+            app(OwinGameSocketAcceptAdapter.AdaptGameSockets);
             var builder = new ApplicationBuilder(serviceProvider: serviceProvider);
 
             var middleware = CreateMiddlewareFactory(exit =>
@@ -122,17 +122,17 @@ namespace Microsoft.AspNetCore.Builder
 
                 return env =>
                 {
-                    // Use the existing HttpContext if there is one.
-                    HttpContext context;
+                    // Use the existing ProtoContext if there is one.
+                    ProtoContext context;
                     object obj;
-                    if (env.TryGetValue(typeof(HttpContext).FullName, out obj))
+                    if (env.TryGetValue(typeof(ProtoContext).FullName, out obj))
                     {
-                        context = (HttpContext)obj;
+                        context = (ProtoContext)obj;
                         context.Features.Set<IOwinEnvironmentFeature>(new OwinEnvironmentFeature() { Environment = env });
                     }
                     else
                     {
-                        context = new DefaultHttpContext(
+                        context = new DefaultProtoContext(
                                     new FeatureCollection(
                                         new OwinFeatureCollection(env)));
                         context.RequestServices = services;

@@ -19,10 +19,10 @@
     <AssemblyToSign Include="None" PublicKeyToken="cc7b13ffcd2ddd51" CertificateName="Microsoft400" />
 
     <!-- Native .dll's. These don't have a public key token, but are from Microsoft and should be signed. -->
-    <FileNamesToSign Include="aspnetcore.dll" CertificateName="Microsoft400" />
-    <FileNamesToSign Include="aspnetcorev2_inprocess.dll" CertificateName="Microsoft400" />
-    <FileNamesToSign Include="aspnetcorev2_outofprocess.dll" CertificateName="Microsoft400" />
-    <FileNamesToSign Include="aspnetcorev2.dll" CertificateName="Microsoft400" />
+    <FileNamesToSign Include="gamecore.dll" CertificateName="Microsoft400" />
+    <FileNamesToSign Include="gamecorev2_inprocess.dll" CertificateName="Microsoft400" />
+    <FileNamesToSign Include="gamecorev2_outofprocess.dll" CertificateName="Microsoft400" />
+    <FileNamesToSign Include="gamecorev2.dll" CertificateName="Microsoft400" />
     <FileNamesToSign Include="blazor-devserver.exe" CertificateName="Microsoft400" />
     <FileNamesToSign Include="dotnet-dev-certs.exe" CertificateName="Microsoft400" />
     <FileNamesToSign Include="dotnet-sql-cache.exe" CertificateName="Microsoft400" />

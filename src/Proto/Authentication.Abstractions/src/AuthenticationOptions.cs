@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Contoso.GameNetCore.Proto;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     public class AuthenticationOptions
     {
@@ -29,17 +29,11 @@ namespace Microsoft.AspNetCore.Authentication
         public void AddScheme(string name, Action<AuthenticationSchemeBuilder> configureBuilder)
         {
             if (name == null)
-            {
                 throw new ArgumentNullException(nameof(name));
-            }
             if (configureBuilder == null)
-            {
                 throw new ArgumentNullException(nameof(configureBuilder));
-            }
             if (SchemeMap.ContainsKey(name))
-            {
                 throw new InvalidOperationException("Scheme already exists: " + name);
-            }
 
             var builder = new AuthenticationSchemeBuilder(name);
             configureBuilder(builder);
@@ -53,12 +47,11 @@ namespace Microsoft.AspNetCore.Authentication
         /// <typeparam name="THandler">The <see cref="IAuthenticationHandler"/> responsible for the scheme.</typeparam>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<THandler>(string name, string displayName) where THandler : IAuthenticationHandler
-            => AddScheme(name, b =>
-            {
-                b.DisplayName = displayName;
-                b.HandlerType = typeof(THandler);
-            });
+        public void AddScheme<THandler>(string name, string displayName) where THandler : IAuthenticationHandler => AddScheme(name, b =>
+        {
+            b.DisplayName = displayName;
+            b.HandlerType = typeof(THandler);
+        });
 
         /// <summary>
         /// Used as the fallback default scheme for all the other defaults.
@@ -66,27 +59,27 @@ namespace Microsoft.AspNetCore.Authentication
         public string DefaultScheme { get; set; }
 
         /// <summary>
-        /// Used as the default scheme by <see cref="IAuthenticationService.AuthenticateAsync(HttpContext, string)"/>.
+        /// Used as the default scheme by <see cref="IAuthenticationService.AuthenticateAsync(ProtoContext, string)"/>.
         /// </summary>
         public string DefaultAuthenticateScheme { get; set; }
 
         /// <summary>
-        /// Used as the default scheme by <see cref="IAuthenticationService.SignInAsync(HttpContext, string, System.Security.Claims.ClaimsPrincipal, AuthenticationProperties)"/>.
+        /// Used as the default scheme by <see cref="IAuthenticationService.SignInAsync(ProtoContext, string, System.Security.Claims.ClaimsPrincipal, AuthenticationProperties)"/>.
         /// </summary>
         public string DefaultSignInScheme { get; set; }
 
         /// <summary>
-        /// Used as the default scheme by <see cref="IAuthenticationService.SignOutAsync(HttpContext, string, AuthenticationProperties)"/>.
+        /// Used as the default scheme by <see cref="IAuthenticationService.SignOutAsync(ProtoContext, string, AuthenticationProperties)"/>.
         /// </summary>
         public string DefaultSignOutScheme { get; set; }
 
         /// <summary>
-        /// Used as the default scheme by <see cref="IAuthenticationService.ChallengeAsync(HttpContext, string, AuthenticationProperties)"/>.
+        /// Used as the default scheme by <see cref="IAuthenticationService.ChallengeAsync(ProtoContext, string, AuthenticationProperties)"/>.
         /// </summary>
         public string DefaultChallengeScheme { get; set; }
 
         /// <summary>
-        /// Used as the default scheme by <see cref="IAuthenticationService.ForbidAsync(HttpContext, string, AuthenticationProperties)"/>.
+        /// Used as the default scheme by <see cref="IAuthenticationService.ForbidAsync(ProtoContext, string, AuthenticationProperties)"/>.
         /// </summary>
         public string DefaultForbidScheme { get; set; }
     }

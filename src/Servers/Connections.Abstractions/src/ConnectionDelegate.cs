@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public delegate Task ConnectionDelegate(ConnectionContext connection);
 }

@@ -3,11 +3,11 @@ using System.IO;
 using System.Net;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

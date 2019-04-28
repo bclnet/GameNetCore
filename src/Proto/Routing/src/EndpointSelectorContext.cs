@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public sealed class EndpointSelectorContext : IEndpointFeature, IRouteValuesFeature, IRoutingFeature
     {
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Routing
         private RouteValueDictionary _routeValues;
 
         /// <summary>
-        /// Gets or sets the selected <see cref="Http.Endpoint"/> for the current
+        /// Gets or sets the selected <see cref="Proto.Endpoint"/> for the current
         /// request.
         /// </summary>
         public Endpoint Endpoint { get; set; }

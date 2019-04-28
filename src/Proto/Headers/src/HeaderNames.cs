@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public static class HeaderNames
     {
@@ -71,7 +71,7 @@ namespace Microsoft.Net.Http.Headers
         public const string Vary = "Vary";
         public const string Via = "Via";
         public const string Warning = "Warning";
-        public const string WebSocketSubProtocols = "Sec-WebSocket-Protocol";
+        public const string GameSocketSubProtocols = "Sec-GameSocket-Protocol";
         public const string WWWAuthenticate = "WWW-Authenticate";
     }
 }

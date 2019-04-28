@@ -7,31 +7,31 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Context = Microsoft.AspNetCore.Hosting.Internal.HostingApplication.Context;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Context = Microsoft.GameNetCore.Hosting.Internal.HostingApplication.Context;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     /// <summary>
-    /// This adapts HttpRequestMessages to ASP.NET Core requests, dispatches them through the pipeline, and returns the
-    /// associated HttpResponseMessage.
+    /// This adapts ProtoRequestMessages to ASP.NET Core requests, dispatches them through the pipeline, and returns the
+    /// associated ProtoResponseMessage.
     /// </summary>
-    public class ClientHandler : HttpMessageHandler
+    public class ClientHandler : ProtoMessageHandler
     {
-        private readonly IHttpApplication<Context> _application;
+        private readonly IProtoApplication<Context> _application;
         private readonly PathString _pathBase;
 
         /// <summary>
         /// Create a new handler.
         /// </summary>
         /// <param name="pathBase">The base path.</param>
-        /// <param name="application">The <see cref="IHttpApplication{TContext}"/>.</param>
-        public ClientHandler(PathString pathBase, IHttpApplication<Context> application)
+        /// <param name="application">The <see cref="IProtoApplication{TContext}"/>.</param>
+        public ClientHandler(PathString pathBase, IProtoApplication<Context> application)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -46,14 +46,14 @@ namespace Microsoft.AspNetCore.TestHost
         internal bool AllowSynchronousIO { get; set; }
 
         /// <summary>
-        /// This adapts HttpRequestMessages to ASP.NET Core requests, dispatches them through the pipeline, and returns the
-        /// associated HttpResponseMessage.
+        /// This adapts ProtoRequestMessages to ASP.NET Core requests, dispatches them through the pipeline, and returns the
+        /// associated ProtoResponseMessage.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected override async Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request,
+        protected override async Task<ProtoResponseMessage> SendAsync(
+            ProtoRequestMessage request,
             CancellationToken cancellationToken)
         {
             if (request == null)
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.TestHost
                 throw new ArgumentNullException(nameof(request));
             }
 
-            var contextBuilder = new HttpContextBuilder(_application, AllowSynchronousIO);
+            var contextBuilder = new ProtoContextBuilder(_application, AllowSynchronousIO);
 
             Stream responseBody = null;
             var requestContent = request.Content ?? new StreamContent(Stream.Null);
@@ -119,9 +119,9 @@ namespace Microsoft.AspNetCore.TestHost
 
             var httpContext = await contextBuilder.SendAsync(cancellationToken);
 
-            var response = new HttpResponseMessage();
-            response.StatusCode = (HttpStatusCode)httpContext.Response.StatusCode;
-            response.ReasonPhrase = httpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase;
+            var response = new ProtoResponseMessage();
+            response.StatusCode = (ProtoStatusCode)httpContext.Response.StatusCode;
+            response.ReasonPhrase = httpContext.Features.Get<IProtoResponseFeature>().ReasonPhrase;
             response.RequestMessage = request;
 
             response.Content = new StreamContent(responseBody);

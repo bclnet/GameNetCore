@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     /// Allows consumers to perform cleanup during a graceful shutdown.
     /// </summary>
 #pragma warning disable CS0618 // Type or member is obsolete
-#if !NET3
+#if NET2
     public class ApplicationLifetime : IApplicationLifetime //, IHostApplicationLifetime
 #else
     public class ApplicationLifetime : IApplicationLifetime, Extensions.Hosting.IApplicationLifetime, IHostApplicationLifetime

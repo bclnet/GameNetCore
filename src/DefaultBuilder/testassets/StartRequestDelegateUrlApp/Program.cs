@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore;
+using Contoso.GameNetCore.Hosting.Server.Features;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

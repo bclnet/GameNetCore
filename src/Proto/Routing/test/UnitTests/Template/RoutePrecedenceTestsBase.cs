@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     public abstract class RoutePrecedenceTestsBase
     {

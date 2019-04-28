@@ -1,9 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Matching;
 
-namespace Microsoft.AspNetCore.Routing.TestObjects
+namespace Contoso.GameNetCore.Routing.TestObjects
 {
     internal class TestMatcherFactory : MatcherFactory
     {

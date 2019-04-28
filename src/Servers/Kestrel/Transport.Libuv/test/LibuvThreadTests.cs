@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests
 {
     public class LibuvThreadTests
     {

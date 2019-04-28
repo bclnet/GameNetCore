@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     /// <summary>
     /// Parses the "CondPattern" portion of the RewriteCond. 

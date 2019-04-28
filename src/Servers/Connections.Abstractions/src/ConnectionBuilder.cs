@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public class ConnectionBuilder : IConnectionBuilder
     {

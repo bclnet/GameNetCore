@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Authentication.Core.Test
+namespace Contoso.GameNetCore.Authentication.Core.Test
 {
     public class AuthenticationPropertiesTests
     {
@@ -277,25 +277,13 @@ namespace Microsoft.AspNetCore.Authentication.Core.Test
 
         public class MyAuthenticationProperties : AuthenticationProperties
         {
-            public new DateTimeOffset? GetDateTimeOffset(string key)
-            {
-                return base.GetDateTimeOffset(key);
-            }
+            public new DateTimeOffset? GetDateTimeOffset(string key) => base.GetDateTimeOffset(key);
 
-            public new void SetDateTimeOffset(string key, DateTimeOffset? value)
-            {
-                base.SetDateTimeOffset(key, value);
-            }
+            public new void SetDateTimeOffset(string key, DateTimeOffset? value) => base.SetDateTimeOffset(key, value);
 
-            public new void SetBool(string key, bool? value)
-            {
-                base.SetBool(key, value);
-            }
+            public new void SetBool(string key, bool? value) => base.SetBool(key, value);
 
-            public new bool? GetBool(string key)
-            {
-                return base.GetBool(key);
-            }
+            public new bool? GetBool(string key) => base.GetBool(key);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// A Stream that wraps another stream and enables rewinding by buffering the content as it is read.
@@ -38,9 +38,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             int memoryThreshold,
             long? bufferLimit,
             Func<string> tempFileDirectoryAccessor)
-            : this(inner, memoryThreshold, bufferLimit, tempFileDirectoryAccessor, ArrayPool<byte>.Shared)
-        {
-        }
+            : this(inner, memoryThreshold, bufferLimit, tempFileDirectoryAccessor, ArrayPool<byte>.Shared) { }
 
         public FileBufferingReadStream(
             Stream inner,
@@ -50,15 +48,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             ArrayPool<byte> bytePool)
         {
             if (inner == null)
-            {
                 throw new ArgumentNullException(nameof(inner));
-            }
-
             if (tempFileDirectoryAccessor == null)
-            {
                 throw new ArgumentNullException(nameof(tempFileDirectoryAccessor));
-            }
-
             _bytePool = bytePool;
             if (memoryThreshold < _maxRentedBufferSize)
             {
@@ -67,9 +59,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 _buffer.SetLength(0);
             }
             else
-            {
                 _buffer = new MemoryStream();
-            }
 
             _inner = inner;
             _memoryThreshold = memoryThreshold;
@@ -82,9 +72,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             int memoryThreshold,
             long? bufferLimit,
             string tempFileDirectory)
-            : this(inner, memoryThreshold, bufferLimit, tempFileDirectory, ArrayPool<byte>.Shared)
-        {
-        }
+            : this(inner, memoryThreshold, bufferLimit, tempFileDirectory, ArrayPool<byte>.Shared) { }
 
         public FileBufferingReadStream(
             Stream inner,
@@ -94,15 +82,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             ArrayPool<byte> bytePool)
         {
             if (inner == null)
-            {
                 throw new ArgumentNullException(nameof(inner));
-            }
-
             if (tempFileDirectory == null)
-            {
                 throw new ArgumentNullException(nameof(tempFileDirectory));
-            }
-
             _bytePool = bytePool;
             if (memoryThreshold < _maxRentedBufferSize)
             {
@@ -111,9 +93,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 _buffer.SetLength(0);
             }
             else
-            {
                 _buffer = new MemoryStream();
-            }
 
             _inner = inner;
             _memoryThreshold = memoryThreshold;
@@ -121,39 +101,21 @@ namespace Microsoft.AspNetCore.WebUtilities
             _tempFileDirectory = tempFileDirectory;
         }
 
-        public bool InMemory
-        {
-            get { return _inMemory; }
-        }
+        public bool InMemory => _inMemory;
 
-        public string TempFileName
-        {
-            get { return _tempFileName; }
-        }
+        public string TempFileName => _tempFileName;
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
-        public override bool CanSeek
-        {
-            get { return true; }
-        }
+        public override bool CanSeek => true;
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
-        public override long Length
-        {
-            get { return _buffer.Length; }
-        }
+        public override long Length => _buffer.Length;
 
         public override long Position
         {
-            get { return _buffer.Position; }
+            get => _buffer.Position;
             // Note this will not allow seeking forward beyond the end of the buffer.
             set
             {
@@ -166,20 +128,14 @@ namespace Microsoft.AspNetCore.WebUtilities
         {
             ThrowIfDisposed();
             if (!_completelyBuffered && origin == SeekOrigin.End)
-            {
                 // Can't seek from the end until we've finished consuming the inner stream
                 throw new NotSupportedException("The content has not been fully buffered yet.");
-            }
             else if (!_completelyBuffered && origin == SeekOrigin.Current && offset + Position > Length)
-            {
                 // Can't seek past the end of the buffer until we've finished consuming the inner stream
                 throw new NotSupportedException("The content has not been fully buffered yet.");
-            }
             else if (!_completelyBuffered && origin == SeekOrigin.Begin && offset > Length)
-            {
                 // Can't seek past the end of the buffer until we've finished consuming the inner stream
                 throw new NotSupportedException("The content has not been fully buffered yet.");
-            }
             return _buffer.Seek(offset, origin);
         }
 
@@ -201,12 +157,10 @@ namespace Microsoft.AspNetCore.WebUtilities
         {
             ThrowIfDisposed();
             if (_buffer.Position < _buffer.Length || _completelyBuffered)
-            {
                 // Just read from the buffer
                 return _buffer.Read(buffer, offset, (int)Math.Min(count, _buffer.Length - _buffer.Position));
-            }
 
-            int read = _inner.Read(buffer, offset, count);
+            var read = _inner.Read(buffer, offset, count);
 
             if (_bufferLimit.HasValue && _bufferLimit - read < _buffer.Length)
             {
@@ -240,13 +194,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             }
 
             if (read > 0)
-            {
                 _buffer.Write(buffer, offset, read);
-            }
             else
-            {
                 _completelyBuffered = true;
-            }
 
             return read;
         }
@@ -255,12 +205,10 @@ namespace Microsoft.AspNetCore.WebUtilities
         {
             ThrowIfDisposed();
             if (_buffer.Position < _buffer.Length || _completelyBuffered)
-            {
                 // Just read from the buffer
                 return await _buffer.ReadAsync(buffer, offset, (int)Math.Min(count, _buffer.Length - _buffer.Position), cancellationToken);
-            }
 
-            int read = await _inner.ReadAsync(buffer, offset, count, cancellationToken);
+            var read = await _inner.ReadAsync(buffer, offset, count, cancellationToken);
 
             if (_bufferLimit.HasValue && _bufferLimit - read < _buffer.Length)
             {
@@ -295,36 +243,20 @@ namespace Microsoft.AspNetCore.WebUtilities
             }
 
             if (read > 0)
-            {
                 await _buffer.WriteAsync(buffer, offset, read, cancellationToken);
-            }
             else
-            {
                 _completelyBuffered = true;
-            }
 
             return read;
         }
 
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException();
-        }
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            throw new NotSupportedException();
-        }
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => throw new NotSupportedException();
 
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException();
-        }
+        public override void SetLength(long value) => throw new NotSupportedException();
 
-        public override void Flush()
-        {
-            throw new NotSupportedException();
-        }
+        public override void Flush() => throw new NotSupportedException();
 
         protected override void Dispose(bool disposing)
         {
@@ -332,23 +264,16 @@ namespace Microsoft.AspNetCore.WebUtilities
             {
                 _disposed = true;
                 if (_rentedBuffer != null)
-                {
                     _bytePool.Return(_rentedBuffer);
-                }
-
                 if (disposing)
-                {
                     _buffer.Dispose();
-                }
             }
         }
 
         private void ThrowIfDisposed()
         {
             if (_disposed)
-            {
                 throw new ObjectDisposedException(nameof(FileBufferingReadStream));
-            }
         }
     }
 }

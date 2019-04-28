@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     public class UseWhenExtensionsTests
     {
@@ -104,9 +104,9 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             Assert.Equal(0, Count(context, "child"));
         }
 
-        private static HttpContext CreateContext()
+        private static ProtoContext CreateContext()
         {
-            return new DefaultHttpContext();
+            return new DefaultProtoContext();
         }
 
         private static ApplicationBuilder CreateBuilder()
@@ -114,17 +114,17 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             return new ApplicationBuilder(serviceProvider: null);
         }
 
-        private static bool TruePredicate(HttpContext context)
+        private static bool TruePredicate(ProtoContext context)
         {
             return true;
         }
 
-        private static bool FalsePredicate(HttpContext context)
+        private static bool FalsePredicate(ProtoContext context)
         {
             return false;
         }
 
-        private static Func<HttpContext, Func<Task>, Task> Increment(string key, bool terminate = false)
+        private static Func<ProtoContext, Func<Task>, Task> Increment(string key, bool terminate = false)
         {
             return (context, next) =>
             {
@@ -150,7 +150,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             };
         }
 
-        private static int Count(HttpContext context, string key)
+        private static int Count(ProtoContext context, string key)
         {
             if (!context.Items.ContainsKey(key))
             {

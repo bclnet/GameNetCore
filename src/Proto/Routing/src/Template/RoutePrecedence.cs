@@ -4,9 +4,9 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Patterns;
 
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     /// <summary>
     /// Computes precedence for a route template.

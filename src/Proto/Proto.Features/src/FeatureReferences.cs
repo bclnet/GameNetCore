@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public struct FeatureReferences<TCache>
     {
@@ -39,19 +39,19 @@ namespace Microsoft.AspNetCore.Http.Features
         public TCache Cache;
 
         // Careful with modifications to the Fetch method; it is carefully constructed for inlining
-        // See: https://github.com/aspnet/HttpAbstractions/pull/704
+        // See: https://github.com/aspnet/ProtoAbstractions/pull/704
         // This method is 59 IL bytes and at inline call depth 3 from accessing a property.
         // This combination is enough for the jit to consider it an "unprofitable inline"
         // Aggressively inlining it causes the entire call chain to dissolve:
         //
         // This means this call graph:
         //
-        // HttpResponse.Headers -> Response.HttpResponseFeature -> Fetch -> Fetch      -> Revision
+        // ProtoResponse.Headers -> Response.ProtoResponseFeature -> Fetch -> Fetch      -> Revision
         //                                                               -> Collection -> Collection
         //                                                                             -> Collection.Revision
         // Has 6 calls eliminated and becomes just:                                    -> UpdateCached
         //
-        // HttpResponse.Headers -> Collection.Revision
+        // ProtoResponse.Headers -> Collection.Revision
         //                      -> UpdateCached (not called on fast path)
         //
         // As this is inlined at the callsite we want to keep the method small, so it only detects

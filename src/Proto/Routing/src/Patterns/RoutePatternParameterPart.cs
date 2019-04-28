@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// Represents a parameter part in a route pattern. Instances of <see cref="RoutePatternParameterPart"/>

@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static partial class WebHostBuilderHttpSysExtensions
     {
@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static Microsoft.AspNetCore.Hosting.IWebHostBuilder UseHttpSys(this Microsoft.AspNetCore.Hosting.IWebHostBuilder hostBuilder, System.Action<Microsoft.AspNetCore.Server.HttpSys.HttpSysOptions> options) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     public sealed partial class AuthenticationManager
     {

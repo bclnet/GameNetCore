@@ -3,11 +3,11 @@
 
 
 using System.Globalization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Tests.PatternSegments
 {
     public class LocalPortSegmentTests
     {

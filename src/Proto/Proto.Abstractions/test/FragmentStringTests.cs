@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Abstractions.Tests
+namespace Contoso.GameNetCore.Proto.Abstractions.Tests
 {
     public class FragmentStringTests
     {

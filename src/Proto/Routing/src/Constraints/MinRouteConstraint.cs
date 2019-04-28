@@ -3,9 +3,9 @@
 
 using System;
 using System.Globalization;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     /// <summary>
     /// Constrains a route parameter to be a long with a minimum value.
@@ -28,7 +28,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
 
         /// <inheritdoc />
         public bool Match(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             string routeKey,
             RouteValueDictionary values,

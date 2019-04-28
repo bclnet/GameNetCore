@@ -4,12 +4,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Matching;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     internal sealed class EndpointRoutingMiddleware
     {
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Routing
             _endpointDataSource = new CompositeEndpointDataSource(endpointRouteBuilder.DataSources);
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(ProtoContext httpContext)
         {
             var feature = new EndpointSelectorContext();
 
@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Routing
             await _next(httpContext);
         }
 
-        private static void SetFeatures(HttpContext httpContext, EndpointSelectorContext context)
+        private static void SetFeatures(ProtoContext httpContext, EndpointSelectorContext context)
         {
             // For back-compat EndpointSelectorContext implements IEndpointFeature,
             // IRouteValuesFeature and IRoutingFeature

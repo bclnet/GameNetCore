@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public class HostStringTests
     {
@@ -128,7 +128,7 @@ namespace Microsoft.AspNetCore.Http
 
         [Theory]
         [InlineData("localHost", "localhost")]
-        [InlineData("localHost", "*")] // Any - Used by HttpSys
+        [InlineData("localHost", "*")] // Any - Used by ProtoSys
         [InlineData("localhost:9090", "localHost")]
         [InlineData("example.com:443", "example.com")]
         [InlineData("foo.eXample.com:443", "*.exampLe.com")]

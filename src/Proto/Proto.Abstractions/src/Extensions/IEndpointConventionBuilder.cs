@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Builds conventions that will be used for customization of <see cref="EndpointBuilder"/> instances.

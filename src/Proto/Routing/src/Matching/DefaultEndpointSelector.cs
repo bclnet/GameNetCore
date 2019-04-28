@@ -5,14 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal class DefaultEndpointSelector : EndpointSelector
     {
         public override Task SelectAsync(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             EndpointSelectorContext context,
             CandidateSet candidateSet)
         {
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         private static void ProcessFinalCandidates(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             EndpointSelectorContext context,
             CandidateSet candidateSet)
         {

@@ -4,9 +4,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Template;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     /// <summary>
     /// A tree part of a <see cref="TreeRouter"/>.

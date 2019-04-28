@@ -1,7 +1,7 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     {
         internal static readonly Func<object, Exception, string> Callback = (state, exception) => ((HostingRequestFinishedLog)state).ToString();
 
-        readonly HttpContext _httpContext;
+        readonly ProtoContext _httpContext;
         readonly TimeSpan _elapsed;
 
         string _cachedToString;
@@ -34,7 +34,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             }
         }
 
-        public HostingRequestFinishedLog(HttpContext httpContext, TimeSpan elapsed)
+        public HostingRequestFinishedLog(ProtoContext httpContext, TimeSpan elapsed)
         {
             _httpContext = httpContext;
             _elapsed = elapsed;

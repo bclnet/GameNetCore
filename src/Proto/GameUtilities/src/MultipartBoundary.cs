@@ -4,7 +4,7 @@
 using System;
 using System.Text;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     internal class MultipartBoundary
     {
@@ -14,47 +14,28 @@ namespace Microsoft.AspNetCore.WebUtilities
 
         public MultipartBoundary(string boundary, bool expectLeadingCrlf = true)
         {
-            if (boundary == null)
-            {
-                throw new ArgumentNullException(nameof(boundary));
-            }
-
-            _boundary = boundary;
+            _boundary = boundary ?? throw new ArgumentNullException(nameof(boundary));
             _expectLeadingCrlf = expectLeadingCrlf;
             Initialize(_boundary, _expectLeadingCrlf);
         }
 
         private void Initialize(string boundary, bool expectLeadingCrlf)
         {
-            if (expectLeadingCrlf)
-            {
-                BoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary);
-            }
-            else
-            {
-                BoundaryBytes = Encoding.UTF8.GetBytes("--" + boundary);
-            }
+            BoundaryBytes = expectLeadingCrlf ? Encoding.UTF8.GetBytes("\r\n--" + boundary) : Encoding.UTF8.GetBytes("--" + boundary);
             FinalBoundaryLength = BoundaryBytes.Length + 2; // Include the final '--' terminator.
 
             var length = BoundaryBytes.Length;
             for (var i = 0; i < _skipTable.Length; ++i)
-            {
                 _skipTable[i] = length;
-            }
             for (var i = 0; i < length; ++i)
-            {
                 _skipTable[BoundaryBytes[i]] = Math.Max(1, length - 1 - i);
-            }
         }
 
-        public int GetSkipValue(byte input)
-        {
-            return _skipTable[input];
-        }
+        public int GetSkipValue(byte input) => _skipTable[input];
 
         public bool ExpectLeadingCrlf
         {
-            get { return _expectLeadingCrlf; }
+            get => _expectLeadingCrlf;
             set
             {
                 if (value != _expectLeadingCrlf)

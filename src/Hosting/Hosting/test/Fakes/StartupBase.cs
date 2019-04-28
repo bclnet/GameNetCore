@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Hosting.Fakes
+namespace Contoso.GameNetCore.Hosting.Fakes
 {
     public class StartupBase
     {

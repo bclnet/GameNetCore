@@ -4,21 +4,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     /// <summary>
     /// Constrains the HTTP method of request or a route.
     /// </summary>
-    public class HttpMethodRouteConstraint : IRouteConstraint
+    public class ProtoMethodRouteConstraint : IRouteConstraint
     {
         /// <summary>
-        /// Creates a new instance of <see cref="HttpMethodRouteConstraint"/> that accepts the HTTP methods specified
+        /// Creates a new instance of <see cref="ProtoMethodRouteConstraint"/> that accepts the HTTP methods specified
         /// by <paramref name="allowedMethods"/>.
         /// </summary>
         /// <param name="allowedMethods">The allowed HTTP methods.</param>
-        public HttpMethodRouteConstraint(params string[] allowedMethods)
+        public ProtoMethodRouteConstraint(params string[] allowedMethods)
         {
             if (allowedMethods == null)
             {
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
 
         /// <inheritdoc />
         public virtual bool Match(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             string routeKey,
             RouteValueDictionary values,
@@ -65,8 +65,8 @@ namespace Microsoft.AspNetCore.Routing.Constraints
                 case RouteDirection.UrlGeneration:
                     // We need to see if the user specified the HTTP method explicitly.  Consider these two routes:
                     //
-                    // a) Route: template = "/{foo}", Constraints = { httpMethod = new HttpMethodRouteConstraint("GET") }
-                    // b) Route: template = "/{foo}", Constraints = { httpMethod = new HttpMethodRouteConstraint("POST") }
+                    // a) Route: template = "/{foo}", Constraints = { httpMethod = new ProtoMethodRouteConstraint("GET") }
+                    // b) Route: template = "/{foo}", Constraints = { httpMethod = new ProtoMethodRouteConstraint("POST") }
                     //
                     // A user might know ahead of time that a URI he/she is generating might be used with a particular HTTP
                     // method.  If a URI will be used for an HTTP POST but we match on (a) while generating the URI, then

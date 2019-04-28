@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Https;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Tests
 {
     public class KestrelConfigurationBuilderTests
     {

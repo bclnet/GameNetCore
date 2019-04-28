@@ -1,12 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
+using System;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Extension methods for the DefaultFilesMiddleware
@@ -21,10 +21,7 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseDefaultFiles(this IApplicationBuilder app)
         {
             if (app == null)
-            {
                 throw new ArgumentNullException(nameof(app));
-            }
-
             return app.UseMiddleware<DefaultFilesMiddleware>();
         }
 
@@ -37,10 +34,7 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseDefaultFiles(this IApplicationBuilder app, string requestPath)
         {
             if (app == null)
-            {
                 throw new ArgumentNullException(nameof(app));
-            }
-
             return app.UseDefaultFiles(new DefaultFilesOptions
             {
                 RequestPath = new PathString(requestPath)
@@ -56,14 +50,9 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseDefaultFiles(this IApplicationBuilder app, DefaultFilesOptions options)
         {
             if (app == null)
-            {
                 throw new ArgumentNullException(nameof(app));
-            }
             if (options == null)
-            {
                 throw new ArgumentNullException(nameof(options));
-            }
-
             return app.UseMiddleware<DefaultFilesMiddleware>(Options.Create(options));
         }
     }

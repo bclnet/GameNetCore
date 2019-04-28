@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     /// <summary>
     /// Determines the culture information for a request via the configured delegate.

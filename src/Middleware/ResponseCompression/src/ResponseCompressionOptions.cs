@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Http.Features;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Options for the HTTP response compression middleware.

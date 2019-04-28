@@ -6,15 +6,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
 using Xunit;
 using Xunit.Sdk;
 
-namespace Microsoft.AspNetCore.Tests
+namespace Contoso.GameNetCore.Tests
 {
     public class WebHostFunctionalTests : LoggedTest
     {

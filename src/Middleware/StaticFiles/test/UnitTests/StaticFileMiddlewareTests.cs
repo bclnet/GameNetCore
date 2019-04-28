@@ -9,17 +9,17 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.TestHost;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.FileProviders;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     public class StaticFileMiddlewareTests
     {

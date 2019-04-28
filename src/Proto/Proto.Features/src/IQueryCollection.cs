@@ -4,10 +4,10 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    ///     Represents the HttpRequest query string collection
+    ///     Represents the ProtoRequest query string collection
     /// </summary>
     public interface IQueryCollection : IEnumerable<KeyValuePair<string, StringValues>>
     {

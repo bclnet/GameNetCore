@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     public class KestrelServerLimits
     {
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         private int _maxRequestHeadersTotalSize = 32 * 1024;
 
         // Matches the default maxAllowedContentLength in IIS (~28.6 MB)
-        // https://www.iis.net/configreference/system.webserver/security/requestfiltering/requestlimits#005
+        // https://www.iis.net/configreference/system.gameserver/security/requestfiltering/requestlimits#005
         private long? _maxRequestBodySize = 30000000;
 
         // Matches the default LimitRequestFields in Apache httpd.
@@ -146,7 +146,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// Gets or sets the maximum allowed size of any request body in bytes.
         /// When set to null, the maximum request body size is unlimited.
         /// This limit has no effect on upgraded connections which are always unlimited.
-        /// This can be overridden per-request via <see cref="IHttpMaxRequestBodySizeFeature"/>.
+        /// This can be overridden per-request via <see cref="IProtoMaxRequestBodySizeFeature"/>.
         /// Defaults to 30,000,000 bytes, which is approximately 28.6MB.
         /// </summary>
         /// <remarks>
@@ -210,7 +210,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// </summary>
         /// <remarks>
         /// <para>
-        /// When a connection is upgraded to another protocol, such as WebSockets, its connection is counted against the
+        /// When a connection is upgraded to another protocol, such as GameSockets, its connection is counted against the
         /// <see cref="MaxConcurrentUpgradedConnections" /> limit instead of <see cref="MaxConcurrentConnections" />.
         /// </para>
         /// </remarks>
@@ -229,14 +229,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
 
         /// <summary>
         /// Gets or sets the maximum number of open, upgraded connections. When set to null, the number of upgraded connections is unlimited.
-        /// An upgraded connection is one that has been switched from HTTP to another protocol, such as WebSockets.
+        /// An upgraded connection is one that has been switched from HTTP to another protocol, such as GameSockets.
         /// <para>
         /// Defaults to null.
         /// </para>
         /// </summary>
         /// <remarks>
         /// <para>
-        /// When a connection is upgraded to another protocol, such as WebSockets, its connection is counted against the
+        /// When a connection is upgraded to another protocol, such as GameSockets, its connection is counted against the
         /// <see cref="MaxConcurrentUpgradedConnections" /> limit instead of <see cref="MaxConcurrentConnections" />.
         /// </para>
         /// </remarks>
@@ -256,13 +256,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// <summary>
         /// Limits only applicable to HTTP/2 connections.
         /// </summary>
-        public Http2Limits Http2 { get; } = new Http2Limits();
+        public Proto2Limits Proto2 { get; } = new Proto2Limits();
 
         /// <summary>
         /// Gets or sets the request body minimum data rate in bytes/second.
         /// Setting this property to null indicates no minimum data rate should be enforced.
         /// This limit has no effect on upgraded connections which are always unlimited.
-        /// This can be overridden per-request via <see cref="IHttpMinRequestBodyDataRateFeature"/>.
+        /// This can be overridden per-request via <see cref="IProtoMinRequestBodyDataRateFeature"/>.
         /// Defaults to 240 bytes/second with a 5 second grace period.
         /// </summary>
         /// <remarks>
@@ -275,7 +275,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         /// Gets or sets the response minimum data rate in bytes/second.
         /// Setting this property to null indicates no minimum data rate should be enforced.
         /// This limit has no effect on upgraded connections which are always unlimited.
-        /// This can be overridden per-request via <see cref="IHttpMinResponseDataRateFeature"/>.
+        /// This can be overridden per-request via <see cref="IProtoMinResponseDataRateFeature"/>.
         /// <para>
         /// Defaults to 240 bytes/second with a 5 second grace period.
         /// </para>

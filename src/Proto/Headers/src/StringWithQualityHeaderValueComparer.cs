@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     /// <summary>
     /// Implementation of <see cref="IComparer{T}"/> that can compare content negotiation header fields

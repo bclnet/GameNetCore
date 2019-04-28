@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
     internal class ConfigurationReader
     {
@@ -77,7 +77,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
         }
 
         // "EndpointDefaults": {
-        //    "Protocols": "Http1AndHttp2",
+        //    "Protocols": "Proto1AndProto2",
         // }
         private void ReadEndpointDefaults()
         {
@@ -97,7 +97,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             {
                 // "EndpointName": {
                 //    "Url": "https://*:5463",
-                //    "Protocols": "Http1AndHttp2",
+                //    "Protocols": "Proto1AndProto2",
                 //    "Certificate": {
                 //        "Path": "testCert.pfx",
                 //        "Password": "testPassword"
@@ -122,9 +122,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             }
         }
 
-        private static HttpProtocols? ParseProtocols(string protocols)
+        private static ProtoProtocols? ParseProtocols(string protocols)
         {
-            if (Enum.TryParse<HttpProtocols>(protocols, ignoreCase: true, out var result))
+            if (Enum.TryParse<ProtoProtocols>(protocols, ignoreCase: true, out var result))
             {
                 return result;
             }
@@ -134,17 +134,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
     }
 
     // "EndpointDefaults": {
-    //    "Protocols": "Http1AndHttp2",
+    //    "Protocols": "Proto1AndProto2",
     // }
     internal class EndpointDefaults
     {
-        public HttpProtocols? Protocols { get; set; }
+        public ProtoProtocols? Protocols { get; set; }
         public IConfigurationSection ConfigSection { get; set; }
     }
 
     // "EndpointName": {
     //    "Url": "https://*:5463",
-    //    "Protocols": "Http1AndHttp2",
+    //    "Protocols": "Proto1AndProto2",
     //    "Certificate": {
     //        "Path": "testCert.pfx",
     //        "Password": "testPassword"
@@ -154,7 +154,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
     {
         public string Name { get; set; }
         public string Url { get; set; }
-        public HttpProtocols? Protocols { get; set; }
+        public ProtoProtocols? Protocols { get; set; }
         public IConfigurationSection ConfigSection { get; set; }
         public CertificateConfig Certificate { get; set; }
     }

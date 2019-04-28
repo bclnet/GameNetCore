@@ -7,7 +7,7 @@ using System.IO.Pipelines;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     internal static class ChunkWriter
     {

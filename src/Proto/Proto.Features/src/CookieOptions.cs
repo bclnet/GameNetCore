@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Options used to create a new cookie.
@@ -52,7 +52,7 @@ namespace Microsoft.AspNetCore.Http
         /// Gets or sets a value that indicates whether a cookie is accessible by client-side script.
         /// </summary>
         /// <returns>true if a cookie must not be accessible by client-side script; otherwise, false.</returns>
-        public bool HttpOnly { get; set; }
+        public bool ProtoOnly { get; set; }
 
         /// <summary>
         /// Gets or sets the max-age for the cookie.

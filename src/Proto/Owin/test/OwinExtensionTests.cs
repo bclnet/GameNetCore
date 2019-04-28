@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     using AddMiddleware = Action<Func<
           Func<IDictionary<string, object>, Task>,
@@ -130,7 +130,7 @@ namespace Microsoft.AspNetCore.Owin
             var serviceProvider = new ServiceCollection().BuildServiceProvider();
             var builder = new ApplicationBuilder(serviceProvider);
             IDictionary<string, object> environment = null;
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             builder.UseOwin(addToPipeline =>
             {
@@ -146,15 +146,15 @@ namespace Microsoft.AspNetCore.Owin
             });
             await builder.Build().Invoke(context);
 
-            // Dictionary contains context but does not contain "websocket.Accept" or "websocket.AcceptAlt" keys.
+            // Dictionary contains context but does not contain "gamesocket.Accept" or "gamesocket.AcceptAlt" keys.
             Assert.NotNull(environment);
             var value = Assert.Single(
                     environment,
-                    kvp => string.Equals(typeof(HttpContext).FullName, kvp.Key, StringComparison.Ordinal))
+                    kvp => string.Equals(typeof(ProtoContext).FullName, kvp.Key, StringComparison.Ordinal))
                 .Value;
             Assert.Equal(context, value);
-            Assert.False(environment.ContainsKey("websocket.Accept"));
-            Assert.False(environment.ContainsKey("websocket.AcceptAlt"));
+            Assert.False(environment.ContainsKey("gamesocket.Accept"));
+            Assert.False(environment.ContainsKey("gamesocket.AcceptAlt"));
         }
 
         private class FakeService

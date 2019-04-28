@@ -4,10 +4,10 @@
 using System;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class DynamicTableTests
     {

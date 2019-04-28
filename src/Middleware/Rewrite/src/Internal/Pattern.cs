@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal
+namespace Contoso.GameNetCore.Rewrite.Internal
 {
     public class Pattern
     {

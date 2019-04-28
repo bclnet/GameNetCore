@@ -4,9 +4,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Proto.Extensions
 {
     // The IEnumerable interface is required for the collection initialization syntax: new QueryBuilder() { { "key", "value" } };
     public class QueryBuilder : IEnumerable<KeyValuePair<string, string>>

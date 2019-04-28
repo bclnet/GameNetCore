@@ -6,60 +6,60 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
-    // http://owin.org/extensions/owin-WebSocket-Extension-v0.4.0.htm
-    using WebSocketCloseAsync =
+    // http://owin.org/extensions/owin-GameSocket-Extension-v0.4.0.htm
+    using GameSocketCloseAsync =
         Func<int /* closeStatus */,
             string /* closeDescription */,
             CancellationToken /* cancel */,
             Task>;
-    using WebSocketReceiveAsync =
+    using GameSocketReceiveAsync =
         Func<ArraySegment<byte> /* data */,
             CancellationToken /* cancel */,
             Task<Tuple<int /* messageType */,
                 bool /* endOfMessage */,
                 int /* count */>>>;
-    using WebSocketSendAsync =
+    using GameSocketSendAsync =
         Func<ArraySegment<byte> /* data */,
             int /* messageType */,
             bool /* endOfMessage */,
             CancellationToken /* cancel */,
             Task>;
-    using RawWebSocketReceiveResult = Tuple<int, // type
+    using RawGameSocketReceiveResult = Tuple<int, // type
         bool, // end of message?
         int>; // count
 
-    public class OwinWebSocketAdapter : WebSocket
+    public class OwinGameSocketAdapter : GameSocket
     {
         private const int _rentedBufferSize = 1024;
-        private IDictionary<string, object> _websocketContext;
-        private WebSocketSendAsync _sendAsync;
-        private WebSocketReceiveAsync _receiveAsync;
-        private WebSocketCloseAsync _closeAsync;
-        private WebSocketState _state;
+        private IDictionary<string, object> _gamesocketContext;
+        private GameSocketSendAsync _sendAsync;
+        private GameSocketReceiveAsync _receiveAsync;
+        private GameSocketCloseAsync _closeAsync;
+        private GameSocketState _state;
         private string _subProtocol;
 
-        public OwinWebSocketAdapter(IDictionary<string, object> websocketContext, string subProtocol)
+        public OwinGameSocketAdapter(IDictionary<string, object> gamesocketContext, string subProtocol)
         {
-            _websocketContext = websocketContext;
-            _sendAsync = (WebSocketSendAsync)websocketContext[OwinConstants.WebSocket.SendAsync];
-            _receiveAsync = (WebSocketReceiveAsync)websocketContext[OwinConstants.WebSocket.ReceiveAsync];
-            _closeAsync = (WebSocketCloseAsync)websocketContext[OwinConstants.WebSocket.CloseAsync];
-            _state = WebSocketState.Open;
+            _gamesocketContext = gamesocketContext;
+            _sendAsync = (GameSocketSendAsync)gamesocketContext[OwinConstants.GameSocket.SendAsync];
+            _receiveAsync = (GameSocketReceiveAsync)gamesocketContext[OwinConstants.GameSocket.ReceiveAsync];
+            _closeAsync = (GameSocketCloseAsync)gamesocketContext[OwinConstants.GameSocket.CloseAsync];
+            _state = GameSocketState.Open;
             _subProtocol = subProtocol;
         }
 
-        public override WebSocketCloseStatus? CloseStatus
+        public override GameSocketCloseStatus? CloseStatus
         {
             get
             {
                 object obj;
-                if (_websocketContext.TryGetValue(OwinConstants.WebSocket.ClientCloseStatus, out obj))
+                if (_gamesocketContext.TryGetValue(OwinConstants.GameSocket.ClientCloseStatus, out obj))
                 {
-                    return (WebSocketCloseStatus)obj;
+                    return (GameSocketCloseStatus)obj;
                 }
                 return null;
             }
@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Owin
             get
             {
                 object obj;
-                if (_websocketContext.TryGetValue(OwinConstants.WebSocket.ClientCloseDescription, out obj))
+                if (_gamesocketContext.TryGetValue(OwinConstants.GameSocket.ClientCloseDescription, out obj))
                 {
                     return (string)obj;
                 }
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Owin
             }
         }
 
-        public override WebSocketState State
+        public override GameSocketState State
         {
             get
             {
@@ -94,36 +94,36 @@ namespace Microsoft.AspNetCore.Owin
             }
         }
 
-        public override async Task<WebSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken)
+        public override async Task<GameSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken)
         {
             var rawResult = await _receiveAsync(buffer, cancellationToken);
             var messageType = OpCodeToEnum(rawResult.Item1);
-            if (messageType == WebSocketMessageType.Close)
+            if (messageType == GameSocketMessageType.Close)
             {
-                if (State == WebSocketState.Open)
+                if (State == GameSocketState.Open)
                 {
-                    _state = WebSocketState.CloseReceived;
+                    _state = GameSocketState.CloseReceived;
                 }
-                else if (State == WebSocketState.CloseSent)
+                else if (State == GameSocketState.CloseSent)
                 {
-                    _state = WebSocketState.Closed;
+                    _state = GameSocketState.Closed;
                 }
-                return new WebSocketReceiveResult(rawResult.Item3, messageType, rawResult.Item2, CloseStatus, CloseStatusDescription);
+                return new GameSocketReceiveResult(rawResult.Item3, messageType, rawResult.Item2, CloseStatus, CloseStatusDescription);
             }
             else
             {
-                return new WebSocketReceiveResult(rawResult.Item3, messageType, rawResult.Item2);
+                return new GameSocketReceiveResult(rawResult.Item3, messageType, rawResult.Item2);
             }
         }
 
-        public override Task SendAsync(ArraySegment<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken)
+        public override Task SendAsync(ArraySegment<byte> buffer, GameSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken)
         {
             return _sendAsync(buffer, EnumToOpCode(messageType), endOfMessage, cancellationToken);
         }
 
-        public override async Task CloseAsync(WebSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
+        public override async Task CloseAsync(GameSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
         {
-            if (State == WebSocketState.Open || State == WebSocketState.CloseReceived)
+            if (State == GameSocketState.Open || State == GameSocketState.CloseReceived)
             {
                 await CloseOutputAsync(closeStatus, statusDescription, cancellationToken);
             }
@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Owin
             var buffer = ArrayPool<byte>.Shared.Rent(_rentedBufferSize);
             try
             {
-                while (State == WebSocketState.CloseSent)
+                while (State == GameSocketState.CloseSent)
                 {
                     // Drain until close received
                     await ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
@@ -143,57 +143,57 @@ namespace Microsoft.AspNetCore.Owin
             }
         }
 
-        public override Task CloseOutputAsync(WebSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
+        public override Task CloseOutputAsync(GameSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
         {
             // TODO: Validate state
-            if (State == WebSocketState.Open)
+            if (State == GameSocketState.Open)
             {
-                _state = WebSocketState.CloseSent;
+                _state = GameSocketState.CloseSent;
             }
-            else if (State == WebSocketState.CloseReceived)
+            else if (State == GameSocketState.CloseReceived)
             {
-                _state = WebSocketState.Closed;
+                _state = GameSocketState.Closed;
             }
             return _closeAsync((int)closeStatus, statusDescription, cancellationToken);
         }
 
         public override void Abort()
         {
-            _state = WebSocketState.Aborted;
+            _state = GameSocketState.Aborted;
         }
 
         public override void Dispose()
         {
-            _state = WebSocketState.Closed;
+            _state = GameSocketState.Closed;
         }
 
-        private static WebSocketMessageType OpCodeToEnum(int messageType)
+        private static GameSocketMessageType OpCodeToEnum(int messageType)
         {
             switch (messageType)
             {
                 case 0x1:
-                    return WebSocketMessageType.Text;
+                    return GameSocketMessageType.Text;
                 case 0x2:
-                    return WebSocketMessageType.Binary;
+                    return GameSocketMessageType.Binary;
                 case 0x8:
-                    return WebSocketMessageType.Close;
+                    return GameSocketMessageType.Close;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(messageType), messageType, string.Empty);
             }
         }
 
-        private static int EnumToOpCode(WebSocketMessageType webSocketMessageType)
+        private static int EnumToOpCode(GameSocketMessageType gameSocketMessageType)
         {
-            switch (webSocketMessageType)
+            switch (gameSocketMessageType)
             {
-                case WebSocketMessageType.Text:
+                case GameSocketMessageType.Text:
                     return 0x1;
-                case WebSocketMessageType.Binary:
+                case GameSocketMessageType.Binary:
                     return 0x2;
-                case WebSocketMessageType.Close:
+                case GameSocketMessageType.Close:
                     return 0x8;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(webSocketMessageType), webSocketMessageType, string.Empty);
+                    throw new ArgumentOutOfRangeException(nameof(gameSocketMessageType), gameSocketMessageType, string.Empty);
             }
         }
     }

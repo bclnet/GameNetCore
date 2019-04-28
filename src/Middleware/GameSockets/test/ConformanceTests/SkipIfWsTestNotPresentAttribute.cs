@@ -1,8 +1,8 @@
 using System;
-using Microsoft.AspNetCore.Testing.xunit;
-using Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn;
+using Contoso.GameNetCore.Testing.xunit;
+using Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class SkipIfWsTestNotPresentAttribute : Attribute, ITestCondition

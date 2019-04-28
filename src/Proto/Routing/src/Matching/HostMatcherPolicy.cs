@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// An <see cref="MatcherPolicy"/> that implements filtering and selection by
@@ -233,7 +233,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 _destinations = destinations;
             }
 
-            public override int GetDestination(HttpContext httpContext)
+            public override int GetDestination(ProtoContext httpContext)
             {
                 // HostString can allocate when accessing the host or port
                 // Store host and port locally and reuse
@@ -256,7 +256,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 return _exitDestination;
             }
 
-            private static int? ResolvePort(HttpContext httpContext, HostString requestHost)
+            private static int? ResolvePort(ProtoContext httpContext, HostString requestHost)
             {
                 if (requestHost.Port != null)
                 {

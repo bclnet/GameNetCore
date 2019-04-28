@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     public class AuthenticationSchemeProviderTests
     {
@@ -154,54 +154,31 @@ namespace Microsoft.AspNetCore.Authentication
 
         private class Handler : IAuthenticationHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                throw new NotImplementedException();
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => throw new NotImplementedException();
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                throw new NotImplementedException();
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => throw new NotImplementedException();
         }
 
         private class SignInHandler : Handler, IAuthenticationSignInHandler
         {
-            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => throw new NotImplementedException();
         }
 
         private class SignOutHandler : Handler, IAuthenticationSignOutHandler
         {
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => throw new NotImplementedException();
         }
 
         private class IgnoreCaseSchemeProvider : AuthenticationSchemeProvider
         {
             public IgnoreCaseSchemeProvider(IOptions<AuthenticationOptions> options)
-                : base(options, new Dictionary<string, AuthenticationScheme>(StringComparer.OrdinalIgnoreCase))
-            {
-            }
+                : base(options, new Dictionary<string, AuthenticationScheme>(StringComparer.OrdinalIgnoreCase)) { }
         }
     }
 }

@@ -5,19 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Endpoints;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Abstractions.Tests
+namespace Contoso.GameNetCore.Proto.Abstractions.Tests
 {
-    public class EndpointHttpContextExtensionsTests
+    public class EndpointProtoContextExtensionsTests
     {
         [Fact]
         public void GetEndpoint_ContextWithoutFeature_ReturnsNull()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             // Act
             var endpoint = context.GetEndpoint();
@@ -30,7 +30,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void GetEndpoint_ContextWithFeatureAndNullEndpoint_ReturnsNull()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Features.Set<IEndpointFeature>(new EndpointFeature
             {
                 Endpoint = null
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void GetEndpoint_ContextWithFeatureAndEndpoint_ReturnsNull()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var initial = new Endpoint(c => Task.CompletedTask, EndpointMetadataCollection.Empty, "Test endpoint");
             context.Features.Set<IEndpointFeature>(new EndpointFeature
             {
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void SetEndpoint_NullOnContextWithoutFeature_NoFeatureSet()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             // Act
             context.SetEndpoint(null);
@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void SetEndpoint_EndpointOnContextWithoutFeature_FeatureWithEndpointSet()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             // Act
             var endpoint = new Endpoint(c => Task.CompletedTask, EndpointMetadataCollection.Empty, "Test endpoint");
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void SetEndpoint_EndpointOnContextWithFeature_EndpointSetOnExistingFeature()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var initialEndpoint = new Endpoint(c => Task.CompletedTask, EndpointMetadataCollection.Empty, "Test endpoint");
             var initialFeature = new EndpointFeature
             {
@@ -116,7 +116,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void SetEndpoint_NullOnContextWithFeature_NullSetOnExistingFeature()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var initialEndpoint = new Endpoint(c => Task.CompletedTask, EndpointMetadataCollection.Empty, "Test endpoint");
             var initialFeature = new EndpointFeature
             {
@@ -137,7 +137,7 @@ namespace Microsoft.AspNetCore.Http.Abstractions.Tests
         public void SetAndGetEndpoint_Roundtrip_EndpointIsRoundtrip()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var initialEndpoint = new Endpoint(c => Task.CompletedTask, EndpointMetadataCollection.Empty, "Test endpoint");
 
             // Act

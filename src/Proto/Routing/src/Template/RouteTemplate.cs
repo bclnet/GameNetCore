@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Patterns;
 
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     [DebuggerDisplay("{DebuggerToString()}")]
     public class RouteTemplate

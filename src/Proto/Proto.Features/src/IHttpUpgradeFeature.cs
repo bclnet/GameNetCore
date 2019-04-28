@@ -4,9 +4,9 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public interface IHttpUpgradeFeature
+    public interface IProtoUpgradeFeature
     {
         /// <summary>
         /// Indicates if the server can upgrade this request to an opaque, bidirectional stream.

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
 namespace CodeGenerator.HttpUtilities
 {
@@ -64,10 +64,10 @@ namespace CodeGenerator.HttpUtilities
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {{
     public static partial class HttpUtilities
     {{

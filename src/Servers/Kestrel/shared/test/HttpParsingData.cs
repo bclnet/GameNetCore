@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Testing
+namespace Contoso.GameNetCore.Testing
 {
     public class HttpParsingData
     {

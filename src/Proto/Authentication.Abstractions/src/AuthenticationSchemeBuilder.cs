@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Used to build <see cref="AuthenticationScheme"/>s.
@@ -14,10 +14,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the scheme being built.</param>
-        public AuthenticationSchemeBuilder(string name)
-        {
-            Name = name;
-        }
+        public AuthenticationSchemeBuilder(string name) => Name = name;
 
         /// <summary>
         /// The name of the scheme being built.

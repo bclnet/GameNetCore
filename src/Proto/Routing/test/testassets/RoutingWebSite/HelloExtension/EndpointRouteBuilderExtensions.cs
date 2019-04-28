@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static class EndpointRouteBuilderExtensions
     {

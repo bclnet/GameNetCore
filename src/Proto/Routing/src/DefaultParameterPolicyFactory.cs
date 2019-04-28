@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     internal class DefaultParameterPolicyFactory : ParameterPolicyFactory
     {

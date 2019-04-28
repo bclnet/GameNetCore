@@ -5,23 +5,23 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
-    public static partial class HttpUtilities
+    public static partial class ProtoUtilities
     {
-        public const string Http10Version = "HTTP/1.0";
-        public const string Http11Version = "HTTP/1.1";
-        public const string Http2Version = "HTTP/2";
+        public const string Proto10Version = "HTTP/1.0";
+        public const string Proto11Version = "HTTP/1.1";
+        public const string Proto2Version = "HTTP/2";
 
-        public const string HttpUriScheme = "http://";
-        public const string HttpsUriScheme = "https://";
+        public const string ProtoUriScheme = "http://";
+        public const string ProtosUriScheme = "https://";
 
         // readonly primitive statics can be Jit'd to consts https://github.com/dotnet/coreclr/issues/1079
-        private static readonly ulong _httpSchemeLong = GetAsciiStringAsLong(HttpUriScheme + "\0");
-        private static readonly ulong _httpsSchemeLong = GetAsciiStringAsLong(HttpsUriScheme);
+        private static readonly ulong _httpSchemeLong = GetAsciiStringAsLong(ProtoUriScheme + "\0");
+        private static readonly ulong _httpsSchemeLong = GetAsciiStringAsLong(ProtosUriScheme);
 
         private const uint _httpGetMethodInt = 542393671; // GetAsciiStringAsInt("GET "); const results in better codegen
 
@@ -31,21 +31,21 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         private static readonly UTF8EncodingSealed HeaderValueEncoding = new UTF8EncodingSealed();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void SetKnownMethod(ulong mask, ulong knownMethodUlong, HttpMethod knownMethod, int length)
+        private static void SetKnownMethod(ulong mask, ulong knownMethodUlong, ProtoMethod knownMethod, int length)
         {
-            _knownMethods[GetKnownMethodIndex(knownMethodUlong)] = new Tuple<ulong, ulong, HttpMethod, int>(mask, knownMethodUlong, knownMethod, length);
+            _knownMethods[GetKnownMethodIndex(knownMethodUlong)] = new Tuple<ulong, ulong, ProtoMethod, int>(mask, knownMethodUlong, knownMethod, length);
         }
 
         private static void FillKnownMethodsGaps()
         {
             var knownMethods = _knownMethods;
             var length = knownMethods.Length;
-            var invalidHttpMethod = new Tuple<ulong, ulong, HttpMethod, int>(_mask8Chars, 0ul, HttpMethod.Custom, 0);
+            var invalidProtoMethod = new Tuple<ulong, ulong, ProtoMethod, int>(_mask8Chars, 0ul, ProtoMethod.Custom, 0);
             for (int i = 0; i < length; i++)
             {
                 if (knownMethods[i] == null)
                 {
-                    knownMethods[i] = invalidHttpMethod;
+                    knownMethods[i] = invalidProtoMethod;
                 }
             }
         }
@@ -172,31 +172,31 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// </remarks>
         /// <returns><c>true</c> if the input matches a known string, <c>false</c> otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool GetKnownMethod(this Span<byte> span, out HttpMethod method, out int length)
+        public static unsafe bool GetKnownMethod(this Span<byte> span, out ProtoMethod method, out int length)
         {
             fixed (byte* data = span)
             {
                 method = GetKnownMethod(data, span.Length, out length);
-                return method != HttpMethod.Custom;
+                return method != ProtoMethod.Custom;
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static unsafe HttpMethod GetKnownMethod(byte* data, int length, out int methodLength)
+        internal static unsafe ProtoMethod GetKnownMethod(byte* data, int length, out int methodLength)
         {
             methodLength = 0;
             if (length < sizeof(uint))
             {
-                return HttpMethod.Custom;
+                return ProtoMethod.Custom;
             }
             else if (*(uint*)data == _httpGetMethodInt)
             {
                 methodLength = 3;
-                return HttpMethod.Get;
+                return ProtoMethod.Get;
             }
             else if (length < sizeof(ulong))
             {
-                return HttpMethod.Custom;
+                return ProtoMethod.Custom;
             }
             else
             {
@@ -211,7 +211,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
                 }
             }
 
-            return HttpMethod.Custom;
+            return ProtoMethod.Custom;
         }
 
         /// <summary>
@@ -221,74 +221,74 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// A "known HTTP method" can be an HTTP method name defined in the HTTP/1.1 RFC.
         /// The Known Methods (CONNECT, DELETE, GET, HEAD, PATCH, POST, PUT, OPTIONS, TRACE)
         /// </remarks>
-        /// <returns><see cref="HttpMethod"/></returns>
-        public static HttpMethod GetKnownMethod(string value)
+        /// <returns><see cref="ProtoMethod"/></returns>
+        public static ProtoMethod GetKnownMethod(string value)
         {
             // Called by http/2
             if (value == null)
             {
-                return HttpMethod.None;
+                return ProtoMethod.None;
             }
 
             var length = value.Length;
             if (length == 0)
             {
-                return HttpMethod.None;
+                return ProtoMethod.None;
             }
 
             // Start with custom and assign if known method is found
-            var method = HttpMethod.Custom;
+            var method = ProtoMethod.Custom;
 
             var firstChar = value[0];
             if (length == 3)
             {
-                if (firstChar == 'G' && string.Equals(value, HttpMethods.Get, StringComparison.Ordinal))
+                if (firstChar == 'G' && string.Equals(value, ProtoMethods.Get, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Get;
+                    method = ProtoMethod.Get;
                 }
-                else if (firstChar == 'P' && string.Equals(value, HttpMethods.Put, StringComparison.Ordinal))
+                else if (firstChar == 'P' && string.Equals(value, ProtoMethods.Put, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Put;
+                    method = ProtoMethod.Put;
                 }
             }
             else if (length == 4)
             {
-                if (firstChar == 'H' && string.Equals(value, HttpMethods.Head, StringComparison.Ordinal))
+                if (firstChar == 'H' && string.Equals(value, ProtoMethods.Head, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Head;
+                    method = ProtoMethod.Head;
                 }
-                else if(firstChar == 'P' && string.Equals(value, HttpMethods.Post, StringComparison.Ordinal))
+                else if(firstChar == 'P' && string.Equals(value, ProtoMethods.Post, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Post;
+                    method = ProtoMethod.Post;
                 }
             }
             else if (length == 5)
             {
-                if (firstChar == 'T' && string.Equals(value, HttpMethods.Trace, StringComparison.Ordinal))
+                if (firstChar == 'T' && string.Equals(value, ProtoMethods.Trace, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Trace;
+                    method = ProtoMethod.Trace;
                 }
-                else if(firstChar == 'P' && string.Equals(value, HttpMethods.Patch, StringComparison.Ordinal))
+                else if(firstChar == 'P' && string.Equals(value, ProtoMethods.Patch, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Patch;
+                    method = ProtoMethod.Patch;
                 }
             }
             else if (length == 6)
             {
-                if (firstChar == 'D' && string.Equals(value, HttpMethods.Delete, StringComparison.Ordinal))
+                if (firstChar == 'D' && string.Equals(value, ProtoMethods.Delete, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Delete;
+                    method = ProtoMethod.Delete;
                 }
             }
             else if (length == 7)
             {
-                if (firstChar == 'C' && string.Equals(value, HttpMethods.Connect, StringComparison.Ordinal))
+                if (firstChar == 'C' && string.Equals(value, ProtoMethods.Connect, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Connect;
+                    method = ProtoMethod.Connect;
                 }
-                else if (firstChar == 'O' && string.Equals(value, HttpMethods.Options, StringComparison.Ordinal))
+                else if (firstChar == 'O' && string.Equals(value, ProtoMethods.Options, StringComparison.Ordinal))
                 {
-                    method = HttpMethod.Options;
+                    method = ProtoMethod.Options;
                 }
             }
 
@@ -307,12 +307,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// </remarks>
         /// <returns><c>true</c> if the input matches a known string, <c>false</c> otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool GetKnownVersion(this Span<byte> span, out HttpVersion knownVersion, out byte length)
+        public static unsafe bool GetKnownVersion(this Span<byte> span, out ProtoVersion knownVersion, out byte length)
         {
             fixed (byte* data = span)
             {
                 knownVersion = GetKnownVersion(data, span.Length);
-                if (knownVersion != HttpVersion.Unknown)
+                if (knownVersion != ProtoVersion.Unknown)
                 {
                     length = sizeof(ulong);
                     return true;
@@ -335,25 +335,25 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// </remarks>
         /// <returns><c>true</c> if the input matches a known string, <c>false</c> otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static unsafe HttpVersion GetKnownVersion(byte* location, int length)
+        internal static unsafe ProtoVersion GetKnownVersion(byte* location, int length)
         {
-            HttpVersion knownVersion;
+            ProtoVersion knownVersion;
             var version = *(ulong*)location;
             if (length < sizeof(ulong) + 1 || location[sizeof(ulong)] != (byte)'\r')
             {
-                knownVersion = HttpVersion.Unknown;
+                knownVersion = ProtoVersion.Unknown;
             }
             else if (version == _http11VersionLong)
             {
-                knownVersion = HttpVersion.Http11;
+                knownVersion = ProtoVersion.Proto11;
             }
             else if (version == _http10VersionLong)
             {
-                knownVersion = HttpVersion.Http10;
+                knownVersion = ProtoVersion.Proto10;
             }
             else
             {
-                knownVersion = HttpVersion.Unknown;
+                knownVersion = ProtoVersion.Unknown;
             }
 
             return knownVersion;
@@ -366,49 +366,49 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         /// <param name="knownScheme">A reference to the known scheme, if the input matches any</param>
         /// <returns>True when memory starts with known http or https schema</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool GetKnownHttpScheme(this Span<byte> span, out HttpScheme knownScheme)
+        public static unsafe bool GetKnownProtoScheme(this Span<byte> span, out ProtoScheme knownScheme)
         {
             fixed (byte* data = span)
             {
-                return GetKnownHttpScheme(data, span.Length, out knownScheme);
+                return GetKnownProtoScheme(data, span.Length, out knownScheme);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe bool GetKnownHttpScheme(byte* location, int length, out HttpScheme knownScheme)
+        private static unsafe bool GetKnownProtoScheme(byte* location, int length, out ProtoScheme knownScheme)
         {
             if (length >= sizeof(ulong))
             {
                 var scheme = *(ulong*)location;
                 if ((scheme & _mask7Chars) == _httpSchemeLong)
                 {
-                    knownScheme = HttpScheme.Http;
+                    knownScheme = ProtoScheme.Proto;
                     return true;
                 }
 
                 if (scheme == _httpsSchemeLong)
                 {
-                    knownScheme = HttpScheme.Https;
+                    knownScheme = ProtoScheme.Protos;
                     return true;
                 }
             }
-            knownScheme = HttpScheme.Unknown;
+            knownScheme = ProtoScheme.Unknown;
             return false;
         }
 
-        public static string VersionToString(HttpVersion httpVersion)
+        public static string VersionToString(ProtoVersion httpVersion)
         {
             switch (httpVersion)
             {
-                case HttpVersion.Http10:
-                    return Http10Version;
-                case HttpVersion.Http11:
-                    return Http11Version;
+                case ProtoVersion.Proto10:
+                    return Proto10Version;
+                case ProtoVersion.Proto11:
+                    return Proto11Version;
                 default:
                     return null;
             }
         }
-        public static string MethodToString(HttpMethod method)
+        public static string MethodToString(ProtoMethod method)
         {
             var methodIndex = (int)method;
             var methodNames = _methodNames;
@@ -419,14 +419,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             return null;
         }
 
-        public static string SchemeToString(HttpScheme scheme)
+        public static string SchemeToString(ProtoScheme scheme)
         {
             switch (scheme)
             {
-                case HttpScheme.Http:
-                    return HttpUriScheme;
-                case HttpScheme.Https:
-                    return HttpsUriScheme;
+                case ProtoScheme.Proto:
+                    return ProtoUriScheme;
+                case ProtoScheme.Protos:
+                    return ProtosUriScheme;
                 default:
                     return null;
             }
@@ -454,7 +454,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
                     return false;
                 }
 
-                var invalid = HttpCharacters.IndexOfInvalidHostChar(hostText);
+                var invalid = ProtoCharacters.IndexOfInvalidHostChar(hostText);
                 if (invalid >= 0)
                 {
                     // Tail call

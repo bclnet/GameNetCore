@@ -1,8 +1,8 @@
 {
-  "AssemblyIdentity": "Microsoft.AspNetCore.Http.Extensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+  "AssemblyIdentity": "Microsoft.AspNetCore.Proto.Extensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
-      "Name": "Microsoft.AspNetCore.Http.HeaderDictionaryTypeExtensions",
+      "Name": "Microsoft.AspNetCore.Proto.HeaderDictionaryTypeExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -16,10 +16,10 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "Microsoft.AspNetCore.Http.HttpRequest"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoRequest"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.Headers.RequestHeaders",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Headers.RequestHeaders",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -31,10 +31,10 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.Headers.ResponseHeaders",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Headers.ResponseHeaders",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -46,7 +46,7 @@
           "Parameters": [
             {
               "Name": "Headers",
-              "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary"
+              "Type": "Microsoft.AspNetCore.Proto.IHeaderDictionary"
             },
             {
               "Name": "name",
@@ -73,7 +73,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.ResponseExtensions",
+      "Name": "Microsoft.AspNetCore.Proto.ResponseExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -87,7 +87,7 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             }
           ],
           "ReturnType": "System.Void",
@@ -100,7 +100,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.SendFileResponseExtensions",
+      "Name": "Microsoft.AspNetCore.Proto.SendFileResponseExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -114,7 +114,7 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             },
             {
               "Name": "file",
@@ -138,7 +138,7 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             },
             {
               "Name": "file",
@@ -170,7 +170,7 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             },
             {
               "Name": "fileName",
@@ -194,7 +194,7 @@
           "Parameters": [
             {
               "Name": "response",
-              "Type": "Microsoft.AspNetCore.Http.HttpResponse"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoResponse"
             },
             {
               "Name": "fileName",
@@ -224,7 +224,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.SessionExtensions",
+      "Name": "Microsoft.AspNetCore.Proto.SessionExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -238,7 +238,7 @@
           "Parameters": [
             {
               "Name": "session",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             },
             {
               "Name": "key",
@@ -261,7 +261,7 @@
           "Parameters": [
             {
               "Name": "session",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             },
             {
               "Name": "key",
@@ -280,7 +280,7 @@
           "Parameters": [
             {
               "Name": "session",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             },
             {
               "Name": "key",
@@ -303,7 +303,7 @@
           "Parameters": [
             {
               "Name": "session",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             },
             {
               "Name": "key",
@@ -322,7 +322,7 @@
           "Parameters": [
             {
               "Name": "session",
-              "Type": "Microsoft.AspNetCore.Http.ISession"
+              "Type": "Microsoft.AspNetCore.Proto.ISession"
             },
             {
               "Name": "key",
@@ -339,7 +339,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Headers.RequestHeaders",
+      "Name": "Microsoft.AspNetCore.Proto.Headers.RequestHeaders",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -348,7 +348,7 @@
           "Kind": "Method",
           "Name": "get_Headers",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -356,7 +356,7 @@
           "Kind": "Method",
           "Name": "get_Accept",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.MediaTypeHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.MediaTypeHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -366,7 +366,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.MediaTypeHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.MediaTypeHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -377,7 +377,7 @@
           "Kind": "Method",
           "Name": "get_AcceptCharset",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -387,7 +387,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -398,7 +398,7 @@
           "Kind": "Method",
           "Name": "get_AcceptEncoding",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -408,7 +408,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -419,7 +419,7 @@
           "Kind": "Method",
           "Name": "get_AcceptLanguage",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -429,7 +429,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.StringWithQualityHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.StringWithQualityHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -440,7 +440,7 @@
           "Kind": "Method",
           "Name": "get_CacheControl",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.CacheControlHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.CacheControlHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -450,7 +450,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.CacheControlHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.CacheControlHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -461,7 +461,7 @@
           "Kind": "Method",
           "Name": "get_ContentDisposition",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -471,7 +471,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -503,7 +503,7 @@
           "Kind": "Method",
           "Name": "get_ContentRange",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.ContentRangeHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.ContentRangeHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -513,7 +513,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.ContentRangeHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentRangeHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -524,7 +524,7 @@
           "Kind": "Method",
           "Name": "get_ContentType",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.MediaTypeHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.MediaTypeHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -534,7 +534,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.MediaTypeHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.MediaTypeHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -545,7 +545,7 @@
           "Kind": "Method",
           "Name": "get_Cookie",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.CookieHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.CookieHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -555,7 +555,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.CookieHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.CookieHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -608,7 +608,7 @@
           "Kind": "Method",
           "Name": "get_Host",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.HostString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.HostString",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -618,7 +618,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.HostString"
+              "Type": "Microsoft.AspNetCore.Proto.HostString"
             }
           ],
           "ReturnType": "System.Void",
@@ -629,7 +629,7 @@
           "Kind": "Method",
           "Name": "get_IfMatch",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.EntityTagHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.EntityTagHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -639,7 +639,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.EntityTagHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.EntityTagHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -671,7 +671,7 @@
           "Kind": "Method",
           "Name": "get_IfNoneMatch",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.EntityTagHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.EntityTagHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -681,7 +681,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.EntityTagHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.EntityTagHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -692,7 +692,7 @@
           "Kind": "Method",
           "Name": "get_IfRange",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.RangeConditionHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.RangeConditionHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -702,7 +702,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.RangeConditionHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.RangeConditionHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -755,7 +755,7 @@
           "Kind": "Method",
           "Name": "get_Range",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.RangeHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.RangeHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -765,7 +765,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.RangeHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.RangeHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -917,7 +917,7 @@
           "Parameters": [
             {
               "Name": "headers",
-              "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary"
+              "Type": "Microsoft.AspNetCore.Proto.IHeaderDictionary"
             }
           ],
           "Visibility": "Public",
@@ -927,7 +927,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Headers.ResponseHeaders",
+      "Name": "Microsoft.AspNetCore.Proto.Headers.ResponseHeaders",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -936,7 +936,7 @@
           "Kind": "Method",
           "Name": "get_Headers",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+          "ReturnType": "Microsoft.AspNetCore.Proto.IHeaderDictionary",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -944,7 +944,7 @@
           "Kind": "Method",
           "Name": "get_CacheControl",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.CacheControlHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.CacheControlHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -954,7 +954,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.CacheControlHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.CacheControlHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -965,7 +965,7 @@
           "Kind": "Method",
           "Name": "get_ContentDisposition",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -975,7 +975,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -1007,7 +1007,7 @@
           "Kind": "Method",
           "Name": "get_ContentRange",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.ContentRangeHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.ContentRangeHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1017,7 +1017,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.ContentRangeHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentRangeHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -1028,7 +1028,7 @@
           "Kind": "Method",
           "Name": "get_ContentType",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.MediaTypeHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.MediaTypeHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1038,7 +1038,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.MediaTypeHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.MediaTypeHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -1070,7 +1070,7 @@
           "Kind": "Method",
           "Name": "get_ETag",
           "Parameters": [],
-          "ReturnType": "Microsoft.Net.Http.Headers.EntityTagHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.EntityTagHeaderValue",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1080,7 +1080,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.Net.Http.Headers.EntityTagHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.EntityTagHeaderValue"
             }
           ],
           "ReturnType": "System.Void",
@@ -1154,7 +1154,7 @@
           "Kind": "Method",
           "Name": "get_SetCookie",
           "Parameters": [],
-          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.SetCookieHeaderValue>",
+          "ReturnType": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.SetCookieHeaderValue>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1164,7 +1164,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Collections.Generic.IList<Microsoft.Net.Http.Headers.SetCookieHeaderValue>"
+              "Type": "System.Collections.Generic.IList<Microsoft.Net.Proto.Headers.SetCookieHeaderValue>"
             }
           ],
           "ReturnType": "System.Void",
@@ -1295,7 +1295,7 @@
           "Parameters": [
             {
               "Name": "headers",
-              "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary"
+              "Type": "Microsoft.AspNetCore.Proto.IHeaderDictionary"
             }
           ],
           "Visibility": "Public",
@@ -1305,7 +1305,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Extensions.HttpRequestMultipartExtensions",
+      "Name": "Microsoft.AspNetCore.Proto.Extensions.ProtoRequestMultipartExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -1319,7 +1319,7 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "Microsoft.AspNetCore.Http.HttpRequest"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoRequest"
             }
           ],
           "ReturnType": "System.String",
@@ -1332,7 +1332,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Extensions.QueryBuilder",
+      "Name": "Microsoft.AspNetCore.Proto.Extensions.QueryBuilder",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [
@@ -1387,7 +1387,7 @@
           "Kind": "Method",
           "Name": "ToQueryString",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.QueryString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.QueryString",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1450,7 +1450,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Extensions.StreamCopyOperation",
+      "Name": "Microsoft.AspNetCore.Proto.Extensions.StreamCopyOperation",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -1518,7 +1518,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Http.Extensions.UriHelper",
+      "Name": "Microsoft.AspNetCore.Proto.Extensions.UriHelper",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -1532,23 +1532,23 @@
           "Parameters": [
             {
               "Name": "pathBase",
-              "Type": "Microsoft.AspNetCore.Http.PathString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.PathString)"
+              "Type": "Microsoft.AspNetCore.Proto.PathString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.PathString)"
             },
             {
               "Name": "path",
-              "Type": "Microsoft.AspNetCore.Http.PathString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.PathString)"
+              "Type": "Microsoft.AspNetCore.Proto.PathString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.PathString)"
             },
             {
               "Name": "query",
-              "Type": "Microsoft.AspNetCore.Http.QueryString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.QueryString)"
+              "Type": "Microsoft.AspNetCore.Proto.QueryString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.QueryString)"
             },
             {
               "Name": "fragment",
-              "Type": "Microsoft.AspNetCore.Http.FragmentString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.FragmentString)"
+              "Type": "Microsoft.AspNetCore.Proto.FragmentString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.FragmentString)"
             }
           ],
           "ReturnType": "System.String",
@@ -1566,27 +1566,27 @@
             },
             {
               "Name": "host",
-              "Type": "Microsoft.AspNetCore.Http.HostString"
+              "Type": "Microsoft.AspNetCore.Proto.HostString"
             },
             {
               "Name": "pathBase",
-              "Type": "Microsoft.AspNetCore.Http.PathString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.PathString)"
+              "Type": "Microsoft.AspNetCore.Proto.PathString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.PathString)"
             },
             {
               "Name": "path",
-              "Type": "Microsoft.AspNetCore.Http.PathString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.PathString)"
+              "Type": "Microsoft.AspNetCore.Proto.PathString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.PathString)"
             },
             {
               "Name": "query",
-              "Type": "Microsoft.AspNetCore.Http.QueryString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.QueryString)"
+              "Type": "Microsoft.AspNetCore.Proto.QueryString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.QueryString)"
             },
             {
               "Name": "fragment",
-              "Type": "Microsoft.AspNetCore.Http.FragmentString",
-              "DefaultValue": "default(Microsoft.AspNetCore.Http.FragmentString)"
+              "Type": "Microsoft.AspNetCore.Proto.FragmentString",
+              "DefaultValue": "default(Microsoft.AspNetCore.Proto.FragmentString)"
             }
           ],
           "ReturnType": "System.String",
@@ -1609,22 +1609,22 @@
             },
             {
               "Name": "host",
-              "Type": "Microsoft.AspNetCore.Http.HostString",
+              "Type": "Microsoft.AspNetCore.Proto.HostString",
               "Direction": "Out"
             },
             {
               "Name": "path",
-              "Type": "Microsoft.AspNetCore.Http.PathString",
+              "Type": "Microsoft.AspNetCore.Proto.PathString",
               "Direction": "Out"
             },
             {
               "Name": "query",
-              "Type": "Microsoft.AspNetCore.Http.QueryString",
+              "Type": "Microsoft.AspNetCore.Proto.QueryString",
               "Direction": "Out"
             },
             {
               "Name": "fragment",
-              "Type": "Microsoft.AspNetCore.Http.FragmentString",
+              "Type": "Microsoft.AspNetCore.Proto.FragmentString",
               "Direction": "Out"
             }
           ],
@@ -1653,7 +1653,7 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "Microsoft.AspNetCore.Http.HttpRequest"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoRequest"
             }
           ],
           "ReturnType": "System.String",
@@ -1668,7 +1668,7 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "Microsoft.AspNetCore.Http.HttpRequest"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoRequest"
             }
           ],
           "ReturnType": "System.String",
@@ -1683,7 +1683,7 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "Microsoft.AspNetCore.Http.HttpRequest"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoRequest"
             }
           ],
           "ReturnType": "System.String",

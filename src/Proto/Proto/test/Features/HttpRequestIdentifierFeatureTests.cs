@@ -3,14 +3,14 @@
 
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpRequestIdentifierFeatureTests
+    public class ProtoRequestIdentifierFeatureTests
     {
         [Fact]
         public void TraceIdentifier_ReturnsId()
         {
-            var feature = new HttpRequestIdentifierFeature();
+            var feature = new ProtoRequestIdentifierFeature();
 
             var id = feature.TraceIdentifier;
 
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void TraceIdentifier_ReturnsStableId()
         {
-            var feature = new HttpRequestIdentifierFeature();
+            var feature = new ProtoRequestIdentifierFeature();
 
             var id1 = feature.TraceIdentifier;
             var id2 = feature.TraceIdentifier;
@@ -31,8 +31,8 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void TraceIdentifier_ReturnsUniqueIdForDifferentInstances()
         {
-            var feature1 = new HttpRequestIdentifierFeature();
-            var feature2 = new HttpRequestIdentifierFeature();
+            var feature1 = new ProtoRequestIdentifierFeature();
+            var feature2 = new ProtoRequestIdentifierFeature();
 
             var id1 = feature1.TraceIdentifier;
             var id2 = feature2.TraceIdentifier;

@@ -3,57 +3,57 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     using AppFunc = Func<IDictionary<string, object>, Task>;
-    using WebSocketAccept =
+    using GameSocketAccept =
         Action
         <
-            IDictionary<string, object>, // WebSocket Accept parameters
-            Func // WebSocketFunc callback
+            IDictionary<string, object>, // GameSocket Accept parameters
+            Func // GameSocketFunc callback
             <
-                IDictionary<string, object>, // WebSocket environment
+                IDictionary<string, object>, // GameSocket environment
                 Task // Complete
             >
         >;
-    using WebSocketAcceptAlt =
+    using GameSocketAcceptAlt =
         Func
         <
-            WebSocketAcceptContext, // WebSocket Accept parameters
-            Task<WebSocket>
+            GameSocketAcceptContext, // GameSocket Accept parameters
+            Task<GameSocket>
         >;
 
     /// <summary>
-    /// This adapts the OWIN WebSocket accept flow to match the ASP.NET Core WebSocket Accept flow.
-    /// This enables ASP.NET Core components to use WebSockets on OWIN based servers.
+    /// This adapts the OWIN GameSocket accept flow to match the ASP.NET Core GameSocket Accept flow.
+    /// This enables ASP.NET Core components to use GameSockets on OWIN based servers.
     /// </summary>
-    public class OwinWebSocketAcceptAdapter
+    public class OwinGameSocketAcceptAdapter
     {
-        private WebSocketAccept _owinWebSocketAccept;
+        private GameSocketAccept _owinGameSocketAccept;
         private TaskCompletionSource<int> _requestTcs = new TaskCompletionSource<int>();
-        private TaskCompletionSource<WebSocket> _acceptTcs = new TaskCompletionSource<WebSocket>();
+        private TaskCompletionSource<GameSocket> _acceptTcs = new TaskCompletionSource<GameSocket>();
         private TaskCompletionSource<int> _upstreamWentAsync = new TaskCompletionSource<int>();
         private string _subProtocol = null;
 
-        private OwinWebSocketAcceptAdapter(WebSocketAccept owinWebSocketAccept)
+        private OwinGameSocketAcceptAdapter(GameSocketAccept owinGameSocketAccept)
         {
-            _owinWebSocketAccept = owinWebSocketAccept;
+            _owinGameSocketAccept = owinGameSocketAccept;
         }
 
         private Task RequestTask { get { return _requestTcs.Task; } }
         private Task UpstreamTask { get; set; }
         private TaskCompletionSource<int> UpstreamWentAsyncTcs { get { return _upstreamWentAsync; } }
 
-        private async Task<WebSocket> AcceptWebSocketAsync(WebSocketAcceptContext context)
+        private async Task<GameSocket> AcceptGameSocketAsync(GameSocketAcceptContext context)
         {
             IDictionary<string, object> options = null;
-            if (context is OwinWebSocketAcceptContext)
+            if (context is OwinGameSocketAcceptContext)
             {
-                var acceptContext = context as OwinWebSocketAcceptContext;
+                var acceptContext = context as OwinGameSocketAcceptContext;
                 options = acceptContext.Options;
                 _subProtocol = acceptContext.SubProtocol;
             }
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Owin
             {
                 options = new Dictionary<string, object>(1)
                 {
-                    { OwinConstants.WebSocket.SubProtocol, context.SubProtocol }
+                    { OwinConstants.GameSocket.SubProtocol, context.SubProtocol }
                 };
                 _subProtocol = context.SubProtocol;
             }
@@ -69,19 +69,19 @@ namespace Microsoft.AspNetCore.Owin
             // Accept may have been called synchronously on the original request thread, we might not have a task yet. Go async.
             await _upstreamWentAsync.Task;
 
-            _owinWebSocketAccept(options, OwinAcceptCallback);
+            _owinGameSocketAccept(options, OwinAcceptCallback);
             _requestTcs.TrySetResult(0); // Let the pipeline unwind.
 
             return await _acceptTcs.Task;
         }
 
-        private Task OwinAcceptCallback(IDictionary<string, object> webSocketContext)
+        private Task OwinAcceptCallback(IDictionary<string, object> gameSocketContext)
         {
-            _acceptTcs.TrySetResult(new OwinWebSocketAdapter(webSocketContext, _subProtocol));
+            _acceptTcs.TrySetResult(new OwinGameSocketAdapter(gameSocketContext, _subProtocol));
             return UpstreamTask;
         }
 
-        // Make sure declined websocket requests complete. This is a no-op for accepted websocket requests.
+        // Make sure declined gamesocket requests complete. This is a no-op for accepted gamesocket requests.
         private void EnsureCompleted(Task task)
         {
             if (task.IsCanceled)
@@ -99,25 +99,25 @@ namespace Microsoft.AspNetCore.Owin
         }
 
         // Order of operations:
-        // 1. A WebSocket handshake request is received by the middleware.
+        // 1. A GameSocket handshake request is received by the middleware.
         // 2. The middleware inserts an alternate Accept signature into the OWIN environment.
         // 3. The middleware invokes Next and stores Next's Task locally. It then returns an alternate Task to the server.
-        // 4. The OwinFeatureCollection adapts the alternate Accept signature to IHttpWebSocketFeature.AcceptAsync.
-        // 5. A component later in the pipeline invokes IHttpWebSocketFeature.AcceptAsync (mapped to AcceptWebSocketAsync).
+        // 4. The OwinFeatureCollection adapts the alternate Accept signature to IProtoGameSocketFeature.AcceptAsync.
+        // 5. A component later in the pipeline invokes IProtoGameSocketFeature.AcceptAsync (mapped to AcceptGameSocketAsync).
         // 6. The middleware calls the OWIN Accept, providing a local callback, and returns an incomplete Task.
         // 7. The middleware completes the alternate Task it returned from Invoke, telling the server that the request pipeline has completed.
-        // 8. The server invokes the middleware's callback, which creates a WebSocket adapter and completes the original Accept Task with it.
-        // 9. The middleware waits while the application uses the WebSocket, where the end is signaled by the Next's Task completion.
-        public static AppFunc AdaptWebSockets(AppFunc next)
+        // 8. The server invokes the middleware's callback, which creates a GameSocket adapter and completes the original Accept Task with it.
+        // 9. The middleware waits while the application uses the GameSocket, where the end is signaled by the Next's Task completion.
+        public static AppFunc AdaptGameSockets(AppFunc next)
         {
             return environment =>
             {
                 object accept;
-                if (environment.TryGetValue(OwinConstants.WebSocket.Accept, out accept) && accept is WebSocketAccept)
+                if (environment.TryGetValue(OwinConstants.GameSocket.Accept, out accept) && accept is GameSocketAccept)
                 {
-                    var adapter = new OwinWebSocketAcceptAdapter((WebSocketAccept)accept);
+                    var adapter = new OwinGameSocketAcceptAdapter((GameSocketAccept)accept);
 
-                    environment[OwinConstants.WebSocket.AcceptAlt] = new WebSocketAcceptAlt(adapter.AcceptWebSocketAsync);
+                    environment[OwinConstants.GameSocket.AcceptAlt] = new GameSocketAcceptAlt(adapter.AcceptGameSocketAsync);
 
                     try
                     {

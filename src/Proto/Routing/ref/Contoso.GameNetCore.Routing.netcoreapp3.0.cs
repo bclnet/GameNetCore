@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class EndpointRouteBuilderExtensions
     {
@@ -50,7 +50,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.IEndpointConventionBuilder WithMetadata(this Microsoft.AspNetCore.Builder.IEndpointConventionBuilder builder, params object[] items) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     [System.Diagnostics.DebuggerDisplayAttribute("{DebuggerDisplayString,nq}")]
     public sealed partial class CompositeEndpointDataSource : Microsoft.AspNetCore.Routing.EndpointDataSource
@@ -354,7 +354,7 @@ namespace Microsoft.AspNetCore.Routing
         public bool SuppressMatching { get { throw null; } }
     }
 }
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     public partial class AlphaRouteConstraint : Microsoft.AspNetCore.Routing.Constraints.RegexRouteConstraint
     {
@@ -489,7 +489,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         public bool Match(Microsoft.AspNetCore.Http.HttpContext httpContext, Microsoft.AspNetCore.Routing.IRouter route, string routeKey, Microsoft.AspNetCore.Routing.RouteValueDictionary values, Microsoft.AspNetCore.Routing.RouteDirection routeDirection) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct BufferValue
@@ -577,7 +577,7 @@ namespace Microsoft.AspNetCore.Routing.Internal
         public override string ToString() { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public sealed partial class CandidateSet
     {
@@ -666,7 +666,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         public object State { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } }
     }
 }
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     [System.Diagnostics.DebuggerDisplayAttribute("{DebuggerToString()}")]
     public sealed partial class RoutePattern
@@ -781,7 +781,7 @@ namespace Microsoft.AspNetCore.Routing.Patterns
         public abstract Microsoft.AspNetCore.Routing.Patterns.RoutePattern SubstituteRequiredValues(Microsoft.AspNetCore.Routing.Patterns.RoutePattern original, object requiredValues);
     }
 }
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     public partial class InlineConstraint
     {
@@ -860,7 +860,7 @@ namespace Microsoft.AspNetCore.Routing.Template
         public Microsoft.AspNetCore.Routing.RouteValueDictionary CombinedValues { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     [System.Diagnostics.DebuggerDisplayAttribute("{DebuggerToString(),nq}")]
     public partial class InboundMatch

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.NodeServices;
-using Microsoft.AspNetCore.SpaServices.Prerendering;
+using Contoso.GameNetCore.Mvc;
+using Contoso.GameNetCore.NodeServices;
+using Contoso.GameNetCore.SpaServices.Prerendering;
 
 namespace NodeServicesExamples.Controllers
 {

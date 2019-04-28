@@ -8,17 +8,17 @@ using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.HostFiltering;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.HostFiltering;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Tests
+namespace Contoso.GameNetCore.Tests
 {
     public class WebHostTests
     {

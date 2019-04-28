@@ -1,6 +1,6 @@
 using System;
 
-namespace Microsoft.AspNetCore.NodeServices.HostingModels
+namespace Contoso.GameNetCore.NodeServices.HostingModels
 {
     /// <summary>
     /// Represents an exception caused by invoking Node.js code.

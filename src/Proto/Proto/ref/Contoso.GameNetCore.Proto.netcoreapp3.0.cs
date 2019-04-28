@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder.Internal
+namespace Contoso.GameNetCore.Builder.Internal
 {
     public partial class ApplicationBuilder : Microsoft.AspNetCore.Builder.IApplicationBuilder
     {
@@ -15,7 +15,7 @@ namespace Microsoft.AspNetCore.Builder.Internal
         public Microsoft.AspNetCore.Builder.IApplicationBuilder Use(System.Func<Microsoft.AspNetCore.Http.RequestDelegate, Microsoft.AspNetCore.Http.RequestDelegate> middleware) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Http
 {
     public sealed partial class DefaultHttpContext : Microsoft.AspNetCore.Http.HttpContext
     {
@@ -142,7 +142,7 @@ namespace Microsoft.AspNetCore.Http
         public static System.Threading.Tasks.Task<Microsoft.AspNetCore.Http.IFormCollection> ReadFormAsync(this Microsoft.AspNetCore.Http.HttpRequest request, Microsoft.AspNetCore.Http.Features.FormOptions options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Http.Features
 {
     public partial class DefaultSessionFeature : Microsoft.AspNetCore.Http.Features.ISessionFeature
     {
@@ -280,7 +280,7 @@ namespace Microsoft.AspNetCore.Http.Features
         public System.Threading.Tasks.Task<System.Security.Cryptography.X509Certificates.X509Certificate2> GetClientCertificateAsync(System.Threading.CancellationToken cancellationToken) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Http.Features.Authentication
+namespace Contoso.GameNetCore.Http.Features.Authentication
 {
     public partial class HttpAuthenticationFeature : Microsoft.AspNetCore.Http.Features.Authentication.IHttpAuthenticationFeature
     {
@@ -288,7 +288,7 @@ namespace Microsoft.AspNetCore.Http.Features.Authentication
         public System.Security.Claims.ClaimsPrincipal User { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Http.Internal
 {
     public partial class BindingAddress
     {

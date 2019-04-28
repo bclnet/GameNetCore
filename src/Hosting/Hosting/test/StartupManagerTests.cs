@@ -4,18 +4,18 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Hosting.Fakes;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting.Tests.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Hosting.Fakes;
+using Contoso.GameNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Hosting.Tests.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting.Tests
+namespace Contoso.GameNetCore.Hosting.Tests
 {
     public class StartupManagerTests
     {

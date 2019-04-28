@@ -1,9 +1,9 @@
 ﻿
 using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
 namespace IStartupInjectionAssemblyName
 {

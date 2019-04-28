@@ -2,24 +2,24 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Sockets;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
-    public static class WebHostBuilderSocketExtensions
+    public static class GameHostBuilderSocketExtensions
     {
         /// <summary>
         /// Specify Sockets as the transport to be used by Kestrel.
         /// </summary>
         /// <param name="hostBuilder">
-        /// The Microsoft.AspNetCore.Hosting.IWebHostBuilder to configure.
+        /// The Microsoft.AspNetCore.Hosting.IGameHostBuilder to configure.
         /// </param>
         /// <returns>
-        /// The Microsoft.AspNetCore.Hosting.IWebHostBuilder.
+        /// The Microsoft.AspNetCore.Hosting.IGameHostBuilder.
         /// </returns>
-        public static IWebHostBuilder UseSockets(this IWebHostBuilder hostBuilder)
+        public static IGameHostBuilder UseSockets(this IGameHostBuilder hostBuilder)
         {
             return hostBuilder.ConfigureServices(services =>
             {
@@ -31,15 +31,15 @@ namespace Microsoft.AspNetCore.Hosting
         /// Specify Sockets as the transport to be used by Kestrel.
         /// </summary>
         /// <param name="hostBuilder">
-        /// The Microsoft.AspNetCore.Hosting.IWebHostBuilder to configure.
+        /// The Microsoft.AspNetCore.Hosting.IGameHostBuilder to configure.
         /// </param>
         /// <param name="configureOptions">
         /// A callback to configure Libuv options.
         /// </param>
         /// <returns>
-        /// The Microsoft.AspNetCore.Hosting.IWebHostBuilder.
+        /// The Microsoft.AspNetCore.Hosting.IGameHostBuilder.
         /// </returns>
-        public static IWebHostBuilder UseSockets(this IWebHostBuilder hostBuilder, Action<SocketTransportOptions> configureOptions)
+        public static IGameHostBuilder UseSockets(this IGameHostBuilder hostBuilder, Action<SocketTransportOptions> configureOptions)
         {
             return hostBuilder.UseSockets().ConfigureServices(services =>
             {

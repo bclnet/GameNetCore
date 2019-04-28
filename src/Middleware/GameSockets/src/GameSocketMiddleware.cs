@@ -7,62 +7,53 @@ using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.WebSockets.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.GameSockets.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.WebSockets
+namespace Contoso.GameNetCore.GameSockets
 {
-    public class WebSocketMiddleware
+    public class GameSocketMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly WebSocketOptions _options;
+        private readonly GameSocketOptions _options;
         private readonly ILogger _logger;
         private readonly bool _anyOriginAllowed;
         private readonly List<string> _allowedOrigins;
 
-        public WebSocketMiddleware(RequestDelegate next, IOptions<WebSocketOptions> options, ILoggerFactory loggerFactory)
+        public GameSocketMiddleware(RequestDelegate next, IOptions<GameSocketOptions> options, ILoggerFactory loggerFactory)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
-            _next = next;
-            _options = options.Value;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
             _allowedOrigins = _options.AllowedOrigins.Select(o => o.ToLowerInvariant()).ToList();
             _anyOriginAllowed = _options.AllowedOrigins.Count == 0 || _options.AllowedOrigins.Contains("*", StringComparer.Ordinal);
 
-            _logger = loggerFactory.CreateLogger<WebSocketMiddleware>();
+            _logger = loggerFactory.CreateLogger<GameSocketMiddleware>();
 
             // TODO: validate options.
         }
 
-        public Task Invoke(HttpContext context)
+        public Task Invoke(ProtoContext context)
         {
             // Detect if an opaque upgrade is available. If so, add a websocket upgrade.
-            var upgradeFeature = context.Features.Get<IHttpUpgradeFeature>();
-            if (upgradeFeature != null && context.Features.Get<IHttpWebSocketFeature>() == null)
+            var upgradeFeature = context.Features.Get<IProtoUpgradeFeature>();
+            if (upgradeFeature != null && context.Features.Get<IProtoGameSocketFeature>() == null)
             {
                 var webSocketFeature = new UpgradeHandshake(context, upgradeFeature, _options);
-                context.Features.Set<IHttpWebSocketFeature>(webSocketFeature);
+                context.Features.Set<IProtoGameSocketFeature>(webSocketFeature);
 
                 if (!_anyOriginAllowed)
                 {
                     // Check for Origin header
                     var originHeader = context.Request.Headers[HeaderNames.Origin];
 
-                    if (!StringValues.IsNullOrEmpty(originHeader) && webSocketFeature.IsWebSocketRequest)
+                    if (!StringValues.IsNullOrEmpty(originHeader) && webSocketFeature.IsGameSocketRequest)
                     {
                         // Check allowed origins to see if request is allowed
                         if (!_allowedOrigins.Contains(originHeader.ToString(), StringComparer.Ordinal))
@@ -78,80 +69,62 @@ namespace Microsoft.AspNetCore.WebSockets
             return _next(context);
         }
 
-        private class UpgradeHandshake : IHttpWebSocketFeature
+        private class UpgradeHandshake : IProtoGameSocketFeature
         {
-            private readonly HttpContext _context;
-            private readonly IHttpUpgradeFeature _upgradeFeature;
-            private readonly WebSocketOptions _options;
-            private bool? _isWebSocketRequest;
+            private readonly ProtoContext _context;
+            private readonly IProtoUpgradeFeature _upgradeFeature;
+            private readonly GameSocketOptions _options;
+            private bool? _isGameSocketRequest;
 
-            public UpgradeHandshake(HttpContext context, IHttpUpgradeFeature upgradeFeature, WebSocketOptions options)
+            public UpgradeHandshake(ProtoContext context, IProtoUpgradeFeature upgradeFeature, GameSocketOptions options)
             {
                 _context = context;
                 _upgradeFeature = upgradeFeature;
                 _options = options;
             }
 
-            public bool IsWebSocketRequest
+            public bool IsGameSocketRequest
             {
                 get
                 {
-                    if (_isWebSocketRequest == null)
+                    if (_isGameSocketRequest == null)
                     {
                         if (!_upgradeFeature.IsUpgradableRequest)
-                        {
-                            _isWebSocketRequest = false;
-                        }
+                            _isGameSocketRequest = false;
                         else
                         {
                             var headers = new List<KeyValuePair<string, string>>();
-                            foreach (string headerName in HandshakeHelpers.NeededHeaders)
-                            {
+                            foreach (var headerName in HandshakeHelpers.NeededHeaders)
                                 foreach (var value in _context.Request.Headers.GetCommaSeparatedValues(headerName))
-                                {
                                     headers.Add(new KeyValuePair<string, string>(headerName, value));
-                                }
-                            }
-                            _isWebSocketRequest = HandshakeHelpers.CheckSupportedWebSocketRequest(_context.Request.Method, headers);
+                            _isGameSocketRequest = HandshakeHelpers.CheckSupportedGameSocketRequest(_context.Request.Method, headers);
                         }
                     }
-                    return _isWebSocketRequest.Value;
+                    return _isGameSocketRequest.Value;
                 }
             }
 
-            public async Task<WebSocket> AcceptAsync(WebSocketAcceptContext acceptContext)
+            public async Task<WebSocket> AcceptAsync(GameSocketAcceptContext acceptContext)
             {
-                if (!IsWebSocketRequest)
-                {
+                if (!IsGameSocketRequest)
                     throw new InvalidOperationException("Not a WebSocket request."); // TODO: LOC
-                }
 
-                string subProtocol = null;
-                if (acceptContext != null)
-                {
-                    subProtocol = acceptContext.SubProtocol;
-                }
-
-                TimeSpan keepAliveInterval = _options.KeepAliveInterval;
-                int receiveBufferSize = _options.ReceiveBufferSize;
-                var advancedAcceptContext = acceptContext as ExtendedWebSocketAcceptContext;
-                if (advancedAcceptContext != null)
+                var subProtocol = acceptContext?.SubProtocol;
+                var keepAliveInterval = _options.KeepAliveInterval;
+                var receiveBufferSize = _options.ReceiveBufferSize;
+                if (acceptContext is ExtendedGameSocketAcceptContext advancedAcceptContext)
                 {
                     if (advancedAcceptContext.ReceiveBufferSize.HasValue)
-                    {
                         receiveBufferSize = advancedAcceptContext.ReceiveBufferSize.Value;
-                    }
                     if (advancedAcceptContext.KeepAliveInterval.HasValue)
-                    {
                         keepAliveInterval = advancedAcceptContext.KeepAliveInterval.Value;
-                    }
                 }
 
-                string key = string.Join(", ", _context.Request.Headers[Constants.Headers.SecWebSocketKey]);
+                var key = string.Join(", ", _context.Request.Headers[Constants.Headers.SecGameSocketKey]);
 
                 HandshakeHelpers.GenerateResponseHeaders(key, subProtocol, _context.Response.Headers);
 
-                Stream opaqueTransport = await _upgradeFeature.UpgradeAsync(); // Sets status code to 101
+                var opaqueTransport = await _upgradeFeature.UpgradeAsync(); // Sets status code to 101
 
                 return WebSocket.CreateFromStream(opaqueTransport, isServer: true, subProtocol: subProtocol, keepAliveInterval: keepAliveInterval);
             }

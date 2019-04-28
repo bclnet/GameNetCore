@@ -6,14 +6,14 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public sealed class DefaultConnectionInfo : ConnectionInfo
     {
         // Lambdas hoisted to static readonly fields to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpConnectionFeature> _newHttpConnectionFeature = f => new HttpConnectionFeature();
+        private readonly static Func<IFeatureCollection, IProtoConnectionFeature> _newProtoConnectionFeature = f => new ProtoConnectionFeature();
         private readonly static Func<IFeatureCollection, ITlsConnectionFeature> _newTlsConnectionFeature = f => new TlsConnectionFeature();
 
         private FeatureReferences<FeatureInterfaces> _features;
@@ -38,8 +38,8 @@ namespace Microsoft.AspNetCore.Http.Internal
             _features = default;
         }
 
-        private IHttpConnectionFeature HttpConnectionFeature =>
-            _features.Fetch(ref _features.Cache.Connection, _newHttpConnectionFeature);
+        private IProtoConnectionFeature ProtoConnectionFeature =>
+            _features.Fetch(ref _features.Cache.Connection, _newProtoConnectionFeature);
 
         private ITlsConnectionFeature TlsConnectionFeature=>
             _features.Fetch(ref _features.Cache.TlsConnection, _newTlsConnectionFeature);
@@ -47,32 +47,32 @@ namespace Microsoft.AspNetCore.Http.Internal
         /// <inheritdoc />
         public override string Id
         {
-            get { return HttpConnectionFeature.ConnectionId; }
-            set { HttpConnectionFeature.ConnectionId = value; }
+            get { return ProtoConnectionFeature.ConnectionId; }
+            set { ProtoConnectionFeature.ConnectionId = value; }
         }
 
         public override IPAddress RemoteIpAddress
         {
-            get { return HttpConnectionFeature.RemoteIpAddress; }
-            set { HttpConnectionFeature.RemoteIpAddress = value; }
+            get { return ProtoConnectionFeature.RemoteIpAddress; }
+            set { ProtoConnectionFeature.RemoteIpAddress = value; }
         }
 
         public override int RemotePort
         {
-            get { return HttpConnectionFeature.RemotePort; }
-            set { HttpConnectionFeature.RemotePort = value; }
+            get { return ProtoConnectionFeature.RemotePort; }
+            set { ProtoConnectionFeature.RemotePort = value; }
         }
 
         public override IPAddress LocalIpAddress
         {
-            get { return HttpConnectionFeature.LocalIpAddress; }
-            set { HttpConnectionFeature.LocalIpAddress = value; }
+            get { return ProtoConnectionFeature.LocalIpAddress; }
+            set { ProtoConnectionFeature.LocalIpAddress = value; }
         }
 
         public override int LocalPort
         {
-            get { return HttpConnectionFeature.LocalPort; }
-            set { HttpConnectionFeature.LocalPort = value; }
+            get { return ProtoConnectionFeature.LocalPort; }
+            set { ProtoConnectionFeature.LocalPort = value; }
         }
 
         public override X509Certificate2 ClientCertificate
@@ -88,7 +88,7 @@ namespace Microsoft.AspNetCore.Http.Internal
 
         struct FeatureInterfaces
         {
-            public IHttpConnectionFeature Connection;
+            public IProtoConnectionFeature Connection;
             public ITlsConnectionFeature TlsConnection;
         }
     }

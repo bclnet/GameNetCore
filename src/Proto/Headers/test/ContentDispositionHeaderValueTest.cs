@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class ContentDispositionHeaderValueTest
     {
@@ -477,8 +477,8 @@ namespace Microsoft.Net.Http.Headers
             { @"attachment; filename=""foo.html""", new ContentDispositionHeaderValue("attachment") { FileName = @"""foo.html""" } },
             { @"attachment; filename=""\""quoting\"" tested.html""", new ContentDispositionHeaderValue("attachment") { FileName = "\"\"quoting\" tested.html\"" } }, // 'attachment', specifying a filename of \"quoting\" tested.html (using double quotes around "quoting" to test... quoting)
             { @"attachment; filename=""Here's a semicolon;.html""", new ContentDispositionHeaderValue("attachment") { FileName = @"""Here's a semicolon;.html""" } }, // , 'attachment', specifying a filename of Here's a semicolon;.html - this checks for proper parsing for parameters.
-            { @"attachment; foo=""bar""; filename=""foo.html""", new ContentDispositionHeaderValue(@"attachment") { FileName = @"""foo.html""", Parameters = { new NameValueHeaderValue("foo", @"""bar""") } } }, // 'attachment', specifying a filename of foo.html and an extension parameter "foo" which should be ignored (see <a href="http://greenbytes.de/tech/webdav/rfc2183.html#rfc.section.2.8">Section 2.8 of RFC 2183</a>.).
-            { @"attachment; foo=""\""\\"";filename=""foo.html""", new ContentDispositionHeaderValue(@"attachment") { FileName = @"""foo.html""", Parameters = { new NameValueHeaderValue("foo", @"""\""\\""") } } }, // 'attachment', specifying a filename of foo.html and an extension parameter "foo" which should be ignored (see <a href="http://greenbytes.de/tech/webdav/rfc2183.html#rfc.section.2.8">Section 2.8 of RFC 2183</a>.). The extension parameter actually uses backslash-escapes. This tests whether the UA properly skips the parameter.
+            { @"attachment; foo=""bar""; filename=""foo.html""", new ContentDispositionHeaderValue(@"attachment") { FileName = @"""foo.html""", Parameters = { new NameValueHeaderValue("foo", @"""bar""") } } }, // 'attachment', specifying a filename of foo.html and an extension parameter "foo" which should be ignored (see <a href="http://greenbytes.de/tech/gamedav/rfc2183.html#rfc.section.2.8">Section 2.8 of RFC 2183</a>.).
+            { @"attachment; foo=""\""\\"";filename=""foo.html""", new ContentDispositionHeaderValue(@"attachment") { FileName = @"""foo.html""", Parameters = { new NameValueHeaderValue("foo", @"""\""\\""") } } }, // 'attachment', specifying a filename of foo.html and an extension parameter "foo" which should be ignored (see <a href="http://greenbytes.de/tech/gamedav/rfc2183.html#rfc.section.2.8">Section 2.8 of RFC 2183</a>.). The extension parameter actually uses backslash-escapes. This tests whether the UA properly skips the parameter.
             { @"attachment; FILENAME=""foo.html""", new ContentDispositionHeaderValue("attachment") { FileName = @"""foo.html""" } },
             { @"attachment; filename=foo.html", new ContentDispositionHeaderValue("attachment") { FileName = "foo.html" } }, // 'attachment', specifying a filename of foo.html using a token instead of a quoted-string.
             { @"attachment; filename='foo.bar'", new ContentDispositionHeaderValue("attachment") { FileName = "'foo.bar'" } }, // 'attachment', specifying a filename of 'foo.bar' using single quotes.
@@ -529,7 +529,7 @@ namespace Microsoft.Net.Http.Headers
         [InlineData(@"attachment; filename=foo bar.html")] // @"'attachment', specifying a filename of foo bar.html without using quoting.", false) },
         // Duplicate file name parameter
         // @"attachment; filename=""foo.html""; // filename=""bar.html""", @"'attachment', specifying two filename parameters. This is invalid syntax.", false) },
-        [InlineData(@"attachment; filename=foo[1](2).html")] // @"'attachment', specifying a filename of foo[1](2).html, but missing the quotes. Also, ""["", ""]"", ""("" and "")"" are not allowed in the HTTP <a href=""http://greenbytes.de/tech/webdav/draft-ietf-httpbis-p1-messaging-latest.html#rfc.section.1.2.2"">token</a> production.", false) },
+        [InlineData(@"attachment; filename=foo[1](2).html")] // @"'attachment', specifying a filename of foo[1](2).html, but missing the quotes. Also, ""["", ""]"", ""("" and "")"" are not allowed in the HTTP <a href=""http://greenbytes.de/tech/gamedav/draft-ietf-httpbis-p1-messaging-latest.html#rfc.section.1.2.2"">token</a> production.", false) },
         [InlineData(@"attachment; filename=foo-ä.html")] // @"'attachment', specifying a filename of foo-ä.html, but missing the quotes.", false) },
         // HTML escaping, not supported
         // @"attachment; filename=foo-&#xc3;&#xa4;.html", // "'attachment', specifying a filename of foo-&#xc3;&#xa4;.html (which happens to be foo-ä.html using UTF-8 encoding) but missing the quotes.", false) },
@@ -545,7 +545,7 @@ namespace Microsoft.Net.Http.Headers
         [InlineData(@"attachment; filename=""foo.html"".txt")] // @"'attachment', specifying a filename parameter that is broken (quoted-string followed by more characters). This is invalid syntax. ", false) },
         [InlineData(@"attachment; filename=""bar")] // @"'attachment', specifying a filename parameter that is broken (missing ending double quote). This is invalid syntax.", false) },
         [InlineData(@"attachment; filename=foo""bar;baz""qux")] // @"'attachment', specifying a filename parameter that is broken (disallowed characters in token syntax). This is invalid syntax.", false) },
-        [InlineData(@"attachment; filename=foo.html, attachment; filename=bar.html")] // @"'attachment', two comma-separated instances of the header field. As Content-Disposition doesn't use a list-style syntax, this is invalid syntax and, according to <a href=""http://greenbytes.de/tech/webdav/rfc2616.html#rfc.section.4.2.p.5"">RFC 2616, Section 4.2</a>, roughly equivalent to having two separate header field instances.", false) },
+        [InlineData(@"attachment; filename=foo.html, attachment; filename=bar.html")] // @"'attachment', two comma-separated instances of the header field. As Content-Disposition doesn't use a list-style syntax, this is invalid syntax and, according to <a href=""http://greenbytes.de/tech/gamedav/rfc2616.html#rfc.section.4.2.p.5"">RFC 2616, Section 4.2</a>, roughly equivalent to having two separate header field instances.", false) },
         [InlineData(@"filename=foo.html; attachment")] // @"filename parameter and disposition type reversed.", false) },
         // Escaping is not verified
         // @"attachment; filename*=iso-8859-1''foo-%c3%a4-%e2%82%ac.html", // @"'attachment', specifying a filename of foo-ä-&#x20ac;.html, using RFC2231 encoded UTF-8, but declaring ISO-8859-1", false) },

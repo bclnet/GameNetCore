@@ -3,13 +3,13 @@
 
 using System.IO;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Contains the details of a given request. These properties should all be mutable.
     /// None of these properties should ever be set to null.
     /// </summary>
-    public interface IHttpRequestFeature
+    public interface IProtoRequestFeature
     {
         /// <summary>
         /// The HTTP-version as defined in RFC 7230. E.g. "HTTP/1.1"

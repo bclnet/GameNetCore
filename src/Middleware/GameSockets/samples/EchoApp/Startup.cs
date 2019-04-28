@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -30,14 +30,14 @@ namespace EchoApp
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSockets();
+            app.UseGameSockets();
 
             app.Use(async (context, next) =>
             {
-                if (context.WebSockets.IsWebSocketRequest)
+                if (context.GameSockets.IsGameSocketRequest)
                 {
-                    var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                    await Echo(context, webSocket, loggerFactory.CreateLogger("Echo"));
+                    var gameSocket = await context.GameSockets.AcceptGameSocketAsync();
+                    await Echo(context, gameSocket, loggerFactory.CreateLogger("Echo"));
                 }
                 else
                 {
@@ -48,22 +48,22 @@ namespace EchoApp
             app.UseFileServer();
         }
 
-        private async Task Echo(HttpContext context, WebSocket webSocket, ILogger logger)
+        private async Task Echo(HttpContext context, GameSocket gameSocket, ILogger logger)
         {
             var buffer = new byte[1024 * 4];
-            var result = await webSocket.ReceiveAsync(buffer.AsMemory(), CancellationToken.None);
-            LogFrame(logger, webSocket, result, buffer);
-            while (result.MessageType != WebSocketMessageType.Close)
+            var result = await gameSocket.ReceiveAsync(buffer.AsMemory(), CancellationToken.None);
+            LogFrame(logger, gameSocket, result, buffer);
+            while (result.MessageType != GameSocketMessageType.Close)
             {
                 // If the client send "ServerClose", then they want a server-originated close to occur
                 string content = "<<binary>>";
-                if (result.MessageType == WebSocketMessageType.Text)
+                if (result.MessageType == GameSocketMessageType.Text)
                 {
                     content = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     if (content.Equals("ServerClose"))
                     {
-                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing from Server", CancellationToken.None);
-                        logger.LogDebug($"Sent Frame Close: {WebSocketCloseStatus.NormalClosure} Closing from Server");
+                        await gameSocket.CloseAsync(GameSocketCloseStatus.NormalClosure, "Closing from Server", CancellationToken.None);
+                        logger.LogDebug($"Sent Frame Close: {GameSocketCloseStatus.NormalClosure} Closing from Server");
                         return;
                     }
                     else if (content.Equals("ServerAbort"))
@@ -72,27 +72,27 @@ namespace EchoApp
                     }
                 }
 
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                await gameSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
                 logger.LogDebug($"Sent Frame {result.MessageType}: Len={result.Count}, Fin={result.EndOfMessage}: {content}");
 
-                result = await webSocket.ReceiveAsync(buffer.AsMemory(), CancellationToken.None);
-                LogFrame(logger, webSocket, result, buffer);
+                result = await gameSocket.ReceiveAsync(buffer.AsMemory(), CancellationToken.None);
+                LogFrame(logger, gameSocket, result, buffer);
             }
-            await webSocket.CloseAsync(webSocket.CloseStatus.Value, webSocket.CloseStatusDescription, CancellationToken.None);
+            await gameSocket.CloseAsync(gameSocket.CloseStatus.Value, gameSocket.CloseStatusDescription, CancellationToken.None);
         }
 
-        private void LogFrame(ILogger logger, WebSocket webSocket, ValueWebSocketReceiveResult frame, byte[] buffer)
+        private void LogFrame(ILogger logger, GameSocket gameSocket, ValueGameSocketReceiveResult frame, byte[] buffer)
         {
-            var close = frame.MessageType == WebSocketMessageType.Close;
+            var close = frame.MessageType == GameSocketMessageType.Close;
             string message;
             if (close)
             {
-                message = $"Close: {webSocket.CloseStatus.Value} {webSocket.CloseStatusDescription}";
+                message = $"Close: {gameSocket.CloseStatus.Value} {gameSocket.CloseStatusDescription}";
             }
             else
             {
                 string content = "<<binary>>";
-                if (frame.MessageType == WebSocketMessageType.Text)
+                if (frame.MessageType == GameSocketMessageType.Text)
                 {
                     content = Encoding.UTF8.GetString(buffer, 0, frame.Count);
                 }

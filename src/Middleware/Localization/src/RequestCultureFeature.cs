@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     /// <summary>
     /// Provides the current request's culture information.

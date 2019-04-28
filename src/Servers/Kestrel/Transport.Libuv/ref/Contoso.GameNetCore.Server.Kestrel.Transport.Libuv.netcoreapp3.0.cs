@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static partial class WebHostBuilderLibuvExtensions
     {
@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static Microsoft.AspNetCore.Hosting.IWebHostBuilder UseLibuv(this Microsoft.AspNetCore.Hosting.IWebHostBuilder hostBuilder, System.Action<Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.LibuvTransportOptions> configureOptions) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv
 {
     public partial class LibuvTransportOptions
     {

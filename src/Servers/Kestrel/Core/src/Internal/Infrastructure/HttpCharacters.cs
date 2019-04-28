@@ -4,9 +4,9 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
-    internal static class HttpCharacters
+    internal static class ProtoCharacters
     {
         private static readonly int _tableSize = 128;
         private static readonly bool[] _alphaNumeric = InitializeAlphaNumeric();
@@ -86,8 +86,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
 
         private static bool[] InitializeHost()
         {
-            // Matches Http.Sys
-            // Matches RFC 3986 except "*" / "+" / "," / ";" / "=" and "%" HEXDIG HEXDIG which are not allowed by Http.Sys
+            // Matches Proto.Sys
+            // Matches RFC 3986 except "*" / "+" / "," / ";" / "=" and "%" HEXDIG HEXDIG which are not allowed by Proto.Sys
             var host = new bool[_tableSize];
             Array.Copy(_alphaNumeric, host, _tableSize);
             host['!'] = true;

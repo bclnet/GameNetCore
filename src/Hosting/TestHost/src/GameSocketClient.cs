@@ -4,23 +4,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Context = Microsoft.AspNetCore.Hosting.Internal.HostingApplication.Context;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Context = Microsoft.GameNetCore.Hosting.Internal.HostingApplication.Context;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
-    public class WebSocketClient
+    public class GameSocketClient
     {
-        private readonly IHttpApplication<Context> _application;
+        private readonly IProtoApplication<Context> _application;
         private readonly PathString _pathBase;
 
-        internal WebSocketClient(PathString pathBase, IHttpApplication<Context> application)
+        internal GameSocketClient(PathString pathBase, IProtoApplication<Context> application)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.TestHost
             private set;
         }
 
-        public Action<HttpRequest> ConfigureRequest
+        public Action<ProtoRequest> ConfigureRequest
         {
             get;
             set;
@@ -48,10 +48,10 @@ namespace Microsoft.AspNetCore.TestHost
 
         internal bool AllowSynchronousIO { get; set; }
 
-        public async Task<WebSocket> ConnectAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<GameSocket> ConnectAsync(Uri uri, CancellationToken cancellationToken)
         {
-            WebSocketFeature webSocketFeature = null;
-            var contextBuilder = new HttpContextBuilder(_application, AllowSynchronousIO);
+            GameSocketFeature gameSocketFeature = null;
+            var contextBuilder = new ProtoContextBuilder(_application, AllowSynchronousIO);
             contextBuilder.Configure(context =>
             {
                 var request = context.Request;
@@ -68,14 +68,14 @@ namespace Microsoft.AspNetCore.TestHost
                 }
                 request.QueryString = QueryString.FromUriComponent(uri);
                 request.Headers.Add("Connection", new string[] { "Upgrade" });
-                request.Headers.Add("Upgrade", new string[] { "websocket" });
-                request.Headers.Add("Sec-WebSocket-Version", new string[] { "13" });
-                request.Headers.Add("Sec-WebSocket-Key", new string[] { CreateRequestKey() });
+                request.Headers.Add("Upgrade", new string[] { "gamesocket" });
+                request.Headers.Add("Sec-GameSocket-Version", new string[] { "13" });
+                request.Headers.Add("Sec-GameSocket-Key", new string[] { CreateRequestKey() });
                 request.Body = Stream.Null;
 
-                // WebSocket
-                webSocketFeature = new WebSocketFeature(context);
-                context.Features.Set<IHttpWebSocketFeature>(webSocketFeature);
+                // GameSocket
+                gameSocketFeature = new GameSocketFeature(context);
+                context.Features.Set<IProtoGameSocketFeature>(gameSocketFeature);
 
                 ConfigureRequest?.Invoke(context.Request);
             });
@@ -86,12 +86,12 @@ namespace Microsoft.AspNetCore.TestHost
             {
                 throw new InvalidOperationException("Incomplete handshake, status code: " + httpContext.Response.StatusCode);
             }
-            if (webSocketFeature.ClientWebSocket == null)
+            if (gameSocketFeature.ClientGameSocket == null)
             {
                 throw new InvalidOperationException("Incomplete handshake");
             }
 
-            return webSocketFeature.ClientWebSocket;
+            return gameSocketFeature.ClientGameSocket;
         }
 
         private string CreateRequestKey()
@@ -102,34 +102,34 @@ namespace Microsoft.AspNetCore.TestHost
             return Convert.ToBase64String(data);
         }
 
-        private class WebSocketFeature : IHttpWebSocketFeature
+        private class GameSocketFeature : IProtoGameSocketFeature
         {
-            private readonly HttpContext _httpContext;
+            private readonly ProtoContext _httpContext;
 
-            public WebSocketFeature(HttpContext context)
+            public GameSocketFeature(ProtoContext context)
             {
                 _httpContext = context;
             }
 
-            bool IHttpWebSocketFeature.IsWebSocketRequest => true;
+            bool IProtoGameSocketFeature.IsGameSocketRequest => true;
 
-            public WebSocket ClientWebSocket { get; private set; }
+            public GameSocket ClientGameSocket { get; private set; }
 
-            public WebSocket ServerWebSocket { get; private set; }
+            public GameSocket ServerGameSocket { get; private set; }
 
-            async Task<WebSocket> IHttpWebSocketFeature.AcceptAsync(WebSocketAcceptContext context)
+            async Task<GameSocket> IProtoGameSocketFeature.AcceptAsync(GameSocketAcceptContext context)
             {
-                var websockets = TestWebSocket.CreatePair(context.SubProtocol);
+                var gamesockets = TestGameSocket.CreatePair(context.SubProtocol);
                 if (_httpContext.Response.HasStarted)
                 {
                     throw new InvalidOperationException("The response has already started");
                 }
 
                 _httpContext.Response.StatusCode = StatusCodes.Status101SwitchingProtocols;
-                ClientWebSocket = websockets.Item1;
-                ServerWebSocket = websockets.Item2;
+                ClientGameSocket = gamesockets.Item1;
+                ServerGameSocket = gamesockets.Item2;
                 await _httpContext.Response.Body.FlushAsync(_httpContext.RequestAborted); // Send headers to the client
-                return ServerWebSocket;
+                return ServerGameSocket;
             }
         }
     }

@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Testing.xunit
+namespace Contoso.GameNetCore.Testing.xunit
 {
     /// <summary>
     /// Skip test if running on helix (or a particular helix queue).

@@ -141,7 +141,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -154,7 +154,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "loggerFactory",
@@ -430,7 +430,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -476,7 +476,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -522,7 +522,7 @@
             },
             {
               "Name": "handler",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.HttpRequest, Microsoft.AspNetCore.Http.HttpResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.ProtoRequest, Microsoft.AspNetCore.Proto.ProtoResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -545,7 +545,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -591,7 +591,7 @@
             },
             {
               "Name": "handler",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.HttpRequest, Microsoft.AspNetCore.Http.HttpResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.ProtoRequest, Microsoft.AspNetCore.Proto.ProtoResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -614,7 +614,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -660,7 +660,7 @@
             },
             {
               "Name": "handler",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.HttpRequest, Microsoft.AspNetCore.Http.HttpResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.ProtoRequest, Microsoft.AspNetCore.Proto.ProtoResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -683,7 +683,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -729,7 +729,7 @@
             },
             {
               "Name": "handler",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.HttpRequest, Microsoft.AspNetCore.Http.HttpResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.ProtoRequest, Microsoft.AspNetCore.Proto.ProtoResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -756,7 +756,7 @@
             },
             {
               "Name": "handler",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.HttpRequest, Microsoft.AspNetCore.Http.HttpResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.ProtoRequest, Microsoft.AspNetCore.Proto.ProtoResponse, Microsoft.AspNetCore.Routing.RouteData, System.Threading.Tasks.Task>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -783,7 +783,7 @@
             },
             {
               "Name": "handler",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.IRouteBuilder",
@@ -1549,7 +1549,7 @@
             },
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -1625,14 +1625,14 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "routeData",
               "Type": "Microsoft.AspNetCore.Routing.RouteData"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.RequestDelegate",
+          "ReturnType": "Microsoft.AspNetCore.Proto.RequestDelegate",
           "Sealed": true,
           "Virtual": true,
           "ImplementedInterface": "Microsoft.AspNetCore.Routing.IRouteHandler",
@@ -1677,7 +1677,7 @@
           "Parameters": [
             {
               "Name": "requestDelegate",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "Visibility": "Public",
@@ -2442,7 +2442,7 @@
             },
             {
               "Name": "urlEncoder",
-              "Type": "System.Text.Encodings.Web.UrlEncoder"
+              "Type": "System.Text.Encodings.Game.UrlEncoder"
             },
             {
               "Name": "objectPool",
@@ -2541,7 +2541,7 @@
             },
             {
               "Name": "urlEncoder",
-              "Type": "System.Text.Encodings.Web.UrlEncoder"
+              "Type": "System.Text.Encodings.Game.UrlEncoder"
             },
             {
               "Name": "objectPool",
@@ -2967,7 +2967,7 @@
           "Parameters": [
             {
               "Name": "urlEncoder",
-              "Type": "System.Text.Encodings.Web.UrlEncoder"
+              "Type": "System.Text.Encodings.Game.UrlEncoder"
             },
             {
               "Name": "pool",
@@ -3016,7 +3016,7 @@
           "Parameters": [
             {
               "Name": "path",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             },
             {
               "Name": "values",
@@ -3338,7 +3338,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3396,7 +3396,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3451,7 +3451,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3501,7 +3501,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3551,7 +3551,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3601,7 +3601,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3651,7 +3651,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3688,7 +3688,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Routing.Constraints.HttpMethodRouteConstraint",
+      "Name": "Microsoft.AspNetCore.Routing.Constraints.ProtoMethodRouteConstraint",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [
@@ -3709,7 +3709,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3764,7 +3764,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3830,7 +3830,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3901,7 +3901,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -3959,7 +3959,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4022,7 +4022,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4085,7 +4085,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4148,7 +4148,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4211,7 +4211,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4282,7 +4282,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4371,7 +4371,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4438,7 +4438,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -4488,7 +4488,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",

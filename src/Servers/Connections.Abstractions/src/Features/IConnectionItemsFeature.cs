@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Connections.Features
+namespace Contoso.GameNetCore.Connections.Features
 {
     public interface IConnectionItemsFeature
     {

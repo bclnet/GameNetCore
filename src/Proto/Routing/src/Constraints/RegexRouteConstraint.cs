@@ -4,9 +4,9 @@
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     public class RegexRouteConstraint : IRouteConstraint
     {
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         public Regex Constraint { get; private set; }
 
         public bool Match(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             string routeKey,
             RouteValueDictionary values,

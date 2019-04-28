@@ -1,7 +1,7 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,10 +21,10 @@ namespace Contoso.GameNetCore.Hosting.Server
         /// <summary>
         /// Start the server with an application.
         /// </summary>
-        /// <param name="application">An instance of <see cref="IHttpApplication{TContext}"/>.</param>
+        /// <param name="application">An instance of <see cref="IProtoApplication{TContext}"/>.</param>
         /// <typeparam name="TContext">The context associated with the application.</typeparam>
         /// <param name="cancellationToken">Indicates if the server startup should be aborted.</param>
-        Task StartAsync<TContext>(IHttpApplication<TContext> application, CancellationToken cancellationToken);
+        Task StartAsync<TContext>(IProtoApplication<TContext> application, CancellationToken cancellationToken);
 
         /// <summary>
         /// Stop processing requests and shut down the server, gracefully if possible.

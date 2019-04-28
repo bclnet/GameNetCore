@@ -2,8 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace RoutingSandbox
@@ -15,12 +15,12 @@ namespace RoutingSandbox
 
         public static void Main(string[] args)
         {
-            var webHost = GetWebHostBuilder(args).Build();
-            webHost.Run();
+            var gameHost = GetGameHostBuilder(args).Build();
+            gameHost.Run();
         }
 
         // For unit testing
-        public static IWebHostBuilder GetWebHostBuilder(string[] args)
+        public static IGameHostBuilder GetGameHostBuilder(string[] args)
         {
             string scenario;
             if (args.Length == 0)
@@ -57,7 +57,7 @@ namespace RoutingSandbox
 
             }
 
-            return new WebHostBuilder()
+            return new GameHostBuilder()
                 .UseKestrel()
                 .UseIISIntegration()
                 .ConfigureLogging(b =>

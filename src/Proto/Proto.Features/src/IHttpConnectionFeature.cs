@@ -3,12 +3,12 @@
 
 using System.Net;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Information regarding the TCP/IP connection carrying the request.
     /// </summary>
-    public interface IHttpConnectionFeature
+    public interface IProtoConnectionFeature
     {
         /// <summary>
         /// The unique identifier for the connection the request was received on. This is primarily for diagnostic purposes.

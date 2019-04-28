@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Diagnostics;
+using Contoso.GameNetCore.Diagnostics;
 using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Options for the <see cref="DeveloperExceptionPageMiddleware"/>.

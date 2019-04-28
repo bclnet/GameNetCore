@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Extensions.StackTrace.Sources;
 
-namespace Microsoft.AspNetCore.Diagnostics.RazorViews
+namespace Contoso.GameNetCore.Diagnostics.RazorViews
 {
     /// <summary>
     /// Holds data to be displayed on the error page.

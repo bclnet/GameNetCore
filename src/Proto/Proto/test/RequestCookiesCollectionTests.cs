@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Linq;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto.Internal;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Tests
+namespace Contoso.GameNetCore.Proto.Tests
 {
     public class RequestCookiesCollectionTests
     {

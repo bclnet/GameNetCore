@@ -6,26 +6,26 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
-    public sealed class DefaultHttpRequest : HttpRequest
+    public sealed class DefaultProtoRequest : ProtoRequest
     {
         // Lambdas hoisted to static readonly fields to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpRequestFeature> _nullRequestFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoRequestFeature> _nullRequestFeature = f => null;
         private readonly static Func<IFeatureCollection, IQueryFeature> _newQueryFeature = f => new QueryFeature(f);
-        private readonly static Func<DefaultHttpRequest, IFormFeature> _newFormFeature = r => new FormFeature(r, r._context.FormOptions ?? FormOptions.Default);
+        private readonly static Func<DefaultProtoRequest, IFormFeature> _newFormFeature = r => new FormFeature(r, r._context.FormOptions ?? FormOptions.Default);
         private readonly static Func<IFeatureCollection, IRequestCookiesFeature> _newRequestCookiesFeature = f => new RequestCookiesFeature(f);
         private readonly static Func<IFeatureCollection, IRouteValuesFeature> _newRouteValuesFeature = f => new RouteValuesFeature();
-        private readonly static Func<HttpContext, IRequestBodyPipeFeature> _newRequestBodyPipeFeature = context => new RequestBodyPipeFeature(context);
+        private readonly static Func<ProtoContext, IRequestBodyPipeFeature> _newRequestBodyPipeFeature = context => new RequestBodyPipeFeature(context);
 
-        private readonly DefaultHttpContext _context;
+        private readonly DefaultProtoContext _context;
         private FeatureReferences<FeatureInterfaces> _features;
 
-        public DefaultHttpRequest(DefaultHttpContext context)
+        public DefaultProtoRequest(DefaultProtoContext context)
         {
             _context = context;
             _features.Initalize(context.Features);
@@ -46,9 +46,9 @@ namespace Microsoft.AspNetCore.Http.Internal
             _features = default;
         }
 
-        public override HttpContext HttpContext => _context;
+        public override ProtoContext ProtoContext => _context;
 
-        private IHttpRequestFeature HttpRequestFeature =>
+        private IProtoRequestFeature ProtoRequestFeature =>
             _features.Fetch(ref _features.Cache.Request, _nullRequestFeature);
 
         private IQueryFeature QueryFeature =>
@@ -64,24 +64,24 @@ namespace Microsoft.AspNetCore.Http.Internal
             _features.Fetch(ref _features.Cache.RouteValues, _newRouteValuesFeature);
 
         private IRequestBodyPipeFeature RequestBodyPipeFeature =>
-            _features.Fetch(ref _features.Cache.BodyPipe, this.HttpContext, _newRequestBodyPipeFeature);
+            _features.Fetch(ref _features.Cache.BodyPipe, this.ProtoContext, _newRequestBodyPipeFeature);
 
         public override PathString PathBase
         {
-            get { return new PathString(HttpRequestFeature.PathBase); }
-            set { HttpRequestFeature.PathBase = value.Value; }
+            get { return new PathString(ProtoRequestFeature.PathBase); }
+            set { ProtoRequestFeature.PathBase = value.Value; }
         }
 
         public override PathString Path
         {
-            get { return new PathString(HttpRequestFeature.Path); }
-            set { HttpRequestFeature.Path = value.Value; }
+            get { return new PathString(ProtoRequestFeature.Path); }
+            set { ProtoRequestFeature.Path = value.Value; }
         }
 
         public override QueryString QueryString
         {
-            get { return new QueryString(HttpRequestFeature.QueryString); }
-            set { HttpRequestFeature.QueryString = value.Value; }
+            get { return new QueryString(ProtoRequestFeature.QueryString); }
+            set { ProtoRequestFeature.QueryString = value.Value; }
         }
 
         public override long? ContentLength
@@ -92,26 +92,26 @@ namespace Microsoft.AspNetCore.Http.Internal
 
         public override Stream Body
         {
-            get { return HttpRequestFeature.Body; }
-            set { HttpRequestFeature.Body = value; }
+            get { return ProtoRequestFeature.Body; }
+            set { ProtoRequestFeature.Body = value; }
         }
 
         public override string Method
         {
-            get { return HttpRequestFeature.Method; }
-            set { HttpRequestFeature.Method = value; }
+            get { return ProtoRequestFeature.Method; }
+            set { ProtoRequestFeature.Method = value; }
         }
 
         public override string Scheme
         {
-            get { return HttpRequestFeature.Scheme; }
-            set { HttpRequestFeature.Scheme = value; }
+            get { return ProtoRequestFeature.Scheme; }
+            set { ProtoRequestFeature.Scheme = value; }
         }
 
-        public override bool IsHttps
+        public override bool IsProtos
         {
-            get { return string.Equals(Constants.Https, Scheme, StringComparison.OrdinalIgnoreCase); }
-            set { Scheme = value ? Constants.Https : Constants.Http; }
+            get { return string.Equals(Constants.Protos, Scheme, StringComparison.OrdinalIgnoreCase); }
+            set { Scheme = value ? Constants.Protos : Constants.Proto; }
         }
 
         public override HostString Host
@@ -128,13 +128,13 @@ namespace Microsoft.AspNetCore.Http.Internal
 
         public override string Protocol
         {
-            get { return HttpRequestFeature.Protocol; }
-            set { HttpRequestFeature.Protocol = value; }
+            get { return ProtoRequestFeature.Protocol; }
+            set { ProtoRequestFeature.Protocol = value; }
         }
 
         public override IHeaderDictionary Headers
         {
-            get { return HttpRequestFeature.Headers; }
+            get { return ProtoRequestFeature.Headers; }
         }
 
         public override IRequestCookieCollection Cookies
@@ -179,7 +179,7 @@ namespace Microsoft.AspNetCore.Http.Internal
 
         struct FeatureInterfaces
         {
-            public IHttpRequestFeature Request;
+            public IProtoRequestFeature Request;
             public IQueryFeature Query;
             public IFormFeature Form;
             public IRequestCookiesFeature Cookies;

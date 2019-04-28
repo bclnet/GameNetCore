@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class DefaultFilesExtensions
     {
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.IEndpointConventionBuilder MapFallbackToFile(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder endpoints, string pattern, string filePath, Microsoft.AspNetCore.Builder.StaticFileOptions options) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     public partial class DefaultFilesMiddleware
     {
@@ -115,7 +115,7 @@ namespace Microsoft.AspNetCore.StaticFiles
         public Microsoft.Extensions.FileProviders.IFileInfo File { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } }
     }
 }
-namespace Microsoft.AspNetCore.StaticFiles.Infrastructure
+namespace Contoso.GameNetCore.StaticFiles.Infrastructure
 {
     public partial class SharedOptions
     {

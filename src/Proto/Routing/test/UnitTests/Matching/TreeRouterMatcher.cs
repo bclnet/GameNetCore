@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Tree;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // This is an adapter to use TreeRouter in the conformance tests
     internal class TreeRouterMatcher : Matcher
@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             _inner = inner;
         }
 
-        public async override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public async override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             if (httpContext == null)
             {

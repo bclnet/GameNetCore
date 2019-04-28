@@ -3,11 +3,11 @@
 
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Diagnostics;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Diagnostics;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// IApplicationBuilder extensions for the WelcomePageMiddleware.

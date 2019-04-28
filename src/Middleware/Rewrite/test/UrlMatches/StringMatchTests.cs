@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+﻿using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlMatches
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlMatches
 {
     public class StringMatchTests
     {

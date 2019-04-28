@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting.Server.Features;
+﻿using Contoso.GameNetCore.Hosting.Server.Features;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static class IWebHostExtensions
     {

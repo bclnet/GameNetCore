@@ -7,10 +7,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public class UrlRewriteFileParser
     {

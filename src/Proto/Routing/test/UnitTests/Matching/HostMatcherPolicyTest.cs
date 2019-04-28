@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class HostMatcherPolicyTest
     {

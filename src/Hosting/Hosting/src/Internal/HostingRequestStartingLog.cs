@@ -1,7 +1,7 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     {
         internal static readonly Func<object, Exception, string> Callback = (state, exception) => ((HostingRequestStartingLog)state).ToString();
 
-        readonly HttpRequest _request;
+        readonly ProtoRequest _request;
 
         string _cachedToString;
 
@@ -39,7 +39,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             }
         }
 
-        public HostingRequestStartingLog(HttpContext httpContext) =>
+        public HostingRequestStartingLog(ProtoContext httpContext) =>
             _request = httpContext.Request;
 
         public override string ToString()

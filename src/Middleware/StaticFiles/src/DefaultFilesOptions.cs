@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Contoso.GameNetCore.StaticFiles.Infrastructure;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Options for selecting default file names.
@@ -15,9 +15,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Configuration for the DefaultFilesMiddleware.
         /// </summary>
         public DefaultFilesOptions()
-            : this(new SharedOptions())
-        {
-        }
+            : this(new SharedOptions()) { }
 
         /// <summary>
         /// Configuration for the DefaultFilesMiddleware.

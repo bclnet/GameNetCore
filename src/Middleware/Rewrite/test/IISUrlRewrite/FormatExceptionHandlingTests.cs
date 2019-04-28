@@ -3,10 +3,10 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlRewrite
 {
     public class FormatExceptionHandlingTests
     {

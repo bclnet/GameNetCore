@@ -3,7 +3,7 @@
 
 using System;
 using System.Text;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
 namespace PlatformBenchmarks
 {

@@ -3,13 +3,13 @@
 
 using System;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class CandidateSetTest
     {

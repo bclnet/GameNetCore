@@ -1,13 +1,13 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // This is a set of integration tests that are similar to a typical MVC configuration.
     //
@@ -216,7 +216,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToAttributedAction_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Pets", action = "GetById", id = "17", };
             var ambientValues = new { };
@@ -237,7 +237,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalAction_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Index", };
             var ambientValues = new { };
@@ -258,7 +258,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalActionInArea_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { area = "Admin", controller = "Users", action = "Add", };
             var ambientValues = new { };
@@ -279,7 +279,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalRoute_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Store", id = "17", };
             var ambientValues = new { };
@@ -300,7 +300,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPage_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Index", };
             var ambientValues = new { };
@@ -321,7 +321,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPageInArea_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { area = "Admin", page = "/Pages/Index", };
             var ambientValues = new { };
@@ -342,7 +342,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToNonExistentAction_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Fake", id = "17", };
             var ambientValues = new { };
@@ -367,7 +367,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToAttributedAction_FromSameAction_KeepsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Pets", action = "GetById", };
             var ambientValues = new { controller = "Pets", action = "GetById", id = "17", };
@@ -388,7 +388,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToAttributedAction_FromAnotherAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Pets", action = "GetById", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -409,7 +409,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToAttributedAction_FromPage_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Pets", action = "GetById", };
             var ambientValues = new { page = "/Pages/Help", id = "17", };
@@ -430,7 +430,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalAction_FromSameAction_KeepsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Index", };
             var ambientValues = new { controller = "Home", action = "Index", id = "17", };
@@ -451,7 +451,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalAction_FromAnotherAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Index", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -472,7 +472,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalAction_FromPage_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Index", };
             var ambientValues = new { page = "/Pages/Help", id = "17", };
@@ -493,7 +493,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToNonExistentConventionalAction_FromAnotherAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Home", action = "Index11", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -514,7 +514,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToNonExistentAreaAction_FromAnotherAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { area = "Admin", controller = "Home", action = "Index11", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -535,7 +535,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalRoute_FromAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Store", };
             var ambientValues = new { controller = "Home", action = "Index", id = "17", };
@@ -556,7 +556,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalRoute_WithAmbientValues_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { controller = "Store", id = "17", };
             var ambientValues = new { controller = "Store", };
@@ -577,7 +577,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToConventionalRouteWithoutSharedAmbientValues_WithAmbientValues_GeneratesPath()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { custom2 = "17", };
             var ambientValues = new { controller = "Store", };
@@ -598,7 +598,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPage_FromSamePage_KeepsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Help", };
             var ambientValues = new { page = "/Pages/Help", id = "17", };
@@ -619,7 +619,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPage_FromAction_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Help", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -640,7 +640,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPage_FromAnotherPage_DiscardsAmbientValues()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Help", };
             var ambientValues = new { page = "/Pages/About", id = "17", };
@@ -661,7 +661,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToNonExistentPage_FromAction_MatchesActionConventionalRoute()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Help2", };
             var ambientValues = new { controller = "Pets", action = "Update", id = "17", };
@@ -682,7 +682,7 @@ namespace Microsoft.AspNetCore.Routing
         public void GetPathByAddress_LinkToPageInSameArea_FromAction_UsingAreaAmbientValue()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var values = new { page = "/Pages/Index", };
             var ambientValues = new { area = "Admin", controller = "Users", action = "Add",  };

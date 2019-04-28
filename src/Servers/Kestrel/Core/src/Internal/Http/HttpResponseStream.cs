@@ -3,16 +3,16 @@
 
 using System;
 using System.IO.Pipelines;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class HttpResponseStream : WriteOnlyPipeStream
+    internal class ProtoResponseStream : WriteOnlyPipeStream
     {
-        private readonly HttpResponsePipeWriter _pipeWriter;
-        private readonly IHttpBodyControlFeature _bodyControl;
+        private readonly ProtoResponsePipeWriter _pipeWriter;
+        private readonly IProtoBodyControlFeature _bodyControl;
 
-        public HttpResponseStream(IHttpBodyControlFeature bodyControl, HttpResponsePipeWriter pipeWriter)
+        public ProtoResponseStream(IProtoBodyControlFeature bodyControl, ProtoResponsePipeWriter pipeWriter)
             : base(pipeWriter)
         {
             _bodyControl = bodyControl;

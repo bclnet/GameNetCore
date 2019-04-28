@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
+namespace Contoso.GameNetCore.Server.Kestrel.InMemory.FunctionalTests.TestTransport
 {
     internal class InMemoryTransportFactory : ITransportFactory
     {

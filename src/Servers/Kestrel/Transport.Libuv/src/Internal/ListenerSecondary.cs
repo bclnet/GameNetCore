@@ -5,11 +5,11 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal
 {
     /// <summary>
     /// A secondary listener is delegated requests from a primary listener via a named pipe or

@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Template;
+using System.Text.Encodings.Game;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Template;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     /// <summary>
     /// Builder for <see cref="TreeRouter"/> instances.

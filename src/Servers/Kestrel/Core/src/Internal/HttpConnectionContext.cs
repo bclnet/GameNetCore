@@ -5,17 +5,17 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Net;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
-    internal class HttpConnectionContext
+    internal class ProtoConnectionContext
     {
         public string ConnectionId { get; set; }
-        public HttpProtocols Protocols { get; set; }
+        public ProtoProtocols Protocols { get; set; }
         public ConnectionContext ConnectionContext { get; set; }
         public ServiceContext ServiceContext { get; set; }
         public IFeatureCollection ConnectionFeatures { get; set; }

@@ -3,16 +3,16 @@
 
 using System.Collections.Generic;
 using System.Net;
-using Microsoft.AspNetCore.HttpOverrides;
+using Contoso.GameNetCore.ProtoOverrides;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public class ForwardedHeadersOptions
     {
         /// <summary>
         /// Use this header instead of <see cref="ForwardedHeadersDefaults.XForwardedForHeaderName"/>
         /// </summary>
-        /// <seealso cref="Microsoft.AspNetCore.HttpOverrides.ForwardedHeadersDefaults"/>
+        /// <seealso cref="Microsoft.GameNetCore.ProtoOverrides.ForwardedHeadersDefaults"/>
         public string ForwardedForHeaderName { get; set; } = ForwardedHeadersDefaults.XForwardedForHeaderName;
 
         /// <summary>

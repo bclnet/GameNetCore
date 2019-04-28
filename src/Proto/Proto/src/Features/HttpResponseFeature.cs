@@ -5,11 +5,11 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpResponseFeature : IHttpResponseFeature
+    public class ProtoResponseFeature : IProtoResponseFeature
     {
-        public HttpResponseFeature()
+        public ProtoResponseFeature()
         {
             StatusCode = 200;
             Headers = new HeaderDictionary();

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore
+namespace Contoso.GameNetCore
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     internal class TestDataAttribute : Attribute

@@ -2,29 +2,29 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Extension methods for configuring HttpContext services.
+    /// Extension methods for configuring ProtoContext services.
     /// </summary>
-    public static class HttpServiceCollectionExtensions
+    public static class ProtoServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds a default implementation for the <see cref="IHttpContextAccessor"/> service.
+        /// Adds a default implementation for the <see cref="IProtoContextAccessor"/> service.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <returns>The service collection.</returns>
-        public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services)
+        public static IServiceCollection AddProtoContextAccessor(this IServiceCollection services)
         {
             if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IProtoContextAccessor, ProtoContextAccessor>();
             return services;
         }
     }

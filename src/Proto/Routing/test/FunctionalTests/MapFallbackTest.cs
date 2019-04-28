@@ -2,17 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using RoutingWebSite;
+using RoutingGameSite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
     public class MapFallbackTest : IClassFixture<RoutingTestFixture<MapFallbackStartup>>
     {
         private readonly RoutingTestFixture<MapFallbackStartup> _fixture;
-        private readonly HttpClient _client;
+        private readonly ProtoClient _client;
 
         public MapFallbackTest(RoutingTestFixture<MapFallbackStartup> fixture)
         {
@@ -24,14 +24,14 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_HelloWorld()
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "helloworld");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "helloworld");
 
             // Act
             var response = await _client.SendAsync(request);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("Hello World", responseContent);
         }
 
@@ -41,13 +41,13 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_FallbackWithPattern_FileName(string path)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new ProtoRequestMessage(ProtoMethod.Get, path);
 
             // Act
             var response = await _client.SendAsync(request);
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.NotFound, response.StatusCode);
         }
 
         [Theory]
@@ -58,14 +58,14 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_FallbackWithPattern_NonFileName(string path)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new ProtoRequestMessage(ProtoMethod.Get, path);
 
             // Act
             var response = await _client.SendAsync(request);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("FallbackCustomPattern", responseContent);
         }
 
@@ -75,13 +75,13 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_Fallback_FileName(string path)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new ProtoRequestMessage(ProtoMethod.Get, path);
 
             // Act
             var response = await _client.SendAsync(request);
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.NotFound, response.StatusCode);
         }
 
         [Theory]
@@ -92,14 +92,14 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_Fallback_NonFileName(string path)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new ProtoRequestMessage(ProtoMethod.Get, path);
 
             // Act
             var response = await _client.SendAsync(request);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("FallbackDefaultPattern", responseContent);
         }
     }

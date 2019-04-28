@@ -7,7 +7,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Contoso.GameNetCore.Hosting.Server.Features;
-#if !NET3
+using Microsoft.Extensions.Hosting;
+#if NET2
 using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 using IHostApplicationLifetime = Contoso.GameNetCore.Hosting.IApplicationLifetime;
 #endif
@@ -55,7 +56,7 @@ namespace Contoso.GameNetCore.Hosting
         }
 
         /// <summary>
-        /// Runs a web application and block the calling thread until host shutdown.
+        /// Runs a game application and block the calling thread until host shutdown.
         /// </summary>
         /// <param name="host">The <see cref="IGameHost"/> to run.</param>
         public static void Run(this IGameHost host) =>
@@ -120,7 +121,7 @@ namespace Contoso.GameNetCore.Hosting
             }
             finally
             {
-#if NET3
+#if !NET2
                 if (host is IAsyncDisposable asyncDisposable)
                     await asyncDisposable.DisposeAsync().ConfigureAwait(false);
                 else
@@ -148,7 +149,7 @@ namespace Contoso.GameNetCore.Hosting
 
             await waitForStop.Task;
 
-            // WebHost will use its default ShutdownTimeout if none is specified.
+            // GameHost will use its default ShutdownTimeout if none is specified.
             await host.StopAsync();
         }
     }

@@ -3,16 +3,16 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Authorization;
+using Contoso.GameNetCore.Cors.Infrastructure;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class EndpointMiddlewareTest
     {
@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_NoFeature_NoOps()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = new ServiceProvider();
 
             RequestDelegate next = (c) =>
@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_NoEndpoint_NoOps()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = new ServiceProvider();
 
             httpContext.Features.Set<IEndpointFeature>(new EndpointSelectorContext()
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_WithEndpoint_InvokesDelegate()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.RequestServices = new ServiceProvider();
 
             var invoked = false;
@@ -103,7 +103,7 @@ namespace Microsoft.AspNetCore.Routing
             var expected = "Endpoint Test contains authorization metadata, but a middleware was not found that supports authorization." +
                 Environment.NewLine +
                 "Configure your application startup by adding app.UseAuthorization() inside the call to Configure(..) in the application startup code.";
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };
@@ -126,7 +126,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_WithEndpoint_WorksIfAuthAttributesWereFound_AndAuthMiddlewareInvoked()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };
@@ -150,7 +150,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_WithEndpoint_DoesNotThrowIfUnhandledAuthAttributesWereFound_ButSuppressedViaOptions()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.Routing
             var expected = "Endpoint Test contains CORS metadata, but a middleware was not found that supports CORS." +
                 Environment.NewLine +
                 "Configure your application startup by adding app.UseCors() inside the call to Configure(..) in the application startup code.";
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };
@@ -196,7 +196,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_WithEndpoint_WorksIfCorsMetadataWasFound_AndCorsMiddlewareInvoked()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };
@@ -220,7 +220,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_WithEndpoint_DoesNotThrowIfUnhandledCorsAttributesWereFound_ButSuppressedViaOptions()
         {
             // Arrange
-            var httpContext = new DefaultHttpContext
+            var httpContext = new DefaultProtoContext
             {
                 RequestServices = new ServiceProvider()
             };

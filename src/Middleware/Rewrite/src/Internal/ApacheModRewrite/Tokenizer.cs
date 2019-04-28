@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     /// <summary>
     /// Tokenizes a mod_rewrite rule, delimited by spaces.

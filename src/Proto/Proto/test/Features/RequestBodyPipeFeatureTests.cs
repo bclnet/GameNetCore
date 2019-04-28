@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class RequestBodyPipeFeatureTests
     {
         [Fact]
         public void RequestBodyReturnsStreamPipeReader()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var expectedStream = new MemoryStream();
             context.Request.Body = expectedStream;
 
@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void RequestBodySetPipeReaderReturnsSameValue()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var feature = new RequestBodyPipeFeature(context);
 
@@ -54,7 +54,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void RequestBodySetPipeReadReturnsUserSetValueAlways()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             var feature = new RequestBodyPipeFeature(context);
 
@@ -81,7 +81,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public void RequestBodyGetPipeReaderAfterSettingBodyTwice()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             context.Request.Body = new MemoryStream();
 
@@ -101,7 +101,7 @@ namespace Microsoft.AspNetCore.Http.Features
         [Fact]
         public async Task RequestBodyGetsDataFromSecondStream()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Body = new MemoryStream(Encoding.ASCII.GetBytes("hahaha"));
             var feature = new RequestBodyPipeFeature(context);
             var _ = feature.Reader;
@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Http.Features
 
         private RequestBodyPipeFeature InitializeFeatureWithData(string input)
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.Body = new MemoryStream(Encoding.ASCII.GetBytes(input));
             return new RequestBodyPipeFeature(context);
         }

@@ -3,14 +3,14 @@
 
 using System;
 using System.Globalization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class DefaultParameterPolicyFactoryTest
     {
@@ -400,7 +400,7 @@ namespace Microsoft.AspNetCore.Routing
         {
             private TestRouteConstraint() { }
 
-            public HttpContext HttpContext { get; private set; }
+            public ProtoContext ProtoContext { get; private set; }
             public IRouter Route { get; private set; }
             public string RouteKey { get; private set; }
             public RouteValueDictionary Values { get; private set; }
@@ -412,13 +412,13 @@ namespace Microsoft.AspNetCore.Routing
             }
 
             public bool Match(
-                HttpContext httpContext,
+                ProtoContext httpContext,
                 IRouter route,
                 string routeKey,
                 RouteValueDictionary values,
                 RouteDirection routeDirection)
             {
-                HttpContext = httpContext;
+                ProtoContext = httpContext;
                 Route = route;
                 RouteKey = routeKey;
                 Values = values;

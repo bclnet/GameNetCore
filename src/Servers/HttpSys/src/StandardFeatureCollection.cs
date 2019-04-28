@@ -4,11 +4,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Features.Authentication;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Http.Features.Authentication;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal sealed class StandardFeatureCollection : IFeatureCollection
     {

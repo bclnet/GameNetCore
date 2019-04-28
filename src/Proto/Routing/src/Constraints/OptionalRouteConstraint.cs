@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     /// <summary>
     /// Defines a constraint on an optional parameter. If the parameter is present, then it is constrained by InnerConstraint. 
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         public IRouteConstraint InnerConstraint { get; }
 
         public bool Match(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             string routeKey,
             RouteValueDictionary values,

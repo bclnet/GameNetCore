@@ -3,16 +3,16 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2ConnectionErrorException : Exception
+    internal class Proto2ConnectionErrorException : Exception
     {
-        public Http2ConnectionErrorException(string message, Http2ErrorCode errorCode)
+        public Proto2ConnectionErrorException(string message, Proto2ErrorCode errorCode)
             : base($"HTTP/2 connection error ({errorCode}): {message}")
         {
             ErrorCode = errorCode;
         }
 
-        public Http2ErrorCode ErrorCode { get; }
+        public Proto2ErrorCode ErrorCode { get; }
     }
 }

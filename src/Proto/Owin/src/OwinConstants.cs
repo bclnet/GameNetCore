@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     internal static class OwinConstants
     {
@@ -130,35 +130,35 @@ namespace Microsoft.AspNetCore.Owin
 
         #endregion
 
-        #region WebSocket v0.4.0
+        #region GameSocket v0.4.0
 
         // http://owin.org/spec/extensions/owin-OpaqueStream-Extension-v0.3.0.htm
 
-        internal static class WebSocket
+        internal static class GameSocket
         {
             // 3.1. Startup
 
-            public const string Version = "websocket.Version";
+            public const string Version = "gamesocket.Version";
             public const string VersionValue = "1.0";
 
             // 3.2. Per Request
 
-            public const string Accept = "websocket.Accept";
-            public const string AcceptAlt = "websocket.AcceptAlt"; // Non-spec
+            public const string Accept = "gamesocket.Accept";
+            public const string AcceptAlt = "gamesocket.AcceptAlt"; // Non-spec
 
             // 4. Accept
 
-            public const string SubProtocol = "websocket.SubProtocol";
+            public const string SubProtocol = "gamesocket.SubProtocol";
 
             // 5. Consumption
 
-            public const string SendAsync = "websocket.SendAsync";
-            public const string ReceiveAsync = "websocket.ReceiveAsync";
-            public const string CloseAsync = "websocket.CloseAsync";
-            // public const string Version = "websocket.Version"; // redundant, declared above
-            public const string CallCancelled = "websocket.CallCancelled";
-            public const string ClientCloseStatus = "websocket.ClientCloseStatus";
-            public const string ClientCloseDescription = "websocket.ClientCloseDescription";
+            public const string SendAsync = "gamesocket.SendAsync";
+            public const string ReceiveAsync = "gamesocket.ReceiveAsync";
+            public const string CloseAsync = "gamesocket.CloseAsync";
+            // public const string Version = "gamesocket.Version"; // redundant, declared above
+            public const string CallCancelled = "gamesocket.CallCancelled";
+            public const string ClientCloseStatus = "gamesocket.ClientCloseStatus";
+            public const string ClientCloseDescription = "gamesocket.ClientCloseDescription";
         }
 
         #endregion

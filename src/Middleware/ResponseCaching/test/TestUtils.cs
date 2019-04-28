@@ -8,11 +8,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.ResponseCaching.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.ResponseCaching.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -24,7 +24,7 @@ using Microsoft.Net.Http.Headers;
 using Xunit;
 using ISystemClock = Microsoft.AspNetCore.ResponseCaching.Internal.ISystemClock;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Tests
+namespace Contoso.GameNetCore.ResponseCaching.Tests
 {
     internal class TestUtils
     {

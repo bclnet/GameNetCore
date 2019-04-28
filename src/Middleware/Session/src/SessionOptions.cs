@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Session;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Session;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Represents the session state options for the application.

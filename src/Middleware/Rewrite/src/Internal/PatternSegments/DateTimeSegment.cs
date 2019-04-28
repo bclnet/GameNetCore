@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Internal.PatternSegments
 {
     public class DateTimeSegment : PatternSegment
     {

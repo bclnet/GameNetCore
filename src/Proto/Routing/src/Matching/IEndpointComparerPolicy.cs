@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// A <see cref="MatcherPolicy"/> interface that can be implemented to sort
@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
     /// operation used to order candidates.
     /// </para>
     /// <para>
-    /// As an example, the implementation of <see cref="HttpMethodMatcherPolicy"/> implements
+    /// As an example, the implementation of <see cref="ProtoMethodMatcherPolicy"/> implements
     /// <see cref="IEndpointComparerPolicy"/> to ensure that endpoints matching specific HTTP
     /// methods are sorted with a higher priority than endpoints without a specific HTTP method
     /// requirement.

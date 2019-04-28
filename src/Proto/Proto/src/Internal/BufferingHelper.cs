@@ -3,9 +3,9 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.WebUtilities;
+using Contoso.GameNetCore.GameUtilities;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     public static class BufferingHelper
     {
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Http.Internal
             }
         }
 
-        public static HttpRequest EnableRewind(this HttpRequest request, int bufferThreshold = DefaultBufferThreshold, long? bufferLimit = null)
+        public static ProtoRequest EnableRewind(this ProtoRequest request, int bufferThreshold = DefaultBufferThreshold, long? bufferLimit = null)
         {
             if (request == null)
             {
@@ -50,7 +50,7 @@ namespace Microsoft.AspNetCore.Http.Internal
             {
                 var fileStream = new FileBufferingReadStream(body, bufferThreshold, bufferLimit, _getTempDirectory);
                 request.Body = fileStream;
-                request.HttpContext.Response.RegisterForDispose(fileStream);
+                request.ProtoContext.Response.RegisterForDispose(fileStream);
             }
             return request;
         }

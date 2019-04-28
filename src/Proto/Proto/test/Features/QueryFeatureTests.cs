@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class QueryFeatureTests
     {
@@ -12,9 +12,9 @@ namespace Microsoft.AspNetCore.Http.Features
         {
             // Arrange
             var features = new FeatureCollection();
-            var request = new HttpRequestFeature();
+            var request = new ProtoRequestFeature();
             request.QueryString = "foo=bar";
-            features[typeof(IHttpRequestFeature)] = request;
+            features[typeof(IProtoRequestFeature)] = request;
 
             var provider = new QueryFeature(features);
 
@@ -34,9 +34,9 @@ namespace Microsoft.AspNetCore.Http.Features
         public void KeyWithoutValuesAddedToQueryCollection(string queryString, string emptyParam)
         {
             var features = new FeatureCollection();
-            var request = new HttpRequestFeature();
+            var request = new ProtoRequestFeature();
             request.QueryString = queryString;
-            features[typeof(IHttpRequestFeature)] = request;
+            features[typeof(IProtoRequestFeature)] = request;
 
             var provider = new QueryFeature(features);
 
@@ -53,9 +53,9 @@ namespace Microsoft.AspNetCore.Http.Features
         public void EmptyKeysNotAddedToQueryCollection(string queryString)
         {
             var features = new FeatureCollection();
-            var request = new HttpRequestFeature();
+            var request = new ProtoRequestFeature();
             request.QueryString = queryString;
-            features[typeof(IHttpRequestFeature)] = request;
+            features[typeof(IProtoRequestFeature)] = request;
 
             var provider = new QueryFeature(features);
 

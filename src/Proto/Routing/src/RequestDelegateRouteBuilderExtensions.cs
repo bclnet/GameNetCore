@@ -3,12 +3,12 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public static class RequestDelegateRouteBuilderExtensions
     {
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Routing
         public static IRouteBuilder MapDelete(
             this IRouteBuilder builder,
             string template,
-            Func<HttpRequest, HttpResponse, RouteData, Task> handler)
+            Func<ProtoRequest, ProtoResponse, RouteData, Task> handler)
         {
             return builder.MapVerb("DELETE", template, handler);
         }
@@ -128,7 +128,7 @@ namespace Microsoft.AspNetCore.Routing
         public static IRouteBuilder MapGet(
             this IRouteBuilder builder,
             string template,
-            Func<HttpRequest, HttpResponse, RouteData, Task> handler)
+            Func<ProtoRequest, ProtoResponse, RouteData, Task> handler)
         {
             return builder.MapVerb("GET", template, handler);
         }
@@ -170,7 +170,7 @@ namespace Microsoft.AspNetCore.Routing
         public static IRouteBuilder MapPost(
             this IRouteBuilder builder,
             string template,
-            Func<HttpRequest, HttpResponse, RouteData, Task> handler)
+            Func<ProtoRequest, ProtoResponse, RouteData, Task> handler)
         {
             return builder.MapVerb("POST", template, handler);
         }
@@ -212,7 +212,7 @@ namespace Microsoft.AspNetCore.Routing
         public static IRouteBuilder MapPut(
             this IRouteBuilder builder,
             string template,
-            Func<HttpRequest, HttpResponse, RouteData, Task> handler)
+            Func<ProtoRequest, ProtoResponse, RouteData, Task> handler)
         {
             return builder.MapVerb("PUT", template, handler);
         }
@@ -230,7 +230,7 @@ namespace Microsoft.AspNetCore.Routing
             this IRouteBuilder builder,
             string verb,
             string template,
-            Func<HttpRequest, HttpResponse, RouteData, Task> handler)
+            Func<ProtoRequest, ProtoResponse, RouteData, Task> handler)
         {
             RequestDelegate requestDelegate = (httpContext) =>
             {
@@ -259,7 +259,7 @@ namespace Microsoft.AspNetCore.Routing
                 new RouteHandler(handler),
                 template,
                 defaults: null,
-                constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint(verb) }),
+                constraints: new RouteValueDictionary(new { httpMethod = new ProtoMethodRouteConstraint(verb) }),
                 dataTokens: null,
                 inlineConstraintResolver: GetConstraintResolver(builder));
 

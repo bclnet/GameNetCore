@@ -6,19 +6,19 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class EntityTagHeaderValue
     {
         // Note that the ETag header does not allow a * but we're not that strict: We allow both '*' and ETag values in a single value.
         // We can't guarantee that a single parsed value will be used directly in an ETag header.
-        private static readonly HttpHeaderParser<EntityTagHeaderValue> SingleValueParser
+        private static readonly ProtoHeaderParser<EntityTagHeaderValue> SingleValueParser
             = new GenericHeaderParser<EntityTagHeaderValue>(false, GetEntityTagLength);
         // Note that if multiple ETag values are allowed (e.g. 'If-Match', 'If-None-Match'), according to the RFC
         // the value must either be '*' or a list of ETag values. It's not allowed to have both '*' and a list of
         // ETag values. We're not that strict: We allow both '*' and ETag values in a list. If the server sends such
         // an invalid list, we want to be able to represent it using the corresponding header property.
-        private static readonly HttpHeaderParser<EntityTagHeaderValue> MultipleValueParser
+        private static readonly ProtoHeaderParser<EntityTagHeaderValue> MultipleValueParser
             = new GenericHeaderParser<EntityTagHeaderValue>(true, GetEntityTagLength);
 
         private static EntityTagHeaderValue AnyType;
@@ -49,7 +49,7 @@ namespace Microsoft.Net.Http.Headers
                 // * is valid, but W/* isn't.
                 _tag = tag;
             }
-            else if ((HttpRuleParser.GetQuotedStringLength(tag, 0, out length) != HttpParseResult.Parsed) ||
+            else if ((ProtoRuleParser.GetQuotedStringLength(tag, 0, out length) != ProtoParseResult.Parsed) ||
                 (length != tag.Length))
             {
                 // Note that we don't allow 'W/' prefixes for weak ETags in the 'tag' parameter. If the user wants to
@@ -215,12 +215,12 @@ namespace Microsoft.Net.Http.Headers
                     }
                     isWeak = true;
                     current++; // we have a weak-entity tag.
-                    current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                    current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
                 }
 
                 var tagStartIndex = current;
                 var tagLength = 0;
-                if (HttpRuleParser.GetQuotedStringLength(input, current, out tagLength) != HttpParseResult.Parsed)
+                if (ProtoRuleParser.GetQuotedStringLength(input, current, out tagLength) != ProtoParseResult.Parsed)
                 {
                     return 0;
                 }
@@ -242,7 +242,7 @@ namespace Microsoft.Net.Http.Headers
 
                 current = current + tagLength;
             }
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             return current - startIndex;
         }

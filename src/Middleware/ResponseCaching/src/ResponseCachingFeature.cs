@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.ResponseCaching
+namespace Contoso.GameNetCore.ResponseCaching
 {
     public class ResponseCachingFeature : IResponseCachingFeature
     {

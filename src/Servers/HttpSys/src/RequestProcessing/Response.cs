@@ -9,12 +9,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Extensions.Primitives;
 using static Microsoft.AspNetCore.HttpSys.Internal.UnsafeNclNativeMethods;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal sealed class Response
     {

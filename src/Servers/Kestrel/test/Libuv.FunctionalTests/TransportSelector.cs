@@ -3,9 +3,9 @@
 
 using System;
 using System.Buffers;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
+namespace Contoso.GameNetCore.Server.Kestrel.FunctionalTests
 {
     public static class TransportSelector
     {

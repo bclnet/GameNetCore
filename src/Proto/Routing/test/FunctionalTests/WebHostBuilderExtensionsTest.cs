@@ -4,28 +4,28 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
-    public class WebHostBuilderExtensionsTest
+    public class GameHostBuilderExtensionsTest
     {
-        public static TheoryData<Action<IRouteBuilder>, HttpRequestMessage, string> MatchesRequest
+        public static TheoryData<Action<IRouteBuilder>, ProtoRequestMessage, string> MatchesRequest
         {
             get
             {
-                return new TheoryData<Action<IRouteBuilder>, HttpRequestMessage, string>()
+                return new TheoryData<Action<IRouteBuilder>, ProtoRequestMessage, string>()
                 {
                     {
                         (rb) => rb.MapGet("greeting/{name}", (req, resp, routeData) => resp.WriteAsync($"Hello! {routeData.Values["name"]}")),
-                        new HttpRequestMessage(HttpMethod.Get, "greeting/James"),
+                        new ProtoRequestMessage(ProtoMethod.Get, "greeting/James"),
                         "Hello! James"
                     },
                     {
@@ -37,7 +37,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
                                 var data = await streamReader.ReadToEndAsync();
                                 await resp.WriteAsync($"{routeData.Values["name"]} {data}");
                             }),
-                        new HttpRequestMessage(HttpMethod.Post, "greeting/James") { Content = new StringContent("Biography") },
+                        new ProtoRequestMessage(ProtoMethod.Post, "greeting/James") { Content = new StringContent("Biography") },
                         "James Biography"
                     },
                     {
@@ -49,12 +49,12 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
                                 var data = await streamReader.ReadToEndAsync();
                                 await resp.WriteAsync($"{routeData.Values["name"]} {data}");
                             }),
-                        new HttpRequestMessage(HttpMethod.Put, "greeting/James") { Content = new StringContent("Biography") },
+                        new ProtoRequestMessage(ProtoMethod.Put, "greeting/James") { Content = new StringContent("Biography") },
                         "James Biography"
                     },
                     {
                         (rb) => rb.MapDelete("greeting/{name}", (req, resp, routeData) => resp.WriteAsync($"Hello! {routeData.Values["name"]}")),
-                        new HttpRequestMessage(HttpMethod.Delete, "greeting/James"),
+                        new ProtoRequestMessage(ProtoMethod.Delete, "greeting/James"),
                         "Hello! James"
                     },
                     {
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
                                 var data = await streamReader.ReadToEndAsync();
                                 await resp.WriteAsync($"{routeData.Values["name"]} {data}");
                             }),
-                        new HttpRequestMessage(HttpMethod.Post, "greeting/James") { Content = new StringContent("Biography") },
+                        new ProtoRequestMessage(ProtoMethod.Post, "greeting/James") { Content = new StringContent("Biography") },
                         "James Biography"
                     },
                 };
@@ -76,24 +76,24 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
 
         [Theory]
         [MemberData(nameof(MatchesRequest))]
-        public async Task UseRouter_MapGet_MatchesRequest(Action<IRouteBuilder> routeBuilder, HttpRequestMessage request, string expected)
+        public async Task UseRouter_MapGet_MatchesRequest(Action<IRouteBuilder> routeBuilder, ProtoRequestMessage request, string expected)
         {
             // Arrange
-            var webhostbuilder = new WebHostBuilder();
-            webhostbuilder
+            var gamehostbuilder = new GameHostBuilder();
+            gamehostbuilder
                 .ConfigureServices(services => services.AddRouting())
                 .Configure(app =>
                 {
                     app.UseRouter(routeBuilder);
                 });
-            var testServer = new TestServer(webhostbuilder);
+            var testServer = new TestServer(gamehostbuilder);
             var client = testServer.CreateClient();
 
             // Act
             var response = await client.SendAsync(request);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             var actual = await response.Content.ReadAsStringAsync();
             Assert.Equal(expected, actual);
         }

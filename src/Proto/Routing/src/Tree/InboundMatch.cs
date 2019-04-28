@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Diagnostics;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Template;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     /// <summary>
     /// A candidate route to match incoming URLs in a <see cref="TreeRouter"/>.

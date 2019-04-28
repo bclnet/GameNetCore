@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     internal static class ParameterPolicyActivator
     {

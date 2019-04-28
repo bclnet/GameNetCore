@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Routing.TestObjects
+namespace Contoso.GameNetCore.Routing.TestObjects
 {
     internal class TestServiceProvider : IServiceProvider
     {

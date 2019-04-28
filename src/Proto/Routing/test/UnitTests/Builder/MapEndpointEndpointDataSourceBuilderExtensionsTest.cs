@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Patterns;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public class MapEndpointEndpointDataSourceBuilderExtensionsTest
     {
@@ -102,8 +102,8 @@ namespace Microsoft.AspNetCore.Builder
             var builder = new DefaultEndpointRouteBuilder(Mock.Of<IApplicationBuilder>());
 
             // Act
-            var endpointBuilder = builder.MapMethods("/", new[] { "METHOD" }, HandleHttpMetdata);
-            endpointBuilder.WithMetadata(new HttpMethodMetadata(new[] { "BUILDER" }));
+            var endpointBuilder = builder.MapMethods("/", new[] { "METHOD" }, HandleProtoMetdata);
+            endpointBuilder.WithMetadata(new ProtoMethodMetadata(new[] { "BUILDER" }));
 
             // Assert
             var dataSource = Assert.Single(builder.DataSources);
@@ -114,31 +114,31 @@ namespace Microsoft.AspNetCore.Builder
             Assert.Equal("METHOD", GetMethod(endpoint.Metadata[1]));
             Assert.Equal("BUILDER", GetMethod(endpoint.Metadata[2]));
 
-            Assert.Equal("BUILDER", endpoint.Metadata.GetMetadata<IHttpMethodMetadata>().HttpMethods.Single());
+            Assert.Equal("BUILDER", endpoint.Metadata.GetMetadata<IProtoMethodMetadata>().ProtoMethods.Single());
 
             string GetMethod(object metadata)
             {
-                var httpMethodMetadata = Assert.IsAssignableFrom<IHttpMethodMetadata>(metadata);
-                return Assert.Single(httpMethodMetadata.HttpMethods);
+                var httpMethodMetadata = Assert.IsAssignableFrom<IProtoMethodMetadata>(metadata);
+                return Assert.Single(httpMethodMetadata.ProtoMethods);
             }
         }
 
         [Attribute1]
         [Attribute2]
-        private static Task Handle(HttpContext context) => Task.CompletedTask;
+        private static Task Handle(ProtoContext context) => Task.CompletedTask;
 
-        [HttpMethod("ATTRIBUTE")]
-        private static Task HandleHttpMetdata(HttpContext context) => Task.CompletedTask;
+        [ProtoMethod("ATTRIBUTE")]
+        private static Task HandleProtoMetdata(ProtoContext context) => Task.CompletedTask;
 
-        private class HttpMethodAttribute : Attribute, IHttpMethodMetadata
+        private class ProtoMethodAttribute : Attribute, IProtoMethodMetadata
         {
             public bool AcceptCorsPreflight => false;
 
-            public IReadOnlyList<string> HttpMethods { get; }
+            public IReadOnlyList<string> ProtoMethods { get; }
 
-            public HttpMethodAttribute(params string[] httpMethods)
+            public ProtoMethodAttribute(params string[] httpMethods)
             {
-                HttpMethods = httpMethods;
+                ProtoMethods = httpMethods;
             }
         }
 

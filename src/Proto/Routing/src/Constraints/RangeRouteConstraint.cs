@@ -3,9 +3,9 @@
 
 using System;
 using System.Globalization;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
     /// <summary>
     /// Constraints a route parameter to be an integer within a given range of values.
@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Routing.Constraints
 
         /// <inheritdoc />
         public bool Match(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             IRouter route,
             string routeKey,
             RouteValueDictionary values,

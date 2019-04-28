@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.NodeServices.HostingModels
+namespace Contoso.GameNetCore.NodeServices.HostingModels
 {
     /// <summary>
     /// Class responsible for launching a Node child process on the local machine, determining when it is ready to

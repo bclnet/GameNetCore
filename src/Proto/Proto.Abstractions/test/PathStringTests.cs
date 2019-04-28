@@ -3,10 +3,10 @@
 
 using System;
 using System.ComponentModel;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public class PathStringTests
     {

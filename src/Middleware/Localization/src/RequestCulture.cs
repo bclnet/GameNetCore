@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     /// <summary>
     /// Details about the culture for an <see cref="Http.HttpRequest"/>.

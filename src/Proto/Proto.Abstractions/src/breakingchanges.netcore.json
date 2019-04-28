@@ -1,23 +1,23 @@
   [
     {
-      "TypeId": "public abstract class Microsoft.AspNetCore.Http.Authentication.AuthenticationManager",
+      "TypeId": "public abstract class Microsoft.AspNetCore.Proto.Authentication.AuthenticationManager",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticateInfo",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticateInfo",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticationDescription",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticationDescription",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public class Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties",
+      "TypeId": "public class Microsoft.AspNetCore.Proto.Authentication.AuthenticationProperties",
       "Kind": "Removal"
     },
     {
-      "TypeId": "public abstract class Microsoft.AspNetCore.Http.HttpContext",
-      "MemberId": "public abstract Microsoft.AspNetCore.Http.Authentication.AuthenticationManager get_Authentication()",
+      "TypeId": "public abstract class Microsoft.AspNetCore.Proto.ProtoContext",
+      "MemberId": "public abstract Microsoft.AspNetCore.Proto.Authentication.AuthenticationManager get_Authentication()",
       "Kind": "Removal"
     }
   ]

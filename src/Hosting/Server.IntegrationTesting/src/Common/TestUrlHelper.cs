@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Server.IntegrationTesting.Common
+﻿namespace Contoso.GameNetCore.Server.IntegrationTesting.Common
 {
     // Public for use in other test projects
     public static class TestUrlHelper

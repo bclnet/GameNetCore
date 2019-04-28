@@ -1,14 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static partial class IWebHostExtensions
     {
         public static string GetAddress(this Microsoft.AspNetCore.Hosting.IWebHost host) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     public abstract partial class ApplicationDeployer : System.IDisposable
     {
@@ -249,7 +249,7 @@ namespace Microsoft.AspNetCore.Server.IntegrationTesting
         public static bool Matches(string tfm1, string tfm2) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.IntegrationTesting.Common
+namespace Contoso.GameNetCore.Server.IntegrationTesting.Common
 {
     public static partial class TestPortHelper
     {

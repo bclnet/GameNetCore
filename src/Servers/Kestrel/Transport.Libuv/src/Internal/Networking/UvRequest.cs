@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
 {
     internal class UvRequest : UvMemory
     {

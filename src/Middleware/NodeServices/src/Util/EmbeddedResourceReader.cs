@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     /// <summary>
     /// Contains methods for reading embedded resources.

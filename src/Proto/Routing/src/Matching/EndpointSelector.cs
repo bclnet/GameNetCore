@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// A service that is responsible for the final <see cref="Endpoint"/> selection
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         /// <summary>
         /// Asynchronously selects an <see cref="Endpoint"/> from the <see cref="CandidateSet"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="context">The <see cref="EndpointSelectorContext"/> associated with the current request.</param>
         /// <param name="candidates">The <see cref="CandidateSet"/>.</param>
         /// <returns>A <see cref="Task"/> that completes asynchronously once endpoint selection is complete.</returns>
@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         /// and <see cref="EndpointSelectorContext.RouteValues"/> properties once an endpoint is selected.
         /// </remarks>
         public abstract Task SelectAsync(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             EndpointSelectorContext context,
             CandidateSet candidates);
     }

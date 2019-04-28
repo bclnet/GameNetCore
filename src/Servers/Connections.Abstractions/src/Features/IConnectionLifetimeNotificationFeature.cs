@@ -3,7 +3,7 @@
 
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Connections.Features
+namespace Contoso.GameNetCore.Connections.Features
 {
     public interface IConnectionLifetimeNotificationFeature
     {

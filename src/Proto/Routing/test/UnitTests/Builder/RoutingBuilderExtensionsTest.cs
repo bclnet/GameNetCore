@@ -3,14 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public class RoutingBuilderExtensionsTest
     {
@@ -89,7 +89,7 @@ namespace Microsoft.AspNetCore.Builder
             var appFunc = app.Build();
 
             // Act
-            await appFunc(new DefaultHttpContext());
+            await appFunc(new DefaultProtoContext());
 
             // Assert
             router.Verify();
@@ -117,7 +117,7 @@ namespace Microsoft.AspNetCore.Builder
             var appFunc = app.Build();
 
             // Act
-            await appFunc(new DefaultHttpContext());
+            await appFunc(new DefaultProtoContext());
 
             // Assert
             router.Verify();

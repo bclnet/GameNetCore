@@ -2,8 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Contoso.GameNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace Contoso.GameNetCore.Hosting.Internal
 {
-    public class HostingApplication : IHttpApplication<HostingApplication.Context>
+    public class HostingApplication : IProtoApplication<HostingApplication.Context>
     {
         readonly RequestDelegate _application;
-        readonly IHttpContextFactory _httpContextFactory;
+        readonly IProtoContextFactory _httpContextFactory;
         HostingApplicationDiagnostics _diagnostics;
 
         public HostingApplication(
             RequestDelegate application,
             ILogger logger,
             DiagnosticListener diagnosticSource,
-            IHttpContextFactory httpContextFactory)
+            IProtoContextFactory httpContextFactory)
         {
             _application = application;
             _diagnostics = new HostingApplicationDiagnostics(logger, diagnosticSource);
@@ -36,18 +36,18 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
             _diagnostics.BeginRequest(httpContext, ref context);
 
-            context.HttpContext = httpContext;
+            context.ProtoContext = httpContext;
             return context;
         }
 
         // Execute the request
         public Task ProcessRequestAsync(Context context) =>
-            _application(context.HttpContext);
+            _application(context.ProtoContext);
 
         // Clean up the request
         public void DisposeContext(Context context, Exception exception)
         {
-            var httpContext = context.HttpContext;
+            var httpContext = context.ProtoContext;
             _diagnostics.RequestEnd(httpContext, exception, context);
             _httpContextFactory.Dispose(httpContext);
             _diagnostics.ContextDisposed(context);
@@ -55,7 +55,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
         public struct Context
         {
-            public HttpContext HttpContext { get; set; }
+            public ProtoContext ProtoContext { get; set; }
             public IDisposable Scope { get; set; }
             public long StartTimestamp { get; set; }
             public bool EventLogEnabled { get; set; }

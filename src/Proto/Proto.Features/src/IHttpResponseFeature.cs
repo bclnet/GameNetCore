@@ -5,12 +5,12 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Represents the fields and state of an HTTP response.
     /// </summary>
-    public interface IHttpResponseFeature
+    public interface IProtoResponseFeature
     {
         /// <summary>
         /// The status-code as defined in RFC 7230. The default value is 200.

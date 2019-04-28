@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // Integration tests for GetXyzByRouteValues. These are basic because important behavioral details
     // are covered elsewhere.
@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Routing
     public class LinkGeneratorRouteValuesAddressExtensionsTest : LinkGeneratorTestBase
     {
         [Fact]
-        public void GetPathByRouteValues_WithHttpContext_UsesAmbientValues()
+        public void GetPathByRouteValues_WithProtoContext_UsesAmbientValues()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Routing
             {
                 RouteValues = new RouteValueDictionary(new { action = "Index", })
             };
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Features.Set<IRouteValuesFeature>(context);
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
 
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByRouteValues_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetPathByRouteValues_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByRouteValues_WithHttpContext_WithPathBaseAndFragment()
+        public void GetPathByRouteValues_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
 
             // Act
@@ -110,7 +110,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByRouteValues_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetUriByRouteValues_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -139,7 +139,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByRouteValues_WithHttpContext_WithPathBaseAndFragment()
+        public void GetUriByRouteValues_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -153,7 +153,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
@@ -171,7 +171,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByRouteValues_WithHttpContext_CanUseAmbientValues()
+        public void GetUriByRouteValues_WithProtoContext_CanUseAmbientValues()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint(
@@ -185,7 +185,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext(new { controller = "Home", });
+            var httpContext = CreateProtoContext(new { controller = "Home", });
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");

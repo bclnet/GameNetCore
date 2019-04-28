@@ -3,54 +3,54 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
-    using WebSocketCloseAsync =
+    using GameSocketCloseAsync =
         Func<int /* closeStatus */,
             string /* closeDescription */,
             CancellationToken /* cancel */,
             Task>;
-    using WebSocketReceiveAsync =
+    using GameSocketReceiveAsync =
         Func<ArraySegment<byte> /* data */,
             CancellationToken /* cancel */,
             Task<Tuple<int /* messageType */,
                 bool /* endOfMessage */,
                 int /* count */>>>;
-    using WebSocketReceiveTuple =
+    using GameSocketReceiveTuple =
         Tuple<int /* messageType */,
             bool /* endOfMessage */,
             int /* count */>;
-    using WebSocketSendAsync =
+    using GameSocketSendAsync =
         Func<ArraySegment<byte> /* data */,
             int /* messageType */,
             bool /* endOfMessage */,
             CancellationToken /* cancel */,
             Task>;
 
-    public class WebSocketAdapter
+    public class GameSocketAdapter
     {
-        private readonly WebSocket _webSocket;
+        private readonly GameSocket _gameSocket;
         private readonly IDictionary<string, object> _environment;
         private readonly CancellationToken _cancellationToken;
 
-        internal WebSocketAdapter(WebSocket webSocket, CancellationToken ct)
+        internal GameSocketAdapter(GameSocket gameSocket, CancellationToken ct)
         {
-            _webSocket = webSocket;
+            _gameSocket = gameSocket;
             _cancellationToken = ct;
 
             _environment = new Dictionary<string, object>();
-            _environment[OwinConstants.WebSocket.SendAsync] = new WebSocketSendAsync(SendAsync);
-            _environment[OwinConstants.WebSocket.ReceiveAsync] = new WebSocketReceiveAsync(ReceiveAsync);
-            _environment[OwinConstants.WebSocket.CloseAsync] = new WebSocketCloseAsync(CloseAsync);
-            _environment[OwinConstants.WebSocket.CallCancelled] = ct;
-            _environment[OwinConstants.WebSocket.Version] = OwinConstants.WebSocket.VersionValue;
+            _environment[OwinConstants.GameSocket.SendAsync] = new GameSocketSendAsync(SendAsync);
+            _environment[OwinConstants.GameSocket.ReceiveAsync] = new GameSocketReceiveAsync(ReceiveAsync);
+            _environment[OwinConstants.GameSocket.CloseAsync] = new GameSocketCloseAsync(CloseAsync);
+            _environment[OwinConstants.GameSocket.CallCancelled] = ct;
+            _environment[OwinConstants.GameSocket.Version] = OwinConstants.GameSocket.VersionValue;
 
-            _environment[typeof(WebSocket).FullName] = webSocket;
+            _environment[typeof(GameSocket).FullName] = gameSocket;
         }
 
         internal IDictionary<string, object> Environment
@@ -60,7 +60,7 @@ namespace Microsoft.AspNetCore.Owin
 
         internal Task SendAsync(ArraySegment<byte> buffer, int messageType, bool endOfMessage, CancellationToken cancel)
         {
-            // Remap close messages to CloseAsync.  System.Net.WebSockets.WebSocket.SendAsync does not allow close messages.
+            // Remap close messages to CloseAsync.  System.Net.GameSockets.GameSocket.SendAsync does not allow close messages.
             if (messageType == 0x8)
             {
                 return RedirectSendToCloseAsync(buffer, cancel);
@@ -71,20 +71,20 @@ namespace Microsoft.AspNetCore.Owin
                 return Task.CompletedTask;
             }
 
-            return _webSocket.SendAsync(buffer, OpCodeToEnum(messageType), endOfMessage, cancel);
+            return _gameSocket.SendAsync(buffer, OpCodeToEnum(messageType), endOfMessage, cancel);
         }
 
-        internal async Task<WebSocketReceiveTuple> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancel)
+        internal async Task<GameSocketReceiveTuple> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancel)
         {
-            WebSocketReceiveResult nativeResult = await _webSocket.ReceiveAsync(buffer, cancel);
+            GameSocketReceiveResult nativeResult = await _gameSocket.ReceiveAsync(buffer, cancel);
 
-            if (nativeResult.MessageType == WebSocketMessageType.Close)
+            if (nativeResult.MessageType == GameSocketMessageType.Close)
             {
-                _environment[OwinConstants.WebSocket.ClientCloseStatus] = (int)(nativeResult.CloseStatus ?? WebSocketCloseStatus.NormalClosure);
-                _environment[OwinConstants.WebSocket.ClientCloseDescription] = nativeResult.CloseStatusDescription ?? string.Empty;
+                _environment[OwinConstants.GameSocket.ClientCloseStatus] = (int)(nativeResult.CloseStatus ?? GameSocketCloseStatus.NormalClosure);
+                _environment[OwinConstants.GameSocket.ClientCloseDescription] = nativeResult.CloseStatusDescription ?? string.Empty;
             }
 
-            return new WebSocketReceiveTuple(
+            return new GameSocketReceiveTuple(
                 EnumToOpCode(nativeResult.MessageType),
                 nativeResult.EndOfMessage,
                 nativeResult.Count);
@@ -92,7 +92,7 @@ namespace Microsoft.AspNetCore.Owin
 
         internal Task CloseAsync(int status, string description, CancellationToken cancel)
         {
-            return _webSocket.CloseOutputAsync((WebSocketCloseStatus)status, description, cancel);
+            return _gameSocket.CloseOutputAsync((GameSocketCloseStatus)status, description, cancel);
         }
 
         private Task RedirectSendToCloseAsync(ArraySegment<byte> buffer, CancellationToken cancel)
@@ -119,52 +119,52 @@ namespace Microsoft.AspNetCore.Owin
 
         internal async Task CleanupAsync()
         {
-            switch (_webSocket.State)
+            switch (_gameSocket.State)
             {
-                case WebSocketState.Closed: // Closed gracefully, no action needed. 
-                case WebSocketState.Aborted: // Closed abortively, no action needed.                       
+                case GameSocketState.Closed: // Closed gracefully, no action needed. 
+                case GameSocketState.Aborted: // Closed abortively, no action needed.                       
                     break;
-                case WebSocketState.CloseReceived:
+                case GameSocketState.CloseReceived:
                     // Echo what the client said, if anything.
-                    await _webSocket.CloseAsync(_webSocket.CloseStatus ?? WebSocketCloseStatus.NormalClosure,
-                        _webSocket.CloseStatusDescription ?? string.Empty, _cancellationToken);
+                    await _gameSocket.CloseAsync(_gameSocket.CloseStatus ?? GameSocketCloseStatus.NormalClosure,
+                        _gameSocket.CloseStatusDescription ?? string.Empty, _cancellationToken);
                     break;
-                case WebSocketState.Open:
-                case WebSocketState.CloseSent: // No close received, abort so we don't have to drain the pipe.
-                    _webSocket.Abort();
+                case GameSocketState.Open:
+                case GameSocketState.CloseSent: // No close received, abort so we don't have to drain the pipe.
+                    _gameSocket.Abort();
                     break;
                 default:
-                    throw new NotSupportedException($"Unsupported {nameof(WebSocketState)} value: {_webSocket.State}.");
+                    throw new NotSupportedException($"Unsupported {nameof(GameSocketState)} value: {_gameSocket.State}.");
             }
         }
 
-        private static WebSocketMessageType OpCodeToEnum(int messageType)
+        private static GameSocketMessageType OpCodeToEnum(int messageType)
         {
             switch (messageType)
             {
                 case 0x1:
-                    return WebSocketMessageType.Text;
+                    return GameSocketMessageType.Text;
                 case 0x2:
-                    return WebSocketMessageType.Binary;
+                    return GameSocketMessageType.Binary;
                 case 0x8:
-                    return WebSocketMessageType.Close;
+                    return GameSocketMessageType.Close;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(messageType), messageType, string.Empty);
             }
         }
 
-        private static int EnumToOpCode(WebSocketMessageType webSocketMessageType)
+        private static int EnumToOpCode(GameSocketMessageType gameSocketMessageType)
         {
-            switch (webSocketMessageType)
+            switch (gameSocketMessageType)
             {
-                case WebSocketMessageType.Text:
+                case GameSocketMessageType.Text:
                     return 0x1;
-                case WebSocketMessageType.Binary:
+                case GameSocketMessageType.Binary:
                     return 0x2;
-                case WebSocketMessageType.Close:
+                case GameSocketMessageType.Close:
                     return 0x8;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(webSocketMessageType), webSocketMessageType, string.Empty);
+                    throw new ArgumentOutOfRangeException(nameof(gameSocketMessageType), gameSocketMessageType, string.Empty);
             }
         }
     }

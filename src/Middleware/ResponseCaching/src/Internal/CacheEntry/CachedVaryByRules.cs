@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     public class CachedVaryByRules : IResponseCacheEntry
     {

@@ -3,7 +3,7 @@
 
 using System.Net;
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.ProtoOverrides
 {
     public class IPNetwork
     {

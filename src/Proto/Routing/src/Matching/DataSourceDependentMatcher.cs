@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal sealed class DataSourceDependentMatcher : Matcher
     {
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         // Used in tests
         internal Matcher CurrentMatcher => _cache.Value;
 
-        public override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             return CurrentMatcher.MatchAsync(httpContext, context);
         }

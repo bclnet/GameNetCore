@@ -3,13 +3,13 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal readonly struct Http1ParsingHandler : IHttpRequestLineHandler, IHttpHeadersHandler
+    internal readonly struct Proto1ParsingHandler : IProtoRequestLineHandler, IProtoHeadersHandler
     {
-        public readonly Http1Connection Connection;
+        public readonly Proto1Connection Connection;
 
-        public Http1ParsingHandler(Http1Connection connection)
+        public Proto1ParsingHandler(Proto1Connection connection)
         {
             Connection = connection;
         }
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public void OnHeadersComplete()
             => Connection.OnHeadersComplete();
 
-        public void OnStartLine(HttpMethod method, HttpVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
+        public void OnStartLine(ProtoMethod method, ProtoVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
             => Connection.OnStartLine(method, version, target, path, query, customMethod, pathEncoded);
     }
 }

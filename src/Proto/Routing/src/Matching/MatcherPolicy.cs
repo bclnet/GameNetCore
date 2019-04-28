@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Matching;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Defines a policy that applies behaviors to the URL matcher. Implementations

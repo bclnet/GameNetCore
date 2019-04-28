@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
 
-namespace Microsoft.AspNetCore.MiddlewareAnalysis
+namespace Contoso.GameNetCore.MiddlewareAnalysis
 {
     public class AnalysisStartupFilter : IStartupFilter
     {

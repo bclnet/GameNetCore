@@ -3,9 +3,9 @@
 
 using System;
 using System.Buffers;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Sockets
 {
     public class SocketTransportOptions
     {

@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
     /*
         +---------------+
@@ -12,17 +12,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         |                           Padding (*)                       ...
         +---------------------------------------------------------------+
     */
-    internal partial class Http2Frame
+    internal partial class Proto2Frame
     {
-        public Http2DataFrameFlags DataFlags
+        public Proto2DataFrameFlags DataFlags
         {
-            get => (Http2DataFrameFlags)Flags;
+            get => (Proto2DataFrameFlags)Flags;
             set => Flags = (byte)value;
         }
 
-        public bool DataEndStream => (DataFlags & Http2DataFrameFlags.END_STREAM) == Http2DataFrameFlags.END_STREAM;
+        public bool DataEndStream => (DataFlags & Proto2DataFrameFlags.END_STREAM) == Proto2DataFrameFlags.END_STREAM;
 
-        public bool DataHasPadding => (DataFlags & Http2DataFrameFlags.PADDED) == Http2DataFrameFlags.PADDED;
+        public bool DataHasPadding => (DataFlags & Proto2DataFrameFlags.PADDED) == Proto2DataFrameFlags.PADDED;
 
         public byte DataPadLength { get; set; }
 
@@ -33,8 +33,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         public void PrepareData(int streamId, byte? padLength = null)
         {
             PayloadLength = 0;
-            Type = Http2FrameType.DATA;
-            DataFlags = padLength.HasValue ? Http2DataFrameFlags.PADDED : Http2DataFrameFlags.NONE;
+            Type = Proto2FrameType.DATA;
+            DataFlags = padLength.HasValue ? Proto2DataFrameFlags.PADDED : Proto2DataFrameFlags.NONE;
             StreamId = streamId;
             DataPadLength = padLength ?? 0;
         }

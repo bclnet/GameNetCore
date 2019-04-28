@@ -4,10 +4,10 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Represents HttpRequest and HttpResponse headers
+    /// Represents ProtoRequest and ProtoResponse headers
     /// </summary>
     public interface IHeaderDictionary : IDictionary<string, StringValues>
     {

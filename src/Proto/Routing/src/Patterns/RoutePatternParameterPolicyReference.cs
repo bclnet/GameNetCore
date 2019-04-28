@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Diagnostics;
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Matching;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// The parsed representation of a policy in a <see cref="RoutePattern"/> parameter. Instances

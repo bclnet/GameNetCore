@@ -3,18 +3,18 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto.Internal;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class RequestCookiesFeature : IRequestCookiesFeature
     {
         // Lambda hoisted to static readonly field to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpRequestFeature> _nullRequestFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoRequestFeature> _nullRequestFeature = f => null;
 
-        private FeatureReferences<IHttpRequestFeature> _features;
+        private FeatureReferences<IProtoRequestFeature> _features;
         private StringValues _original;
         private IRequestCookieCollection _parsedValues;
 
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Http.Features
             _features.Initalize(features);
         }
 
-        private IHttpRequestFeature HttpRequestFeature =>
+        private IProtoRequestFeature ProtoRequestFeature =>
             _features.Fetch(ref _features.Cache, _nullRequestFeature);
 
         public IRequestCookieCollection Cookies
@@ -54,7 +54,7 @@ namespace Microsoft.AspNetCore.Http.Features
                     return _parsedValues;
                 }
 
-                var headers = HttpRequestFeature.Headers;
+                var headers = ProtoRequestFeature.Headers;
                 StringValues current;
                 if (!headers.TryGetValue(HeaderNames.Cookie, out current))
                 {
@@ -77,7 +77,7 @@ namespace Microsoft.AspNetCore.Http.Features
                 {
                     if (_parsedValues == null || _parsedValues.Count == 0)
                     {
-                        HttpRequestFeature.Headers.Remove(HeaderNames.Cookie);
+                        ProtoRequestFeature.Headers.Remove(HeaderNames.Cookie);
                     }
                     else
                     {
@@ -87,7 +87,7 @@ namespace Microsoft.AspNetCore.Http.Features
                             headers.Add(new CookieHeaderValue(pair.Key, pair.Value).ToString());
                         }
                         _original = headers.ToArray();
-                        HttpRequestFeature.Headers[HeaderNames.Cookie] = _original;
+                        ProtoRequestFeature.Headers[HeaderNames.Cookie] = _original;
                     }
                 }
             }

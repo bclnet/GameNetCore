@@ -3,15 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class DefaultInlineConstraintResolverTest
     {
@@ -343,7 +343,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
             {
             }
 
-            public bool Match(HttpContext httpContext,
+            public bool Match(ProtoContext httpContext,
                               IRouter route,
                               string routeKey,
                               RouteValueDictionary values,
@@ -361,7 +361,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
             }
 
             public string Pattern { get; private set; }
-            public bool Match(HttpContext httpContext,
+            public bool Match(ProtoContext httpContext,
                               IRouter route,
                               string routeKey,
                               RouteValueDictionary values,

@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder.Extensions;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Builder.Extensions;
 
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
-    using Predicate = Func<HttpContext, bool>;
+    using Predicate = Func<ProtoContext, bool>;
 
     /// <summary>
     /// Extension methods for the <see cref="MapWhenMiddleware"/>.

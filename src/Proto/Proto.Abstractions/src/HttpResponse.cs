@@ -6,14 +6,14 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Represents the outgoing side of an individual HTTP request.
     /// </summary>
-    public abstract class HttpResponse
+    public abstract class ProtoResponse
     {
         private static readonly Func<object, Task> _callbackDelegate = callback => ((Func<Task>)callback)();
         private static readonly Func<object, Task> _disposeDelegate = disposable =>
@@ -25,9 +25,9 @@ namespace Microsoft.AspNetCore.Http
         private static readonly Func<object, Task> _disposeAsyncDelegate = disposable => ((IAsyncDisposable)disposable).DisposeAsync().AsTask();
 
         /// <summary>
-        /// Gets the <see cref="HttpContext"/> for this response.
+        /// Gets the <see cref="ProtoContext"/> for this response.
         /// </summary>
-        public abstract HttpContext HttpContext { get; }
+        public abstract ProtoContext ProtoContext { get; }
 
         /// <summary>
         /// Gets or sets the HTTP response code.
@@ -127,7 +127,7 @@ namespace Microsoft.AspNetCore.Http
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <remarks>
-        /// If the <see cref="IHttpResponseStartFeature"/> isn't set, StartAsync will default to calling HttpResponse.Body.FlushAsync().
+        /// If the <see cref="IProtoResponseStartFeature"/> isn't set, StartAsync will default to calling ProtoResponse.Body.FlushAsync().
         /// </remarks>
         public abstract Task StartAsync(CancellationToken cancellationToken = default);
     }

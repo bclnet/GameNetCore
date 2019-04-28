@@ -5,8 +5,8 @@ using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Server;
 using Contoso.GameNetCore.Hosting.Server.Features;
 using Contoso.GameNetCore.Hosting.Views;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -28,7 +28,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                                      IServer server,
                                      ILoggerFactory loggerFactory,
                                      DiagnosticListener diagnosticListener,
-                                     IHttpContextFactory httpContextFactory,
+                                     IProtoContextFactory httpContextFactory,
                                      IApplicationBuilderFactory applicationBuilderFactory,
                                      IEnumerable<IStartupFilter> startupFilters,
                                      IConfiguration configuration,
@@ -39,7 +39,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             Logger = loggerFactory.CreateLogger<GenericGameHostService>();
             LifetimeLogger = loggerFactory.CreateLogger("Microsoft.Hosting.Lifetime");
             DiagnosticListener = diagnosticListener;
-            HttpContextFactory = httpContextFactory;
+            ProtoContextFactory = httpContextFactory;
             ApplicationBuilderFactory = applicationBuilderFactory;
             StartupFilters = startupFilters;
             Configuration = configuration;
@@ -52,7 +52,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         // Only for high level lifetime events
         public ILogger LifetimeLogger { get; }
         public DiagnosticListener DiagnosticListener { get; }
-        public IHttpContextFactory HttpContextFactory { get; }
+        public IProtoContextFactory ProtoContextFactory { get; }
         public IApplicationBuilderFactory ApplicationBuilderFactory { get; }
         public IEnumerable<IStartupFilter> StartupFilters { get; }
         public IConfiguration Configuration { get; }
@@ -105,7 +105,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 application = BuildErrorPageApplication(ex);
             }
 
-            var httpApplication = new HostingApplication(application, Logger, DiagnosticListener, HttpContextFactory);
+            var httpApplication = new HostingApplication(application, Logger, DiagnosticListener, ProtoContextFactory);
 
             await Server.StartAsync(httpApplication, cancellationToken);
 

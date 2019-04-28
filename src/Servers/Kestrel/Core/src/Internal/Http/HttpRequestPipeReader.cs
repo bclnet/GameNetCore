@@ -8,20 +8,20 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     /// <summary>
-    /// Default HttpRequest PipeReader implementation to be used by Kestrel.
+    /// Default ProtoRequest PipeReader implementation to be used by Kestrel.
     /// </summary>
-    internal class HttpRequestPipeReader : PipeReader
+    internal class ProtoRequestPipeReader : PipeReader
     {
         private MessageBody _body;
-        private HttpStreamState _state;
+        private ProtoStreamState _state;
         private Exception _error;
 
-        public HttpRequestPipeReader()
+        public ProtoRequestPipeReader()
         {
-            _state = HttpStreamState.Closed;
+            _state = ProtoStreamState.Closed;
         }
 
         public override void AdvanceTo(SequencePosition consumed)
@@ -76,9 +76,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public void StartAcceptingReads(MessageBody body)
         {
             // Only start if not aborted
-            if (_state == HttpStreamState.Closed)
+            if (_state == ProtoStreamState.Closed)
             {
-                _state = HttpStreamState.Open;
+                _state = ProtoStreamState.Open;
                 _body = body;
             }
         }
@@ -87,7 +87,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             // Can't use dispose (or close) as can be disposed too early by user code
             // As exampled in EngineTests.ZeroContentLengthNotSetAutomaticallyForCertainStatusCodes
-            _state = HttpStreamState.Closed;
+            _state = ProtoStreamState.Closed;
             _body = null;
         }
 
@@ -96,9 +96,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             // We don't want to throw an ODE until the app func actually completes.
             // If the request is aborted, we throw a TaskCanceledException instead,
             // unless error is not null, in which case we throw it.
-            if (_state != HttpStreamState.Closed)
+            if (_state != ProtoStreamState.Closed)
             {
-                _state = HttpStreamState.Aborted;
+                _state = ProtoStreamState.Aborted;
                 _error = error;
             }
         }
@@ -107,11 +107,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private void ValidateState(CancellationToken cancellationToken = default)
         {
             var state = _state;
-            if (state == HttpStreamState.Open)
+            if (state == ProtoStreamState.Open)
             {
                 cancellationToken.ThrowIfCancellationRequested();
             }
-            else if (state == HttpStreamState.Closed)
+            else if (state == ProtoStreamState.Closed)
             {
                 ThrowObjectDisposedException();
             }
@@ -127,7 +127,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 }
             }
 
-            void ThrowObjectDisposedException() => throw new ObjectDisposedException(nameof(HttpRequestStream));
+            void ThrowObjectDisposedException() => throw new ObjectDisposedException(nameof(ProtoRequestStream));
             void ThrowTaskCanceledException() => throw new TaskCanceledException();
         }
     }

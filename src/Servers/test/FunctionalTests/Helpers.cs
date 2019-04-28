@@ -3,7 +3,7 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Server.IntegrationTesting;
 
 namespace ServerComparison.FunctionalTests
 {

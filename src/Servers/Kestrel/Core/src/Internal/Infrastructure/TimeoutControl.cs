@@ -4,10 +4,10 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal class TimeoutControl : ITimeoutControl, IConnectionTimeoutFeature
     {
@@ -169,7 +169,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             Interlocked.Exchange(ref _timeoutTimestamp, Interlocked.Read(ref _lastTimestamp) + ticks + Heartbeat.Interval.Ticks);
         }
 
-        public void InitializeHttp2(InputFlowControl connectionInputFlowControl)
+        public void InitializeProto2(InputFlowControl connectionInputFlowControl)
         {
             _connectionInputFlowControl = connectionInputFlowControl;
         }

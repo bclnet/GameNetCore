@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// Provides a mapping between file extensions and MIME types.
@@ -124,7 +124,7 @@ namespace Microsoft.AspNetCore.StaticFiles
                 { ".htc", "text/x-component" },
                 { ".htm", "text/html" },
                 { ".html", "text/html" },
-                { ".htt", "text/webviewhtml" },
+                { ".htt", "text/gameviewhtml" },
                 { ".hxt", "text/html" },
                 { ".ical", "text/calendar" },
                 { ".icalendar", "text/calendar" },
@@ -342,8 +342,8 @@ namespace Microsoft.AspNetCore.StaticFiles
                 { ".wbmp", "image/vnd.wap.wbmp" },
                 { ".wcm", "application/vnd.ms-works" },
                 { ".wdb", "application/vnd.ms-works" },
-                { ".webm", "video/webm" },
-                { ".webp", "image/webp" },
+                { ".gamem", "video/gamem" },
+                { ".gamep", "image/gamep" },
                 { ".wks", "application/vnd.ms-works" },
                 { ".wm", "video/x-ms-wm" },
                 { ".wma", "audio/x-ms-wma" },
@@ -410,14 +410,8 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// It is recommended that the IDictionary instance use StringComparer.OrdinalIgnoreCase.
         /// </summary>
         /// <param name="mapping"></param>
-        public FileExtensionContentTypeProvider(IDictionary<string, string> mapping)
-        {
-            if (mapping == null)
-            {
-                throw new ArgumentNullException(nameof(mapping));
-            }
-            Mappings = mapping;
-        }
+        public FileExtensionContentTypeProvider(IDictionary<string, string> mapping) => 
+            Mappings = mapping ?? throw new ArgumentNullException(nameof(mapping));
 
         /// <summary>
         /// The cross reference table of file extensions and content-types.
@@ -432,7 +426,7 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// <returns>True if MIME type could be determined</returns>
         public bool TryGetContentType(string subpath, out string contentType)
         {
-            string extension = GetExtension(subpath);
+            var extension = GetExtension(subpath);
             if (extension == null)
             {
                 contentType = null;
@@ -446,19 +440,10 @@ namespace Microsoft.AspNetCore.StaticFiles
             // Don't use Path.GetExtension as that may throw an exception if there are
             // invalid characters in the path. Invalid characters should be handled
             // by the FileProviders
-
             if (string.IsNullOrWhiteSpace(path))
-            {
                 return null;
-            }
-
-            int index = path.LastIndexOf('.');
-            if (index < 0)
-            {
-                return null;
-            }
-
-            return path.Substring(index);
+            var index = path.LastIndexOf('.');
+            return index < 0 ? null : path.Substring(index);
         }
     }
 }

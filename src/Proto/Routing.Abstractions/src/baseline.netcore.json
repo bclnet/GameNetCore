@@ -14,7 +14,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "route",
@@ -52,14 +52,14 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "routeData",
               "Type": "Microsoft.AspNetCore.Routing.RouteData"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Http.RequestDelegate",
+          "ReturnType": "Microsoft.AspNetCore.Proto.RequestDelegate",
           "GenericParameter": []
         }
       ],
@@ -138,7 +138,7 @@
           "Kind": "Method",
           "Name": "get_Handler",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.RequestDelegate",
+          "ReturnType": "Microsoft.AspNetCore.Proto.RequestDelegate",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -148,7 +148,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             }
           ],
           "ReturnType": "System.Void",
@@ -157,9 +157,9 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_HttpContext",
+          "Name": "get_ProtoContext",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.HttpContext",
+          "ReturnType": "Microsoft.AspNetCore.Proto.ProtoContext",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -190,7 +190,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "Visibility": "Public",
@@ -497,7 +497,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Routing.RoutingHttpContextExtensions",
+      "Name": "Microsoft.AspNetCore.Routing.RoutingProtoContextExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -511,7 +511,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Routing.RouteData",
@@ -526,7 +526,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "key",
@@ -558,9 +558,9 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_HttpContext",
+          "Name": "get_ProtoContext",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.HttpContext",
+          "ReturnType": "Microsoft.AspNetCore.Proto.ProtoContext",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -599,7 +599,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "ambientValues",
@@ -619,7 +619,7 @@
           "Parameters": [
             {
               "Name": "httpContext",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "ambientValues",

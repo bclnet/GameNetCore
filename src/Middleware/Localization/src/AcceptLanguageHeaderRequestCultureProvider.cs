@@ -4,11 +4,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Internal;
 using Microsoft.Net.Http.Headers;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     /// <summary>
     /// Determines the culture information for a request via the value of the Accept-Language header.

@@ -7,7 +7,7 @@ using System.Linq;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public class HeaderDictionaryTests
     {

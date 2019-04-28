@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class ResponseCompressionBuilderExtensions
     {
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddResponseCompression(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Microsoft.AspNetCore.ResponseCompression.ResponseCompressionOptions> configureOptions) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     public partial class BrotliCompressionProvider : Microsoft.AspNetCore.ResponseCompression.ICompressionProvider
     {

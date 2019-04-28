@@ -3,7 +3,7 @@
 
 using System.Net;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
     public interface IEndPointInformation
     {

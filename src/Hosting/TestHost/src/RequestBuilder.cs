@@ -3,21 +3,21 @@
 
 using System;
 using System.IO;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     /// <summary>
-    /// Used to construct a HttpRequestMessage object.
+    /// Used to construct a ProtoRequestMessage object.
     /// </summary>
     public class RequestBuilder
     {
         private readonly TestServer _server;
-        private readonly HttpRequestMessage _req;
+        private readonly ProtoRequestMessage _req;
 
         /// <summary>
-        /// Construct a new HttpRequestMessage with the given path.
+        /// Construct a new ProtoRequestMessage with the given path.
         /// </summary>
         /// <param name="server"></param>
         /// <param name="path"></param>
@@ -29,15 +29,15 @@ namespace Microsoft.AspNetCore.TestHost
             }
 
             _server = server;
-            _req = new HttpRequestMessage(HttpMethod.Get, path);
+            _req = new ProtoRequestMessage(ProtoMethod.Get, path);
         }
 
         /// <summary>
-        /// Configure any HttpRequestMessage properties.
+        /// Configure any ProtoRequestMessage properties.
         /// </summary>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public RequestBuilder And(Action<HttpRequestMessage> configure)
+        public RequestBuilder And(Action<ProtoRequestMessage> configure)
         {
             if (configure == null)
             {
@@ -76,9 +76,9 @@ namespace Microsoft.AspNetCore.TestHost
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public Task<HttpResponseMessage> SendAsync(string method)
+        public Task<ProtoResponseMessage> SendAsync(string method)
         {
-            _req.Method = new HttpMethod(method);
+            _req.Method = new ProtoMethod(method);
             return _server.CreateClient().SendAsync(_req);
         }
 
@@ -86,9 +86,9 @@ namespace Microsoft.AspNetCore.TestHost
         /// Set the request method to GET and start processing the request.
         /// </summary>
         /// <returns></returns>
-        public Task<HttpResponseMessage> GetAsync()
+        public Task<ProtoResponseMessage> GetAsync()
         {
-            _req.Method = HttpMethod.Get;
+            _req.Method = ProtoMethod.Get;
             return _server.CreateClient().SendAsync(_req);
         }
 
@@ -96,9 +96,9 @@ namespace Microsoft.AspNetCore.TestHost
         /// Set the request method to POST and start processing the request.
         /// </summary>
         /// <returns></returns>
-        public Task<HttpResponseMessage> PostAsync()
+        public Task<ProtoResponseMessage> PostAsync()
         {
-            _req.Method = HttpMethod.Post;
+            _req.Method = ProtoMethod.Post;
             return _server.CreateClient().SendAsync(_req);
         }
     }

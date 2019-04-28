@@ -3,22 +3,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Proto.Features;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
-    public sealed class DefaultWebSocketManager : WebSocketManager
+    public sealed class DefaultGameSocketManager : GameSocketManager
     {
         // Lambdas hoisted to static readonly fields to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpRequestFeature> _nullRequestFeature = f => null;
-        private readonly static Func<IFeatureCollection, IHttpWebSocketFeature> _nullWebSocketFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoRequestFeature> _nullRequestFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoGameSocketFeature> _nullGameSocketFeature = f => null;
 
         private FeatureReferences<FeatureInterfaces> _features;
 
-        public DefaultWebSocketManager(IFeatureCollection features)
+        public DefaultGameSocketManager(IFeatureCollection features)
         {
             Initialize(features);
         }
@@ -38,41 +38,41 @@ namespace Microsoft.AspNetCore.Http.Internal
             _features = default;
         }
 
-        private IHttpRequestFeature HttpRequestFeature =>
+        private IProtoRequestFeature ProtoRequestFeature =>
             _features.Fetch(ref _features.Cache.Request, _nullRequestFeature);
 
-        private IHttpWebSocketFeature WebSocketFeature =>
-            _features.Fetch(ref _features.Cache.WebSockets, _nullWebSocketFeature);
+        private IProtoGameSocketFeature GameSocketFeature =>
+            _features.Fetch(ref _features.Cache.GameSockets, _nullGameSocketFeature);
 
-        public override bool IsWebSocketRequest
+        public override bool IsGameSocketRequest
         {
             get
             {
-                return WebSocketFeature != null && WebSocketFeature.IsWebSocketRequest;
+                return GameSocketFeature != null && GameSocketFeature.IsGameSocketRequest;
             }
         }
 
-        public override IList<string> WebSocketRequestedProtocols
+        public override IList<string> GameSocketRequestedProtocols
         {
             get
             {
-                return ParsingHelpers.GetHeaderSplit(HttpRequestFeature.Headers, HeaderNames.WebSocketSubProtocols);
+                return ParsingHelpers.GetHeaderSplit(ProtoRequestFeature.Headers, HeaderNames.GameSocketSubProtocols);
             }
         }
 
-        public override Task<WebSocket> AcceptWebSocketAsync(string subProtocol)
+        public override Task<GameSocket> AcceptGameSocketAsync(string subProtocol)
         {
-            if (WebSocketFeature == null)
+            if (GameSocketFeature == null)
             {
-                throw new NotSupportedException("WebSockets are not supported");
+                throw new NotSupportedException("GameSockets are not supported");
             }
-            return WebSocketFeature.AcceptAsync(new WebSocketAcceptContext() { SubProtocol = subProtocol });
+            return GameSocketFeature.AcceptAsync(new GameSocketAcceptContext() { SubProtocol = subProtocol });
         }
 
         struct FeatureInterfaces
         {
-            public IHttpRequestFeature Request;
-            public IHttpWebSocketFeature WebSockets;
+            public IProtoRequestFeature Request;
+            public IProtoGameSocketFeature GameSockets;
         }
     }
 }

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Low level implementation of our path tokenization algorithm. Alternative
     // to PathTokenizer.

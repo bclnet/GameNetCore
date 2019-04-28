@@ -9,13 +9,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// Writes to the <see cref="Stream"/> using the supplied <see cref="Encoding"/>.
     /// It does not write the BOM and also does not close the stream.
     /// </summary>
-    public class HttpResponseStreamWriter : TextWriter
+    public class ProtoResponseStreamWriter : TextWriter
     {
         private const int MinBufferSize = 128;
         internal const int DefaultBufferSize = 16 * 1024;
@@ -32,17 +32,13 @@ namespace Microsoft.AspNetCore.WebUtilities
         private int _charBufferCount;
         private bool _disposed;
 
-        public HttpResponseStreamWriter(Stream stream, Encoding encoding)
-            : this(stream, encoding, DefaultBufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared)
-        {
-        }
+        public ProtoResponseStreamWriter(Stream stream, Encoding encoding)
+            : this(stream, encoding, DefaultBufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared) { }
 
-        public HttpResponseStreamWriter(Stream stream, Encoding encoding, int bufferSize)
-            : this(stream, encoding, bufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared)
-        {
-        }
+        public ProtoResponseStreamWriter(Stream stream, Encoding encoding, int bufferSize)
+            : this(stream, encoding, bufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared) { }
 
-        public HttpResponseStreamWriter(
+        public ProtoResponseStreamWriter(
             Stream stream,
             Encoding encoding,
             int bufferSize,
@@ -55,14 +51,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charPool = charPool ?? throw new ArgumentNullException(nameof(charPool));
 
             if (bufferSize <= 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
             if (!_stream.CanWrite)
-            {
-                throw new ArgumentException(Resources.HttpResponseStreamWriter_StreamNotWritable, nameof(stream));
-            }
-
+                throw new ArgumentException(Resources.ProtoResponseStreamWriter_StreamNotWritable, nameof(stream));
             _charBufferSize = bufferSize;
 
             _encoder = encoding.GetEncoder();
@@ -76,12 +67,8 @@ namespace Microsoft.AspNetCore.WebUtilities
             catch
             {
                 charPool.Return(_charBuffer);
-
                 if (_byteBuffer != null)
-                {
                     bytePool.Return(_byteBuffer);
-                }
-
                 throw;
             }
         }
@@ -91,15 +78,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override void Write(char value)
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpResponseStreamWriter));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoResponseStreamWriter));
             if (_charBufferCount == _charBufferSize)
-            {
                 FlushInternal(flushEncoder: false);
-            }
-
             _charBuffer[_charBufferCount] = value;
             _charBufferCount++;
         }
@@ -107,22 +88,13 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override void Write(char[] values, int index, int count)
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpResponseStreamWriter));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoResponseStreamWriter));
             if (values == null)
-            {
                 return;
-            }
-
             while (count > 0)
             {
                 if (_charBufferCount == _charBufferSize)
-                {
                     FlushInternal(flushEncoder: false);
-                }
-
                 CopyToCharBuffer(values, ref index, ref count);
             }
         }
@@ -130,24 +102,15 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override void Write(string value)
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpResponseStreamWriter));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoResponseStreamWriter));
             if (value == null)
-            {
                 return;
-            }
-
             var count = value.Length;
             var index = 0;
             while (count > 0)
             {
                 if (_charBufferCount == _charBufferSize)
-                {
                     FlushInternal(flushEncoder: false);
-                }
-
                 CopyToCharBuffer(value, ref index, ref count);
             }
         }
@@ -155,14 +118,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override Task WriteAsync(char value)
         {
             if (_disposed)
-            {
                 return GetObjectDisposedTask();
-            }
-
             if (_charBufferCount == _charBufferSize)
-            {
                 return WriteAsyncAwaited(value);
-            }
             else
             {
                 // Enough room in buffer, no need to go async
@@ -175,9 +133,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         private async Task WriteAsyncAwaited(char value)
         {
             Debug.Assert(_charBufferCount == _charBufferSize);
-
             await FlushInternalAsync(flushEncoder: false);
-
             _charBuffer[_charBufferCount] = value;
             _charBufferCount++;
         }
@@ -185,15 +141,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override Task WriteAsync(char[] values, int index, int count)
         {
             if (_disposed)
-            {
                 return GetObjectDisposedTask();
-            }
-
             if (values == null || count == 0)
-            {
                 return Task.CompletedTask;
-            }
-
             var remaining = _charBufferSize - _charBufferCount;
             if (remaining >= count)
             {
@@ -202,23 +152,17 @@ namespace Microsoft.AspNetCore.WebUtilities
                 return Task.CompletedTask;
             }
             else
-            {
                 return WriteAsyncAwaited(values, index, count);
-            }
         }
 
         private async Task WriteAsyncAwaited(char[] values, int index, int count)
         {
             Debug.Assert(count > 0);
             Debug.Assert(_charBufferSize - _charBufferCount < count);
-
             while (count > 0)
             {
                 if (_charBufferCount == _charBufferSize)
-                {
                     await FlushInternalAsync(flushEncoder: false);
-                }
-
                 CopyToCharBuffer(values, ref index, ref count);
             }
         }
@@ -226,16 +170,10 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override Task WriteAsync(string value)
         {
             if (_disposed)
-            {
                 return GetObjectDisposedTask();
-            }
-
             var count = value?.Length ?? 0;
             if (count == 0)
-            {
                 return Task.CompletedTask;
-            }
-
             var remaining = _charBufferSize - _charBufferCount;
             if (remaining >= count)
             {
@@ -244,26 +182,19 @@ namespace Microsoft.AspNetCore.WebUtilities
                 return Task.CompletedTask;
             }
             else
-            {
                 return WriteAsyncAwaited(value);
-            }
         }
 
         private async Task WriteAsyncAwaited(string value)
         {
             var count = value.Length;
-
             Debug.Assert(count > 0);
             Debug.Assert(_charBufferSize - _charBufferCount < count);
-
             var index = 0;
             while (count > 0)
             {
                 if (_charBufferCount == _charBufferSize)
-                {
                     await FlushInternalAsync(flushEncoder: false);
-                }
-
                 CopyToCharBuffer(value, ref index, ref count);
             }
         }
@@ -274,20 +205,14 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override void Flush()
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpResponseStreamWriter));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoResponseStreamWriter));
             FlushInternal(flushEncoder: true);
         }
 
         public override Task FlushAsync()
         {
             if (_disposed)
-            {
                 return GetObjectDisposedTask();
-            }
-
             return FlushInternalAsync(flushEncoder: true);
         }
 
@@ -315,10 +240,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         private void FlushInternal(bool flushEncoder)
         {
             if (_charBufferCount == 0)
-            {
                 return;
-            }
-
             var count = _encoder.GetBytes(
                 _charBuffer,
                 0,
@@ -330,9 +252,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charBufferCount = 0;
 
             if (count > 0)
-            {
                 _stream.Write(_byteBuffer, 0, count);
-            }
         }
 
         // Note: our FlushInternalAsync method does NOT flush the underlying stream. This would result in
@@ -340,10 +260,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         private async Task FlushInternalAsync(bool flushEncoder)
         {
             if (_charBufferCount == 0)
-            {
                 return;
-            }
-
             var count = _encoder.GetBytes(
                 _charBuffer,
                 0,
@@ -355,9 +272,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charBufferCount = 0;
 
             if (count > 0)
-            {
                 await _stream.WriteAsync(_byteBuffer, 0, count);
-            }
         }
 
         private void CopyToCharBuffer(string value)
@@ -405,9 +320,6 @@ namespace Microsoft.AspNetCore.WebUtilities
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static Task GetObjectDisposedTask()
-        {
-            return Task.FromException(new ObjectDisposedException(nameof(HttpResponseStreamWriter)));
-        }
+        private static Task GetObjectDisposedTask() => Task.FromException(new ObjectDisposedException(nameof(ProtoResponseStreamWriter)));
     }
 }

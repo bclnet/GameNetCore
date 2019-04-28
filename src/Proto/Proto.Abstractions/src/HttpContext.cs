@@ -5,14 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Encapsulates all HTTP-specific information about an individual HTTP request.
     /// </summary>
-    public abstract class HttpContext
+    public abstract class ProtoContext
     {
         /// <summary>
         /// Gets the collection of HTTP features provided by the server and middleware available on this request.
@@ -20,14 +20,14 @@ namespace Microsoft.AspNetCore.Http
         public abstract IFeatureCollection Features { get; }
 
         /// <summary>
-        /// Gets the <see cref="HttpRequest"/> object for this request.
+        /// Gets the <see cref="ProtoRequest"/> object for this request.
         /// </summary>
-        public abstract HttpRequest Request { get; }
+        public abstract ProtoRequest Request { get; }
 
         /// <summary>
-        /// Gets the <see cref="HttpResponse"/> object for this request.
+        /// Gets the <see cref="ProtoResponse"/> object for this request.
         /// </summary>
-        public abstract HttpResponse Response { get; }
+        public abstract ProtoResponse Response { get; }
 
         /// <summary>
         /// Gets information about the underlying connection for this request.
@@ -35,9 +35,9 @@ namespace Microsoft.AspNetCore.Http
         public abstract ConnectionInfo Connection { get; }
 
         /// <summary>
-        /// Gets an object that manages the establishment of WebSocket connections for this request.
+        /// Gets an object that manages the establishment of GameSocket connections for this request.
         /// </summary>
-        public abstract WebSocketManager WebSockets { get; }
+        public abstract GameSocketManager GameSockets { get; }
 
         /// <summary>
         /// Gets or sets the user for this request.

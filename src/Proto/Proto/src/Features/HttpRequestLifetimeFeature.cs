@@ -3,9 +3,9 @@
 
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public class HttpRequestLifetimeFeature : IHttpRequestLifetimeFeature
+    public class ProtoRequestLifetimeFeature : IProtoRequestLifetimeFeature
     {
         public CancellationToken RequestAborted { get; set; }
 

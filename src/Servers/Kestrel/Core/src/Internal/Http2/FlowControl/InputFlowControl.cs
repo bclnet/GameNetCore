@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl
 {
     internal class InputFlowControl
     {
@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
                 // flow-control window at the time of the abort.
                 if (bytes > _flow.Available)
                 {
-                    throw new Http2ConnectionErrorException(CoreStrings.Http2ErrorFlowControlWindowExceeded, Http2ErrorCode.FLOW_CONTROL_ERROR);
+                    throw new Proto2ConnectionErrorException(CoreStrings.Proto2ErrorFlowControlWindowExceeded, Proto2ErrorCode.FLOW_CONTROL_ERROR);
                 }
 
                 if (_flow.IsAborted)
@@ -63,7 +63,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
                 if (!_flow.TryUpdateWindow(bytes))
                 {
                     // We only try to update the window back to its initial size after the app consumes data.
-                    // It shouldn't be possible for the window size to ever exceed Http2PeerSettings.MaxWindowSize.
+                    // It shouldn't be possible for the window size to ever exceed Proto2PeerSettings.MaxWindowSize.
                     Debug.Assert(false, $"{nameof(TryUpdateWindow)} attempted to grow window past max size.");
                 }
 

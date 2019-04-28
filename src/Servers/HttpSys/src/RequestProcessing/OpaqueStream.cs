@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     // A duplex wrapper around RequestStream and ResponseStream.
     // TODO: Consider merging RequestStream and ResponseStream instead.

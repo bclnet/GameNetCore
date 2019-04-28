@@ -6,18 +6,18 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Template;
+using System.Text.Encodings.Game;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Extensions;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Template;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     internal sealed class DefaultLinkGenerator : LinkGenerator, IDisposable
     {
@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         public override string GetPathByAddress<TAddress>(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             TAddress address,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues = default,
@@ -123,7 +123,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         public override string GetUriByAddress<TAddress>(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             TAddress address,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues = default,
@@ -209,7 +209,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         private string GetPathByEndpoints(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             List<RouteEndpoint> endpoints,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues,
@@ -323,7 +323,7 @@ namespace Microsoft.AspNetCore.Routing
 
         // Internal for testing
         internal bool TryProcessTemplate(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             RouteEndpoint endpoint,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues,
@@ -359,7 +359,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         // Also called from DefaultLinkGenerationTemplate
-        public static RouteValueDictionary GetAmbientValues(HttpContext httpContext)
+        public static RouteValueDictionary GetAmbientValues(ProtoContext httpContext)
         {
             return httpContext?.Features.Get<IRouteValuesFeature>()?.RouteValues;
         }

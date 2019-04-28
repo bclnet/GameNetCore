@@ -9,25 +9,25 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
-    internal class HttpConnection : ITimeoutHandler
+    internal class ProtoConnection : ITimeoutHandler
     {
-        private static readonly ReadOnlyMemory<byte> Http2Id = new[] { (byte)'h', (byte)'2' };
+        private static readonly ReadOnlyMemory<byte> Proto2Id = new[] { (byte)'h', (byte)'2' };
 
-        private readonly HttpConnectionContext _context;
+        private readonly ProtoConnectionContext _context;
         private readonly ISystemClock _systemClock;
         private readonly TimeoutControl _timeoutControl;
 
@@ -37,9 +37,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
         private readonly object _protocolSelectionLock = new object();
         private ProtocolSelectionState _protocolSelectionState = ProtocolSelectionState.Initializing;
         private IRequestProcessor _requestProcessor;
-        private Http1Connection _http1Connection;
+        private Proto1Connection _http1Connection;
 
-        public HttpConnection(HttpConnectionContext context)
+        public ProtoConnection(ProtoConnectionContext context)
         {
             _context = context;
             _systemClock = _context.ServiceContext.SystemClock;
@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
 
         private IKestrelTrace Log => _context.ServiceContext.Log;
 
-        public async Task ProcessRequestsAsync<TContext>(IHttpApplication<TContext> httpApplication)
+        public async Task ProcessRequestsAsync<TContext>(IProtoApplication<TContext> httpApplication)
         {
             try
             {
@@ -104,13 +104,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
 
                 Debug.Assert(connectionHeartbeatFeature != null, nameof(IConnectionHeartbeatFeature) + " is missing!");
 
-                connectionHeartbeatFeature?.OnHeartbeat(state => ((HttpConnection)state).Tick(), this);
+                connectionHeartbeatFeature?.OnHeartbeat(state => ((ProtoConnection)state).Tick(), this);
 
                 var connectionLifetimeNotificationFeature = _context.ConnectionFeatures.Get<IConnectionLifetimeNotificationFeature>();
 
                 Debug.Assert(connectionLifetimeNotificationFeature != null, nameof(IConnectionLifetimeNotificationFeature) + " is missing!");
 
-                using (connectionLifetimeNotificationFeature?.ConnectionClosedRequested.Register(state => ((HttpConnection)state).StopProcessingNextRequest(), this))
+                using (connectionLifetimeNotificationFeature?.ConnectionClosedRequested.Register(state => ((ProtoConnection)state).StopProcessingNextRequest(), this))
                 {
                     // Ensure TimeoutControl._lastTimestamp is initialized before anything that could set timeouts runs.
                     _timeoutControl.Initialize(_systemClock.UtcNowTicks);
@@ -135,25 +135,25 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
 
                             switch (SelectProtocol())
                             {
-                                case HttpProtocols.Http1:
+                                case ProtoProtocols.Proto1:
                                     // _http1Connection must be initialized before adding the connection to the connection manager
-                                    requestProcessor = _http1Connection = new Http1Connection(derivedContext);
+                                    requestProcessor = _http1Connection = new Proto1Connection(derivedContext);
                                     _protocolSelectionState = ProtocolSelectionState.Selected;
                                     break;
-                                case HttpProtocols.Http2:
+                                case ProtoProtocols.Proto2:
                                     // _http2Connection must be initialized before yielding control to the transport thread,
                                     // to prevent a race condition where _http2Connection.Abort() is called just as
                                     // _http2Connection is about to be initialized.
-                                    requestProcessor = new Http2Connection(derivedContext);
+                                    requestProcessor = new Proto2Connection(derivedContext);
                                     _protocolSelectionState = ProtocolSelectionState.Selected;
                                     break;
-                                case HttpProtocols.None:
+                                case ProtoProtocols.None:
                                     // An error was already logged in SelectProtocol(), but we should close the connection.
                                     Abort(new ConnectionAbortedException(CoreStrings.ProtocolSelectionFailed));
                                     break;
                                 default:
-                                    // SelectProtocol() only returns Http1, Http2 or None.
-                                    throw new NotSupportedException($"{nameof(SelectProtocol)} returned something other than Http1, Http2 or None.");
+                                    // SelectProtocol() only returns Proto1, Proto2 or None.
+                                    throw new NotSupportedException($"{nameof(SelectProtocol)} returned something other than Proto1, Proto2 or None.");
                             }
 
                             _requestProcessor = requestProcessor;
@@ -161,11 +161,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                     }
 
                     _context.Transport.Input.OnWriterCompleted(
-                        (_, state) => ((HttpConnection)state).OnInputOrOutputCompleted(),
+                        (_, state) => ((ProtoConnection)state).OnInputOrOutputCompleted(),
                         this);
 
                     _context.Transport.Output.OnReaderCompleted(
-                        (_, state) => ((HttpConnection)state).OnInputOrOutputCompleted(),
+                        (_, state) => ((ProtoConnection)state).OnInputOrOutputCompleted(),
                         this);
 
                     if (requestProcessor != null)
@@ -178,7 +178,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             }
             catch (Exception ex)
             {
-                Log.LogCritical(0, ex, $"Unexpected exception in {nameof(HttpConnection)}.{nameof(ProcessRequestsAsync)}.");
+                Log.LogCritical(0, ex, $"Unexpected exception in {nameof(ProtoConnection)}.{nameof(ProcessRequestsAsync)}.");
             }
             finally
             {
@@ -195,13 +195,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
         internal void Initialize(IRequestProcessor requestProcessor)
         {
             _requestProcessor = requestProcessor;
-            _http1Connection = requestProcessor as Http1Connection;
+            _http1Connection = requestProcessor as Proto1Connection;
             _protocolSelectionState = ProtocolSelectionState.Selected;
         }
 
-        private HttpConnectionContext CreateDerivedContext(IDuplexPipe transport)
+        private ProtoConnectionContext CreateDerivedContext(IDuplexPipe transport)
         {
-            return new HttpConnectionContext
+            return new ProtoConnectionContext
             {
                 ConnectionId = _context.ConnectionId,
                 ConnectionFeatures = _context.ConnectionFeatures,
@@ -244,7 +244,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                         // OnReader/WriterCompleted callbacks are not wired until after leaving the Initializing state.
                         Debug.Assert(false);
 
-                        CloseUninitializedConnection(new ConnectionAbortedException("HttpConnection.OnInputOrOutputCompleted() called while in the ProtocolSelectionState.Initializing state!?"));
+                        CloseUninitializedConnection(new ConnectionAbortedException("ProtoConnection.OnInputOrOutputCompleted() called while in the ProtocolSelectionState.Initializing state!?"));
                         _protocolSelectionState = ProtocolSelectionState.Aborted;
                         break;
                     case ProtocolSelectionState.Selected:
@@ -315,39 +315,39 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             }
         }
 
-        private HttpProtocols SelectProtocol()
+        private ProtoProtocols SelectProtocol()
         {
             var hasTls = _context.ConnectionFeatures.Get<ITlsConnectionFeature>() != null;
             var applicationProtocol = _context.ConnectionFeatures.Get<ITlsApplicationProtocolFeature>()?.ApplicationProtocol
                 ?? new ReadOnlyMemory<byte>();
-            var http1Enabled = (_context.Protocols & HttpProtocols.Http1) == HttpProtocols.Http1;
-            var http2Enabled = (_context.Protocols & HttpProtocols.Http2) == HttpProtocols.Http2;
+            var http1Enabled = (_context.Protocols & ProtoProtocols.Proto1) == ProtoProtocols.Proto1;
+            var http2Enabled = (_context.Protocols & ProtoProtocols.Proto2) == ProtoProtocols.Proto2;
 
             string error = null;
 
-            if (_context.Protocols == HttpProtocols.None)
+            if (_context.Protocols == ProtoProtocols.None)
             {
                 error = CoreStrings.EndPointRequiresAtLeastOneProtocol;
             }
 
-            if (!http1Enabled && http2Enabled && hasTls && !Http2Id.Span.SequenceEqual(applicationProtocol.Span))
+            if (!http1Enabled && http2Enabled && hasTls && !Proto2Id.Span.SequenceEqual(applicationProtocol.Span))
             {
-                error = CoreStrings.EndPointHttp2NotNegotiated;
+                error = CoreStrings.EndPointProto2NotNegotiated;
             }
 
             if (error != null)
             {
                 Log.LogError(0, error);
-                return HttpProtocols.None;
+                return ProtoProtocols.None;
             }
 
             if (!hasTls && http1Enabled)
             {
-                // Even if Http2 was enabled, default to Http1 because it's ambiguous without ALPN.
-                return HttpProtocols.Http1;
+                // Even if Proto2 was enabled, default to Proto1 because it's ambiguous without ALPN.
+                return ProtoProtocols.Proto1;
             }
 
-            return http2Enabled && (!hasTls || Http2Id.Span.SequenceEqual(applicationProtocol.Span)) ? HttpProtocols.Http2 : HttpProtocols.Http1;
+            return http2Enabled && (!hasTls || Proto2Id.Span.SequenceEqual(applicationProtocol.Span)) ? ProtoProtocols.Proto2 : ProtoProtocols.Proto1;
         }
 
         private void Tick()

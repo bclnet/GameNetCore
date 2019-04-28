@@ -3,12 +3,12 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// A function that can process an HTTP request.
     /// </summary>
-    /// <param name="context">The <see cref="HttpContext"/> for the request.</param>
+    /// <param name="context">The <see cref="ProtoContext"/> for the request.</param>
     /// <returns>A task that represents the completion of request processing.</returns>
-    public delegate Task RequestDelegate(HttpContext context);
+    public delegate Task RequestDelegate(ProtoContext context);
 }

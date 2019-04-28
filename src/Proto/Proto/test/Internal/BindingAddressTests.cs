@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-namespace Microsoft.AspNetCore.Http.Internal.Tests
+namespace Contoso.GameNetCore.Proto.Internal.Tests
 {
     public class BindingAddressTests
     {

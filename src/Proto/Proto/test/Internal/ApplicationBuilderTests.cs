@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder.Internal
+namespace Contoso.GameNetCore.Builder.Internal
 {
     public class ApplicationBuilderTests
     {
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder.Internal
             var builder = new ApplicationBuilder(null);
             var app = builder.Build();
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             app.Invoke(httpContext);
             Assert.Equal(404, httpContext.Response.StatusCode);
@@ -39,7 +39,7 @@ namespace Microsoft.AspNetCore.Builder.Internal
                 EndpointMetadataCollection.Empty,
                 "Test endpoint");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.SetEndpoint(endpoint);
 
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => app.Invoke(httpContext));
@@ -73,7 +73,7 @@ namespace Microsoft.AspNetCore.Builder.Internal
                 EndpointMetadataCollection.Empty,
                 "Test endpoint");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.SetEndpoint(endpoint);
 
             app.Invoke(httpContext);

@@ -6,9 +6,9 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
+namespace Contoso.GameNetCore.Server.Kestrel.FunctionalTests
 {
     public class DiagnosticMemoryPoolFactory
     {

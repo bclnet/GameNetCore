@@ -5,9 +5,9 @@ using System;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Testing.xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.FunctionalTests
+namespace Contoso.GameNetCore.Server.Kestrel.FunctionalTests
 {
     public class IPv6ScopeIdPresentConditionAttribute : Attribute, ITestCondition
     {

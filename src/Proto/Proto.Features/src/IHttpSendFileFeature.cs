@@ -5,15 +5,15 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Provides an efficient mechanism for transferring files from disk to the network.
     /// </summary>
-    public interface IHttpSendFileFeature
+    public interface IProtoSendFileFeature
     {
         /// <summary>
-        /// Sends the requested file in the response body. This may bypass the IHttpResponseFeature.Body
+        /// Sends the requested file in the response body. This may bypass the IProtoResponseFeature.Body
         /// <see cref="Stream"/>. A response may include multiple writes.
         /// </summary>
         /// <param name="path">The full disk path to the file.</param>

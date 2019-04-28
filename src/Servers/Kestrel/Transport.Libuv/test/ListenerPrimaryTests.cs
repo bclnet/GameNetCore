@@ -7,19 +7,19 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests
 {
     public class ListenerPrimaryTests
     {

@@ -5,19 +5,19 @@ using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    public class HttpParser<TRequestHandler> : IHttpParser<TRequestHandler> where TRequestHandler : IHttpHeadersHandler, IHttpRequestLineHandler
+    public class ProtoParser<TRequestHandler> : IProtoParser<TRequestHandler> where TRequestHandler : IProtoHeadersHandler, IProtoRequestLineHandler
     {
         private bool _showErrorDetails;
 
-        public HttpParser() : this(showErrorDetails: true)
+        public ProtoParser() : this(showErrorDetails: true)
         {
         }
 
-        public HttpParser(bool showErrorDetails)
+        public ProtoParser(bool showErrorDetails)
         {
             _showErrorDetails = showErrorDetails;
         }
@@ -73,10 +73,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private unsafe void ParseRequestLine(TRequestHandler handler, byte* data, int length)
         {
             // Get Method and set the offset
-            var method = HttpUtilities.GetKnownMethod(data, length, out var pathStartOffset);
+            var method = ProtoUtilities.GetKnownMethod(data, length, out var pathStartOffset);
 
             Span<byte> customMethod = default;
-            if (method == HttpMethod.Custom)
+            if (method == ProtoMethod.Custom)
             {
                 customMethod = GetUnknownMethod(data, length, out pathStartOffset);
             }
@@ -150,8 +150,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             offset++;
 
             // Version
-            var httpVersion = HttpUtilities.GetKnownVersion(data + offset, length - offset);
-            if (httpVersion == HttpVersion.Unknown)
+            var httpVersion = ProtoUtilities.GetKnownVersion(data + offset, length - offset);
+            if (httpVersion == ProtoVersion.Unknown)
             {
                 if (data[offset] == ByteCR || data[length - 2] != ByteCR)
                 {
@@ -246,7 +246,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                                 }
 
                                 // Headers don't end in CRLF line.
-                                BadHttpRequestException.Throw(RequestRejectionReason.InvalidRequestHeadersNoCRLF);
+                                BadProtoRequestException.Throw(RequestRejectionReason.InvalidRequestHeadersNoCRLF);
                             }
 
                             // We moved the reader so look ahead 2 bytes so reset both the reader
@@ -432,7 +432,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         [MethodImpl(MethodImplOptions.NoInlining)]
         private unsafe Span<byte> GetUnknownMethod(byte* data, int length, out int methodLength)
         {
-            var invalidIndex = HttpCharacters.IndexOfInvalidTokenChar(data, length);
+            var invalidIndex = ProtoCharacters.IndexOfInvalidTokenChar(data, length);
 
             if (invalidIndex <= 0 || data[invalidIndex] != ByteSpace)
             {
@@ -456,8 +456,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             => throw GetInvalidRequestException(RequestRejectionReason.UnrecognizedHTTPVersion, version, length);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private unsafe BadHttpRequestException GetInvalidRequestException(RequestRejectionReason reason, byte* detail, int length)
-            => BadHttpRequestException.GetException(
+        private unsafe BadProtoRequestException GetInvalidRequestException(RequestRejectionReason reason, byte* detail, int length)
+            => BadProtoRequestException.GetException(
                 reason,
                 _showErrorDetails
                     ? new Span<byte>(detail, length).GetAsciiStringEscaped(Constants.MaxExceptionDetailSize)

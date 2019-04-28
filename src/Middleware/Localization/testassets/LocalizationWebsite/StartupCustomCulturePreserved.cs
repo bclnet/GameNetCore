@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LocalizationWebsite

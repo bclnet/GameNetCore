@@ -2,7 +2,7 @@
   "AssemblyIdentity": "Microsoft.AspNetCore.Server.Kestrel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
-      "Name": "Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions",
+      "Name": "Microsoft.AspNetCore.Hosting.GameHostBuilderKestrelExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -16,10 +16,10 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -31,14 +31,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "options",
               "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions>"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -50,14 +50,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Hosting.GameHostBuilderContext, Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions>"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",

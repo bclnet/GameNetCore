@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public static partial class KestrelServerOptionsSystemdExtensions
     {
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions UseHttps(this Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions listenOptions, string fileName, string password, System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions> configureOptions) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel
+namespace Contoso.GameNetCore.Server.Kestrel
 {
     public partial class EndpointConfiguration
     {
@@ -60,7 +60,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel
         public Microsoft.AspNetCore.Server.Kestrel.KestrelConfigurationLoader UnixSocketEndpoint(string socketPath, System.Action<Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions> configure) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     public sealed partial class BadHttpRequestException : System.IO.IOException
     {
@@ -164,7 +164,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
         public System.TimeSpan GracePeriod { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal
 {
     public partial class ConnectionAdapterContext
     {
@@ -182,7 +182,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
         System.Threading.Tasks.Task<Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal.IAdaptedConnection> OnConnectionAsync(Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal.ConnectionAdapterContext context);
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Features
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Features
 {
     public partial interface IConnectionTimeoutFeature
     {
@@ -211,7 +211,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Features
         System.ReadOnlyMemory<byte> ApplicationProtocol { get; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Http
 {
     public enum HttpMethod : byte
     {
@@ -264,7 +264,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         void OnStartLine(Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpMethod method, Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpVersion version, System.Span<byte> target, System.Span<byte> path, System.Span<byte> query, System.Span<byte> customMethod, bool pathEncoded);
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     public static partial class HttpUtilities
     {
@@ -286,7 +286,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         public static string VersionToString(Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpVersion httpVersion) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Https
+namespace Contoso.GameNetCore.Server.Kestrel.Https
 {
     public enum ClientCertificateMode
     {
@@ -306,7 +306,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https
         public System.Security.Authentication.SslProtocols SslProtocols { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Https.Internal
 {
     public static partial class CertificateLoader
     {

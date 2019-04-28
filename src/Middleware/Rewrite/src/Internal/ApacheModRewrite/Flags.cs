@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     // For more information of flags, and what flags we currently support:
     // https://github.com/aspnet/BasicMiddleware/issues/66

@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Testing;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class ConstraintMatcherTest
     {
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Routing
             RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.UrlGeneration,
                 logger: logger);
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.True(RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.True(RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -134,7 +134,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.False(RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -154,7 +154,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.False(RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -174,7 +174,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.False(RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -186,7 +186,7 @@ namespace Microsoft.AspNetCore.Routing
             Assert.True(RouteConstraintMatcher.Match(
                 constraints: null,
                 routeValues: new RouteValueDictionary(),
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: NullLogger.Instance));
@@ -204,7 +204,7 @@ namespace Microsoft.AspNetCore.Routing
             RouteConstraintMatcher.Match(
                 constraints: constraints,
                 routeValues: routeValueDictionary,
-                httpContext: new Mock<HttpContext>().Object,
+                httpContext: new Mock<ProtoContext>().Object,
                 route: new Mock<IRouter>().Object,
                 routeDirection: RouteDirection.IncomingRequest,
                 logger: logger);
@@ -221,7 +221,7 @@ namespace Microsoft.AspNetCore.Routing
             }
 
             public bool Match(
-                HttpContext httpContext,
+                ProtoContext httpContext,
                 IRouter route,
                 string routeKey,
                 RouteValueDictionary values,
@@ -239,7 +239,7 @@ namespace Microsoft.AspNetCore.Routing
         private class FailConstraint : IRouteConstraint
         {
             public bool Match(
-                HttpContext httpContext,
+                ProtoContext httpContext,
                 IRouter route,
                 string routeKey,
                 RouteValueDictionary values,

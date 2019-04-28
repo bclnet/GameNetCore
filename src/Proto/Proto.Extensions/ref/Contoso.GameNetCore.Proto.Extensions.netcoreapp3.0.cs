@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Http
 {
     public static partial class HeaderDictionaryTypeExtensions
     {
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Http
         public static void SetString(this Microsoft.AspNetCore.Http.ISession session, string key, string value) { }
     }
 }
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Http.Extensions
 {
     public static partial class HttpRequestMultipartExtensions
     {
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         public static string GetEncodedUrl(this Microsoft.AspNetCore.Http.HttpRequest request) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Http.Headers
+namespace Contoso.GameNetCore.Http.Headers
 {
     public partial class RequestHeaders
     {

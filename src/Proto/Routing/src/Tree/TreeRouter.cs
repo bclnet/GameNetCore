@@ -3,15 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Logging;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Logging;
+using Contoso.GameNetCore.Routing.Template;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing.Tree
+namespace Contoso.GameNetCore.Routing.Tree
 {
     /// <summary>
     /// An <see cref="IRouter"/> implementation for attribute routing.
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.Routing.Tree
         {
             foreach (var tree in _trees)
             {
-                var tokenizer = new PathTokenizer(context.HttpContext.Request.Path);
+                var tokenizer = new PathTokenizer(context.ProtoContext.Request.Path);
                 var root = tree.Root;
 
                 var treeEnumerator = new TreeEnumerator(root, tokenizer);
@@ -192,7 +192,7 @@ namespace Microsoft.AspNetCore.Routing.Tree
 
                         try
                         {
-                            if (!matcher.TryMatch(context.HttpContext.Request.Path, context.RouteData.Values))
+                            if (!matcher.TryMatch(context.ProtoContext.Request.Path, context.RouteData.Values))
                             {
                                 continue;
                             }
@@ -200,7 +200,7 @@ namespace Microsoft.AspNetCore.Routing.Tree
                             if (!RouteConstraintMatcher.Match(
                                 entry.Constraints,
                                 context.RouteData.Values,
-                                context.HttpContext,
+                                context.ProtoContext,
                                 this,
                                 RouteDirection.IncomingRequest,
                                 _constraintLogger))
@@ -286,7 +286,7 @@ namespace Microsoft.AspNetCore.Routing.Tree
             var matched = RouteConstraintMatcher.Match(
                 entry.Constraints,
                 bindingResult.CombinedValues,
-                context.HttpContext,
+                context.ProtoContext,
                 this,
                 RouteDirection.UrlGeneration,
                 _constraintLogger);

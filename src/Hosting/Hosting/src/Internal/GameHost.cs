@@ -5,9 +5,9 @@ using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Server;
 using Contoso.GameNetCore.Hosting.Server.Features;
 using Contoso.GameNetCore.Hosting.Views;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,8 @@ using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-#if !NET3
+using Microsoft.Extensions.Hosting;
+#if NET2
 using IHostEnvironment = Contoso.GameNetCore.Hosting.IHostingEnvironment;
 using IHostApplicationLifetime = Contoso.GameNetCore.Hosting.IApplicationLifetime;
 using IAsyncDisposable = System.IDisposable;
@@ -69,7 +70,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 => services.GetService<ApplicationLifetime>() as IHostApplicationLifetime);
             _applicationServiceCollection.AddSingleton(services
                 => services.GetService<ApplicationLifetime>() as GameNetCore.Hosting.IApplicationLifetime);
-#if NET3
+#if !NET2
             _applicationServiceCollection.AddSingleton(services
                 => services.GetService<ApplicationLifetime>() as Extensions.Hosting.IApplicationLifetime);
 #endif
@@ -122,7 +123,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             _applicationLifetime = Services.GetRequiredService<ApplicationLifetime>();
             _hostedServiceExecutor = Services.GetRequiredService<HostedServiceExecutor>();
             var diagnosticSource = Services.GetRequiredService<DiagnosticListener>();
-            var httpContextFactory = Services.GetRequiredService<IHttpContextFactory>();
+            var httpContextFactory = Services.GetRequiredService<IProtoContextFactory>();
             var hostingApp = new HostingApplication(application, _logger, diagnosticSource, httpContextFactory);
             await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
 
@@ -312,7 +313,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         {
             switch (serviceProvider)
             {
-#if NET3
+#if !NET2
                 case IAsyncDisposable asyncDisposable: await asyncDisposable.DisposeAsync(); break;
 #endif
                 case IDisposable disposable: disposable.Dispose(); break;

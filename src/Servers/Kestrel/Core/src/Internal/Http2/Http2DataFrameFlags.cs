@@ -3,10 +3,10 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
     [Flags]
-    internal enum Http2DataFrameFlags : byte
+    internal enum Proto2DataFrameFlags : byte
     {
         NONE = 0x0,
         END_STREAM = 0x1,

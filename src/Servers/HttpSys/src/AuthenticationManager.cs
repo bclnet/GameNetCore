@@ -8,10 +8,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Principal;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     // See the native HTTP_SERVER_AUTHENTICATION_INFO structure documentation for additional information.
     // http://msdn.microsoft.com/en-us/library/windows/desktop/aa364638(v=vs.85).aspx

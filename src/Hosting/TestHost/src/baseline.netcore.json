@@ -5,7 +5,7 @@
       "Name": "Microsoft.AspNetCore.TestHost.ClientHandler",
       "Visibility": "Public",
       "Kind": "Class",
-      "BaseType": "System.Net.Http.HttpMessageHandler",
+      "BaseType": "System.Net.Proto.ProtoMessageHandler",
       "ImplementedInterfaces": [],
       "Members": [
         {
@@ -14,14 +14,14 @@
           "Parameters": [
             {
               "Name": "request",
-              "Type": "System.Net.Http.HttpRequestMessage"
+              "Type": "System.Net.Proto.ProtoRequestMessage"
             },
             {
               "Name": "cancellationToken",
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.Proto.ProtoResponseMessage>",
           "Virtual": true,
           "Override": true,
           "Visibility": "Protected",
@@ -33,11 +33,11 @@
           "Parameters": [
             {
               "Name": "pathBase",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             },
             {
               "Name": "application",
-              "Type": "Microsoft.AspNetCore.Hosting.Server.IHttpApplication<Microsoft.AspNetCore.Hosting.Internal.HostingApplication+Context>"
+              "Type": "Microsoft.AspNetCore.Hosting.Server.IProtoApplication<Microsoft.AspNetCore.Hosting.Internal.HostingApplication+Context>"
             }
           ],
           "Visibility": "Public",
@@ -58,7 +58,7 @@
           "Parameters": [
             {
               "Name": "configure",
-              "Type": "System.Action<System.Net.Http.HttpRequestMessage>"
+              "Type": "System.Action<System.Net.Proto.ProtoRequestMessage>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.TestHost.RequestBuilder",
@@ -91,7 +91,7 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.Proto.ProtoResponseMessage>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -99,7 +99,7 @@
           "Kind": "Method",
           "Name": "GetAsync",
           "Parameters": [],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.Proto.ProtoResponseMessage>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -107,7 +107,7 @@
           "Kind": "Method",
           "Name": "PostAsync",
           "Parameters": [],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.Proto.ProtoResponseMessage>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -163,7 +163,7 @@
           "Kind": "Method",
           "Name": "get_Host",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHost",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHost",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -171,7 +171,7 @@
           "Kind": "Method",
           "Name": "get_Features",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Sealed": true,
           "Virtual": true,
           "ImplementedInterface": "Microsoft.AspNetCore.Hosting.Server.IServer",
@@ -182,7 +182,7 @@
           "Kind": "Method",
           "Name": "CreateHandler",
           "Parameters": [],
-          "ReturnType": "System.Net.Http.HttpMessageHandler",
+          "ReturnType": "System.Net.Proto.ProtoMessageHandler",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -190,15 +190,15 @@
           "Kind": "Method",
           "Name": "CreateClient",
           "Parameters": [],
-          "ReturnType": "System.Net.Http.HttpClient",
+          "ReturnType": "System.Net.Proto.ProtoClient",
           "Visibility": "Public",
           "GenericParameter": []
         },
         {
           "Kind": "Method",
-          "Name": "CreateWebSocketClient",
+          "Name": "CreateGameSocketClient",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.TestHost.WebSocketClient",
+          "ReturnType": "Microsoft.AspNetCore.TestHost.GameSocketClient",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -232,7 +232,7 @@
           "Parameters": [
             {
               "Name": "builder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             }
           ],
           "Visibility": "Public",
@@ -244,11 +244,11 @@
           "Parameters": [
             {
               "Name": "builder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "featureCollection",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             }
           ],
           "Visibility": "Public",
@@ -258,7 +258,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.TestHost.WebSocketClient",
+      "Name": "Microsoft.AspNetCore.TestHost.GameSocketClient",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -275,7 +275,7 @@
           "Kind": "Method",
           "Name": "get_ConfigureRequest",
           "Parameters": [],
-          "ReturnType": "System.Action<Microsoft.AspNetCore.Http.HttpRequest>",
+          "ReturnType": "System.Action<Microsoft.AspNetCore.Proto.ProtoRequest>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -285,7 +285,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "System.Action<Microsoft.AspNetCore.Http.HttpRequest>"
+              "Type": "System.Action<Microsoft.AspNetCore.Proto.ProtoRequest>"
             }
           ],
           "ReturnType": "System.Void",
@@ -305,7 +305,7 @@
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.WebSockets.WebSocket>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.GameSockets.GameSocket>",
           "Visibility": "Public",
           "GenericParameter": []
         }

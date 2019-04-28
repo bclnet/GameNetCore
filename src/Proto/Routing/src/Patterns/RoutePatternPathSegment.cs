@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// Represents a path segment in a route pattern. Instances of <see cref="RoutePatternPathSegment"/> are

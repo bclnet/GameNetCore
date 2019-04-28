@@ -8,13 +8,13 @@ using System.IO.Pipelines;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Microsoft.Net.Proto.Headers;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
 
-    internal partial class HttpRequestHeaders
+    internal partial class ProtoRequestHeaders
     {
         private HeaderReferences _headers;
 
@@ -4485,7 +4485,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         }
     }
 
-    internal partial class HttpResponseHeaders
+    internal partial class ProtoResponseHeaders
     {
         private static ReadOnlySpan<byte> HeaderBytes => new byte[]
         {
@@ -6764,7 +6764,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _contentLength = null;
             var tempBits = _bits;
             _bits = 0;
-            if(HttpHeaders.BitCount(tempBits) > 12)
+            if(ProtoHeaders.BitCount(tempBits) > 12)
             {
                 _headers = default(HeaderReferences);
                 return;
@@ -8307,7 +8307,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         }
     }
 
-    internal partial class HttpResponseTrailers
+    internal partial class ProtoResponseTrailers
     {
         private static ReadOnlySpan<byte> HeaderBytes => new byte[]
         {
@@ -8437,7 +8437,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _contentLength = null;
             var tempBits = _bits;
             _bits = 0;
-            if(HttpHeaders.BitCount(tempBits) > 12)
+            if(ProtoHeaders.BitCount(tempBits) > 12)
             {
                 _headers = default(HeaderReferences);
                 return;

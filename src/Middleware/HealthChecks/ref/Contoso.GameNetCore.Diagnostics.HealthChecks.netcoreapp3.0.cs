@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class HealthCheckApplicationBuilderExtensions
     {
@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.IEndpointConventionBuilder MapHealthChecks(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder endpoints, string pattern, Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions options) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Diagnostics.HealthChecks
+namespace Contoso.GameNetCore.Diagnostics.HealthChecks
 {
     public partial class HealthCheckMiddleware
     {

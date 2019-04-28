@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Microsoft.AspNetCore.ResponseCompression;
+using Contoso.GameNetCore.ResponseCompression;
 
 namespace ResponseCompressionSample
 {

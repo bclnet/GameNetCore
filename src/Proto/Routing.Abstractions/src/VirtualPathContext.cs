@@ -1,9 +1,9 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// A context for virtual path generation operations.
@@ -13,11 +13,11 @@ namespace Microsoft.AspNetCore.Routing
         /// <summary>
         /// Creates a new instance of <see cref="VirtualPathContext"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="Http.HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="Proto.ProtoContext"/> associated with the current request.</param>
         /// <param name="ambientValues">The set of route values associated with the current request.</param>
         /// <param name="values">The set of new values provided for virtual path generation.</param>
         public VirtualPathContext(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             RouteValueDictionary ambientValues,
             RouteValueDictionary values)
             : this(httpContext, ambientValues, values, null)
@@ -27,17 +27,17 @@ namespace Microsoft.AspNetCore.Routing
         /// <summary>
         /// Creates a new instance of <see cref="VirtualPathContext"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="Http.HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="Proto.ProtoContext"/> associated with the current request.</param>
         /// <param name="ambientValues">The set of route values associated with the current request.</param>
         /// <param name="values">The set of new values provided for virtual path generation.</param>
         /// <param name="routeName">The name of the route to use for virtual path generation.</param>
         public VirtualPathContext(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             RouteValueDictionary ambientValues,
             RouteValueDictionary values,
             string routeName)
         {
-            HttpContext = httpContext;
+            ProtoContext = httpContext;
             AmbientValues = ambientValues;
             Values = values;
             RouteName = routeName;
@@ -49,9 +49,9 @@ namespace Microsoft.AspNetCore.Routing
         public RouteValueDictionary AmbientValues { get; }
 
         /// <summary>
-        /// Gets the <see cref="Http.HttpContext"/> associated with the current request.
+        /// Gets the <see cref="Proto.ProtoContext"/> associated with the current request.
         /// </summary>
-        public HttpContext HttpContext { get; }
+        public ProtoContext ProtoContext { get; }
 
         /// <summary>
         /// Gets the name of the route to use for virtual path generation.

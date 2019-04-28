@@ -7,9 +7,9 @@ using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
-    internal static class HttpRuleParser
+    internal static class ProtoRuleParser
     {
         private static readonly bool[] TokenChars = CreateTokenChars();
         private const int MaxNestedCount = 5;
@@ -43,7 +43,7 @@ namespace Microsoft.Net.Http.Headers
         internal const int MaxInt32Digits = 10;
 
         // iso-8859-1, Western European (ISO)
-        internal static readonly Encoding DefaultHttpEncoding = Encoding.GetEncoding("iso-8859-1");
+        internal static readonly Encoding DefaultProtoEncoding = Encoding.GetEncoding("iso-8859-1");
 
         private static bool[] CreateTokenChars()
         {
@@ -203,7 +203,7 @@ namespace Microsoft.Net.Http.Headers
             return current - startIndex;
         }
 
-        internal static HttpParseResult GetQuotedStringLength(StringSegment input, int startIndex, out int length)
+        internal static ProtoParseResult GetQuotedStringLength(StringSegment input, int startIndex, out int length)
         {
             var nestedCount = 0;
             return GetExpressionLength(input, startIndex, '"', '"', false, ref nestedCount, out length);
@@ -211,7 +211,7 @@ namespace Microsoft.Net.Http.Headers
 
         // quoted-pair = "\" CHAR
         // CHAR = <any US-ASCII character (octets 0 - 127)>
-        internal static HttpParseResult GetQuotedPairLength(StringSegment input, int startIndex, out int length)
+        internal static ProtoParseResult GetQuotedPairLength(StringSegment input, int startIndex, out int length)
         {
             Contract.Requires(input != null);
             Contract.Requires((startIndex >= 0) && (startIndex < input.Length));
@@ -222,19 +222,19 @@ namespace Microsoft.Net.Http.Headers
 
             if (input[startIndex] != '\\')
             {
-                return HttpParseResult.NotParsed;
+                return ProtoParseResult.NotParsed;
             }
 
             // Quoted-char has 2 characters. Check whether there are 2 chars left ('\' + char)
             // If so, check whether the character is in the range 0-127. If not, it's an invalid value.
             if ((startIndex + 2 > input.Length) || (input[startIndex + 1] > 127))
             {
-                return HttpParseResult.InvalidFormat;
+                return ProtoParseResult.InvalidFormat;
             }
 
             // We don't care what the char next to '\' is.
             length = 2;
-            return HttpParseResult.Parsed;
+            return ProtoParseResult.Parsed;
         }
 
         // Try the various date formats in the order listed above.
@@ -254,7 +254,7 @@ namespace Microsoft.Net.Http.Headers
         // "(((((comment)))))". If we wouldn't define a limit an attacker could send a comment with hundreds of nested
         // comments, resulting in a stack overflow exception. In addition having more than 1 nested comment (if any)
         // is unusual.
-        private static HttpParseResult GetExpressionLength(
+        private static ProtoParseResult GetExpressionLength(
             StringSegment input,
             int startIndex,
             char openChar,
@@ -265,14 +265,14 @@ namespace Microsoft.Net.Http.Headers
         {
             Contract.Requires(input != null);
             Contract.Requires((startIndex >= 0) && (startIndex < input.Length));
-            Contract.Ensures((Contract.Result<HttpParseResult>() != HttpParseResult.Parsed) ||
+            Contract.Ensures((Contract.Result<ProtoParseResult>() != ProtoParseResult.Parsed) ||
                 (Contract.ValueAtReturn<int>(out length) > 0));
 
             length = 0;
 
             if (input[startIndex] != openChar)
             {
-                return HttpParseResult.NotParsed;
+                return ProtoParseResult.NotParsed;
             }
 
             var current = startIndex + 1; // Start parsing with the character next to the first open-char
@@ -282,7 +282,7 @@ namespace Microsoft.Net.Http.Headers
                 // quoted char + closing char). Otherwise the closing char may be considered part of the quoted char.
                 var quotedPairLength = 0;
                 if ((current + 2 < input.Length) &&
-                    (GetQuotedPairLength(input, current, out quotedPairLength) == HttpParseResult.Parsed))
+                    (GetQuotedPairLength(input, current, out quotedPairLength) == ProtoParseResult.Parsed))
                 {
                     // We ignore invalid quoted-pairs. Invalid quoted-pairs may mean that it looked like a quoted pair,
                     // but we actually have a quoted-string: e.g. "\ü" ('\' followed by a char >127 - quoted-pair only
@@ -300,28 +300,28 @@ namespace Microsoft.Net.Http.Headers
                         // Check if we exceeded the number of nested calls.
                         if (nestedCount > MaxNestedCount)
                         {
-                            return HttpParseResult.InvalidFormat;
+                            return ProtoParseResult.InvalidFormat;
                         }
 
                         var nestedLength = 0;
-                        HttpParseResult nestedResult = GetExpressionLength(input, current, openChar, closeChar,
+                        ProtoParseResult nestedResult = GetExpressionLength(input, current, openChar, closeChar,
                             supportsNesting, ref nestedCount, out nestedLength);
 
                         switch (nestedResult)
                         {
-                            case HttpParseResult.Parsed:
+                            case ProtoParseResult.Parsed:
                                 current += nestedLength; // add the length of the nested expression and continue.
                                 break;
 
-                            case HttpParseResult.NotParsed:
+                            case ProtoParseResult.NotParsed:
                                 Contract.Assert(false, "'NotParsed' is unexpected: We started nested expression " +
                                     "parsing, because we found the open-char. So either it's a valid nested " +
                                     "expression or it has invalid format.");
                                 break;
 
-                            case HttpParseResult.InvalidFormat:
+                            case ProtoParseResult.InvalidFormat:
                                 // If the nested expression is invalid, we can't continue, so we fail with invalid format.
-                                return HttpParseResult.InvalidFormat;
+                                return ProtoParseResult.InvalidFormat;
 
                             default:
                                 Contract.Assert(false, "Unknown enum result: " + nestedResult);
@@ -337,13 +337,13 @@ namespace Microsoft.Net.Http.Headers
                 if (input[current] == closeChar)
                 {
                     length = current - startIndex + 1;
-                    return HttpParseResult.Parsed;
+                    return ProtoParseResult.Parsed;
                 }
                 current++;
             }
 
             // We didn't see the final quote, therefore we have an invalid expression string.
-            return HttpParseResult.InvalidFormat;
+            return ProtoParseResult.InvalidFormat;
         }
     }
 }

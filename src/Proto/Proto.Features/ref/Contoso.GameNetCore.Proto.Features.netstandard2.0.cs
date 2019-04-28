@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Http
 {
     public partial class CookieOptions
     {
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Http
         public virtual string SubProtocol { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Http.Features
 {
     public partial class FeatureCollection : Microsoft.AspNetCore.Http.Features.IFeatureCollection, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.Type, object>>, System.Collections.IEnumerable
     {
@@ -283,7 +283,7 @@ namespace Microsoft.AspNetCore.Http.Features
         void WithdrawConsent();
     }
 }
-namespace Microsoft.AspNetCore.Http.Features.Authentication
+namespace Contoso.GameNetCore.Http.Features.Authentication
 {
     public partial interface IHttpAuthenticationFeature
     {

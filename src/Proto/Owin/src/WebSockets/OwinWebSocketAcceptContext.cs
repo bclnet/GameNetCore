@@ -2,19 +2,19 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
-    public class OwinWebSocketAcceptContext : WebSocketAcceptContext
+    public class OwinGameSocketAcceptContext : GameSocketAcceptContext
     {
         private IDictionary<string, object> _options;
 
-        public OwinWebSocketAcceptContext() : this(new Dictionary<string, object>(1))
+        public OwinGameSocketAcceptContext() : this(new Dictionary<string, object>(1))
         {
         }
 
-        public OwinWebSocketAcceptContext(IDictionary<string, object> options)
+        public OwinGameSocketAcceptContext(IDictionary<string, object> options)
         {
             _options = options;
         }
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Owin
             get
             {
                 object obj;
-                if (_options != null && _options.TryGetValue(OwinConstants.WebSocket.SubProtocol, out obj))
+                if (_options != null && _options.TryGetValue(OwinConstants.GameSocket.SubProtocol, out obj))
                 {
                     return (string)obj;
                 }
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Owin
                 {
                     _options = new Dictionary<string, object>(1);
                 }
-                _options[OwinConstants.WebSocket.SubProtocol] = value;
+                _options[OwinConstants.GameSocket.SubProtocol] = value;
             }
         }
 

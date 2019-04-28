@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// A context object for <see cref="IRouter.RouteAsync(RouteContext)"/>.
@@ -16,10 +16,10 @@ namespace Microsoft.AspNetCore.Routing
         /// <summary>
         /// Creates a new instance of <see cref="RouteContext"/> for the provided <paramref name="httpContext"/>.
         /// </summary>
-        /// <param name="httpContext">The <see cref="Http.HttpContext"/> associated with the current request.</param>
-        public RouteContext(HttpContext httpContext)
+        /// <param name="httpContext">The <see cref="Proto.ProtoContext"/> associated with the current request.</param>
+        public RouteContext(ProtoContext httpContext)
         {
-            HttpContext = httpContext;
+            ProtoContext = httpContext;
 
             RouteData = new RouteData();
         }
@@ -31,9 +31,9 @@ namespace Microsoft.AspNetCore.Routing
         public RequestDelegate Handler { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="Http.HttpContext"/> associated with the current request.
+        /// Gets the <see cref="Proto.ProtoContext"/> associated with the current request.
         /// </summary>
-        public HttpContext HttpContext { get; }
+        public ProtoContext ProtoContext { get; }
 
         /// <summary>
         /// Gets or sets the <see cref="Routing.RouteData"/> associated with the current context.

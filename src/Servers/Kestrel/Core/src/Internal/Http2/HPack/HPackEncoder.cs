@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.HPack
 {
     internal class HPackEncoder
     {

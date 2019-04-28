@@ -1,9 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Defines a contract to generate absolute and related URIs based on endpoint routing.
@@ -25,15 +25,15 @@ namespace Microsoft.AspNetCore.Routing
     public abstract class LinkGenerator
     {
         /// <summary>
-        /// Generates a URI with an absolute path based on the provided values and <see cref="HttpContext"/>.
+        /// Generates a URI with an absolute path based on the provided values and <see cref="ProtoContext"/>.
         /// </summary>
         /// <typeparam name="TAddress">The address type.</typeparam>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="address">The address value. Used to resolve endpoints.</param>
         /// <param name="values">The route values. Used to expand parameters in the route template. Optional.</param>
         /// <param name="ambientValues">The values associated with the current request. Optional.</param>
         /// <param name="pathBase">
-        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="HttpRequest.PathBase"/> will be used.
+        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="ProtoRequest.PathBase"/> will be used.
         /// </param>
         /// <param name="fragment">An optional URI fragment. Appended to the resulting URI.</param>
         /// <param name="options">
@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Routing
         /// </param>
         /// <returns>A URI with an absolute path, or <c>null</c>.</returns>
         public abstract string GetPathByAddress<TAddress>(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             TAddress address,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues = default,
@@ -71,22 +71,22 @@ namespace Microsoft.AspNetCore.Routing
             LinkOptions options = default);
 
         /// <summary>
-        /// Generates an absolute URI based on the provided values and <see cref="HttpContext"/>.
+        /// Generates an absolute URI based on the provided values and <see cref="ProtoContext"/>.
         /// </summary>
         /// <typeparam name="TAddress">The address type.</typeparam>
-        /// <param name="httpContext">The <see cref="HttpContext"/> associated with the current request.</param>
+        /// <param name="httpContext">The <see cref="ProtoContext"/> associated with the current request.</param>
         /// <param name="address">The address value. Used to resolve endpoints.</param>
         /// <param name="values">The route values. Used to expand parameters in the route template. Optional.</param>
         /// <param name="ambientValues">The values associated with the current request. Optional.</param>
         /// <param name="scheme">
-        /// The URI scheme, applied to the resulting URI. Optional. If not provided, the value of <see cref="HttpRequest.Scheme"/> will be used.
+        /// The URI scheme, applied to the resulting URI. Optional. If not provided, the value of <see cref="ProtoRequest.Scheme"/> will be used.
         /// </param>
         /// <param name="host">
-        /// The URI host/authority, applied to the resulting URI. Optional. If not provided, the value <see cref="HttpRequest.Host"/> will be used.
+        /// The URI host/authority, applied to the resulting URI. Optional. If not provided, the value <see cref="ProtoRequest.Host"/> will be used.
         /// See the remarks section for details about the security implications of the <paramref name="host"/>.
         /// </param>
         /// <param name="pathBase">
-        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="HttpRequest.PathBase"/> will be used.
+        /// An optional URI path base. Prepended to the path in the resulting URI. If not provided, the value of <see cref="ProtoRequest.PathBase"/> will be used.
         /// </param>
         /// <param name="fragment">An optional URI fragment. Appended to the resulting URI.</param>
         /// <param name="options">
@@ -103,7 +103,7 @@ namespace Microsoft.AspNetCore.Routing
         /// </para>
         /// </remarks>
         public abstract string GetUriByAddress<TAddress>(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             TAddress address,
             RouteValueDictionary values,
             RouteValueDictionary ambientValues = default,

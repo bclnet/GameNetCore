@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Generated from https://github.com/Azure/azure-rest-api-specs
     public class MatcherAzureBenchmark : MatcherAzureBenchmarkBase

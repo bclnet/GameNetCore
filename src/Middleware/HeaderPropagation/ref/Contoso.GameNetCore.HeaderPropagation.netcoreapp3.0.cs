@@ -1,14 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class HeaderPropagationApplicationBuilderExtensions
     {
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseHeaderPropagation(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.HeaderPropagation
+namespace Contoso.GameNetCore.HeaderPropagation
 {
     public partial class HeaderPropagationEntry
     {

@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal
 {
     internal class LoggingConnectionAdapter : IConnectionAdapter
     {
@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
             _logger = logger;
         }
 
-        public bool IsHttps => false;
+        public bool IsProtos => false;
 
         public Task<IAdaptedConnection> OnConnectionAsync(ConnectionAdapterContext context)
         {

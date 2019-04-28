@@ -6,23 +6,23 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Proto.Features;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
-    public sealed class DefaultHttpResponse : HttpResponse
+    public sealed class DefaultProtoResponse : ProtoResponse
     {
         // Lambdas hoisted to static readonly fields to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpResponseFeature> _nullResponseFeature = f => null;
-        private readonly static Func<IFeatureCollection, IHttpResponseStartFeature> _nullResponseStartFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoResponseFeature> _nullResponseFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoResponseStartFeature> _nullResponseStartFeature = f => null;
         private readonly static Func<IFeatureCollection, IResponseCookiesFeature> _newResponseCookiesFeature = f => new ResponseCookiesFeature(f);
-        private readonly static Func<HttpContext, IResponseBodyPipeFeature> _newResponseBodyPipeFeature = context => new ResponseBodyPipeFeature(context);
+        private readonly static Func<ProtoContext, IResponseBodyPipeFeature> _newResponseBodyPipeFeature = context => new ResponseBodyPipeFeature(context);
 
-        private readonly DefaultHttpContext _context;
+        private readonly DefaultProtoContext _context;
         private FeatureReferences<FeatureInterfaces> _features;
 
-        public DefaultHttpResponse(DefaultHttpContext context)
+        public DefaultProtoResponse(DefaultProtoContext context)
         {
             _context = context;
             _features.Initalize(context.Features);
@@ -43,35 +43,35 @@ namespace Microsoft.AspNetCore.Http.Internal
             _features = default;
         }
 
-        private IHttpResponseFeature HttpResponseFeature =>
+        private IProtoResponseFeature ProtoResponseFeature =>
             _features.Fetch(ref _features.Cache.Response, _nullResponseFeature);
 
-        private IHttpResponseStartFeature HttpResponseStartFeature =>
+        private IProtoResponseStartFeature ProtoResponseStartFeature =>
             _features.Fetch(ref _features.Cache.ResponseStart, _nullResponseStartFeature);
 
         private IResponseCookiesFeature ResponseCookiesFeature =>
             _features.Fetch(ref _features.Cache.Cookies, _newResponseCookiesFeature);
 
         private IResponseBodyPipeFeature ResponseBodyPipeFeature =>
-            _features.Fetch(ref _features.Cache.BodyPipe, this.HttpContext, _newResponseBodyPipeFeature);
+            _features.Fetch(ref _features.Cache.BodyPipe, this.ProtoContext, _newResponseBodyPipeFeature);
 
-        public override HttpContext HttpContext { get { return _context; } }
+        public override ProtoContext ProtoContext { get { return _context; } }
 
         public override int StatusCode
         {
-            get { return HttpResponseFeature.StatusCode; }
-            set { HttpResponseFeature.StatusCode = value; }
+            get { return ProtoResponseFeature.StatusCode; }
+            set { ProtoResponseFeature.StatusCode = value; }
         }
 
         public override IHeaderDictionary Headers
         {
-            get { return HttpResponseFeature.Headers; }
+            get { return ProtoResponseFeature.Headers; }
         }
 
         public override Stream Body
         {
-            get { return HttpResponseFeature.Body; }
-            set { HttpResponseFeature.Body = value; }
+            get { return ProtoResponseFeature.Body; }
+            set { ProtoResponseFeature.Body = value; }
         }
 
         public override long? ContentLength
@@ -90,11 +90,11 @@ namespace Microsoft.AspNetCore.Http.Internal
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    HttpResponseFeature.Headers.Remove(HeaderNames.ContentType);
+                    ProtoResponseFeature.Headers.Remove(HeaderNames.ContentType);
                 }
                 else
                 {
-                    HttpResponseFeature.Headers[HeaderNames.ContentType] = value;
+                    ProtoResponseFeature.Headers[HeaderNames.ContentType] = value;
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace Microsoft.AspNetCore.Http.Internal
 
         public override bool HasStarted
         {
-            get { return HttpResponseFeature.HasStarted; }
+            get { return ProtoResponseFeature.HasStarted; }
         }
 
         public override PipeWriter BodyWriter
@@ -122,7 +122,7 @@ namespace Microsoft.AspNetCore.Http.Internal
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            HttpResponseFeature.OnStarting(callback, state);
+            ProtoResponseFeature.OnStarting(callback, state);
         }
 
         public override void OnCompleted(Func<object, Task> callback, object state)
@@ -132,18 +132,18 @@ namespace Microsoft.AspNetCore.Http.Internal
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            HttpResponseFeature.OnCompleted(callback, state);
+            ProtoResponseFeature.OnCompleted(callback, state);
         }
 
         public override void Redirect(string location, bool permanent)
         {
             if (permanent)
             {
-                HttpResponseFeature.StatusCode = 301;
+                ProtoResponseFeature.StatusCode = 301;
             }
             else
             {
-                HttpResponseFeature.StatusCode = 302;
+                ProtoResponseFeature.StatusCode = 302;
             }
 
             Headers[HeaderNames.Location] = location;
@@ -156,20 +156,20 @@ namespace Microsoft.AspNetCore.Http.Internal
                 return Task.CompletedTask;
             }
 
-            if (HttpResponseStartFeature == null)
+            if (ProtoResponseStartFeature == null)
             {
-                return HttpResponseFeature.Body.FlushAsync(cancellationToken);
+                return ProtoResponseFeature.Body.FlushAsync(cancellationToken);
             }
 
-            return HttpResponseStartFeature.StartAsync(cancellationToken);
+            return ProtoResponseStartFeature.StartAsync(cancellationToken);
         }
 
         struct FeatureInterfaces
         {
-            public IHttpResponseFeature Response;
+            public IProtoResponseFeature Response;
             public IResponseCookiesFeature Cookies;
             public IResponseBodyPipeFeature BodyPipe;
-            public IHttpResponseStartFeature ResponseStart;
+            public IProtoResponseStartFeature ResponseStart;
         }
     }
 }

@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Defines middleware that can be added to the application's request pipeline.
@@ -13,9 +13,9 @@ namespace Microsoft.AspNetCore.Http
         /// <summary>
         /// Request handling method.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/> for the current request.</param>
+        /// <param name="context">The <see cref="ProtoContext"/> for the current request.</param>
         /// <param name="next">The delegate representing the remaining middleware in the request pipeline.</param>
         /// <returns>A <see cref="Task"/> that represents the execution of this middleware.</returns>
-        Task InvokeAsync(HttpContext context, RequestDelegate next);
+        Task InvokeAsync(ProtoContext context, RequestDelegate next);
     }
 }

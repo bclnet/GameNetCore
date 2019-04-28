@@ -2,8 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.MiddlewareAnalysis;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.MiddlewareAnalysis;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection

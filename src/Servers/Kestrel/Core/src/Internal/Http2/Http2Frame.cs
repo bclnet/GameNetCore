@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
     /* https://tools.ietf.org/html/rfc7540#section-4.1
         +-----------------------------------------------+
@@ -14,11 +14,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         |                   Frame Payload (0...)                      ...
         +---------------------------------------------------------------+
     */
-    internal partial class Http2Frame
+    internal partial class Proto2Frame
     {
         public int PayloadLength { get; set; }
 
-        public Http2FrameType Type { get; set; }
+        public Proto2FrameType Type { get; set; }
 
         public byte Flags { get; set; }
 
@@ -28,25 +28,25 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         {
             switch (Type)
             {
-                case Http2FrameType.CONTINUATION:
+                case Proto2FrameType.CONTINUATION:
                     return ContinuationFlags;
-                case Http2FrameType.DATA:
+                case Proto2FrameType.DATA:
                     return DataFlags;
-                case Http2FrameType.HEADERS:
+                case Proto2FrameType.HEADERS:
                     return HeadersFlags;
-                case Http2FrameType.SETTINGS:
+                case Proto2FrameType.SETTINGS:
                     return SettingsFlags;
-                case Http2FrameType.PING:
+                case Proto2FrameType.PING:
                     return PingFlags;
 
                 // Not Implemented
-                case Http2FrameType.PUSH_PROMISE:
+                case Proto2FrameType.PUSH_PROMISE:
 
                 // No flags defined
-                case Http2FrameType.PRIORITY:
-                case Http2FrameType.RST_STREAM:
-                case Http2FrameType.GOAWAY:
-                case Http2FrameType.WINDOW_UPDATE:
+                case Proto2FrameType.PRIORITY:
+                case Proto2FrameType.RST_STREAM:
+                case Proto2FrameType.GOAWAY:
+                case Proto2FrameType.WINDOW_UPDATE:
                 default:
                     return $"0x{Flags:x}";
             }

@@ -615,7 +615,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -628,7 +628,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "hostingEnv",
@@ -657,7 +657,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -670,7 +670,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "hostingEnv",
@@ -690,7 +690,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "hostingEnv",
@@ -698,7 +698,7 @@
             },
             {
               "Name": "encoder",
-              "Type": "System.Text.Encodings.Web.HtmlEncoder"
+              "Type": "System.Text.Encodings.Game.HtmlEncoder"
             },
             {
               "Name": "options",
@@ -784,7 +784,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "contents",
@@ -803,7 +803,7 @@
           "Parameters": [
             {
               "Name": "encoder",
-              "Type": "System.Text.Encodings.Web.HtmlEncoder"
+              "Type": "System.Text.Encodings.Game.HtmlEncoder"
             }
           ],
           "Visibility": "Public",
@@ -852,7 +852,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             },
             {
               "Name": "contents",
@@ -877,7 +877,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
@@ -890,7 +890,7 @@
           "Parameters": [
             {
               "Name": "next",
-              "Type": "Microsoft.AspNetCore.Http.RequestDelegate"
+              "Type": "Microsoft.AspNetCore.Proto.RequestDelegate"
             },
             {
               "Name": "hostingEnv",
@@ -921,7 +921,7 @@
           "Kind": "Method",
           "Name": "get_Context",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.HttpContext",
+          "ReturnType": "Microsoft.AspNetCore.Proto.ProtoContext",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -953,7 +953,7 @@
           "Kind": "Method",
           "Name": "get_RequestPath",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.PathString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.PathString",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -963,7 +963,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             }
           ],
           "ReturnType": "System.Void",
@@ -1020,7 +1020,7 @@
           "Kind": "Method",
           "Name": "get_RequestPath",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.PathString",
+          "ReturnType": "Microsoft.AspNetCore.Proto.PathString",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1030,7 +1030,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Http.PathString"
+              "Type": "Microsoft.AspNetCore.Proto.PathString"
             }
           ],
           "ReturnType": "System.Void",

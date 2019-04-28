@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Enable HTTP response compression.

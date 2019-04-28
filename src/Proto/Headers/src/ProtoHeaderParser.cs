@@ -7,13 +7,13 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
-    internal abstract class HttpHeaderParser<T>
+    internal abstract class ProtoHeaderParser<T>
     {
         private bool _supportsMultipleValues;
 
-        protected HttpHeaderParser(bool supportsMultipleValues)
+        protected ProtoHeaderParser(bool supportsMultipleValues)
         {
             _supportsMultipleValues = supportsMultipleValues;
         }

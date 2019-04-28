@@ -4,9 +4,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public static class RequestFormReaderExtensions
     {
@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="options">Options for reading the form.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>The parsed form.</returns>
-        public static Task<IFormCollection> ReadFormAsync(this HttpRequest request, FormOptions options,
+        public static Task<IFormCollection> ReadFormAsync(this ProtoRequest request, FormOptions options,
             CancellationToken cancellationToken = new CancellationToken())
         {
             if (request == null)
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Http
                 throw new InvalidOperationException("Incorrect Content-Type: " + request.ContentType);
             }
 
-            var features = request.HttpContext.Features;
+            var features = request.ProtoContext.Features;
             var formFeature = features.Get<IFormFeature>();
             if (formFeature == null || formFeature.Form == null)
             {

@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl
 {
     internal class OutputFlowControl
     {

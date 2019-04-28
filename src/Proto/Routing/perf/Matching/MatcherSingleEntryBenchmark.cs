@@ -3,10 +3,10 @@
 
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Just like TechEmpower Plaintext
     public partial class MatcherSingleEntryBenchmark : EndpointRoutingBenchmarkBase
@@ -26,8 +26,8 @@ namespace Microsoft.AspNetCore.Routing.Matching
             Endpoints = new RouteEndpoint[1];
             Endpoints[0] = CreateEndpoint("/plaintext");
 
-            Requests = new HttpContext[1];
-            Requests[0] = new DefaultHttpContext();
+            Requests = new ProtoContext[1];
+            Requests[0] = new DefaultProtoContext();
             Requests[0].RequestServices = CreateServices();
             Requests[0].Request.Path = "/plaintext";
 

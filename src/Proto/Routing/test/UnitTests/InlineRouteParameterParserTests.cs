@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Template;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class InlineRouteParameterParserTests
     {
@@ -979,7 +979,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
             }
 
             public string Pattern { get; private set; }
-            public bool Match(HttpContext httpContext,
+            public bool Match(ProtoContext httpContext,
                               IRouter route,
                               string routeKey,
                               RouteValueDictionary values,

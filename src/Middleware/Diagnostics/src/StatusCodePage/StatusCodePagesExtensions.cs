@@ -4,11 +4,11 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Diagnostics;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static class StatusCodePagesExtensions
     {

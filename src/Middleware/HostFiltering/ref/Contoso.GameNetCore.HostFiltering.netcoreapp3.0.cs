@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class HostFilteringBuilderExtensions
     {
@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddHostFiltering(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Microsoft.AspNetCore.HostFiltering.HostFilteringOptions> configureOptions) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.HostFiltering
+namespace Contoso.GameNetCore.HostFiltering
 {
     public partial class HostFilteringMiddleware
     {

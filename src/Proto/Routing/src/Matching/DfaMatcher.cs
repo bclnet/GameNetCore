@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal sealed class DfaMatcher : Matcher
     {
@@ -25,7 +25,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             _maxSegmentCount = maxSegmentCount;
         }
 
-        public sealed override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public sealed override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             if (httpContext == null)
             {
@@ -175,7 +175,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         internal (Candidate[] candidates, IEndpointSelectorPolicy[] policies) FindCandidateSet(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             string path,
             ReadOnlySpan<PathSegment> segments)
         {
@@ -261,7 +261,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         private bool ProcessConstraints(
             Endpoint endpoint,
             KeyValuePair<string, IRouteConstraint>[] constraints,
-            HttpContext httpContext,
+            ProtoContext httpContext,
             RouteValueDictionary values)
         {
             for (var i = 0; i < constraints.Length; i++)
@@ -278,7 +278,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         private async Task SelectEndpointWithPoliciesAsync(
-            HttpContext httpContext,
+            ProtoContext httpContext,
             EndpointSelectorContext context,
             IEndpointSelectorPolicy[] policies,
             CandidateSet candidateSet)

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public static class RewriteMapParser
     {

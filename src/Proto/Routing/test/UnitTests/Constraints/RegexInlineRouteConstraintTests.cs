@@ -1,13 +1,13 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Testing;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class RegexInlineRouteConstraintTests
     {
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var match = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 route: new Mock<IRouter>().Object,
                 routeKey: "controller",
                 values: values,
@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
             // Act
             var match = constraint.Match(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 route: new Mock<IRouter>().Object,
                 routeKey: "controller",
                 values: values,
@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
             {
                 // Act
                 var match = constraint.Match(
-                    new DefaultHttpContext(),
+                    new DefaultProtoContext(),
                     route: new Mock<IRouter>().Object,
                     routeKey: "controller",
                     values: values,

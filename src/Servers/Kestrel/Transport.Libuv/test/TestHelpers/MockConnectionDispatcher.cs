@@ -5,9 +5,9 @@ using System;
 using System.Buffers;
 using System.IO.Pipelines;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests.TestHelpers
 {
     public class MockConnectionDispatcher : IConnectionDispatcher
     {

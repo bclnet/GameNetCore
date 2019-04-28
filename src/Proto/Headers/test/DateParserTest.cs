@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class DateParserTest
     {
@@ -13,8 +13,8 @@ namespace Microsoft.Net.Http.Headers
         [MemberData(nameof(ValidStringData))]
         public void TryParse_SetOfValidValueStrings_ParsedCorrectly(string input, DateTimeOffset expected)
         {
-            // We don't need to validate all possible date values, since they're already tested in HttpRuleParserTest.
-            // Just make sure the parser calls HttpRuleParser methods correctly.
+            // We don't need to validate all possible date values, since they're already tested in ProtoRuleParserTest.
+            // Just make sure the parser calls ProtoRuleParser methods correctly.
             Assert.True(HeaderUtilities.TryParseDate(input, out var result));
             Assert.Equal(expected, result);
         }

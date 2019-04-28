@@ -1,6 +1,6 @@
 using System;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     /// <summary>
     /// Supplies INodeServices instances.

@@ -4,15 +4,15 @@
 using System;
 using System.IO.Pipelines;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class RequestBodyPipeFeature : IRequestBodyPipeFeature
     {
         private StreamPipeReader _internalPipeReader;
         private PipeReader _userSetPipeReader;
-        private HttpContext _context;
+        private ProtoContext _context;
 
-        public RequestBodyPipeFeature(HttpContext context)
+        public RequestBodyPipeFeature(ProtoContext context)
         {
             if (context == null)
             {

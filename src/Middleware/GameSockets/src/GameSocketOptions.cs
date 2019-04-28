@@ -4,14 +4,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
-    /// Configuration options for the WebSocketMiddleware
+    /// Configuration options for the GameSocketMiddleware
     /// </summary>
-    public class WebSocketOptions
+    public class GameSocketOptions
     {
-        public WebSocketOptions()
+        public GameSocketOptions()
         {
             KeepAliveInterval = TimeSpan.FromMinutes(2);
             ReceiveBufferSize = 4 * 1024;

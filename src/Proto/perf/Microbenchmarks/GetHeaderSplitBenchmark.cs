@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http.Internal;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http.Abstractions.Microbenchmarks
+namespace Contoso.GameNetCore.Http.Abstractions.Microbenchmarks
 {
     public class GetHeaderSplitBenchmark
     {

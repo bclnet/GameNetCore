@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection

@@ -5,11 +5,11 @@ using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class RangeConditionHeaderValue
     {
-        private static readonly HttpHeaderParser<RangeConditionHeaderValue> Parser
+        private static readonly ProtoHeaderParser<RangeConditionHeaderValue> Parser
             = new GenericHeaderParser<RangeConditionHeaderValue>(false, GetRangeConditionLength);
 
         private DateTimeOffset? _lastModified;
@@ -142,7 +142,7 @@ namespace Microsoft.Net.Http.Headers
             }
             else
             {
-                if (!HttpRuleParser.TryStringToDate(input.Subsegment(current), out date))
+                if (!ProtoRuleParser.TryStringToDate(input.Subsegment(current), out date))
                 {
                     return 0;
                 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 namespace Contoso.GameNetCore.Hosting.Internal
 {
 #pragma warning disable CS0618 // Type or member is obsolete
-#if !NET3
+#if NET2
     public class HostingEnvironment : IHostingEnvironment, IGameHostEnvironment
 #else
     public class HostingEnvironment : IHostingEnvironment, Extensions.Hosting.IHostingEnvironment, IGameHostEnvironment
@@ -15,7 +15,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     {
 
         public string EnvironmentName { get; set; }
-#if !NET3
+#if NET2
             = "Production";
 #else
             = Extensions.Hosting.Environments.Production;

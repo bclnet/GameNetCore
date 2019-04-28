@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     /// <summary>
     /// Provides access to the normal system clock.

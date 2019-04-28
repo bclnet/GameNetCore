@@ -3,20 +3,20 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public abstract partial class MatcherConformanceTest
     {
         internal abstract Matcher CreateMatcher(params RouteEndpoint[] endpoints);
 
-        internal static (HttpContext httpContext, EndpointSelectorContext context) CreateContext(string path)
+        internal static (ProtoContext httpContext, EndpointSelectorContext context) CreateContext(string path)
         {
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Request.Method = "TEST";
             httpContext.Request.Path = path;
             httpContext.RequestServices = CreateServices();

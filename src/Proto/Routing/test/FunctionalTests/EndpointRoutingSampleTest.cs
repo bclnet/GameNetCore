@@ -3,23 +3,23 @@
 
 using System;
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.TestHost;
-using RoutingWebSite;
+using Contoso.GameNetCore.TestHost;
+using RoutingGameSite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
     public class EndpointRoutingSampleTest : IDisposable
     {
-        private readonly HttpClient _client;
+        private readonly ProtoClient _client;
         private readonly TestServer _testServer;
 
         public EndpointRoutingSampleTest()
         {
-            var webHostBuilder = Program.GetWebHostBuilder(new[] { Program.EndpointRoutingScenario, });
-            _testServer = new TestServer(webHostBuilder);
+            var gameHostBuilder = Program.GetGameHostBuilder(new[] { Program.EndpointRoutingScenario, });
+            _testServer = new TestServer(gameHostBuilder);
             _client = _testServer.CreateClient();
             _client.BaseAddress = new Uri("http://localhost");
         }
@@ -30,13 +30,13 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Routing_CanRouteRequest_ToBranchRouter(string branch)
         {
             // Arrange
-            var message = new HttpRequestMessage(HttpMethod.Get, $"{branch}/api/get/5");
+            var message = new ProtoRequestMessage(ProtoMethod.Get, $"{branch}/api/get/5");
 
             // Act
             var response = await _client.SendAsync(message);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal($"{branch} - API Get 5", await response.Content.ReadAsStringAsync());
         }
 
@@ -50,7 +50,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             Assert.NotNull(response.Content.Headers.ContentType);
             Assert.Equal(expectedContentType, response.Content.Headers.ContentType.MediaType);
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/plaintext");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             Assert.NotNull(response.Content.Headers.ContentType);
             Assert.Equal(expectedContentType, response.Content.Headers.ContentType.MediaType);
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/helloworld");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             Assert.NotNull(response.Content.Headers.ContentType);
             Assert.Equal(expectedContentType, response.Content.Headers.ContentType.MediaType);
@@ -104,7 +104,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/withconstraints/555_001");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(expectedContent, actualContent);
@@ -117,7 +117,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/withconstraints/555");
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/withoptionalconstraints/555_001");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(expectedContent, actualContent);
@@ -146,7 +146,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/withoptionalconstraints");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(expectedContent, actualContent);
@@ -159,7 +159,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/withoptionalconstraints/555");
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.NotFound, response.StatusCode);
         }
 
         [Theory]
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync(url);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(expected, actualContent);
@@ -191,7 +191,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync(url);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(expected, actualContent);
@@ -204,7 +204,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/WithDoubleAsteriskCatchAll/a/b b1/c c1");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.NotNull(response.Content);
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal("Link: /WithDoubleAsteriskCatchAll/a/b%20b1/c%20c1", actualContent);
@@ -217,7 +217,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var response = await _client.GetAsync("/convention");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
 
             var actualContent = await response.Content.ReadAsStringAsync();
             Assert.Equal("Has metadata", actualContent);

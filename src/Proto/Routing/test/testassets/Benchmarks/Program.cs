@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace Benchmarks
@@ -11,10 +11,10 @@ namespace Benchmarks
     {
         public static void Main(string[] args)
         {
-            GetWebHostBuilder(args).Build().Run();
+            GetGameHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder GetWebHostBuilder(string[] args)
+        public static IGameHostBuilder GetGameHostBuilder(string[] args)
         {
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
@@ -24,22 +24,22 @@ namespace Benchmarks
             // Consoler logger has a major impact on perf results, so do not use
             // default builder.
 
-            var webHostBuilder = new WebHostBuilder()
+            var gameHostBuilder = new GameHostBuilder()
                     .UseConfiguration(config)
                     .UseKestrel();
 
             var scenario = config["scenarios"]?.ToLower();
             if (scenario == "plaintextdispatcher" || scenario == "plaintextendpointrouting")
             {
-                webHostBuilder.UseStartup<StartupUsingEndpointRouting>();
+                gameHostBuilder.UseStartup<StartupUsingEndpointRouting>();
                 // for testing
-                webHostBuilder.UseSetting("Startup", nameof(StartupUsingEndpointRouting));
+                gameHostBuilder.UseSetting("Startup", nameof(StartupUsingEndpointRouting));
             }
             else if (scenario == "plaintextrouting" || scenario == "plaintextrouter")
             {
-                webHostBuilder.UseStartup<StartupUsingRouter>();
+                gameHostBuilder.UseStartup<StartupUsingRouter>();
                 // for testing
-                webHostBuilder.UseSetting("Startup", nameof(StartupUsingRouter));
+                gameHostBuilder.UseSetting("Startup", nameof(StartupUsingRouter));
             }
             else
             {
@@ -47,7 +47,7 @@ namespace Benchmarks
                     $"Invalid scenario '{scenario}'. Allowed scenarios are PlaintextEndpointRouting and PlaintextRouter");
             }
 
-            return webHostBuilder;
+            return gameHostBuilder;
         }
     }
 }

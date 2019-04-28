@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Hosting.Server;
+using Contoso.GameNetCore.Hosting.Server;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2Stream<TContext> : Http2Stream
+    internal class Proto2Stream<TContext> : Proto2Stream
     {
-        private readonly IHttpApplication<TContext> _application;
+        private readonly IProtoApplication<TContext> _application;
 
-        public Http2Stream(IHttpApplication<TContext> application, Http2StreamContext context) : base(context)
+        public Proto2Stream(IProtoApplication<TContext> application, Proto2StreamContext context) : base(context)
         {
             _application = application;
         }

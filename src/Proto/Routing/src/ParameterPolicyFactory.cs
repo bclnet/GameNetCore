@@ -3,9 +3,9 @@
 
 using System;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Patterns;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Defines an abstraction for resolving inline parameter policies as instances of <see cref="IParameterPolicy"/>.

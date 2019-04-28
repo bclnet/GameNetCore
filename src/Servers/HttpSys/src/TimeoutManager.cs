@@ -3,9 +3,9 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     // See the native HTTP_TIMEOUT_LIMIT_INFO structure documentation for additional information.
     // http://msdn.microsoft.com/en-us/library/aa364661.aspx

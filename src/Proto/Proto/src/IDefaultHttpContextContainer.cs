@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public interface IDefaultHttpContextContainer
+    public interface IDefaultProtoContextContainer
     {
-        DefaultHttpContext HttpContext { get; }
+        DefaultProtoContext ProtoContext { get; }
     }
 }

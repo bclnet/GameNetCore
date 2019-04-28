@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Microsoft.AspNetCore.Connections.Features
+namespace Contoso.GameNetCore.Connections.Features
 {
     public interface IConnectionUserFeature
     {

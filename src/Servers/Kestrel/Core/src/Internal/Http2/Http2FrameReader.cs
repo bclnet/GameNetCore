@@ -6,11 +6,11 @@ using System.Buffers;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal static class Http2FrameReader
+    internal static class Proto2FrameReader
     {
         /* https://tools.ietf.org/html/rfc7540#section-4.1
             +-----------------------------------------------+
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         public const int SettingSize = 6; // 2 bytes for the id, 4 bytes for the value.
 
-        public static bool ReadFrame(ReadOnlySequence<byte> readableBuffer, Http2Frame frame, uint maxFrameSize, out ReadOnlySequence<byte> framePayload)
+        public static bool ReadFrame(ReadOnlySequence<byte> readableBuffer, Proto2Frame frame, uint maxFrameSize, out ReadOnlySequence<byte> framePayload)
         {
             framePayload = ReadOnlySequence<byte>.Empty;
 
@@ -46,7 +46,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             var payloadLength = (int)Bitshifter.ReadUInt24BigEndian(header);
             if (payloadLength > maxFrameSize)
             {
-                throw new Http2ConnectionErrorException(CoreStrings.FormatHttp2ErrorFrameOverLimit(payloadLength, maxFrameSize), Http2ErrorCode.FRAME_SIZE_ERROR);
+                throw new Proto2ConnectionErrorException(CoreStrings.FormatProto2ErrorFrameOverLimit(payloadLength, maxFrameSize), Proto2ErrorCode.FRAME_SIZE_ERROR);
             }
 
             // Make sure the whole frame is buffered
@@ -57,7 +57,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
 
             frame.PayloadLength = payloadLength;
-            frame.Type = (Http2FrameType)header[TypeOffset];
+            frame.Type = (Proto2FrameType)header[TypeOffset];
             frame.Flags = header[FlagsOffset];
             frame.StreamId = (int)Bitshifter.ReadUInt31BigEndian(header.Slice(StreamIdOffset));
 
@@ -69,15 +69,15 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             return true;
         }
 
-        private static int ReadExtendedFields(Http2Frame frame, ReadOnlySequence<byte> readableBuffer)
+        private static int ReadExtendedFields(Proto2Frame frame, ReadOnlySequence<byte> readableBuffer)
         {
             // Copy in any extra fields for the given frame type
             var extendedHeaderLength = GetPayloadFieldsLength(frame);
 
             if (extendedHeaderLength > frame.PayloadLength)
             {
-                throw new Http2ConnectionErrorException(
-                    CoreStrings.FormatHttp2ErrorUnexpectedFrameLength(frame.Type, expectedLength: extendedHeaderLength), Http2ErrorCode.FRAME_SIZE_ERROR);
+                throw new Proto2ConnectionErrorException(
+                    CoreStrings.FormatProto2ErrorUnexpectedFrameLength(frame.Type, expectedLength: extendedHeaderLength), Proto2ErrorCode.FRAME_SIZE_ERROR);
             }
 
             var extendedHeaders = readableBuffer.Slice(HeaderLength, extendedHeaderLength).ToSpan();
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |                           Padding (*)                       ...
                     +---------------------------------------------------------------+
                 */
-                case Http2FrameType.DATA: // Variable 0 or 1
+                case Proto2FrameType.DATA: // Variable 0 or 1
                     frame.DataPadLength = frame.DataHasPadding ? extendedHeaders[0] : (byte)0;
                     break;
 
@@ -111,7 +111,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |                           Padding (*)                       ...
                     +---------------------------------------------------------------+
                 */
-                case Http2FrameType.HEADERS:
+                case Proto2FrameType.HEADERS:
                     if (frame.HeadersHasPadding)
                     {
                         frame.HeadersPadLength = extendedHeaders[0];
@@ -143,9 +143,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |                  Additional Debug Data (*)                    |
                     +---------------------------------------------------------------+
                 */
-                case Http2FrameType.GOAWAY:
+                case Proto2FrameType.GOAWAY:
                     frame.GoAwayLastStreamId = (int)Bitshifter.ReadUInt31BigEndian(extendedHeaders);
-                    frame.GoAwayErrorCode = (Http2ErrorCode)BinaryPrimitives.ReadUInt32BigEndian(extendedHeaders.Slice(4));
+                    frame.GoAwayErrorCode = (Proto2ErrorCode)BinaryPrimitives.ReadUInt32BigEndian(extendedHeaders.Slice(4));
                     break;
 
                 /* https://tools.ietf.org/html/rfc7540#section-6.3
@@ -155,7 +155,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |   Weight (8)  |
                     +-+-------------+
                 */
-                case Http2FrameType.PRIORITY:
+                case Proto2FrameType.PRIORITY:
                     frame.PriorityStreamDependency = (int)Bitshifter.ReadUInt31BigEndian(extendedHeaders);
                     frame.PriorityWeight = extendedHeaders.Slice(4)[0];
                     break;
@@ -165,8 +165,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |                        Error Code (32)                        |
                     +---------------------------------------------------------------+
                 */
-                case Http2FrameType.RST_STREAM:
-                    frame.RstStreamErrorCode = (Http2ErrorCode)BinaryPrimitives.ReadUInt32BigEndian(extendedHeaders);
+                case Proto2FrameType.RST_STREAM:
+                    frame.RstStreamErrorCode = (Proto2ErrorCode)BinaryPrimitives.ReadUInt32BigEndian(extendedHeaders);
                     break;
 
                 /* https://tools.ietf.org/html/rfc7540#section-6.9
@@ -174,14 +174,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     |R|              Window Size Increment (31)                     |
                     +-+-------------------------------------------------------------+
                 */
-                case Http2FrameType.WINDOW_UPDATE:
+                case Proto2FrameType.WINDOW_UPDATE:
                     frame.WindowUpdateSizeIncrement = (int)Bitshifter.ReadUInt31BigEndian(extendedHeaders);
                     break;
 
-                case Http2FrameType.PING: // Opaque payload 8 bytes long
-                case Http2FrameType.SETTINGS: // Settings are general payload
-                case Http2FrameType.CONTINUATION: // None
-                case Http2FrameType.PUSH_PROMISE: // Not implemented frames are ignored at this phase
+                case Proto2FrameType.PING: // Opaque payload 8 bytes long
+                case Proto2FrameType.SETTINGS: // Settings are general payload
+                case Proto2FrameType.CONTINUATION: // None
+                case Proto2FrameType.PUSH_PROMISE: // Not implemented frames are ignored at this phase
                 default:
                     return 0;
             }
@@ -191,39 +191,39 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         // The length in bytes of additional fields stored in the payload section.
         // This may be variable based on flags, but should be no more than 8 bytes.
-        public static int GetPayloadFieldsLength(Http2Frame frame)
+        public static int GetPayloadFieldsLength(Proto2Frame frame)
         {
             switch (frame.Type)
             {
                 // TODO: Extract constants
-                case Http2FrameType.DATA: // Variable 0 or 1
+                case Proto2FrameType.DATA: // Variable 0 or 1
                     return frame.DataHasPadding ? 1 : 0;
-                case Http2FrameType.HEADERS:
+                case Proto2FrameType.HEADERS:
                     return (frame.HeadersHasPadding ? 1 : 0) + (frame.HeadersHasPriority ? 5 : 0); // Variable 0 to 6
-                case Http2FrameType.GOAWAY:
+                case Proto2FrameType.GOAWAY:
                     return 8; // Last stream id and error code.
-                case Http2FrameType.PRIORITY:
+                case Proto2FrameType.PRIORITY:
                     return 5; // Stream dependency and weight
-                case Http2FrameType.RST_STREAM:
+                case Proto2FrameType.RST_STREAM:
                     return 4; // Error code
-                case Http2FrameType.WINDOW_UPDATE:
+                case Proto2FrameType.WINDOW_UPDATE:
                     return 4; // Update size
-                case Http2FrameType.PING: // 8 bytes of opaque data
-                case Http2FrameType.SETTINGS: // Settings are general payload
-                case Http2FrameType.CONTINUATION: // None
-                case Http2FrameType.PUSH_PROMISE: // Not implemented frames are ignored at this phase
+                case Proto2FrameType.PING: // 8 bytes of opaque data
+                case Proto2FrameType.SETTINGS: // Settings are general payload
+                case Proto2FrameType.CONTINUATION: // None
+                case Proto2FrameType.PUSH_PROMISE: // Not implemented frames are ignored at this phase
                 default:
                     return 0;
             }
         }
 
-        public static IList<Http2PeerSetting> ReadSettings(ReadOnlySequence<byte> payload)
+        public static IList<Proto2PeerSetting> ReadSettings(ReadOnlySequence<byte> payload)
         {
             var data = payload.ToSpan();
             Debug.Assert(data.Length % SettingSize == 0, "Invalid settings payload length");
             var settingsCount = data.Length / SettingSize;
 
-            var settings = new Http2PeerSetting[settingsCount];
+            var settings = new Proto2PeerSetting[settingsCount];
             for (int i = 0; i < settings.Length; i++)
             {
                 settings[i] = ReadSetting(data);
@@ -232,12 +232,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             return settings;
         }
 
-        private static Http2PeerSetting ReadSetting(ReadOnlySpan<byte> payload)
+        private static Proto2PeerSetting ReadSetting(ReadOnlySpan<byte> payload)
         {
-            var id = (Http2SettingsParameter)BinaryPrimitives.ReadUInt16BigEndian(payload);
+            var id = (Proto2SettingsParameter)BinaryPrimitives.ReadUInt16BigEndian(payload);
             var value = BinaryPrimitives.ReadUInt32BigEndian(payload.Slice(2));
 
-            return new Http2PeerSetting(id, value);
+            return new Proto2PeerSetting(id, value);
         }
     }
 }

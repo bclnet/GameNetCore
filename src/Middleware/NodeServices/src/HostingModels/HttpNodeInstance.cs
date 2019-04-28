@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Microsoft.AspNetCore.NodeServices.HostingModels
+namespace Contoso.GameNetCore.NodeServices.HostingModels
 {
     /// <summary>
     /// A specialisation of the OutOfProcessNodeInstance base class that uses HTTP to perform RPC invocations.

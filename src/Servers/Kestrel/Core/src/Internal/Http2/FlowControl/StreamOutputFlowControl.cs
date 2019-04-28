@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl
 {
     internal class StreamOutputFlowControl
     {

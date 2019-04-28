@@ -3,18 +3,18 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.WebSockets.Test
+namespace Contoso.GameNetCore.GameSockets.Test
 {
-    public class KestrelWebSocketHelpers
+    public class KestrelGameSocketHelpers
     {
-        public static IDisposable CreateServer(ILoggerFactory loggerFactory, out int port, Func<HttpContext, Task> app, Action<WebSocketOptions> configure = null)
+        public static IDisposable CreateServer(ILoggerFactory loggerFactory, out int port, Func<HttpContext, Task> app, Action<GameSocketOptions> configure = null)
         {
             configure = configure ?? (o => { });
             Action<IApplicationBuilder> startup = builder =>
@@ -39,7 +39,7 @@ namespace Microsoft.AspNetCore.WebSockets.Test
                         await ct.Response.WriteAsync(ex.ToString());
                     }
                 });
-                builder.UseWebSockets();
+                builder.UseGameSockets();
                 builder.Run(c => app(c));
             };
 
@@ -48,10 +48,10 @@ namespace Microsoft.AspNetCore.WebSockets.Test
             var config = configBuilder.Build();
             config["server.urls"] = $"http://127.0.0.1:0";
 
-            var host = new WebHostBuilder()
+            var host = new GameHostBuilder()
                 .ConfigureServices(s =>
                 {
-                    s.AddWebSockets(configure);
+                    s.AddGameSockets(configure);
                     s.AddSingleton(loggerFactory);
                 })
                 .UseConfiguration(config)

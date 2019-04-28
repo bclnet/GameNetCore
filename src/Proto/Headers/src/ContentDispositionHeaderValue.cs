@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     // Note this is for use both in HTTP (https://tools.ietf.org/html/rfc6266) and MIME (https://tools.ietf.org/html/rfc2183)
     public class ContentDispositionHeaderValue
@@ -25,7 +25,7 @@ namespace Microsoft.Net.Http.Headers
         private static readonly char[] QuestionMark = new char[] { '?' };
         private static readonly char[] SingleQuote = new char[] { '\'' };
 
-        private static readonly HttpHeaderParser<ContentDispositionHeaderValue> Parser
+        private static readonly ProtoHeaderParser<ContentDispositionHeaderValue> Parser
             = new GenericHeaderParser<ContentDispositionHeaderValue>(false, GetDispositionTypeLength);
 
         // Use list instead of dictionary since we may have multiple parameters with the same name.
@@ -45,7 +45,7 @@ namespace Microsoft.Net.Http.Headers
 
         public StringSegment DispositionType
         {
-            get { return _dispositionType; }
+            get => _dispositionType;
             set
             {
                 CheckDispositionTypeFormat(value, "value");
@@ -58,9 +58,7 @@ namespace Microsoft.Net.Http.Headers
             get
             {
                 if (_parameters == null)
-                {
                     _parameters = new ObjectCollection<NameValueHeaderValue>();
-                }
                 return _parameters;
             }
         }
@@ -69,39 +67,39 @@ namespace Microsoft.Net.Http.Headers
 
         public StringSegment Name
         {
-            get { return GetName(NameString); }
-            set { SetName(NameString, value); }
+            get => GetName(NameString);
+            set => SetName(NameString, value);
         }
 
 
         public StringSegment FileName
         {
-            get { return GetName(FileNameString); }
-            set { SetName(FileNameString, value); }
+            get => GetName(FileNameString);
+            set => SetName(FileNameString, value);
         }
 
         public StringSegment FileNameStar
         {
-            get { return GetName(FileNameStarString); }
-            set { SetName(FileNameStarString, value); }
+            get => GetName(FileNameStarString);
+            set => SetName(FileNameStarString, value);
         }
 
         public DateTimeOffset? CreationDate
         {
-            get { return GetDate(CreationDateString); }
-            set { SetDate(CreationDateString, value); }
+            get => GetDate(CreationDateString);
+            set => SetDate(CreationDateString, value);
         }
 
         public DateTimeOffset? ModificationDate
         {
-            get { return GetDate(ModificationDateString); }
-            set { SetDate(ModificationDateString, value); }
+            get => GetDate(ModificationDateString);
+            set => SetDate(ModificationDateString, value);
         }
 
         public DateTimeOffset? ReadDate
         {
-            get { return GetDate(ReadDateString); }
-            set { SetDate(ReadDateString, value); }
+            get => GetDate(ReadDateString);
+            set => SetDate(ReadDateString, value);
         }
 
         public long? Size
@@ -109,14 +107,11 @@ namespace Microsoft.Net.Http.Headers
             get
             {
                 var sizeParameter = NameValueHeaderValue.Find(_parameters, SizeString);
-                long value;
                 if (sizeParameter != null)
                 {
                     var sizeString = sizeParameter.Value;
-                    if (HeaderUtilities.TryParseNonNegativeInt64(sizeString, out value))
-                    {
+                    if (HeaderUtilities.TryParseNonNegativeInt64(sizeString, out var value))
                         return value;
-                    }
                 }
                 return null;
             }
@@ -127,21 +122,15 @@ namespace Microsoft.Net.Http.Headers
                 {
                     // Remove parameter
                     if (sizeParameter != null)
-                    {
                         _parameters.Remove(sizeParameter);
-                    }
                 }
                 else if (value < 0)
-                {
                     throw new ArgumentOutOfRangeException(nameof(value));
-                }
                 else if (sizeParameter != null)
-                {
                     sizeParameter.Value = value.GetValueOrDefault().ToString(CultureInfo.InvariantCulture);
-                }
                 else
                 {
-                    string sizeString = value.GetValueOrDefault().ToString(CultureInfo.InvariantCulture);
+                    var sizeString = value.GetValueOrDefault().ToString(CultureInfo.InvariantCulture);
                     _parameters.Add(new NameValueHeaderValue(SizeString, sizeString));
                 }
             }
@@ -151,16 +140,9 @@ namespace Microsoft.Net.Http.Headers
         /// Sets both FileName and FileNameStar using encodings appropriate for HTTP headers.
         /// </summary>
         /// <param name="fileName"></param>
-        public void SetHttpFileName(StringSegment fileName)
+        public void SetProtoFileName(StringSegment fileName)
         {
-            if (!StringSegment.IsNullOrEmpty(fileName))
-            {
-                FileName = Sanitize(fileName);
-            }
-            else
-            {
-                FileName = fileName;
-            }
+            FileName = !StringSegment.IsNullOrEmpty(fileName) ? Sanitize(fileName) : fileName;
             FileNameStar = fileName;
         }
 
@@ -175,29 +157,17 @@ namespace Microsoft.Net.Http.Headers
             FileName = fileName;
         }
 
-        public override string ToString()
-        {
-            return _dispositionType + NameValueHeaderValue.ToString(_parameters, ';', true);
-        }
+        public override string ToString() => _dispositionType + NameValueHeaderValue.ToString(_parameters, ';', true);
 
-        public override bool Equals(object obj)
-        {
-            var other = obj as ContentDispositionHeaderValue;
+        public override bool Equals(object obj) =>
+            !(obj is ContentDispositionHeaderValue other)
+            ? false
+            : _dispositionType.Equals(other._dispositionType, StringComparison.OrdinalIgnoreCase) &&
+            HeaderUtilities.AreEqualCollections(_parameters, other._parameters);
 
-            if (other == null)
-            {
-                return false;
-            }
-
-            return _dispositionType.Equals(other._dispositionType, StringComparison.OrdinalIgnoreCase) &&
-                HeaderUtilities.AreEqualCollections(_parameters, other._parameters);
-        }
-
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() =>
             // The dispositionType string is case-insensitive.
-            return StringSegmentComparer.OrdinalIgnoreCase.GetHashCode(_dispositionType) ^ NameValueHeaderValue.GetHashCode(_parameters);
-        }
+            StringSegmentComparer.OrdinalIgnoreCase.GetHashCode(_dispositionType) ^ NameValueHeaderValue.GetHashCode(_parameters);
 
         public static ContentDispositionHeaderValue Parse(StringSegment input)
         {
@@ -218,20 +188,16 @@ namespace Microsoft.Net.Http.Headers
             parsedValue = null;
 
             if (StringSegment.IsNullOrEmpty(input) || (startIndex >= input.Length))
-            {
                 return 0;
-            }
 
             // Caller must remove leading whitespaces. If not, we'll return 0.
             var dispositionTypeLength = GetDispositionTypeExpressionLength(input, startIndex, out var dispositionType);
 
             if (dispositionTypeLength == 0)
-            {
                 return 0;
-            }
 
             var current = startIndex + dispositionTypeLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current += ProtoRuleParser.GetWhitespaceLength(input, current);
             var contentDispositionHeader = new ContentDispositionHeaderValue();
             contentDispositionHeader._dispositionType = dispositionType;
 
@@ -239,7 +205,7 @@ namespace Microsoft.Net.Http.Headers
             if ((current < input.Length) && (input[current] == ';'))
             {
                 current++; // skip delimiter.
-                int parameterLength = NameValueHeaderValue.GetNameValueListLength(input, current, ';',
+                var parameterLength = NameValueHeaderValue.GetNameValueListLength(input, current, ';',
                     contentDispositionHeader.Parameters);
 
                 parsedValue = contentDispositionHeader;
@@ -253,19 +219,17 @@ namespace Microsoft.Net.Http.Headers
 
         private static int GetDispositionTypeExpressionLength(StringSegment input, int startIndex, out StringSegment dispositionType)
         {
-            Contract.Requires((input != null) && (input.Length > 0) && (startIndex < input.Length));
+            Contract.Requires(input != null && input.Length > 0 && startIndex < input.Length);
 
             // This method just parses the disposition type string, it does not parse parameters.
             dispositionType = null;
 
             // Parse the disposition type, i.e. <dispositiontype> in content-disposition string
             // "<dispositiontype>; param1=value1; param2=value2"
-            var typeLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var typeLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (typeLength == 0)
-            {
                 return 0;
-            }
 
             dispositionType = input.Subsegment(startIndex, typeLength);
             return typeLength;
@@ -274,17 +238,13 @@ namespace Microsoft.Net.Http.Headers
         private static void CheckDispositionTypeFormat(StringSegment dispositionType, string parameterName)
         {
             if (StringSegment.IsNullOrEmpty(dispositionType))
-            {
                 throw new ArgumentException("An empty string is not allowed.", parameterName);
-            }
 
             // When adding values using strongly typed objects, no leading/trailing LWS (whitespaces) are allowed.
             var dispositionTypeLength = GetDispositionTypeExpressionLength(dispositionType, 0, out var tempDispositionType);
-            if ((dispositionTypeLength == 0) || (tempDispositionType.Length != dispositionType.Length))
-            {
+            if (dispositionTypeLength == 0 || tempDispositionType.Length != dispositionType.Length)
                 throw new FormatException(string.Format(CultureInfo.InvariantCulture,
                     "Invalid disposition type '{0}'.", dispositionType));
-            }
         }
 
         // Gets a parameter of the given name and attempts to extract a date.
@@ -297,14 +257,9 @@ namespace Microsoft.Net.Http.Headers
                 var dateString = dateParameter.Value;
                 // Should have quotes, remove them.
                 if (IsQuoted(dateString))
-                {
                     dateString = dateString.Subsegment(1, dateString.Length - 2);
-                }
-                DateTimeOffset date;
-                if (HttpRuleParser.TryStringToDate(dateString, out date))
-                {
+                if (ProtoRuleParser.TryStringToDate(dateString, out var date))
                     return date;
-                }
             }
             return null;
         }
@@ -317,22 +272,16 @@ namespace Microsoft.Net.Http.Headers
             {
                 // Remove parameter
                 if (dateParameter != null)
-                {
                     _parameters.Remove(dateParameter);
-                }
             }
             else
             {
                 // Must always be quoted
                 var dateString = HeaderUtilities.FormatDate(date.GetValueOrDefault(), quoted: true);
                 if (dateParameter != null)
-                {
                     dateParameter.Value = dateString;
-                }
                 else
-                {
                     Parameters.Add(new NameValueHeaderValue(parameter, dateString));
-                }
             }
         }
 
@@ -348,17 +297,13 @@ namespace Microsoft.Net.Http.Headers
                 if (parameter.EndsWith("*", StringComparison.Ordinal))
                 {
                     if (TryDecode5987(nameParameter.Value, out result))
-                    {
                         return result;
-                    }
                     return null; // Unrecognized encoding
                 }
 
                 // filename="=?utf-8?B?BDFSDFasdfasdc==?="
                 if (TryDecodeMime(nameParameter.Value, out result))
-                {
                     return result;
-                }
                 // May not have been encoded
                 return HeaderUtilities.RemoveQuotes(nameParameter.Value);
             }
@@ -374,30 +319,15 @@ namespace Microsoft.Net.Http.Headers
             {
                 // Remove parameter
                 if (nameParameter != null)
-                {
                     _parameters.Remove(nameParameter);
-                }
             }
             else
             {
-                var processedValue = StringSegment.Empty;
-                if (parameter.EndsWith("*", StringComparison.Ordinal))
-                {
-                    processedValue = Encode5987(value);
-                }
-                else
-                {
-                    processedValue = EncodeAndQuoteMime(value);
-                }
-
+                var processedValue = parameter.EndsWith("*", StringComparison.Ordinal) ? Encode5987(value) : EncodeAndQuoteMime(value);
                 if (nameParameter != null)
-                {
                     nameParameter.Value = processedValue;
-                }
                 else
-                {
                     Parameters.Add(new NameValueHeaderValue(parameter, processedValue));
-                }
             }
         }
 
@@ -418,10 +348,8 @@ namespace Microsoft.Net.Http.Headers
                 needsQuotes = true; // Encoded data must always be quoted, the equals signs are invalid in tokens
                 result = EncodeMime(result); // =?utf-8?B?asdfasdfaesdf?=
             }
-            else if (!needsQuotes && HttpRuleParser.GetTokenLength(result, 0) != result.Length)
-            {
+            else if (!needsQuotes && ProtoRuleParser.GetTokenLength(result, 0) != result.Length)
                 needsQuotes = true;
-            }
 
             if (needsQuotes)
             {
@@ -437,17 +365,14 @@ namespace Microsoft.Net.Http.Headers
         private StringSegment Sanitize(StringSegment input)
         {
             var result = input;
-
             if (RequiresEncoding(result))
             {
                 var builder = new StringBuilder(result.Length);
-                for (int i = 0; i < result.Length; i++)
+                for (var i = 0; i < result.Length; i++)
                 {
                     var c = result[i];
-                    if ((int)c > 0x7f)
-                    {
+                    if (c > 0x7f)
                         c = '_'; // Replace out-of-range characters
-                    }
                     builder.Append(c);
                 }
                 result = builder.ToString();
@@ -460,7 +385,6 @@ namespace Microsoft.Net.Http.Headers
         private bool IsQuoted(StringSegment value)
         {
             Contract.Assert(value != null);
-
             return value.Length > 1 && value.StartsWith("\"", StringComparison.Ordinal)
                 && value.EndsWith("\"", StringComparison.Ordinal);
         }
@@ -469,14 +393,9 @@ namespace Microsoft.Net.Http.Headers
         private bool RequiresEncoding(StringSegment input)
         {
             Contract.Assert(input != null);
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                if ((int)input[i] > 0x7f)
-                {
+            for (var i = 0; i < input.Length; i++)
+                if (input[i] > 0x7f)
                     return true;
-                }
-            }
             return false;
         }
 
@@ -488,9 +407,7 @@ namespace Microsoft.Net.Http.Headers
                 var byteCount = Encoding.UTF8.GetByteCount(chars + input.Offset, input.Length);
                 var buffer = new byte[byteCount];
                 fixed (byte* bytes = buffer)
-                {
                     Encoding.UTF8.GetBytes(chars + input.Offset, input.Length, bytes, byteCount);
-                }
                 var encodedName = Convert.ToBase64String(buffer);
                 return "=?utf-8?B?" + encodedName + "?=";
             }
@@ -500,25 +417,20 @@ namespace Microsoft.Net.Http.Headers
         private bool TryDecodeMime(StringSegment input, out string output)
         {
             Contract.Assert(input != null);
-
             output = null;
             var processedInput = input;
             // Require quotes, min of "=?e?b??="
             if (!IsQuoted(processedInput) || processedInput.Length < 10)
-            {
                 return false;
-            }
 
             var parts = processedInput.Split(QuestionMark).ToArray();
             // "=, encodingName, encodingType, encodedData, ="
             if (parts.Length != 5 || parts[0] != "\"=" || parts[4] != "=\""
                 || !parts[2].Equals("b", StringComparison.OrdinalIgnoreCase))
-            {
                 // Not encoded.
                 // This does not support multi-line encoding.
                 // Only base64 encoding is supported, not quoted printable
                 return false;
-            }
 
             try
             {
@@ -543,7 +455,7 @@ namespace Microsoft.Net.Http.Headers
         private string Encode5987(StringSegment input)
         {
             var builder = new StringBuilder("UTF-8\'\'");
-            for (int i = 0; i < input.Length; i++)
+            for (var i = 0; i < input.Length; i++)
             {
                 var c = input[i];
                 // attr-char = ALPHA / DIGIT / "!" / "#" / "$" / "&" / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~"
@@ -551,20 +463,14 @@ namespace Microsoft.Net.Http.Headers
                 if (c > 0x7F) // Encodes as multiple utf-8 bytes
                 {
                     var bytes = Encoding.UTF8.GetBytes(c.ToString());
-                    foreach (byte b in bytes)
-                    {
+                    foreach (var b in bytes)
                         HexEscape(builder, (char)b);
-                    }
                 }
-                else if (!HttpRuleParser.IsTokenChar(c) || c == '*' || c == '\'' || c == '%')
-                {
+                else if (!ProtoRuleParser.IsTokenChar(c) || c == '*' || c == '\'' || c == '%')
                     // ASCII - Only one encoded byte
                     HexEscape(builder, c);
-                }
                 else
-                {
                     builder.Append(c);
-                }
             }
             return builder.ToString();
         }
@@ -588,9 +494,7 @@ namespace Microsoft.Net.Http.Headers
 
             var parts = input.Split(SingleQuote).ToArray();
             if (parts.Length != 3)
-            {
                 return false;
-            }
 
             var decoded = new StringBuilder();
             byte[] unescapedBytes = null;
@@ -622,10 +526,8 @@ namespace Microsoft.Net.Http.Headers
                 }
 
                 if (unescapedBytesCount > 0)
-                {
                     // Decode any previously cached bytes
                     decoded.Append(encoding.GetString(unescapedBytes, 0, unescapedBytesCount));
-                }
             }
             catch (ArgumentException)
             {
@@ -634,55 +536,37 @@ namespace Microsoft.Net.Http.Headers
             finally
             {
                 if (unescapedBytes != null)
-                {
                     ArrayPool<byte>.Shared.Return(unescapedBytes);
-                }
             }
 
             output = decoded.ToString();
             return true;
         }
 
-        private static bool IsHexEncoding(StringSegment pattern, int index)
-        {
-            if ((pattern.Length - index) < 3)
-            {
-                return false;
-            }
-            if ((pattern[index] == '%') && IsEscapedAscii(pattern[index + 1], pattern[index + 2]))
-            {
-                return true;
-            }
-            return false;
-        }
+        private static bool IsHexEncoding(StringSegment pattern, int index) =>
+            (pattern.Length - index) < 3 ? false : pattern[index] == '%' && IsEscapedAscii(pattern[index + 1], pattern[index + 2]);
 
         private static bool IsEscapedAscii(char digit, char next)
         {
-            if (!(((digit >= '0') && (digit <= '9'))
-                || ((digit >= 'A') && (digit <= 'F'))
-                || ((digit >= 'a') && (digit <= 'f'))))
-            {
+            if (!((digit >= '0' && digit <= '9')
+                || (digit >= 'A' && digit <= 'F')
+                || (digit >= 'a' && digit <= 'f')))
                 return false;
-            }
 
-            if (!(((next >= '0') && (next <= '9'))
-                || ((next >= 'A') && (next <= 'F'))
-                || ((next >= 'a') && (next <= 'f'))))
-            {
+            if (!((next >= '0' && next <= '9')
+                || (next >= 'A' && next <= 'F')
+                || (next >= 'a' && next <= 'f')))
                 return false;
-            }
 
             return true;
         }
 
         private static byte HexUnescape(StringSegment pattern, ref int index)
         {
-            if ((index < 0) || (index >= pattern.Length))
-            {
+            if (index < 0 || index >= pattern.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            }
-            if ((pattern[index] == '%')
-                && (pattern.Length - index >= 3))
+            if (pattern[index] == '%'
+                && pattern.Length - index >= 3)
             {
                 var ret = UnEscapeAscii(pattern[index + 1], pattern[index + 2]);
                 index += 3;
@@ -693,32 +577,27 @@ namespace Microsoft.Net.Http.Headers
 
         internal static byte UnEscapeAscii(char digit, char next)
         {
-            if (!(((digit >= '0') && (digit <= '9'))
-                || ((digit >= 'A') && (digit <= 'F'))
-                || ((digit >= 'a') && (digit <= 'f'))))
-            {
+            if (!((digit >= '0' && digit <= '9')
+                || (digit >= 'A' && digit <= 'F')
+                || (digit >= 'a' && digit <= 'f')))
                 throw new ArgumentException();
-            }
 
-            var res = (digit <= '9')
-                ? ((int)digit - (int)'0')
-                : (((digit <= 'F')
-                ? ((int)digit - (int)'A')
-                : ((int)digit - (int)'a'))
+            var res = digit <= '9'
+                ? digit - '0'
+                : ((digit <= 'F'
+                ? digit - 'A'
+                : digit - 'a')
                    + 10);
 
-            if (!(((next >= '0') && (next <= '9'))
-                || ((next >= 'A') && (next <= 'F'))
-                || ((next >= 'a') && (next <= 'f'))))
-            {
+            if (!((next >= '0' && next <= '9')
+                || (next >= 'A' && next <= 'F')
+                || (next >= 'a' && next <= 'f')))
                 throw new ArgumentException();
-            }
-
-            return (byte)((res << 4) + ((next <= '9')
-                    ? ((int)next - (int)'0')
-                    : (((next <= 'F')
-                        ? ((int)next - (int)'A')
-                        : ((int)next - (int)'a'))
+            return (byte)((res << 4) + (next <= '9'
+                    ? next - '0'
+                    : ((next <= 'F'
+                        ? next - 'A'
+                        : next - 'a')
                        + 10)));
         }
     }

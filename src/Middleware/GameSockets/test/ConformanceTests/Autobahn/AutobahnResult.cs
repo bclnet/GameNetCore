@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     public class AutobahnResult
     {

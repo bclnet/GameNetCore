@@ -3,10 +3,10 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Represents the collection of files sent with the HttpRequest.
+    /// Represents the collection of files sent with the ProtoRequest.
     /// </summary>
     public interface IFormFileCollection : IReadOnlyList<IFormFile>
     {

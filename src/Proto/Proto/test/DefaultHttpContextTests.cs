@@ -5,25 +5,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class DefaultHttpContextTests
+    public class DefaultProtoContextTests
     {
         [Fact]
         public void GetOnSessionProperty_ThrowsOnMissingSessionFeature()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => context.Session);
@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Http
         public void GetOnSessionProperty_ReturnsAvailableSession()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var session = new TestSession();
             session.Set("key1", null);
             session.Set("key2", null);
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Http
         {
             // Arrange
             var session = new TestSession();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             // Act
             context.Session = session;
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Http
         public void SettingSession_OverridesAvailableSession()
         {
             // Arrange
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var session = new TestSession();
             session.Set("key1", null);
             session.Set("key2", null);
@@ -85,7 +85,7 @@ namespace Microsoft.AspNetCore.Http
         [Fact]
         public void EmptyUserIsNeverNull()
         {
-            var context = new DefaultHttpContext(new FeatureCollection());
+            var context = new DefaultProtoContext(new FeatureCollection());
             Assert.NotNull(context.User);
             Assert.Single(context.User.Identities);
             Assert.True(object.ReferenceEquals(context.User, context.User));
@@ -113,7 +113,7 @@ namespace Microsoft.AspNetCore.Http
         [Fact]
         public void GetItems_DefaultCollectionProvided()
         {
-            var context = new DefaultHttpContext(new FeatureCollection());
+            var context = new DefaultProtoContext(new FeatureCollection());
             Assert.Null(context.Features.Get<IItemsFeature>());
             var items = context.Items;
             Assert.NotNull(context.Features.Get<IItemsFeature>());
@@ -127,10 +127,10 @@ namespace Microsoft.AspNetCore.Http
         [Fact]
         public void GetItems_DefaultRequestIdentifierAvailable()
         {
-            var context = new DefaultHttpContext(new FeatureCollection());
-            Assert.Null(context.Features.Get<IHttpRequestIdentifierFeature>());
+            var context = new DefaultProtoContext(new FeatureCollection());
+            Assert.Null(context.Features.Get<IProtoRequestIdentifierFeature>());
             var traceIdentifier = context.TraceIdentifier;
-            Assert.NotNull(context.Features.Get<IHttpRequestIdentifierFeature>());
+            Assert.NotNull(context.Features.Get<IProtoRequestIdentifierFeature>());
             Assert.NotNull(traceIdentifier);
             Assert.Same(traceIdentifier, context.TraceIdentifier);
 
@@ -141,7 +141,7 @@ namespace Microsoft.AspNetCore.Http
         [Fact]
         public void SetItems_NewCollectionUsed()
         {
-            var context = new DefaultHttpContext(new FeatureCollection());
+            var context = new DefaultProtoContext(new FeatureCollection());
             Assert.Null(context.Features.Get<IItemsFeature>());
             var items = new Dictionary<object, object>();
             context.Items = items;
@@ -156,13 +156,13 @@ namespace Microsoft.AspNetCore.Http
         public void UpdateFeatures_ClearsCachedFeatures()
         {
             var features = new FeatureCollection();
-            features.Set<IHttpRequestFeature>(new HttpRequestFeature());
-            features.Set<IHttpResponseFeature>(new HttpResponseFeature());
-            features.Set<IHttpWebSocketFeature>(new TestHttpWebSocketFeature());
-            features.Set<IHttpResponseStartFeature>(new MockHttpResponseStartFeature());
+            features.Set<IProtoRequestFeature>(new ProtoRequestFeature());
+            features.Set<IProtoResponseFeature>(new ProtoResponseFeature());
+            features.Set<IProtoGameSocketFeature>(new TestProtoGameSocketFeature());
+            features.Set<IProtoResponseStartFeature>(new MockProtoResponseStartFeature());
 
             // FeatureCollection is set. all cached interfaces are null.
-            var context = new DefaultHttpContext(features);
+            var context = new DefaultProtoContext(features);
             TestAllCachedFeaturesAreNull(context, features);
             Assert.Equal(4, features.Count());
 
@@ -177,10 +177,10 @@ namespace Microsoft.AspNetCore.Http
 
 
             var newFeatures = new FeatureCollection();
-            newFeatures.Set<IHttpRequestFeature>(new HttpRequestFeature());
-            newFeatures.Set<IHttpResponseFeature>(new HttpResponseFeature());
-            newFeatures.Set<IHttpWebSocketFeature>(new TestHttpWebSocketFeature());
-            newFeatures.Set<IHttpResponseStartFeature>(new MockHttpResponseStartFeature());
+            newFeatures.Set<IProtoRequestFeature>(new ProtoRequestFeature());
+            newFeatures.Set<IProtoResponseFeature>(new ProtoResponseFeature());
+            newFeatures.Set<IProtoGameSocketFeature>(new TestProtoGameSocketFeature());
+            newFeatures.Set<IProtoResponseStartFeature>(new MockProtoResponseStartFeature());
 
             // FeatureCollection is set to newFeatures. all cached interfaces are null.
             context.Initialize(newFeatures);
@@ -200,7 +200,7 @@ namespace Microsoft.AspNetCore.Http
 
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.ServiceScopeFactory = scopeFactory;
             context.RequestServices = serviceProvider;
 
@@ -217,10 +217,10 @@ namespace Microsoft.AspNetCore.Http
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
             DisposableThing instance = null;
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.ServiceScopeFactory = scopeFactory;
-            var responseFeature = new TestHttpResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            var responseFeature = new TestProtoResponseFeature();
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
 
             Assert.NotNull(context.RequestServices);
             Assert.Single(responseFeature.CompletedCallbacks);
@@ -244,10 +244,10 @@ namespace Microsoft.AspNetCore.Http
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
             DisposableThing instance = null;
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.ServiceScopeFactory = scopeFactory;
-            var responseFeature = new TestHttpResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            var responseFeature = new TestProtoResponseFeature();
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
 
             Assert.NotNull(context.RequestServices);
             Assert.Single(responseFeature.CompletedCallbacks);
@@ -264,13 +264,13 @@ namespace Microsoft.AspNetCore.Http
             Assert.False(scope.DisposeCalled);
         }
 
-        void TestAllCachedFeaturesAreNull(HttpContext context, IFeatureCollection features)
+        void TestAllCachedFeaturesAreNull(ProtoContext context, IFeatureCollection features)
         {
             TestCachedFeaturesAreNull(context, features);
             TestCachedFeaturesAreNull(context.Request, features);
             TestCachedFeaturesAreNull(context.Response, features);
             TestCachedFeaturesAreNull(context.Connection, features);
-            TestCachedFeaturesAreNull(context.WebSockets, features);
+            TestCachedFeaturesAreNull(context.GameSockets, features);
         }
 
         void TestCachedFeaturesAreNull(object value, IFeatureCollection features)
@@ -292,13 +292,13 @@ namespace Microsoft.AspNetCore.Http
             Assert.Equal(boxedExpectedStruct, boxedActualStruct);
         }
 
-        void TestAllCachedFeaturesAreSet(HttpContext context, IFeatureCollection features)
+        void TestAllCachedFeaturesAreSet(ProtoContext context, IFeatureCollection features)
         {
             TestCachedFeaturesAreSet(context, features);
             TestCachedFeaturesAreSet(context.Request, features);
             TestCachedFeaturesAreSet(context.Response, features);
             TestCachedFeaturesAreSet(context.Connection, features);
-            TestCachedFeaturesAreSet(context.WebSockets, features);
+            TestCachedFeaturesAreSet(context.GameSockets, features);
         }
 
         void TestCachedFeaturesAreSet(object value, IFeatureCollection features)
@@ -351,9 +351,9 @@ namespace Microsoft.AspNetCore.Http
             }
         }
 
-        private HttpContext CreateContext()
+        private ProtoContext CreateContext()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             return context;
         }
 
@@ -366,7 +366,7 @@ namespace Microsoft.AspNetCore.Http
             }
         }
 
-        private class TestHttpResponseFeature : IHttpResponseFeature
+        private class TestProtoResponseFeature : IProtoResponseFeature
         {
             public List<(Func<object, Task> callback, object state)> CompletedCallbacks = new List<(Func<object, Task> callback, object state)>();
 
@@ -434,9 +434,9 @@ namespace Microsoft.AspNetCore.Http
             public ISession Session { get; set; }
         }
 
-        private class TestHttpWebSocketFeature : IHttpWebSocketFeature
+        private class TestProtoGameSocketFeature : IProtoGameSocketFeature
         {
-            public bool IsWebSocketRequest
+            public bool IsGameSocketRequest
             {
                 get
                 {
@@ -444,13 +444,13 @@ namespace Microsoft.AspNetCore.Http
                 }
             }
 
-            public Task<WebSocket> AcceptAsync(WebSocketAcceptContext context)
+            public Task<GameSocket> AcceptAsync(GameSocketAcceptContext context)
             {
                 throw new NotImplementedException();
             }
         }
 
-        private class MockHttpResponseStartFeature : IHttpResponseStartFeature
+        private class MockProtoResponseStartFeature : IProtoResponseStartFeature
         {
             public Task StartAsync(CancellationToken cancellationToken)
             {

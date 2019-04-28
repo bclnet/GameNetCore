@@ -1,14 +1,14 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     public static class HostBuilderTestServerExtensions
     {
@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.TestHost
         /// </summary>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static HttpClient GetTestClient(this IHost host)
+        public static ProtoClient GetTestClient(this IHost host)
         {
             return host.GetTestServer().CreateClient();
         }

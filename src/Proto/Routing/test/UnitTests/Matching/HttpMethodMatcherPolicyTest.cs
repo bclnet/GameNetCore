@@ -4,14 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
 using Xunit;
-using static Microsoft.AspNetCore.Routing.Matching.HttpMethodMatcherPolicy;
+using static Microsoft.GameNetCore.Routing.Matching.ProtoMethodMatcherPolicy;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
-    public class HttpMethodMatcherPolicyTest
+    public class ProtoMethodMatcherPolicyTest
     {
         [Fact]
         public void AppliesToNode_EndpointWithoutMetadata_ReturnsFalse()
@@ -29,12 +29,12 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public void AppliesToNode_EndpointWithoutHttpMethods_ReturnsFalse()
+        public void AppliesToNode_EndpointWithoutProtoMethods_ReturnsFalse()
         {
             // Arrange
             var endpoints = new[] 
             {
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>())),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>())),
             };
 
             var policy = CreatePolicy();
@@ -47,13 +47,13 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public void AppliesToNode_EndpointHasHttpMethods_ReturnsTrue()
+        public void AppliesToNode_EndpointHasProtoMethods_ReturnsTrue()
         {
             // Arrange
             var endpoints = new[]
             {
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>())),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", })),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>())),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", })),
             };
 
             var policy = CreatePolicy();
@@ -66,18 +66,18 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public void GetEdges_GroupsByHttpMethod()
+        public void GetEdges_GroupsByProtoMethod()
         {
             // Arrange
             var endpoints = new[]
             {
                 // These are arrange in an order that we won't actually see in a product scenario. It's done
                 // this way so we can verify that ordering is preserved by GetEdges.
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", })),
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>())),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", "PUT", "POST" })),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "PUT", "POST" })),
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>())),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", })),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>())),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>())),
             };
 
             var policy = CreatePolicy();
@@ -111,18 +111,18 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public void GetEdges_GroupsByHttpMethod_Cors()
+        public void GetEdges_GroupsByProtoMethod_Cors()
         {
             // Arrange
             var endpoints = new[]
             {
                 // These are arrange in an order that we won't actually see in a product scenario. It's done
                 // this way so we can verify that ordering is preserved by GetEdges.
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", })),
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>())),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", "PUT", "POST" }, acceptCorsPreflight: true)),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "PUT", "POST" })),
-                CreateEndpoint("/", new HttpMethodMetadata(Array.Empty<string>(), acceptCorsPreflight: true)),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", })),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>())),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", "PUT", "POST" }, acceptCorsPreflight: true)),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(Array.Empty<string>(), acceptCorsPreflight: true)),
             };
 
             var policy = CreatePolicy();
@@ -176,16 +176,16 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact] // See explanation in GetEdges for how this case is different
-        public void GetEdges_GroupsByHttpMethod_CreatesHttp405Endpoint()
+        public void GetEdges_GroupsByProtoMethod_CreatesProto405Endpoint()
         {
             // Arrange
             var endpoints = new[]
             {
                 // These are arrange in an order that we won't actually see in a product scenario. It's done
                 // this way so we can verify that ordering is preserved by GetEdges.
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", })),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", "PUT", "POST" })),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "PUT", "POST" })),
             };
 
             var policy = CreatePolicy();
@@ -199,7 +199,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 e =>
                 {
                     Assert.Equal(new EdgeKey(AnyMethod, isCorsPreflightRequest: false), e.State);
-                    Assert.Equal(Http405EndpointDisplayName, e.Endpoints.Single().DisplayName);
+                    Assert.Equal(Proto405EndpointDisplayName, e.Endpoints.Single().DisplayName);
                 },
                 e =>
                 {
@@ -220,16 +220,16 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact] // See explanation in GetEdges for how this case is different
-        public void GetEdges_GroupsByHttpMethod_CreatesHttp405Endpoint_CORS()
+        public void GetEdges_GroupsByProtoMethod_CreatesProto405Endpoint_CORS()
         {
             // Arrange
             var endpoints = new[]
             {
                 // These are arrange in an order that we won't actually see in a product scenario. It's done
                 // this way so we can verify that ordering is preserved by GetEdges.
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", })),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "GET", "PUT", "POST" }, acceptCorsPreflight: true)),
-                CreateEndpoint("/", new HttpMethodMetadata(new[] { "PUT", "POST" })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", })),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "GET", "PUT", "POST" }, acceptCorsPreflight: true)),
+                CreateEndpoint("/", new ProtoMethodMetadata(new[] { "PUT", "POST" })),
             };
 
             var policy = CreatePolicy();
@@ -243,7 +243,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 e =>
                 {
                     Assert.Equal(new EdgeKey(AnyMethod, isCorsPreflightRequest: false), e.State);
-                    Assert.Equal(Http405EndpointDisplayName, e.Endpoints.Single().DisplayName);
+                    Assert.Equal(Proto405EndpointDisplayName, e.Endpoints.Single().DisplayName);
                 },
                 e =>
                 {
@@ -277,7 +277,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 });
         }
 
-        private static RouteEndpoint CreateEndpoint(string template, HttpMethodMetadata httpMethodMetadata)
+        private static RouteEndpoint CreateEndpoint(string template, ProtoMethodMetadata httpMethodMetadata)
         {
             var metadata = new List<object>();
             if (httpMethodMetadata != null)
@@ -293,9 +293,9 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 $"test: {template}");
         }
 
-        private static HttpMethodMatcherPolicy CreatePolicy()
+        private static ProtoMethodMatcherPolicy CreatePolicy()
         {
-            return new HttpMethodMatcherPolicy();
+            return new ProtoMethodMatcherPolicy();
         }
     }
 }

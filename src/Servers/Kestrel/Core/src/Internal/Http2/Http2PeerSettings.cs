@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2PeerSettings
+    internal class Proto2PeerSettings
     {
         // Note these are protocol defaults, not Kestrel defaults.
         public const uint DefaultHeaderTableSize = 4096;
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         public uint MaxHeaderListSize { get; set; } = DefaultMaxHeaderListSize;
 
         // TODO: Return the diff so we can react
-        public void Update(IList<Http2PeerSetting> settings)
+        public void Update(IList<Proto2PeerSetting> settings)
         {
             foreach (var setting in settings)
             {
@@ -39,43 +39,43 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
                 switch (setting.Parameter)
                 {
-                    case Http2SettingsParameter.SETTINGS_HEADER_TABLE_SIZE:
+                    case Proto2SettingsParameter.SETTINGS_HEADER_TABLE_SIZE:
                         HeaderTableSize = value;
                         break;
-                    case Http2SettingsParameter.SETTINGS_ENABLE_PUSH:
+                    case Proto2SettingsParameter.SETTINGS_ENABLE_PUSH:
                         if (value != 0 && value != 1)
                         {
-                            throw new Http2SettingsParameterOutOfRangeException(Http2SettingsParameter.SETTINGS_ENABLE_PUSH,
+                            throw new Proto2SettingsParameterOutOfRangeException(Proto2SettingsParameter.SETTINGS_ENABLE_PUSH,
                                 lowerBound: 0,
                                 upperBound: 1);
                         }
 
                         EnablePush = value == 1;
                         break;
-                    case Http2SettingsParameter.SETTINGS_MAX_CONCURRENT_STREAMS:
+                    case Proto2SettingsParameter.SETTINGS_MAX_CONCURRENT_STREAMS:
                         MaxConcurrentStreams = value;
                         break;
-                    case Http2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE:
+                    case Proto2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE:
                         if (value > MaxWindowSize)
                         {
-                            throw new Http2SettingsParameterOutOfRangeException(Http2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE,
+                            throw new Proto2SettingsParameterOutOfRangeException(Proto2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE,
                                 lowerBound: 0,
                                 upperBound: MaxWindowSize);
                         }
 
                         InitialWindowSize = value;
                         break;
-                    case Http2SettingsParameter.SETTINGS_MAX_FRAME_SIZE:
+                    case Proto2SettingsParameter.SETTINGS_MAX_FRAME_SIZE:
                         if (value < MinAllowedMaxFrameSize || value > MaxAllowedMaxFrameSize)
                         {
-                            throw new Http2SettingsParameterOutOfRangeException(Http2SettingsParameter.SETTINGS_MAX_FRAME_SIZE,
+                            throw new Proto2SettingsParameterOutOfRangeException(Proto2SettingsParameter.SETTINGS_MAX_FRAME_SIZE,
                                 lowerBound: MinAllowedMaxFrameSize,
                                 upperBound: MaxAllowedMaxFrameSize);
                         }
 
                         MaxFrameSize = value;
                         break;
-                    case Http2SettingsParameter.SETTINGS_MAX_HEADER_LIST_SIZE:
+                    case Proto2SettingsParameter.SETTINGS_MAX_HEADER_LIST_SIZE:
                         MaxHeaderListSize = value;
                         break;
                     default:
@@ -88,38 +88,38 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         }
 
         // Gets the settings that are different from the protocol defaults (as opposed to the server defaults).
-        internal IList<Http2PeerSetting> GetNonProtocolDefaults()
+        internal IList<Proto2PeerSetting> GetNonProtocolDefaults()
         {
-            var list = new List<Http2PeerSetting>(1);
+            var list = new List<Proto2PeerSetting>(1);
 
             if (HeaderTableSize != DefaultHeaderTableSize)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_HEADER_TABLE_SIZE, HeaderTableSize));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_HEADER_TABLE_SIZE, HeaderTableSize));
             }
 
             if (EnablePush != DefaultEnablePush)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_ENABLE_PUSH, EnablePush ? 1u : 0));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_ENABLE_PUSH, EnablePush ? 1u : 0));
             }
 
             if (MaxConcurrentStreams != DefaultMaxConcurrentStreams)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_MAX_CONCURRENT_STREAMS, MaxConcurrentStreams));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_MAX_CONCURRENT_STREAMS, MaxConcurrentStreams));
             }
 
             if (InitialWindowSize != DefaultInitialWindowSize)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE, InitialWindowSize));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_INITIAL_WINDOW_SIZE, InitialWindowSize));
             }
 
             if (MaxFrameSize != DefaultMaxFrameSize)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_MAX_FRAME_SIZE, MaxFrameSize));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_MAX_FRAME_SIZE, MaxFrameSize));
             }
 
             if (MaxHeaderListSize != DefaultMaxHeaderListSize)
             {
-                list.Add(new Http2PeerSetting(Http2SettingsParameter.SETTINGS_MAX_HEADER_LIST_SIZE, MaxHeaderListSize));
+                list.Add(new Proto2PeerSetting(Proto2SettingsParameter.SETTINGS_MAX_HEADER_LIST_SIZE, MaxHeaderListSize));
             }
 
             return list;

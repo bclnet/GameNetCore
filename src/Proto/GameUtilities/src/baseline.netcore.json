@@ -1,8 +1,8 @@
 {
-  "AssemblyIdentity": "Microsoft.AspNetCore.WebUtilities, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+  "AssemblyIdentity": "Microsoft.AspNetCore.GameUtilities, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.WebEncoders",
+      "Name": "Microsoft.AspNetCore.GameUtilities.GameEncoders",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -174,7 +174,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.Base64UrlTextEncoder",
+      "Name": "Microsoft.AspNetCore.GameUtilities.Base64UrlTextEncoder",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -214,7 +214,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.BufferedReadStream",
+      "Name": "Microsoft.AspNetCore.GameUtilities.BufferedReadStream",
       "Visibility": "Public",
       "Kind": "Class",
       "BaseType": "System.IO.Stream",
@@ -598,7 +598,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.FileBufferingReadStream",
+      "Name": "Microsoft.AspNetCore.GameUtilities.FileBufferingReadStream",
       "Visibility": "Public",
       "Kind": "Class",
       "BaseType": "System.IO.Stream",
@@ -952,7 +952,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.FileMultipartSection",
+      "Name": "Microsoft.AspNetCore.GameUtilities.FileMultipartSection",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -961,7 +961,7 @@
           "Kind": "Method",
           "Name": "get_Section",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.WebUtilities.MultipartSection",
+          "ReturnType": "Microsoft.AspNetCore.GameUtilities.MultipartSection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -995,7 +995,7 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
           "Visibility": "Public",
@@ -1007,11 +1007,11 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             },
             {
               "Name": "header",
-              "Type": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue"
             }
           ],
           "Visibility": "Public",
@@ -1021,7 +1021,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.FormMultipartSection",
+      "Name": "Microsoft.AspNetCore.GameUtilities.FormMultipartSection",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -1030,7 +1030,7 @@
           "Kind": "Method",
           "Name": "get_Section",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.WebUtilities.MultipartSection",
+          "ReturnType": "Microsoft.AspNetCore.GameUtilities.MultipartSection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1056,7 +1056,7 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
           "Visibility": "Public",
@@ -1068,11 +1068,11 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             },
             {
               "Name": "header",
-              "Type": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue"
+              "Type": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue"
             }
           ],
           "Visibility": "Public",
@@ -1082,7 +1082,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.FormReader",
+      "Name": "Microsoft.AspNetCore.GameUtilities.FormReader",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [
@@ -1320,7 +1320,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.HttpRequestStreamReader",
+      "Name": "Microsoft.AspNetCore.GameUtilities.ProtoRequestStreamReader",
       "Visibility": "Public",
       "Kind": "Class",
       "BaseType": "System.IO.TextReader",
@@ -1475,7 +1475,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.HttpResponseStreamWriter",
+      "Name": "Microsoft.AspNetCore.GameUtilities.ProtoResponseStreamWriter",
       "Visibility": "Public",
       "Kind": "Class",
       "BaseType": "System.IO.TextWriter",
@@ -1700,7 +1700,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.KeyValueAccumulator",
+      "Name": "Microsoft.AspNetCore.GameUtilities.KeyValueAccumulator",
       "Visibility": "Public",
       "Kind": "Struct",
       "Sealed": true,
@@ -1759,7 +1759,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.MultipartReader",
+      "Name": "Microsoft.AspNetCore.GameUtilities.MultipartReader",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -1837,7 +1837,7 @@
               "DefaultValue": "default(System.Threading.CancellationToken)"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<Microsoft.AspNetCore.WebUtilities.MultipartSection>",
+          "ReturnType": "System.Threading.Tasks.Task<Microsoft.AspNetCore.GameUtilities.MultipartSection>",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -1903,7 +1903,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.MultipartSection",
+      "Name": "Microsoft.AspNetCore.GameUtilities.MultipartSection",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -1998,7 +1998,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.MultipartSectionConverterExtensions",
+      "Name": "Microsoft.AspNetCore.GameUtilities.MultipartSectionConverterExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -2012,10 +2012,10 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.WebUtilities.FileMultipartSection",
+          "ReturnType": "Microsoft.AspNetCore.GameUtilities.FileMultipartSection",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -2027,10 +2027,10 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.WebUtilities.FormMultipartSection",
+          "ReturnType": "Microsoft.AspNetCore.GameUtilities.FormMultipartSection",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -2042,10 +2042,10 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
-          "ReturnType": "Microsoft.Net.Http.Headers.ContentDispositionHeaderValue",
+          "ReturnType": "Microsoft.Net.Proto.Headers.ContentDispositionHeaderValue",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -2055,7 +2055,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.MultipartSectionStreamExtensions",
+      "Name": "Microsoft.AspNetCore.GameUtilities.MultipartSectionStreamExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -2069,7 +2069,7 @@
           "Parameters": [
             {
               "Name": "section",
-              "Type": "Microsoft.AspNetCore.WebUtilities.MultipartSection"
+              "Type": "Microsoft.AspNetCore.GameUtilities.MultipartSection"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task<System.String>",
@@ -2082,7 +2082,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.QueryHelpers",
+      "Name": "Microsoft.AspNetCore.GameUtilities.QueryHelpers",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -2162,7 +2162,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.ReasonPhrases",
+      "Name": "Microsoft.AspNetCore.GameUtilities.ReasonPhrases",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -2188,7 +2188,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.WebUtilities.StreamHelperExtensions",
+      "Name": "Microsoft.AspNetCore.GameUtilities.StreamHelperExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,

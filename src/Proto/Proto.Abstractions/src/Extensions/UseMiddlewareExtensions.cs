@@ -6,11 +6,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Abstractions;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Abstractions;
 using Microsoft.Extensions.Internal;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Extension methods for adding typed middleware.
@@ -81,9 +81,9 @@ namespace Microsoft.AspNetCore.Builder
                 }
 
                 var parameters = methodInfo.GetParameters();
-                if (parameters.Length == 0 || parameters[0].ParameterType != typeof(HttpContext))
+                if (parameters.Length == 0 || parameters[0].ParameterType != typeof(ProtoContext))
                 {
-                    throw new InvalidOperationException(Resources.FormatException_UseMiddlewareNoParameters(InvokeMethodName, InvokeAsyncMethodName, nameof(HttpContext)));
+                    throw new InvalidOperationException(Resources.FormatException_UseMiddlewareNoParameters(InvokeMethodName, InvokeAsyncMethodName, nameof(ProtoContext)));
                 }
 
                 var ctorArgs = new object[args.Length + 1];
@@ -142,13 +142,13 @@ namespace Microsoft.AspNetCore.Builder
             });
         }
 
-        private static Func<T, HttpContext, IServiceProvider, Task> Compile<T>(MethodInfo methodInfo, ParameterInfo[] parameters)
+        private static Func<T, ProtoContext, IServiceProvider, Task> Compile<T>(MethodInfo methodInfo, ParameterInfo[] parameters)
         {
             // If we call something like
             //
             // public class Middleware
             // {
-            //    public Task Invoke(HttpContext context, ILoggerFactory loggerFactory)
+            //    public Task Invoke(ProtoContext context, ILoggerFactory loggerFactory)
             //    {
             //
             //    }
@@ -158,21 +158,21 @@ namespace Microsoft.AspNetCore.Builder
             // We'll end up with something like this:
             //   Generic version:
             //
-            //   Task Invoke(Middleware instance, HttpContext httpContext, IServiceProvider provider)
+            //   Task Invoke(Middleware instance, ProtoContext httpContext, IServiceProvider provider)
             //   {
             //      return instance.Invoke(httpContext, (ILoggerFactory)UseMiddlewareExtensions.GetService(provider, typeof(ILoggerFactory));
             //   }
 
             //   Non generic version:
             //
-            //   Task Invoke(object instance, HttpContext httpContext, IServiceProvider provider)
+            //   Task Invoke(object instance, ProtoContext httpContext, IServiceProvider provider)
             //   {
             //      return ((Middleware)instance).Invoke(httpContext, (ILoggerFactory)UseMiddlewareExtensions.GetService(provider, typeof(ILoggerFactory));
             //   }
 
             var middleware = typeof(T);
 
-            var httpContextArg = Expression.Parameter(typeof(HttpContext), "httpContext");
+            var httpContextArg = Expression.Parameter(typeof(ProtoContext), "httpContext");
             var providerArg = Expression.Parameter(typeof(IServiceProvider), "serviceProvider");
             var instanceArg = Expression.Parameter(middleware, "middleware");
 
@@ -205,7 +205,7 @@ namespace Microsoft.AspNetCore.Builder
 
             var body = Expression.Call(middlewareInstanceArg, methodInfo, methodArguments);
 
-            var lambda = Expression.Lambda<Func<T, HttpContext, IServiceProvider, Task>>(body, instanceArg, httpContextArg, providerArg);
+            var lambda = Expression.Lambda<Func<T, ProtoContext, IServiceProvider, Task>>(body, instanceArg, httpContextArg, providerArg);
 
             return lambda.Compile();
         }

@@ -3,9 +3,9 @@
 
 using System;
 using Microsoft.Extensions.Options;
-using RoutingSample.Web.HelloExtension;
+using RoutingSample.Game.HelloExtension;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static class HelloAppBuilderExtensions
     {

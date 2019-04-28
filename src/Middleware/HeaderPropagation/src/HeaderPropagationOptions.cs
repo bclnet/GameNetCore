@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.HeaderPropagation
+namespace Contoso.GameNetCore.HeaderPropagation
 {
     /// <summary>
     /// Provides configuration for the <see cref="HeaderPropagationMiddleware"/>.

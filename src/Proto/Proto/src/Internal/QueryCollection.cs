@@ -6,10 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
     /// <summary>
-    /// The HttpRequest query string collection
+    /// The ProtoRequest query string collection
     /// </summary>
     public class QueryCollection : IQueryCollection
     {

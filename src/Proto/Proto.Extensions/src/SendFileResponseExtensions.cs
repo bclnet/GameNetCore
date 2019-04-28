@@ -5,14 +5,14 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Extensions;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Provides extensions for HttpResponse exposing the SendFile extension.
+    /// Provides extensions for ProtoResponse exposing the SendFile extension.
     /// </summary>
     public static class SendFileResponseExtensions
     {
@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="response"></param>
         /// <param name="file">The file.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/>.</param>
-        public static Task SendFileAsync(this HttpResponse response, IFileInfo file, CancellationToken cancellationToken = default)
+        public static Task SendFileAsync(this ProtoResponse response, IFileInfo file, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="count">The number of bytes to send, or null to send the remainder of the file.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task SendFileAsync(this HttpResponse response, IFileInfo file, long offset, long? count, CancellationToken cancellationToken = default)
+        public static Task SendFileAsync(this ProtoResponse response, IFileInfo file, long offset, long? count, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="fileName">The full path to the file.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/>.</param>
         /// <returns></returns>
-        public static Task SendFileAsync(this HttpResponse response, string fileName, CancellationToken cancellationToken = default)
+        public static Task SendFileAsync(this ProtoResponse response, string fileName, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
@@ -90,7 +90,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="count">The number of bytes to send, or null to send the remainder of the file.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task SendFileAsync(this HttpResponse response, string fileName, long offset, long? count, CancellationToken cancellationToken = default)
+        public static Task SendFileAsync(this ProtoResponse response, string fileName, long offset, long? count, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
@@ -105,7 +105,7 @@ namespace Microsoft.AspNetCore.Http
             return SendFileAsyncCore(response, fileName, offset, count, cancellationToken);
         }
 
-        private static async Task SendFileAsyncCore(HttpResponse response, IFileInfo file, long offset, long? count, CancellationToken cancellationToken)
+        private static async Task SendFileAsyncCore(ProtoResponse response, IFileInfo file, long offset, long? count, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(file.PhysicalPath))
             {
@@ -126,9 +126,9 @@ namespace Microsoft.AspNetCore.Http
             }
         }
 
-        private static Task SendFileAsyncCore(HttpResponse response, string fileName, long offset, long? count, CancellationToken cancellationToken = default)
+        private static Task SendFileAsyncCore(ProtoResponse response, string fileName, long offset, long? count, CancellationToken cancellationToken = default)
         {
-            var sendFile = response.HttpContext.Features.Get<IHttpSendFileFeature>();
+            var sendFile = response.ProtoContext.Features.Get<IProtoSendFileFeature>();
             if (sendFile == null)
             {
                 return SendFileAsyncCore(response.Body, fileName, offset, count, cancellationToken);

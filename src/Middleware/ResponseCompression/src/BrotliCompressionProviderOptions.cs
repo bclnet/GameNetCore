@@ -4,7 +4,7 @@
 using System.IO.Compression;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Options for the <see cref="BrotliCompressionProvider"/>

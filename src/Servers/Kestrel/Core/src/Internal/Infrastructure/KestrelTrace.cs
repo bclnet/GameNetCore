@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.HPack;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal class KestrelTrace : IKestrelTrace
     {
@@ -70,10 +70,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             LoggerMessage.Define<string, string>(LogLevel.Information, new EventId(28, nameof(ResponseMinimumDataRateNotSatisfied)), @"Connection id ""{ConnectionId}"", Request id ""{TraceIdentifier}"": the connection was closed because the response was not read by the client at the specified minimum data rate.");
 
         private static readonly Action<ILogger, string, Exception> _http2ConnectionError =
-            LoggerMessage.Define<string>(LogLevel.Information, new EventId(29, nameof(Http2ConnectionError)), @"Connection id ""{ConnectionId}"": HTTP/2 connection error.");
+            LoggerMessage.Define<string>(LogLevel.Information, new EventId(29, nameof(Proto2ConnectionError)), @"Connection id ""{ConnectionId}"": HTTP/2 connection error.");
 
         private static readonly Action<ILogger, string, Exception> _http2StreamError =
-            LoggerMessage.Define<string>(LogLevel.Information, new EventId(30, nameof(Http2StreamError)), @"Connection id ""{ConnectionId}"": HTTP/2 stream error.");
+            LoggerMessage.Define<string>(LogLevel.Information, new EventId(30, nameof(Proto2StreamError)), @"Connection id ""{ConnectionId}"": HTTP/2 stream error.");
 
         private static readonly Action<ILogger, string, int, Exception> _hpackDecodingError =
             LoggerMessage.Define<string, int>(LogLevel.Information, new EventId(31, nameof(HPackDecodingError)), @"Connection id ""{ConnectionId}"": HPACK decoding error while decoding headers for stream ID {StreamId}.");
@@ -87,24 +87,24 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         private static readonly Action<ILogger, string, string, Exception> _applicationAbortedConnection =
             LoggerMessage.Define<string, string>(LogLevel.Information, new EventId(34, nameof(RequestBodyDrainTimedOut)), @"Connection id ""{ConnectionId}"", Request id ""{TraceIdentifier}"": the application aborted the connection.");
 
-        private static readonly Action<ILogger, string, Http2ErrorCode, Exception> _http2StreamResetError =
-            LoggerMessage.Define<string, Http2ErrorCode>(LogLevel.Debug, new EventId(35, nameof(Http2StreamResetAbort)),
+        private static readonly Action<ILogger, string, Proto2ErrorCode, Exception> _http2StreamResetError =
+            LoggerMessage.Define<string, Proto2ErrorCode>(LogLevel.Debug, new EventId(35, nameof(Proto2StreamResetAbort)),
                 @"Trace id ""{TraceIdentifier}"": HTTP/2 stream error ""{error}"". A Reset is being sent to the stream.");
 
         private static readonly Action<ILogger, string, Exception> _http2ConnectionClosing =
-            LoggerMessage.Define<string>(LogLevel.Debug, new EventId(36, nameof(Http2ConnectionClosing)),
+            LoggerMessage.Define<string>(LogLevel.Debug, new EventId(36, nameof(Proto2ConnectionClosing)),
                 @"Connection id ""{ConnectionId}"" is closing.");
 
         private static readonly Action<ILogger, string, int, Exception> _http2ConnectionClosed =
-            LoggerMessage.Define<string, int>(LogLevel.Debug, new EventId(36, nameof(Http2ConnectionClosed)),
+            LoggerMessage.Define<string, int>(LogLevel.Debug, new EventId(36, nameof(Proto2ConnectionClosed)),
                 @"Connection id ""{ConnectionId}"" is closed. The last processed stream ID was {HighestOpenedStreamId}.");
 
-        private static readonly Action<ILogger, string, Http2FrameType, int, int, object, Exception> _http2FrameReceived =
-            LoggerMessage.Define<string, Http2FrameType, int, int, object>(LogLevel.Trace, new EventId(37, nameof(Http2FrameReceived)),
+        private static readonly Action<ILogger, string, Proto2FrameType, int, int, object, Exception> _http2FrameReceived =
+            LoggerMessage.Define<string, Proto2FrameType, int, int, object>(LogLevel.Trace, new EventId(37, nameof(Proto2FrameReceived)),
                 @"Connection id ""{ConnectionId}"" received {type} frame for stream ID {id} with length {length} and flags {flags}");
 
-        private static readonly Action<ILogger, string, Http2FrameType, int, int, object, Exception> _http2FrameSending =
-            LoggerMessage.Define<string, Http2FrameType, int, int, object>(LogLevel.Trace, new EventId(37, nameof(Http2FrameReceived)),
+        private static readonly Action<ILogger, string, Proto2FrameType, int, int, object, Exception> _http2FrameSending =
+            LoggerMessage.Define<string, Proto2FrameType, int, int, object>(LogLevel.Trace, new EventId(37, nameof(Proto2FrameReceived)),
                 @"Connection id ""{ConnectionId}"" sending {type} frame for stream ID {id} with length {length} and flags {flags}");
 
         private static readonly Action<ILogger, string, int, Exception> _hpackEncodingError =
@@ -168,7 +168,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             _notAllConnectionsClosedGracefully(_logger, null);
         }
 
-        public virtual void ConnectionBadRequest(string connectionId, BadHttpRequestException ex)
+        public virtual void ConnectionBadRequest(string connectionId, BadProtoRequestException ex)
         {
             _connectionBadRequest(_logger, connectionId, ex.Message, ex);
         }
@@ -228,27 +228,27 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             _applicationAbortedConnection(_logger, connectionId, traceIdentifier, null);
         }
 
-        public virtual void Http2ConnectionError(string connectionId, Http2ConnectionErrorException ex)
+        public virtual void Proto2ConnectionError(string connectionId, Proto2ConnectionErrorException ex)
         {
             _http2ConnectionError(_logger, connectionId, ex);
         }
 
-        public virtual void Http2ConnectionClosing(string connectionId)
+        public virtual void Proto2ConnectionClosing(string connectionId)
         {
             _http2ConnectionClosing(_logger, connectionId, null);
         }
 
-        public virtual void Http2ConnectionClosed(string connectionId, int highestOpenedStreamId)
+        public virtual void Proto2ConnectionClosed(string connectionId, int highestOpenedStreamId)
         {
             _http2ConnectionClosed(_logger, connectionId, highestOpenedStreamId, null);
         }
 
-        public virtual void Http2StreamError(string connectionId, Http2StreamErrorException ex)
+        public virtual void Proto2StreamError(string connectionId, Proto2StreamErrorException ex)
         {
             _http2StreamError(_logger, connectionId, ex);
         }
 
-        public void Http2StreamResetAbort(string traceIdentifier, Http2ErrorCode error, ConnectionAbortedException abortReason)
+        public void Proto2StreamResetAbort(string traceIdentifier, Proto2ErrorCode error, ConnectionAbortedException abortReason)
         {
             _http2StreamResetError(_logger, traceIdentifier, error, abortReason);
         }
@@ -263,12 +263,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
             _hpackEncodingError(_logger, connectionId, streamId, ex);
         }
 
-        public void Http2FrameReceived(string connectionId, Http2Frame frame)
+        public void Proto2FrameReceived(string connectionId, Proto2Frame frame)
         {
             _http2FrameReceived(_logger, connectionId, frame.Type, frame.StreamId, frame.PayloadLength, frame.ShowFlags(), null);
         }
 
-        public void Http2FrameSending(string connectionId, Http2Frame frame)
+        public void Proto2FrameSending(string connectionId, Proto2Frame frame)
         {
             _http2FrameSending(_logger, connectionId, frame.Type, frame.StreamId, frame.PayloadLength, frame.ShowFlags(), null);
         }

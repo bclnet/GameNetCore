@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.HPack
 {
     internal class StaticTable
     {

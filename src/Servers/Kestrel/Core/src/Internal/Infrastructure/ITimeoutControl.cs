@@ -1,9 +1,9 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal interface ITimeoutControl
     {
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         void ResetTimeout(long ticks, TimeoutReason timeoutReason);
         void CancelTimeout();
 
-        void InitializeHttp2(InputFlowControl connectionInputFlowControl);
+        void InitializeProto2(InputFlowControl connectionInputFlowControl);
         void StartRequestBody(MinDataRate minRate);
         void StopRequestBody();
         void StartTimingRead();

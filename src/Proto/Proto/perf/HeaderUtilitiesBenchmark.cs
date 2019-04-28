@@ -5,7 +5,7 @@ using System;
 using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     public class HeaderUtilitiesBenchmark
     {

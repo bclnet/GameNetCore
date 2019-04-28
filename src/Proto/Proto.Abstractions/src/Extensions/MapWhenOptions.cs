@@ -2,21 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     /// <summary>
     /// Options for the <see cref="MapWhenMiddleware"/>.
     /// </summary>
     public class MapWhenOptions
     {
-        private Func<HttpContext, bool> _predicate;
+        private Func<ProtoContext, bool> _predicate;
 
         /// <summary>
         /// The user callback that determines if the branch should be taken.
         /// </summary>
-        public Func<HttpContext, bool> Predicate
+        public Func<ProtoContext, bool> Predicate
         {
             get
             {

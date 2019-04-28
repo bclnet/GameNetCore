@@ -4,64 +4,64 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class HttpContextFactoryTests
+    public class ProtoContextFactoryTests
     {
         [Fact]
         public void ConstructorWithoutServiceScopeFactoryThrows()
         {
             // Arrange
-            var accessor = new HttpContextAccessor();
-            var exception1 = Assert.Throws<ArgumentNullException>(() => new HttpContextFactory(Options.Create(new FormOptions()), accessor));
-            var exception2 = Assert.Throws<ArgumentNullException>(() => new HttpContextFactory(Options.Create(new FormOptions())));
+            var accessor = new ProtoContextAccessor();
+            var exception1 = Assert.Throws<ArgumentNullException>(() => new ProtoContextFactory(Options.Create(new FormOptions()), accessor));
+            var exception2 = Assert.Throws<ArgumentNullException>(() => new ProtoContextFactory(Options.Create(new FormOptions())));
 
             Assert.Equal("serviceScopeFactory", exception1.ParamName);
             Assert.Equal("serviceScopeFactory", exception2.ParamName);
         }
 
         [Fact]
-        public void CreateHttpContextSetsHttpContextAccessor()
+        public void CreateProtoContextSetsProtoContextAccessor()
         {
             // Arrange
-            var accessor = new HttpContextAccessor();
-            var contextFactory = new HttpContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory(), accessor);
+            var accessor = new ProtoContextAccessor();
+            var contextFactory = new ProtoContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory(), accessor);
 
             // Act
             var context = contextFactory.Create(new FeatureCollection());
 
             // Assert
-            Assert.Same(context, accessor.HttpContext);
+            Assert.Same(context, accessor.ProtoContext);
         }
 
         [Fact]
-        public void DisposeHttpContextSetsHttpContextAccessorToNull()
+        public void DisposeProtoContextSetsProtoContextAccessorToNull()
         {
             // Arrange
-            var accessor = new HttpContextAccessor();
-            var contextFactory = new HttpContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory(), accessor);
+            var accessor = new ProtoContextAccessor();
+            var contextFactory = new ProtoContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory(), accessor);
 
             // Act
             var context = contextFactory.Create(new FeatureCollection());
 
             // Assert
-            Assert.Same(context, accessor.HttpContext);
+            Assert.Same(context, accessor.ProtoContext);
 
             contextFactory.Dispose(context);
 
-            Assert.Null(accessor.HttpContext);
+            Assert.Null(accessor.ProtoContext);
         }
 
         [Fact]
         public void AllowsCreatingContextWithoutSettingAccessor()
         {
             // Arrange
-            var contextFactory = new HttpContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory());
+            var contextFactory = new ProtoContextFactory(Options.Create(new FormOptions()), new MyServiceScopeFactory());
 
             // Act & Assert
             var context = contextFactory.Create(new FeatureCollection());

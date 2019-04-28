@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Testing
+namespace Contoso.GameNetCore.Testing
 {
     public class KestrelTestLoggerProvider : ILoggerProvider
     {

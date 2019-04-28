@@ -3,14 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Hosting.Server;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Hosting.Server;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
     internal interface IRequestProcessor
     {
-        Task ProcessRequestsAsync<TContext>(IHttpApplication<TContext> application);
+        Task ProcessRequestsAsync<TContext>(IProtoApplication<TContext> application);
         void StopProcessingNextRequest();
         void HandleRequestHeadersTimeout();
         void HandleReadDataRateTimeout();

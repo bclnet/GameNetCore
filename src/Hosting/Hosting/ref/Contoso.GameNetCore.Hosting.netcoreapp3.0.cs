@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public partial class DelegateStartup : Microsoft.AspNetCore.Hosting.StartupBase<Microsoft.Extensions.DependencyInjection.IServiceCollection>
     {
@@ -55,7 +55,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static System.Threading.Tasks.Task WaitForShutdownAsync(this Microsoft.AspNetCore.Hosting.IWebHost host, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Hosting.Builder
+namespace Contoso.GameNetCore.Hosting.Builder
 {
     public partial class ApplicationBuilderFactory : Microsoft.AspNetCore.Hosting.Builder.IApplicationBuilderFactory
     {
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Hosting.Builder
         Microsoft.AspNetCore.Builder.IApplicationBuilder CreateBuilder(Microsoft.AspNetCore.Http.Features.IFeatureCollection serverFeatures);
     }
 }
-namespace Microsoft.AspNetCore.Hosting.Internal
+namespace Contoso.GameNetCore.Hosting.Internal
 {
     public partial class ApplicationLifetime : Microsoft.AspNetCore.Hosting.IApplicationLifetime, Microsoft.Extensions.Hosting.IApplicationLifetime, Microsoft.Extensions.Hosting.IHostApplicationLifetime
     {
@@ -199,7 +199,7 @@ namespace Microsoft.AspNetCore.Hosting.Internal
         public static bool ParseBool(Microsoft.Extensions.Configuration.IConfiguration configuration, string key) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Hosting.Server.Features
+namespace Contoso.GameNetCore.Hosting.Server.Features
 {
     public partial class ServerAddressesFeature : Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature
     {

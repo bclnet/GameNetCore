@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Proto.Internal;
 using Microsoft.Extensions.Internal;
 
-namespace Microsoft.AspNetCore.Builder.Internal
+namespace Contoso.GameNetCore.Builder.Internal
 {
     public class ApplicationBuilder : IApplicationBuilder
     {

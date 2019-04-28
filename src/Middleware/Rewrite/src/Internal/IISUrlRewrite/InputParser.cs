@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public class InputParser
     {

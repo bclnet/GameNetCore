@@ -2,7 +2,7 @@
   "AssemblyIdentity": "Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
   "Types": [
     {
-      "Name": "Microsoft.AspNetCore.Hosting.Server.IHttpApplication<T0>",
+      "Name": "Microsoft.AspNetCore.Hosting.Server.IProtoApplication<T0>",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -14,7 +14,7 @@
           "Parameters": [
             {
               "Name": "contextFeatures",
-              "Type": "Microsoft.AspNetCore.Http.Features.IFeatureCollection"
+              "Type": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection"
             }
           ],
           "ReturnType": "T0",
@@ -70,7 +70,7 @@
           "Kind": "Method",
           "Name": "get_Features",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "GenericParameter": []
         },
         {
@@ -79,7 +79,7 @@
           "Parameters": [
             {
               "Name": "application",
-              "Type": "Microsoft.AspNetCore.Hosting.Server.IHttpApplication<T0>"
+              "Type": "Microsoft.AspNetCore.Hosting.Server.IProtoApplication<T0>"
             },
             {
               "Name": "cancellationToken",

@@ -1,23 +1,23 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Constraints
+namespace Contoso.GameNetCore.Routing.Constraints
 {
-    public class HttpMethodRouteConstraintTests
+    public class ProtoMethodRouteConstraintTests
     {
         [Theory]
         [InlineData("GET")]
         [InlineData("PosT")]
-        public void HttpMethodRouteConstraint_IncomingRequest_AcceptsAllowedMethods(string httpMethod)
+        public void ProtoMethodRouteConstraint_IncomingRequest_AcceptsAllowedMethods(string httpMethod)
         {
             // Arrange
-            var constraint = new HttpMethodRouteConstraint("GET", "post");
+            var constraint = new ProtoMethodRouteConstraint("GET", "post");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Request.Method = httpMethod;
             var route = Mock.Of<IRouter>();
 
@@ -33,12 +33,12 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         [Theory]
         [InlineData("OPTIONS")]
         [InlineData("SomeRandomThing")]
-        public void HttpMethodRouteConstraint_IncomingRequest_RejectsOtherMethods(string httpMethod)
+        public void ProtoMethodRouteConstraint_IncomingRequest_RejectsOtherMethods(string httpMethod)
         {
             // Arrange
-            var constraint = new HttpMethodRouteConstraint("GET", "post");
+            var constraint = new ProtoMethodRouteConstraint("GET", "post");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Request.Method = httpMethod;
             var route = Mock.Of<IRouter>();
 
@@ -54,12 +54,12 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         [Theory]
         [InlineData("GET")]
         [InlineData("PosT")]
-        public void HttpMethodRouteConstraint_UrlGeneration_AcceptsAllowedMethods(string httpMethod)
+        public void ProtoMethodRouteConstraint_UrlGeneration_AcceptsAllowedMethods(string httpMethod)
         {
             // Arrange
-            var constraint = new HttpMethodRouteConstraint("GET", "post");
+            var constraint = new ProtoMethodRouteConstraint("GET", "post");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             var route = Mock.Of<IRouter>();
 
             var values = new RouteValueDictionary(new { httpMethod = httpMethod });
@@ -74,12 +74,12 @@ namespace Microsoft.AspNetCore.Routing.Constraints
         [Theory]
         [InlineData("OPTIONS")]
         [InlineData("SomeRandomThing")]
-        public void HttpMethodRouteConstraint_UrlGeneration_RejectsOtherMethods(string httpMethod)
+        public void ProtoMethodRouteConstraint_UrlGeneration_RejectsOtherMethods(string httpMethod)
         {
             // Arrange
-            var constraint = new HttpMethodRouteConstraint("GET", "post");
+            var constraint = new ProtoMethodRouteConstraint("GET", "post");
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             var route = Mock.Of<IRouter>();
 
             var values = new RouteValueDictionary(new { httpMethod = httpMethod });

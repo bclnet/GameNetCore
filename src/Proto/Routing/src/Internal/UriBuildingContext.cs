@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Http;
+using System.Text.Encodings.Game;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     [DebuggerDisplay("{DebuggerToString(),nq}")]
     public class UriBuildingContext

@@ -5,16 +5,16 @@ using System;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     internal abstract class MessageBody
     {
         private static readonly MessageBody _zeroContentLengthClose = new ZeroContentLengthMessageBody(keepAlive: false);
         private static readonly MessageBody _zeroContentLengthKeepAlive = new ZeroContentLengthMessageBody(keepAlive: true);
 
-        private readonly HttpProtocol _context;
+        private readonly ProtoProtocol _context;
         private readonly MinDataRate _minRequestBodyDataRate;
 
         private bool _send100Continue = true;
@@ -25,7 +25,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         protected bool _backpressure;
         protected long _alreadyTimedBytes;
 
-        protected MessageBody(HttpProtocol context, MinDataRate minRequestBodyDataRate)
+        protected MessageBody(ProtoProtocol context, MinDataRate minRequestBodyDataRate)
         {
             _context = context;
             _minRequestBodyDataRate = minRequestBodyDataRate;
@@ -79,7 +79,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             if (_send100Continue)
             {
-                _context.HttpResponseControl.ProduceContinue();
+                _context.ProtoResponseControl.ProduceContinue();
                 _send100Continue = false;
             }
         }
@@ -151,7 +151,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
             if (_consumedBytes > _context.MaxRequestBodySize)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
+                BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
             }
         }
 

@@ -5,16 +5,16 @@ using System;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.WindowsServices;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Hosting.WindowsServices;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Testing.xunit;
 using Xunit;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     public class WebHostServiceTests
     {

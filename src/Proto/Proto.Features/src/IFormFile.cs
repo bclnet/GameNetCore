@@ -5,10 +5,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Represents a file sent with the HttpRequest.
+    /// Represents a file sent with the ProtoRequest.
     /// </summary>
     public interface IFormFile
     {

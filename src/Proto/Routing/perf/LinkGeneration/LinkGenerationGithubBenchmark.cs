@@ -2,17 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Tree;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.LinkGeneration
+namespace Contoso.GameNetCore.Routing.LinkGeneration
 {
     public partial class LinkGenerationGithubBenchmark
     {
         private LinkGenerator _linkGenerator;
         private TreeRouter _treeRouter;
-        private (HttpContext HttpContext, RouteValueDictionary AmbientValues) _requestContext;
+        private (ProtoContext ProtoContext, RouteValueDictionary AmbientValues) _requestContext;
         private RouteValueDictionary _lookUpValues;
 
         [GlobalSetup]
@@ -54,7 +54,7 @@ namespace Microsoft.AspNetCore.Routing.LinkGeneration
         public void TreeRouter()
         {
             var virtualPathData = _treeRouter.GetVirtualPath(new VirtualPathContext(
-                _requestContext.HttpContext,
+                _requestContext.ProtoContext,
                 ambientValues: _requestContext.AmbientValues,
                 values: new RouteValueDictionary(_lookUpValues)));
 
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Routing.LinkGeneration
         public void EndpointRouting()
         {
             var actualUrl = _linkGenerator.GetPathByRouteValues(
-                _requestContext.HttpContext,
+                _requestContext.ProtoContext,
                 routeName: null,
                 values: _lookUpValues);
 

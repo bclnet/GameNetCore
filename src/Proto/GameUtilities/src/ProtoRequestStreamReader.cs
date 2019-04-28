@@ -8,9 +8,9 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
-    public class HttpRequestStreamReader : TextReader
+    public class ProtoRequestStreamReader : TextReader
     {
         private const int DefaultBufferSize = 1024;
         private const int MinBufferSize = 128;
@@ -34,17 +34,13 @@ namespace Microsoft.AspNetCore.WebUtilities
         private bool _isBlocked;
         private bool _disposed;
 
-        public HttpRequestStreamReader(Stream stream, Encoding encoding)
-            : this(stream, encoding, DefaultBufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared)
-        {
-        }
+        public ProtoRequestStreamReader(Stream stream, Encoding encoding)
+            : this(stream, encoding, DefaultBufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared) { }
 
-        public HttpRequestStreamReader(Stream stream, Encoding encoding, int bufferSize)
-            : this(stream, encoding, bufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared)
-        {
-        }
+        public ProtoRequestStreamReader(Stream stream, Encoding encoding, int bufferSize)
+            : this(stream, encoding, bufferSize, ArrayPool<byte>.Shared, ArrayPool<char>.Shared) { }
 
-        public HttpRequestStreamReader(
+        public ProtoRequestStreamReader(
             Stream stream,
             Encoding encoding,
             int bufferSize,
@@ -57,13 +53,9 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charPool = charPool ?? throw new ArgumentNullException(nameof(charPool));
 
             if (bufferSize <= 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
             if (!stream.CanRead)
-            {
-                throw new ArgumentException(Resources.HttpRequestStreamReader_StreamNotReadable, nameof(stream));
-            }
+                throw new ArgumentException(Resources.ProtoRequestStreamReader_StreamNotReadable, nameof(stream));
 
             _byteBufferSize = bufferSize;
 
@@ -78,12 +70,8 @@ namespace Microsoft.AspNetCore.WebUtilities
             catch
             {
                 _bytePool.Return(_byteBuffer);
-
                 if (_charBuffer != null)
-                {
                     _charPool.Return(_charBuffer);
-                }
-
                 throw;
             }
         }
@@ -93,91 +81,52 @@ namespace Microsoft.AspNetCore.WebUtilities
             if (disposing && !_disposed)
             {
                 _disposed = true;
-
                 _bytePool.Return(_byteBuffer);
                 _charPool.Return(_charBuffer);
             }
-
             base.Dispose(disposing);
         }
 
         public override int Peek()
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpRequestStreamReader));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoRequestStreamReader));
             if (_charBufferIndex == _charsRead)
-            {
                 if (_isBlocked || ReadIntoBuffer() == 0)
-                {
                     return -1;
-                }
-            }
-
             return _charBuffer[_charBufferIndex];
         }
 
         public override int Read()
         {
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpRequestStreamReader));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoRequestStreamReader));
             if (_charBufferIndex == _charsRead)
-            {
                 if (ReadIntoBuffer() == 0)
-                {
                     return -1;
-                }
-            }
-
             return _charBuffer[_charBufferIndex++];
         }
 
         public override int Read(char[] buffer, int index, int count)
         {
             if (buffer == null)
-            {
                 throw new ArgumentNullException(nameof(buffer));
-            }
-
             if (index < 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(index));
-            }
-
             if (count < 0 || index + count > buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException(nameof(count));
-            }
-
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpRequestStreamReader));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoRequestStreamReader));
             var charsRead = 0;
             while (count > 0)
             {
                 var charsRemaining = _charsRead - _charBufferIndex;
                 if (charsRemaining == 0)
-                {
                     charsRemaining = ReadIntoBuffer();
-                }
-
                 if (charsRemaining == 0)
-                {
                     break;  // We're at EOF
-                }
-
                 if (charsRemaining > count)
-                {
                     charsRemaining = count;
-                }
-
                 Buffer.BlockCopy(
                     _charBuffer,
                     _charBufferIndex * 2,
@@ -192,41 +141,23 @@ namespace Microsoft.AspNetCore.WebUtilities
                 // If we got back fewer chars than we asked for, then it's likely the underlying stream is blocked.
                 // Send the data back to the caller so they can process it.
                 if (_isBlocked)
-                {
                     break;
-                }
             }
-
             return charsRead;
         }
 
         public override async Task<int> ReadAsync(char[] buffer, int index, int count)
         {
             if (buffer == null)
-            {
                 throw new ArgumentNullException(nameof(buffer));
-            }
-
             if (index < 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(index));
-            }
-
             if (count < 0 || index + count > buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException(nameof(count));
-            }
-
             if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(HttpRequestStreamReader));
-            }
-
+                throw new ObjectDisposedException(nameof(ProtoRequestStreamReader));
             if (_charBufferIndex == _charsRead && await ReadIntoBufferAsync() == 0)
-            {
                 return 0;
-            }
-
             var charsRead = 0;
             while (count > 0)
             {
@@ -275,17 +206,12 @@ namespace Microsoft.AspNetCore.WebUtilities
                     while (n == 0);
 
                     if (n == 0)
-                    {
                         break; // We're at EOF
-                    }
                 }
 
                 // Got more chars in charBuffer than the user requested
                 if (n > count)
-                {
                     n = count;
-                }
-
                 Buffer.BlockCopy(
                     _charBuffer,
                     _charBufferIndex * 2,
@@ -302,11 +228,8 @@ namespace Microsoft.AspNetCore.WebUtilities
                 // or reading from a network stream won't work right.  If we got
                 // fewer bytes than we requested, then we want to break right here.
                 if (_isBlocked)
-                {
                     break;
-                }
             }
-
             return charsRead;
         }
 
@@ -315,15 +238,11 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charsRead = 0;
             _charBufferIndex = 0;
             _bytesRead = 0;
-
             do
             {
                 _bytesRead = _stream.Read(_byteBuffer, 0, _byteBufferSize);
                 if (_bytesRead == 0)  // We're at EOF
-                {
                     return _charsRead;
-                }
-
                 _isBlocked = (_bytesRead < _byteBufferSize);
                 _charsRead += _decoder.GetChars(
                     _byteBuffer,
@@ -333,7 +252,6 @@ namespace Microsoft.AspNetCore.WebUtilities
                     _charsRead);
             }
             while (_charsRead == 0);
-
             return _charsRead;
         }
 
@@ -342,23 +260,17 @@ namespace Microsoft.AspNetCore.WebUtilities
             _charsRead = 0;
             _charBufferIndex = 0;
             _bytesRead = 0;
-
             do
             {
-
                 _bytesRead = await _stream.ReadAsync(
                     _byteBuffer,
                     0,
                     _byteBufferSize).ConfigureAwait(false);
                 if (_bytesRead == 0)
-                {
                     // We're at EOF
                     return _charsRead;
-                }
-
                 // _isBlocked == whether we read fewer bytes than we asked for.
                 _isBlocked = (_bytesRead < _byteBufferSize);
-
                 _charsRead += _decoder.GetChars(
                     _byteBuffer,
                     0,
@@ -367,7 +279,6 @@ namespace Microsoft.AspNetCore.WebUtilities
                     _charsRead);
             }
             while (_charsRead == 0);
-
             return _charsRead;
         }
     }

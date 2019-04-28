@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Routing.DecisionTree
+namespace Contoso.GameNetCore.Routing.DecisionTree
 {
     // This code generates a minimal tree of decision criteria that map known categorical data
     // (key-value-pairs) to a set of inputs. Action Selection is the best example of how this

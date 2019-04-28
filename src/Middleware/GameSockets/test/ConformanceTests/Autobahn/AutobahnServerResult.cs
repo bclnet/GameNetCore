@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Server.IntegrationTesting;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     public class AutobahnServerResult
     {

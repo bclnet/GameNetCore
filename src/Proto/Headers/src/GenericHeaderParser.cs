@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     internal sealed class GenericHeaderParser<T> : BaseHeaderParser<T>
     {

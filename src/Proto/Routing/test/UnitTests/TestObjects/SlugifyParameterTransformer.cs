@@ -3,7 +3,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Microsoft.AspNetCore.Routing.TestObjects
+namespace Contoso.GameNetCore.Routing.TestObjects
 {
     public class SlugifyParameterTransformer : IOutboundParameterTransformer
     {

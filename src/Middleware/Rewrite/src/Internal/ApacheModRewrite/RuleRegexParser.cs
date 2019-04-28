@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     public class RuleRegexParser
     {

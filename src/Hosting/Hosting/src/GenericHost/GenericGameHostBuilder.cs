@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Contoso.GameNetCore.Hosting.Builder;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,7 +13,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-#if !NET3
+#if NET2
 using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 #endif
 
@@ -93,7 +93,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 services.TryAddSingleton<DiagnosticListener>(listener);
                 services.TryAddSingleton<DiagnosticSource>(listener);
 
-                //services.TryAddSingleton<IHttpContextFactory, DefaultHttpContextFactory>();
+                //services.TryAddSingleton<IProtoContextFactory, DefaultProtoContextFactory>();
                 //services.TryAddScoped<IMiddlewareFactory, MiddlewareFactory>();
                 services.TryAddSingleton<IApplicationBuilderFactory, ApplicationBuilderFactory>();
 
@@ -184,7 +184,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 
         public IGameHostBuilder UseDefaultServiceProvider(Action<GameHostBuilderContext, ServiceProviderOptions> configure)
         {
-#if !NET3
+#if NET2
             throw new NotImplementedException();
 #else
             _builder.UseServiceProviderFactory(context =>

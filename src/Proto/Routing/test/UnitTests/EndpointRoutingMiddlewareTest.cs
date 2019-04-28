@@ -4,11 +4,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Testing;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class EndpointRoutingMiddlewareTest
     {
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_OnCall_SetsEndpointFeature()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var middleware = CreateMiddleware();
 
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Routing
                 TestSink.EnableWithTypeName<EndpointRoutingMiddleware>);
             var loggerFactory = new TestLoggerFactory(sink, enabled: true);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var logger = new Logger<EndpointRoutingMiddleware>(loggerFactory);
             var middleware = CreateMiddleware(logger);
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_BackCompatGetRouteValue_ValueUsedFromEndpointFeature()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var middleware = CreateMiddleware();
 
@@ -88,7 +88,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_BackCompatGetDataTokens_ValueUsedFromEndpointMetadata()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var middleware = CreateMiddleware();
 
@@ -111,7 +111,7 @@ namespace Microsoft.AspNetCore.Routing
         public async Task Invoke_InitializationFailure_AllowsReinitialization()
         {
             // Arrange
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             var matcherFactory = new Mock<MatcherFactory>();
             matcherFactory
@@ -130,11 +130,11 @@ namespace Microsoft.AspNetCore.Routing
                 .Verify(f => f.CreateMatcher(It.IsAny<EndpointDataSource>()), Times.Exactly(2));
         }
 
-        private HttpContext CreateHttpContext()
+        private ProtoContext CreateProtoContext()
         {
             var context = new EndpointSelectorContext();
 
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             httpContext.Features.Set<IEndpointFeature>(context);
             httpContext.Features.Set<IRouteValuesFeature>(context);
 

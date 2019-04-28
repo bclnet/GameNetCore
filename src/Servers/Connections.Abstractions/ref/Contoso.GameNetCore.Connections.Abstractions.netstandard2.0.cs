@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public partial class AddressInUseException : System.InvalidOperationException
     {
@@ -98,7 +98,7 @@ namespace Microsoft.AspNetCore.Connections
         Text = 2,
     }
 }
-namespace Microsoft.AspNetCore.Connections.Features
+namespace Contoso.GameNetCore.Connections.Features
 {
     public partial interface IConnectionHeartbeatFeature
     {

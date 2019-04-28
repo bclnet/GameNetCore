@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal;
 
-namespace Microsoft.AspNetCore.Rewrite
+namespace Contoso.GameNetCore.Rewrite
 {
     /// <summary>
     /// The builder to a list of rules for <see cref="RewriteOptions"/> and <see cref="RewriteMiddleware"/>

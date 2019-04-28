@@ -1,7 +1,7 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace Contoso.GameNetCore.Hosting.Server
     /// Represents an application.
     /// </summary>
     /// <typeparam name="TContext">The context associated with the application.</typeparam>
-    public interface IHttpApplication<TContext>
+    public interface IProtoApplication<TContext>
     {
         /// <summary>
         /// Create a TContext given a collection of HTTP features.

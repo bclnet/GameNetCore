@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>ASP.NET Core default HTTP feature implementations.</Description>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <IsAspNetCoreApp>true</IsAspNetCoreApp>
+    <IsGameNetCoreApp>true</IsGameNetCoreApp>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

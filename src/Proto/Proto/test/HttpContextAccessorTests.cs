@@ -4,47 +4,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class HttpContextAccessorTests
+    public class ProtoContextAccessorTests
     {
         [Fact]
-        public async Task HttpContextAccessor_GettingHttpContextReturnsHttpContext()
+        public async Task ProtoContextAccessor_GettingProtoContextReturnsProtoContext()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.TraceIdentifier = "1";
-            accessor.HttpContext = context;
+            accessor.ProtoContext = context;
 
             await Task.Delay(100);
 
-            Assert.Same(context, accessor.HttpContext);
+            Assert.Same(context, accessor.ProtoContext);
         }
 
         [Fact]
-        public void HttpContextAccessor_GettingHttpContextWithOutSettingReturnsNull()
+        public void ProtoContextAccessor_GettingProtoContextWithOutSettingReturnsNull()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            Assert.Null(accessor.HttpContext);
+            Assert.Null(accessor.ProtoContext);
         }
 
         [Fact]
-        public async Task HttpContextAccessor_GettingHttpContextReturnsNullHttpContextIfSetToNull()
+        public async Task ProtoContextAccessor_GettingProtoContextReturnsNullProtoContextIfSetToNull()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            var context = new DefaultHttpContext();
-            accessor.HttpContext = context;
+            var context = new DefaultProtoContext();
+            accessor.ProtoContext = context;
 
             var checkAsyncFlowTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
             var waitForNullTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -52,8 +52,8 @@ namespace Microsoft.AspNetCore.Http
 
             ThreadPool.QueueUserWorkItem(async _ =>
             {
-                // The HttpContext flows with the execution context
-                Assert.Same(context, accessor.HttpContext);
+                // The ProtoContext flows with the execution context
+                Assert.Same(context, accessor.ProtoContext);
 
                 checkAsyncFlowTcs.SetResult(null);
 
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Http
 
                 try
                 {
-                    Assert.Null(accessor.HttpContext);
+                    Assert.Null(accessor.ProtoContext);
 
                     afterNullCheckTcs.SetResult(null);
                 }
@@ -74,22 +74,22 @@ namespace Microsoft.AspNetCore.Http
             await checkAsyncFlowTcs.Task;
 
             // Null out the accessor
-            accessor.HttpContext = null;
+            accessor.ProtoContext = null;
 
             waitForNullTcs.SetResult(null);
 
-            Assert.Null(accessor.HttpContext);
+            Assert.Null(accessor.ProtoContext);
 
             await afterNullCheckTcs.Task;
         }
 
         [Fact]
-        public async Task HttpContextAccessor_GettingHttpContextReturnsNullHttpContextIfChanged()
+        public async Task ProtoContextAccessor_GettingProtoContextReturnsNullProtoContextIfChanged()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            var context = new DefaultHttpContext();
-            accessor.HttpContext = context;
+            var context = new DefaultProtoContext();
+            accessor.ProtoContext = context;
 
             var checkAsyncFlowTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
             var waitForNullTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -97,8 +97,8 @@ namespace Microsoft.AspNetCore.Http
 
             ThreadPool.QueueUserWorkItem(async _ =>
             {
-                // The HttpContext flows with the execution context
-                Assert.Same(context, accessor.HttpContext);
+                // The ProtoContext flows with the execution context
+                Assert.Same(context, accessor.ProtoContext);
 
                 checkAsyncFlowTcs.SetResult(null);
 
@@ -106,7 +106,7 @@ namespace Microsoft.AspNetCore.Http
 
                 try
                 {
-                    Assert.Null(accessor.HttpContext);
+                    Assert.Null(accessor.ProtoContext);
 
                     afterNullCheckTcs.SetResult(null);
                 }
@@ -119,34 +119,34 @@ namespace Microsoft.AspNetCore.Http
             await checkAsyncFlowTcs.Task;
 
             // Set a new http context
-            var context2 = new DefaultHttpContext();
-            accessor.HttpContext = context2;
+            var context2 = new DefaultProtoContext();
+            accessor.ProtoContext = context2;
 
             waitForNullTcs.SetResult(null);
 
-            Assert.Same(context2, accessor.HttpContext);
+            Assert.Same(context2, accessor.ProtoContext);
 
             await afterNullCheckTcs.Task;
         }
 
         [Fact]
-        public async Task HttpContextAccessor_GettingHttpContextDoesNotFlowIfAccessorSetToNull()
+        public async Task ProtoContextAccessor_GettingProtoContextDoesNotFlowIfAccessorSetToNull()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            var context = new DefaultHttpContext();
-            accessor.HttpContext = context;
+            var context = new DefaultProtoContext();
+            accessor.ProtoContext = context;
 
             var checkAsyncFlowTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            accessor.HttpContext = null;
+            accessor.ProtoContext = null;
 
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    // The HttpContext flows with the execution context
-                    Assert.Null(accessor.HttpContext);
+                    // The ProtoContext flows with the execution context
+                    Assert.Null(accessor.ProtoContext);
                     checkAsyncFlowTcs.SetResult(null);
                 }
                 catch (Exception ex)
@@ -159,12 +159,12 @@ namespace Microsoft.AspNetCore.Http
         }
 
         [Fact]
-        public async Task HttpContextAccessor_GettingHttpContextDoesNotFlowIfExecutionContextDoesNotFlow()
+        public async Task ProtoContextAccessor_GettingProtoContextDoesNotFlowIfExecutionContextDoesNotFlow()
         {
-            var accessor = new HttpContextAccessor();
+            var accessor = new ProtoContextAccessor();
 
-            var context = new DefaultHttpContext();
-            accessor.HttpContext = context;
+            var context = new DefaultProtoContext();
+            accessor.ProtoContext = context;
 
             var checkAsyncFlowTcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -172,8 +172,8 @@ namespace Microsoft.AspNetCore.Http
             {
                 try
                 {
-                    // The HttpContext flows with the execution context
-                    Assert.Null(accessor.HttpContext);
+                    // The ProtoContext flows with the execution context
+                    Assert.Null(accessor.ProtoContext);
                     checkAsyncFlowTcs.SetResult(null);
                 }
                 catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+﻿namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     public enum Expectation
     {

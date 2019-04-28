@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.NodeServices
+namespace Contoso.GameNetCore.NodeServices
 {
     /// <summary>
     /// Represents the ability to invoke code in a Node.js environment. Although the underlying Node.js instance

@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Abstractions
+namespace Contoso.GameNetCore.Proto.Abstractions
 {
     public class QueryStringTests
     {

@@ -1,14 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public class FormReaderTests
     {
@@ -206,24 +206,16 @@ namespace Microsoft.AspNetCore.WebUtilities
             Assert.Equal(expectedValue, form[key]);
         }
 
-        protected virtual Task<Dictionary<string, StringValues>> ReadFormAsync(FormReader reader)
-        {
-            return Task.FromResult(reader.ReadForm());
-        }
+        protected virtual Task<Dictionary<string, StringValues>> ReadFormAsync(FormReader reader) => Task.FromResult(reader.ReadForm());
 
-        protected virtual Task<KeyValuePair<string, string>?> ReadPair(FormReader reader)
-        {
-            return Task.FromResult(reader.ReadNextPair());
-        }
+        protected virtual Task<KeyValuePair<string, string>?> ReadPair(FormReader reader) => Task.FromResult(reader.ReadNextPair());
 
         private static Stream MakeStream(bool bufferRequest, string text)
         {
             var formContent = Encoding.UTF8.GetBytes(text);
-            Stream body = new MemoryStream(formContent);
+            var body = new MemoryStream(formContent);
             if (!bufferRequest)
-            {
                 body = new NonSeekableReadStream(body);
-            }
             return body;
         }
     }

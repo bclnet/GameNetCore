@@ -24,8 +24,8 @@ namespace CodeGenerator
             };
 
             var usings = $@"
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http.Features;";
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Http.Features;";
 
             return FeatureCollectionGenerator.GenerateFile(
                 namespaceName: "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal",

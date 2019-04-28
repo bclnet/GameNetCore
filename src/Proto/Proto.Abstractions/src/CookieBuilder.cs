@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Abstractions;
+using Contoso.GameNetCore.Proto.Abstractions;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Defines settings used to create a cookie.
@@ -44,9 +44,9 @@ namespace Microsoft.AspNetCore.Http
         /// Indicates whether a cookie is accessible by client-side script.
         /// </summary>
         /// <remarks>
-        /// Determines the value that will set on <seealso cref="CookieOptions.HttpOnly"/>.
+        /// Determines the value that will set on <seealso cref="CookieOptions.ProtoOnly"/>.
         /// </remarks>
-        public virtual bool HttpOnly { get; set; }
+        public virtual bool ProtoOnly { get; set; }
 
         /// <summary>
         /// The SameSite attribute of the cookie. The default value is <see cref="SameSiteMode.None"/>
@@ -58,7 +58,7 @@ namespace Microsoft.AspNetCore.Http
 
         /// <summary>
         /// The policy that will be used to determine <seealso cref="CookieOptions.Secure"/>.
-        /// This is determined from the <see cref="HttpContext"/> passed to <see cref="Build(HttpContext, DateTimeOffset)"/>.
+        /// This is determined from the <see cref="ProtoContext"/> passed to <see cref="Build(ProtoContext, DateTimeOffset)"/>.
         /// </summary>
         public virtual CookieSecurePolicy SecurePolicy { get; set; }
 
@@ -81,17 +81,17 @@ namespace Microsoft.AspNetCore.Http
         /// <summary>
         /// Creates the cookie options from the given <paramref name="context"/>.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <returns>The cookie options.</returns>
-        public CookieOptions Build(HttpContext context) => Build(context, DateTimeOffset.Now);
+        public CookieOptions Build(ProtoContext context) => Build(context, DateTimeOffset.Now);
 
         /// <summary>
         /// Creates the cookie options from the given <paramref name="context"/> with an expiration based on <paramref name="expiresFrom"/> and <see cref="Expiration"/>.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="expiresFrom">The time to use as the base for computing <seealso cref="CookieOptions.Expires" />.</param>
         /// <returns>The cookie options.</returns>
-        public virtual CookieOptions Build(HttpContext context, DateTimeOffset expiresFrom)
+        public virtual CookieOptions Build(ProtoContext context, DateTimeOffset expiresFrom)
         {
             if (context == null)
             {
@@ -102,11 +102,11 @@ namespace Microsoft.AspNetCore.Http
             {
                 Path = Path ?? "/",
                 SameSite = SameSite,
-                HttpOnly = HttpOnly,
+                ProtoOnly = ProtoOnly,
                 MaxAge = MaxAge,
                 Domain = Domain,
                 IsEssential = IsEssential,
-                Secure = SecurePolicy == CookieSecurePolicy.Always || (SecurePolicy == CookieSecurePolicy.SameAsRequest && context.Request.IsHttps),
+                Secure = SecurePolicy == CookieSecurePolicy.Always || (SecurePolicy == CookieSecurePolicy.SameAsRequest && context.Request.IsProtos),
                 Expires = Expiration.HasValue ? expiresFrom.Add(Expiration.GetValueOrDefault()) : default(DateTimeOffset?)
             };
         }

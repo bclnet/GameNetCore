@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Microsoft.AspNetCore
+namespace Contoso.GameNetCore
 {
     public class TargetingPackTests
     {

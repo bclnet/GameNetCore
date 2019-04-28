@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.AspNetCore.Testing.xunit
+namespace Contoso.GameNetCore.Testing.xunit
 {
     // Skip except on a specific OS and version
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]

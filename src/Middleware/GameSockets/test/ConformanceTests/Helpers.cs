@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest
 {
     public class Helpers
     {

@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal enum Http2ErrorCode : uint
+    internal enum Proto2ErrorCode : uint
     {
         NO_ERROR = 0x0,
         PROTOCOL_ERROR = 0x1,

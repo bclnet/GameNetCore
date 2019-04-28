@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Proto.Extensions
 {
     public class UriHelperTests
     {
@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         [Fact]
         public void GetEncodedUrlFromRequest()
         {
-            var request = new DefaultHttpContext().Request;
+            var request = new DefaultProtoContext().Request;
             request.Scheme = "http";
             request.Host = new HostString("my.HoΨst:80");
             request.PathBase = new PathString("/un?escaped/base");
@@ -60,7 +60,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         [InlineData(null)]
         public void GetDisplayUrlFromRequest(string pathBase)
         {
-            var request = new DefaultHttpContext().Request;
+            var request = new DefaultProtoContext().Request;
             request.Scheme = "http";
             request.Host = new HostString("my.HoΨst:80");
             request.PathBase = new PathString(pathBase);

@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// Brotli compression provider.

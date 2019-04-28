@@ -15,7 +15,7 @@ namespace Contoso.GameNetCore.Hosting
         /// Specify Kestrel as the server to be used by the game host.
         /// </summary>
         /// <param name="hostBuilder">
-        /// The Contoso.GameNetCore.Hosting.IWebHostBuilder to configure.
+        /// The Contoso.GameNetCore.Hosting.IGameHostBuilder to configure.
         /// </param>
         /// <returns>
         /// The Contoso.GameNetCore.Hosting.IGameHostBuilder.
@@ -65,7 +65,7 @@ namespace Contoso.GameNetCore.Hosting
             });
 
         /// <summary>
-        /// Specify Kestrel as the server to be used by the web host.
+        /// Specify Kestrel as the server to be used by the game host.
         /// </summary>
         /// <param name="hostBuilder">
         /// The Contoso.GameNetCore.Hosting.IGameHostBuilder to configure.

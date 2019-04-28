@@ -4,35 +4,35 @@
 using System;
 using System.IO;
 using System.IO.Pipelines;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     internal class BodyControl
     {
         private static readonly ThrowingWasUpgradedWriteOnlyStream _throwingResponseStream
             = new ThrowingWasUpgradedWriteOnlyStream();
-        private readonly HttpResponseStream _response;
-        private readonly HttpResponsePipeWriter _responseWriter;
-        private readonly HttpRequestPipeReader _requestReader;
-        private readonly HttpRequestStream _request;
-        private readonly HttpRequestPipeReader _emptyRequestReader;
+        private readonly ProtoResponseStream _response;
+        private readonly ProtoResponsePipeWriter _responseWriter;
+        private readonly ProtoRequestPipeReader _requestReader;
+        private readonly ProtoRequestStream _request;
+        private readonly ProtoRequestPipeReader _emptyRequestReader;
         private readonly WrappingStream _upgradeableResponse;
-        private readonly HttpRequestStream _emptyRequest;
+        private readonly ProtoRequestStream _emptyRequest;
         private readonly Stream _upgradeStream;
 
-        public BodyControl(IHttpBodyControlFeature bodyControl, IHttpResponseControl responseControl)
+        public BodyControl(IProtoBodyControlFeature bodyControl, IProtoResponseControl responseControl)
         {
-            _requestReader = new HttpRequestPipeReader();
-            _request = new HttpRequestStream(bodyControl, _requestReader);
-            _emptyRequestReader = new HttpRequestPipeReader();
-            _emptyRequest = new HttpRequestStream(bodyControl, _emptyRequestReader);
+            _requestReader = new ProtoRequestPipeReader();
+            _request = new ProtoRequestStream(bodyControl, _requestReader);
+            _emptyRequestReader = new ProtoRequestPipeReader();
+            _emptyRequest = new ProtoRequestStream(bodyControl, _emptyRequestReader);
 
-            _responseWriter = new HttpResponsePipeWriter(responseControl);
-            _response = new HttpResponseStream(bodyControl, _responseWriter);
+            _responseWriter = new ProtoResponsePipeWriter(responseControl);
+            _response = new ProtoResponseStream(bodyControl, _responseWriter);
             _upgradeableResponse = new WrappingStream(_response);
-            _upgradeStream = new HttpUpgradeStream(_request, _response);
+            _upgradeStream = new ProtoUpgradeStream(_request, _response);
         }
 
         public Stream Upgrade()

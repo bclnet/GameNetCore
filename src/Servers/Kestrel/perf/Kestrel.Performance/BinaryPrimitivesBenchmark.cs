@@ -5,7 +5,7 @@ using System;
 using System.Buffers.Binary;
 using BenchmarkDotNet.Attributes;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Performance
+namespace Contoso.GameNetCore.Server.Kestrel.Performance
 {
     public class BinaryPrimitivesBenchmark
     {

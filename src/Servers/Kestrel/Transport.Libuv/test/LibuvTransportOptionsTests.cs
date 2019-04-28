@@ -4,7 +4,7 @@
 using System;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Tests
 {
     public class LibuvTransportOptionsTests
     {

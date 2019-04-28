@@ -6,22 +6,22 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Tree;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public abstract class EndpointRoutingBenchmarkBase
     {
         private protected RouteEndpoint[] Endpoints;
-        private protected HttpContext[] Requests;
+        private protected ProtoContext[] Requests;
 
         private protected void SetupEndpoints(params RouteEndpoint[] endpoints)
         {
@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private protected void Validate(HttpContext httpContext, Endpoint expected, Endpoint actual)
+        private protected void Validate(ProtoContext httpContext, Endpoint expected, Endpoint actual)
         {
             if (!object.ReferenceEquals(expected, actual))
             {
@@ -100,7 +100,7 @@ namespace Microsoft.AspNetCore.Routing
         {
             return CreateEndpoint(template, metadata: new object[]
             {
-                new HttpMethodMetadata(new string[]{ httpMethod, }),
+                new ProtoMethodMetadata(new string[]{ httpMethod, }),
             });
         }
 
@@ -128,11 +128,11 @@ namespace Microsoft.AspNetCore.Routing
                 displayName);
         }
 
-        protected (HttpContext httpContext, RouteValueDictionary ambientValues) CreateCurrentRequestContext(
+        protected (ProtoContext httpContext, RouteValueDictionary ambientValues) CreateCurrentRequestContext(
             object ambientValues = null)
         {
             var feature = new EndpointSelectorContext { RouteValues = new RouteValueDictionary(ambientValues) };
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Features.Set<IEndpointFeature>(feature);
             context.Features.Set<IRouteValuesFeature>(feature);
 

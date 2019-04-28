@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Security.Claims;
 using System.Threading;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public class DefaultConnectionContext : ConnectionContext,
                                             IDisposable,

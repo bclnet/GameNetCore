@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Routing.Patterns;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RoutingEndpointConventionBuilderExtensionsTests
     {

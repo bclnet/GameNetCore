@@ -7,15 +7,15 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Hosting.Server.Features;
+using Contoso.GameNetCore.Proto.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal
 {
     internal class AddressBinder
     {
@@ -168,15 +168,15 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                 await httpDefault.BindAsync(context).ConfigureAwait(false);
 
                 // Conditional https default, only if a cert is available
-                var httpsDefault = ParseAddress(Constants.DefaultServerHttpsAddress, out https);
+                var httpsDefault = ParseAddress(Constants.DefaultServerProtosAddress, out https);
                 context.ServerOptions.ApplyEndpointDefaults(httpsDefault);
 
-                if (httpsDefault.ConnectionAdapters.Any(f => f.IsHttps)
-                    || httpsDefault.TryUseHttps())
+                if (httpsDefault.ConnectionAdapters.Any(f => f.IsProtos)
+                    || httpsDefault.TryUseProtos())
                 {
                     await httpsDefault.BindAsync(context).ConfigureAwait(false);
                     context.Logger.LogDebug(CoreStrings.BindingToDefaultAddresses,
-                        Constants.DefaultServerAddress, Constants.DefaultServerHttpsAddress);
+                        Constants.DefaultServerAddress, Constants.DefaultServerProtosAddress);
                 }
                 else
                 {
@@ -255,9 +255,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
                     var options = ParseAddress(address, out var https);
                     context.ServerOptions.ApplyEndpointDefaults(options);
 
-                    if (https && !options.ConnectionAdapters.Any(f => f.IsHttps))
+                    if (https && !options.ConnectionAdapters.Any(f => f.IsProtos))
                     {
-                        options.UseHttps();
+                        options.UseProtos();
                     }
 
                     await options.BindAsync(context).ConfigureAwait(false);

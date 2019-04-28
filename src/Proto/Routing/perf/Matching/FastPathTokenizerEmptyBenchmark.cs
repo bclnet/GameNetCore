@@ -4,7 +4,7 @@
 using System;
 using BenchmarkDotNet.Attributes;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public class FastPathTokenizerEmptyBenchmark : FastPathTokenizerBenchmarkBase
     {

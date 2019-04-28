@@ -3,19 +3,19 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.ProtoOverrides
 {
-    public class HttpMethodOverrideMiddleware
+    public class ProtoMethodOverrideMiddleware
     {
-        private const string xHttpMethodOverride = "X-Http-Method-Override";
+        private const string xProtoMethodOverride = "X-Proto-Method-Override";
         private readonly RequestDelegate _next;
-        private readonly HttpMethodOverrideOptions _options;
+        private readonly ProtoMethodOverrideOptions _options;
 
-        public HttpMethodOverrideMiddleware(RequestDelegate next, IOptions<HttpMethodOverrideOptions> options)
+        public ProtoMethodOverrideMiddleware(RequestDelegate next, IOptions<ProtoMethodOverrideOptions> options)
         {
             if (next == null)
             {
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.HttpOverrides
             _options = options.Value;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(ProtoContext context)
         {
             if (string.Equals(context.Request.Method, "POST", StringComparison.OrdinalIgnoreCase))
             {
@@ -47,10 +47,10 @@ namespace Microsoft.AspNetCore.HttpOverrides
                 }
                 else
                 {
-                    var xHttpMethodOverrideValue = context.Request.Headers[xHttpMethodOverride];
-                    if (!string.IsNullOrEmpty(xHttpMethodOverrideValue))
+                    var xProtoMethodOverrideValue = context.Request.Headers[xProtoMethodOverride];
+                    if (!string.IsNullOrEmpty(xProtoMethodOverrideValue))
                     {
-                        context.Request.Method = xHttpMethodOverrideValue;
+                        context.Request.Method = xProtoMethodOverrideValue;
                     }
                 }
             }

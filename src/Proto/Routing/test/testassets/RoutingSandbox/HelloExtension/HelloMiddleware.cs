@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Options;
 
-namespace RoutingSample.Web.HelloExtension
+namespace RoutingSample.Game.HelloExtension
 {
     public class HelloMiddleware
     {
@@ -32,7 +32,7 @@ namespace RoutingSample.Web.HelloExtension
             _helloPayload = payload.ToArray();
         }
 
-        public Task InvokeAsync(HttpContext context)
+        public Task InvokeAsync(ProtoContext context)
         {
             var response = context.Response;
             var payloadLength = _helloPayload.Length;

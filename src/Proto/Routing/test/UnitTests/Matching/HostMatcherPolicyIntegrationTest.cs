@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // End-to-end tests for the host matching functionality
     public class HostMatcherPolicyIntegrationTest
@@ -144,7 +144,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public async Task Match_HostWithPort_InferHttpPort()
+        public async Task Match_HostWithPort_InferProtoPort()
         {
             // Arrange
             var endpoint = CreateEndpoint("/hello", hosts: new string[] { "contoso.com:80", });
@@ -160,7 +160,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public async Task Match_HostWithPort_InferHttpsPort()
+        public async Task Match_HostWithPort_InferProtosPort()
         {
             // Arrange
             var endpoint = CreateEndpoint("/hello", hosts: new string[] { "contoso.com:443", });
@@ -192,7 +192,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         }
 
         [Fact]
-        public async Task Match_Port_NoHostHeader_InferHttpsPort()
+        public async Task Match_Port_NoHostHeader_InferProtosPort()
         {
             // Arrange
             var endpoint = CreateEndpoint("/hello", hosts: new string[] { "*:443", });
@@ -288,12 +288,12 @@ namespace Microsoft.AspNetCore.Routing.Matching
             return builder.Build();
         }
 
-        internal static (HttpContext httpContext, EndpointSelectorContext context) CreateContext(
+        internal static (ProtoContext httpContext, EndpointSelectorContext context) CreateContext(
             string path,
             string host,
             string scheme = null)
         {
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
             if (host != null)
             {
                 httpContext.Request.Host = new HostString(host);

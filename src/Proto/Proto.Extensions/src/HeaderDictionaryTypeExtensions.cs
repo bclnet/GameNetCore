@@ -5,20 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Http.Headers;
+using Contoso.GameNetCore.Proto.Headers;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public static class HeaderDictionaryTypeExtensions
     {
-        public static RequestHeaders GetTypedHeaders(this HttpRequest request)
+        public static RequestHeaders GetTypedHeaders(this ProtoRequest request)
         {
             return new RequestHeaders(request.Headers);
         }
 
-        public static ResponseHeaders GetTypedHeaders(this HttpResponse response)
+        public static ResponseHeaders GetTypedHeaders(this ProtoResponse response)
         {
             return new ResponseHeaders(response.Headers);
         }

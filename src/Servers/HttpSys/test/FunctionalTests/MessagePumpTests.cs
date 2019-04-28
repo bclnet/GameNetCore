@@ -3,15 +3,15 @@
 
 using System.Linq;
 using System.Threading;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.HttpSys.Internal;
-using Microsoft.AspNetCore.Testing.xunit;
+using Contoso.GameNetCore.Authentication;
+using Contoso.GameNetCore.Hosting.Server.Features;
+using Contoso.GameNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.Testing.xunit;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     public class MessagePumpTests
     {

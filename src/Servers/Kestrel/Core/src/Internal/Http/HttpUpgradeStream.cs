@@ -6,14 +6,14 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class HttpUpgradeStream : Stream
+    internal class ProtoUpgradeStream : Stream
     {
         private readonly Stream _requestStream;
         private readonly Stream _responseStream;
 
-        public HttpUpgradeStream(Stream requestStream, Stream responseStream)
+        public ProtoUpgradeStream(Stream requestStream, Stream responseStream)
         {
             _requestStream = requestStream;
             _responseStream = responseStream;

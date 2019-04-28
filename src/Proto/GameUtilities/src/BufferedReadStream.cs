@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     /// <summary>
     /// A Stream that wraps another stream and allows reading lines.
@@ -32,9 +32,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="inner">The stream to wrap.</param>
         /// <param name="bufferSize">Size of buffer in bytes.</param>
         public BufferedReadStream(Stream inner, int bufferSize)
-            : this(inner, bufferSize, ArrayPool<byte>.Shared)
-        {
-        }
+            : this(inner, bufferSize, ArrayPool<byte>.Shared) { }
 
         /// <summary>
         /// Creates a new stream.
@@ -44,12 +42,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="bytePool">ArrayPool for the buffer.</param>
         public BufferedReadStream(Stream inner, int bufferSize, ArrayPool<byte> bytePool)
         {
-            if (inner == null)
-            {
-                throw new ArgumentNullException(nameof(inner));
-            }
-
-            _inner = inner;
+            _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _bytePool = bytePool;
             _buffer = bytePool.Rent(bufferSize);
         }
@@ -57,55 +50,33 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <summary>
         /// The currently buffered data.
         /// </summary>
-        public ArraySegment<byte> BufferedData
-        {
-            get { return new ArraySegment<byte>(_buffer, _bufferOffset, _bufferCount); }
-        }
+        public ArraySegment<byte> BufferedData => new ArraySegment<byte>(_buffer, _bufferOffset, _bufferCount);
 
         /// <inheritdoc/>
-        public override bool CanRead
-        {
-            get { return _inner.CanRead || _bufferCount > 0; }
-        }
+        public override bool CanRead => _inner.CanRead || _bufferCount > 0;
 
         /// <inheritdoc/>
-        public override bool CanSeek
-        {
-            get { return _inner.CanSeek; }
-        }
+        public override bool CanSeek => _inner.CanSeek;
 
         /// <inheritdoc/>
-        public override bool CanTimeout
-        {
-            get { return _inner.CanTimeout; }
-        }
+        public override bool CanTimeout => _inner.CanTimeout;
 
         /// <inheritdoc/>
-        public override bool CanWrite
-        {
-            get { return _inner.CanWrite; }
-        }
+        public override bool CanWrite => _inner.CanWrite;
 
         /// <inheritdoc/>
-        public override long Length
-        {
-            get { return _inner.Length; }
-        }
+        public override long Length => _inner.Length;
 
         /// <inheritdoc/>
         public override long Position
         {
-            get { return _inner.Position - _bufferCount; }
+            get => _inner.Position - _bufferCount;
             set
             {
                 if (value < 0)
-                {
                     throw new ArgumentOutOfRangeException(nameof(value), value, "Position must be positive.");
-                }
                 if (value == Position)
-                {
                     return;
-                }
 
                 // Backwards?
                 if (value <= _inner.Position)
@@ -140,25 +111,16 @@ namespace Microsoft.AspNetCore.WebUtilities
         public override long Seek(long offset, SeekOrigin origin)
         {
             if (origin == SeekOrigin.Begin)
-            {
                 Position = offset;
-            }
             else if (origin == SeekOrigin.Current)
-            {
                 Position = Position + offset;
-            }
             else // if (origin == SeekOrigin.End)
-            {
                 Position = Length + offset;
-            }
             return Position;
         }
 
         /// <inheritdoc/>
-        public override void SetLength(long value)
-        {
-            _inner.SetLength(value);
-        }
+        public override void SetLength(long value) => _inner.SetLength(value);
 
         /// <inheritdoc/>
         protected override void Dispose(bool disposing)
@@ -169,35 +131,21 @@ namespace Microsoft.AspNetCore.WebUtilities
                 _bytePool.Return(_buffer);
 
                 if (disposing)
-                {
                     _inner.Dispose();
-                }
             }
         }
 
         /// <inheritdoc/>
-        public override void Flush()
-        {
-            _inner.Flush();
-        }
+        public override void Flush() => _inner.Flush();
 
         /// <inheritdoc/>
-        public override Task FlushAsync(CancellationToken cancellationToken)
-        {
-            return _inner.FlushAsync(cancellationToken);
-        }
+        public override Task FlushAsync(CancellationToken cancellationToken) => _inner.FlushAsync(cancellationToken);
 
         /// <inheritdoc/>
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            _inner.Write(buffer, offset, count);
-        }
+        public override void Write(byte[] buffer, int offset, int count) => _inner.Write(buffer, offset, count);
 
         /// <inheritdoc/>
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return _inner.WriteAsync(buffer, offset, count, cancellationToken);
-        }
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => _inner.WriteAsync(buffer, offset, count, cancellationToken);
 
         /// <inheritdoc/>
         public override int Read(byte[] buffer, int offset, int count)
@@ -207,7 +155,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             // Drain buffer
             if (_bufferCount > 0)
             {
-                int toCopy = Math.Min(_bufferCount, count);
+                var toCopy = Math.Min(_bufferCount, count);
                 Buffer.BlockCopy(_buffer, _bufferOffset, buffer, offset, toCopy);
                 _bufferOffset += toCopy;
                 _bufferCount -= toCopy;
@@ -225,7 +173,7 @@ namespace Microsoft.AspNetCore.WebUtilities
             // Drain buffer
             if (_bufferCount > 0)
             {
-                int toCopy = Math.Min(_bufferCount, count);
+                var toCopy = Math.Min(_bufferCount, count);
                 Buffer.BlockCopy(_buffer, _bufferOffset, buffer, offset, toCopy);
                 _bufferOffset += toCopy;
                 _bufferCount -= toCopy;
@@ -242,9 +190,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         public bool EnsureBuffered()
         {
             if (_bufferCount > 0)
-            {
                 return true;
-            }
             // Downshift to make room
             _bufferOffset = 0;
             _bufferCount = _inner.Read(_buffer, 0, _buffer.Length);
@@ -259,9 +205,7 @@ namespace Microsoft.AspNetCore.WebUtilities
         public async Task<bool> EnsureBufferedAsync(CancellationToken cancellationToken)
         {
             if (_bufferCount > 0)
-            {
                 return true;
-            }
             // Downshift to make room
             _bufferOffset = 0;
             _bufferCount = await _inner.ReadAsync(_buffer, 0, _buffer.Length, cancellationToken);
@@ -276,26 +220,20 @@ namespace Microsoft.AspNetCore.WebUtilities
         public bool EnsureBuffered(int minCount)
         {
             if (minCount > _buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException(nameof(minCount), minCount, "The value must be smaller than the buffer size: " + _buffer.Length.ToString());
-            }
             while (_bufferCount < minCount)
             {
                 // Downshift to make room
                 if (_bufferOffset > 0)
                 {
                     if (_bufferCount > 0)
-                    {
                         Buffer.BlockCopy(_buffer, _bufferOffset, _buffer, 0, _bufferCount);
-                    }
                     _bufferOffset = 0;
                 }
-                int read = _inner.Read(_buffer, _bufferOffset + _bufferCount, _buffer.Length - _bufferCount - _bufferOffset);
+                var read = _inner.Read(_buffer, _bufferOffset + _bufferCount, _buffer.Length - _bufferCount - _bufferOffset);
                 _bufferCount += read;
                 if (read == 0)
-                {
                     return false;
-                }
             }
             return true;
         }
@@ -309,26 +247,20 @@ namespace Microsoft.AspNetCore.WebUtilities
         public async Task<bool> EnsureBufferedAsync(int minCount, CancellationToken cancellationToken)
         {
             if (minCount > _buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException(nameof(minCount), minCount, "The value must be smaller than the buffer size: " + _buffer.Length.ToString());
-            }
             while (_bufferCount < minCount)
             {
                 // Downshift to make room
                 if (_bufferOffset > 0)
                 {
                     if (_bufferCount > 0)
-                    {
                         Buffer.BlockCopy(_buffer, _bufferOffset, _buffer, 0, _bufferCount);
-                    }
                     _bufferOffset = 0;
                 }
-                int read = await _inner.ReadAsync(_buffer, _bufferOffset + _bufferCount, _buffer.Length - _bufferCount - _bufferOffset, cancellationToken);
+                var read = await _inner.ReadAsync(_buffer, _bufferOffset + _bufferCount, _buffer.Length - _bufferCount - _bufferOffset, cancellationToken);
                 _bufferCount += read;
                 if (read == 0)
-                {
                     return false;
-                }
             }
             return true;
         }
@@ -350,9 +282,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 while (!foundCRLF && EnsureBuffered())
                 {
                     if (builder.Length > lengthLimit)
-                    {
                         throw new InvalidDataException($"Line length limit {lengthLimit} exceeded.");
-                    }
                     ProcessLineChar(builder, ref foundCR, ref foundCRLF);
                 }
 
@@ -378,10 +308,7 @@ namespace Microsoft.AspNetCore.WebUtilities
                 while (!foundCRLF && await EnsureBufferedAsync(cancellationToken))
                 {
                     if (builder.Length > lengthLimit)
-                    {
                         throw new InvalidDataException($"Line length limit {lengthLimit} exceeded.");
-                    }
-
                     ProcessLineChar(builder, ref foundCR, ref foundCRLF);
                 }
 
@@ -413,19 +340,15 @@ namespace Microsoft.AspNetCore.WebUtilities
         private void CheckDisposed()
         {
             if (_disposed)
-            {
                 throw new ObjectDisposedException(nameof(BufferedReadStream));
-            }
         }
 
         private void ValidateBuffer(byte[] buffer, int offset, int count)
         {
             // Delegate most of our validation.
-            var ignored = new ArraySegment<byte>(buffer, offset, count);
+            _ = new ArraySegment<byte>(buffer, offset, count);
             if (count == 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(count), "The value must be greater than zero.");
-            }
         }
     }
 }

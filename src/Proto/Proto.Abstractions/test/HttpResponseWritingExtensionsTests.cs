@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public class HttpResponseWritingExtensionsTests
+    public class ProtoResponseWritingExtensionsTests
     {
         [Fact]
         public async Task WritingText_WriteText()
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             await context.Response.WriteAsync("Hello World");
 
             Assert.Equal(11, context.Response.Body.Length);
@@ -25,7 +25,7 @@ namespace Microsoft.AspNetCore.Http
         [Fact]
         public async Task WritingText_MultipleWrites()
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             await context.Response.WriteAsync("Hello World");
             await context.Response.WriteAsync("Hello World");
 
@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.Http
             var outputStream = new MemoryStream();
             var streamPipeWriter = new StreamPipeWriter(outputStream, minimumSegmentSize: 0, memoryPool);
 
-            HttpContext context = new DefaultHttpContext();
+            ProtoContext context = new DefaultProtoContext();
             context.Response.BodyWriter = streamPipeWriter;
 
             var inputString = "昨日すき焼きを食べました";
@@ -63,7 +63,7 @@ namespace Microsoft.AspNetCore.Http
         [MemberData(nameof(Encodings))]
         public async Task WritingTextWithPassedInEncodingWorks(Encoding encoding)
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
 
             var inputString = "昨日すき焼きを食べました";
             var expected = encoding.GetBytes(inputString);
@@ -91,9 +91,9 @@ namespace Microsoft.AspNetCore.Http
                         { Encoding.UTF8 }
             };
 
-        private HttpContext CreateRequest()
+        private ProtoContext CreateRequest()
         {
-            HttpContext context = new DefaultHttpContext();
+            ProtoContext context = new DefaultProtoContext();
             context.Response.Body = new MemoryStream();
             return context;
         }

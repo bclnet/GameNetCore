@@ -3,11 +3,11 @@
 
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class ListenOptionsTests
     {

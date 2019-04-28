@@ -5,10 +5,10 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
-using Microsoft.AspNetCore.Http.Abstractions;
-using Microsoft.AspNetCore.Http.Internal;
+using Contoso.GameNetCore.Proto.Abstractions;
+using Contoso.GameNetCore.Proto.Internal;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
     /// Provides correct escaping for Path and PathBase values when needed to reconstruct a request or redirect URI string

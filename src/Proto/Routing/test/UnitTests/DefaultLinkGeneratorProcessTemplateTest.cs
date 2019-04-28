@@ -4,15 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // Detailed coverage for how DefaultLinkGenerator processes templates
     public class DefaultLinkGeneratorProcessTemplateTest : LinkGeneratorTestBase
@@ -47,7 +47,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{*path}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -79,7 +79,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{**path}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -102,7 +102,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{**path}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -125,7 +125,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -148,7 +148,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -171,7 +171,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -194,7 +194,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -217,7 +217,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Index" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Index" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -240,7 +240,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -268,7 +268,7 @@ namespace Microsoft.AspNetCore.Routing
             };
 
             var linkGenerator = CreateLinkGenerator(configure, endpoints: new[] { endpoint, });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -297,7 +297,7 @@ namespace Microsoft.AspNetCore.Routing
             };
 
             var linkGenerator = CreateLinkGenerator(configure, endpoints: new[] { endpoint, });
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -321,7 +321,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("Foo/{bar=MyBar}/{id?}", policies: new { bar = new SlugifyParameterTransformer(), });
             var linkGenerator = CreateLinkGenerator(endpoints: new[] { endpoint, });
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -353,7 +353,7 @@ namespace Microsoft.AspNetCore.Routing
             };
 
             var linkGenerator = CreateLinkGenerator(configure, endpoints: new[] { endpoint, });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -392,7 +392,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure, 
                 endpoints: new[] { endpoint, });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -422,7 +422,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -457,7 +457,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -487,7 +487,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "HoMe" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "HoMe" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -521,7 +521,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "HoMe" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "HoMe" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -558,7 +558,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -596,7 +596,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -630,7 +630,7 @@ namespace Microsoft.AspNetCore.Routing
             var linkGenerator = CreateLinkGenerator(
                 configure,
                 endpoints: new[] { endpoint });
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -656,7 +656,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { p2 = "catchall" },
                 policies: new { p2 = "\\d{4}" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -680,7 +680,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { p2 = "catchall" },
                 policies: new { p2 = new RegexRouteConstraint("\\d{4}"), });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -706,7 +706,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { p2 = "catchall" },
                 policies: new { p2 = new RegexRouteConstraint("\\d{4}") });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -730,7 +730,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { p2 = "catchall" },
                 policies: new { p2 = new RegexRouteConstraint("\\d{4}") });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -755,7 +755,7 @@ namespace Microsoft.AspNetCore.Routing
             target
                 .Setup(
                     e => e.Match(
-                        It.IsAny<HttpContext>(),
+                        It.IsAny<ProtoContext>(),
                         It.IsAny<IRouter>(),
                         It.IsAny<string>(),
                         It.IsAny<RouteValueDictionary>(),
@@ -767,7 +767,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { p2 = "catchall" },
                 policies: new { p2 = target.Object });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -799,7 +799,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Store" },
                 policies: new { c = constraint });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(
+            var httpContext = CreateProtoContext(
                 ambientValues: new { controller = "Home", action = "Blog", extra = "42" });
             var expectedValues = new RouteValueDictionary(
                 new { controller = "Home", action = "Store", extra = "42" });
@@ -833,7 +833,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Store", otherthing = "17" },
                 policies: new { c = constraint });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Blog" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Blog" });
             var expectedValues = new RouteValueDictionary(
                 new { controller = "Home", action = "Store" });
 
@@ -865,7 +865,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { action = "Index" },
                 policies: new { c = constraint, });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { controller = "Home", action = "Blog" });
+            var httpContext = CreateProtoContext(ambientValues: new { controller = "Home", action = "Blog" });
             var expectedValues = new RouteValueDictionary(
                 new { controller = "Shopping", action = "Index" });
 
@@ -897,7 +897,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Store", otherthing = "17", thirdthing = "13" },
                 policies: new { c = constraint, });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(
+            var httpContext = CreateProtoContext(
                 ambientValues: new { controller = "Home", action = "Blog", otherthing = "17" });
 
             var expectedValues = new RouteValueDictionary(
@@ -923,7 +923,7 @@ namespace Microsoft.AspNetCore.Routing
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void TryProcessTemplate_InlineConstraints_Success(bool hasHttpContext)
+        public void TryProcessTemplate_InlineConstraints_Success(bool hasProtoContext)
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint(
@@ -931,7 +931,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = hasHttpContext ? CreateHttpContext(new { }) : null;
+            var httpContext = hasProtoContext ? CreateProtoContext(new { }) : null;
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -957,7 +957,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { id = "int" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -975,7 +975,7 @@ namespace Microsoft.AspNetCore.Routing
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void TryProcessTemplate_InlineConstraints_OptionalParameter_ValuePresent(bool hasHttpContext)
+        public void TryProcessTemplate_InlineConstraints_OptionalParameter_ValuePresent(bool hasProtoContext)
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint(
@@ -983,7 +983,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = hasHttpContext ? CreateHttpContext(new { }) : null;
+            var httpContext = hasProtoContext ? CreateProtoContext(new { }) : null;
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1009,7 +1009,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { id = "int" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1035,7 +1035,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { id = "int" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1053,7 +1053,7 @@ namespace Microsoft.AspNetCore.Routing
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void TryProcessTemplate_InlineConstraints_MultipleInlineConstraints(bool hasHttpContext)
+        public void TryProcessTemplate_InlineConstraints_MultipleInlineConstraints(bool hasProtoContext)
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint(
@@ -1061,7 +1061,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = hasHttpContext ? CreateHttpContext(new { }) : null;
+            var httpContext = hasProtoContext ? CreateProtoContext(new { }) : null;
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1081,7 +1081,7 @@ namespace Microsoft.AspNetCore.Routing
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void TryProcessTemplate_InlineConstraints_CompositeInlineConstraint_Fails(bool hasHttpContext)
+        public void TryProcessTemplate_InlineConstraints_CompositeInlineConstraint_Fails(bool hasProtoContext)
         {
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint(
@@ -1089,7 +1089,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = hasHttpContext ? CreateHttpContext(new { }) : null;
+            var httpContext = hasProtoContext ? CreateProtoContext(new { }) : null;
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1114,7 +1114,7 @@ namespace Microsoft.AspNetCore.Routing
                 defaults: new { controller = "Home", action = "Index" },
                 policies: new { name = constraint });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1137,7 +1137,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{name?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1160,7 +1160,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{name?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1185,7 +1185,7 @@ namespace Microsoft.AspNetCore.Routing
                 template: "{controller}/{action}/{name}",
                 defaults: new { name = "default-products" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1210,7 +1210,7 @@ namespace Microsoft.AspNetCore.Routing
                 template: "{controller}/{action}/{name}",
                 defaults: new { name = "products" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1233,7 +1233,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{name}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1257,7 +1257,7 @@ namespace Microsoft.AspNetCore.Routing
             var endpoint = EndpointFactory.CreateRouteEndpoint(
                 template: "{controller}/{action}/.{name?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1280,7 +1280,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/.{name?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1303,7 +1303,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("{controller}/{action}/{name?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { });
+            var httpContext = CreateProtoContext(ambientValues: new { });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1326,7 +1326,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("a/{b=15}/{c?}/{d?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { c = "17" });
+            var httpContext = CreateProtoContext(ambientValues: new { c = "17" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1349,7 +1349,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("a/{b=15}/{c?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { c = "17" });
+            var httpContext = CreateProtoContext(ambientValues: new { c = "17" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1372,7 +1372,7 @@ namespace Microsoft.AspNetCore.Routing
             // Arrange
             var endpoint = EndpointFactory.CreateRouteEndpoint("a/{b=15}/{c?}/{d?}");
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { d = "17" });
+            var httpContext = CreateProtoContext(ambientValues: new { d = "17" });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1476,7 +1476,7 @@ namespace Microsoft.AspNetCore.Routing
                 requiredValues: requiredValues,
                 defaults: defaults);
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues);
+            var httpContext = CreateProtoContext(ambientValues);
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1504,7 +1504,7 @@ namespace Microsoft.AspNetCore.Routing
                 requiredValues: new { c = "Products", a = "Edit" },
                 defaults: new { c = "Products", a = "Edit" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { c = "Products", a = "Edit", id = 10 });
+            var httpContext = CreateProtoContext(ambientValues: new { c = "Products", a = "Edit", id = 10 });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1532,7 +1532,7 @@ namespace Microsoft.AspNetCore.Routing
                 requiredValues: new { c = "Products", a = "Edit" },
                 defaults: new { c = "Products", a = "Edit" });
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues: new { c = "Products", a = "Edit", id = 10 });
+            var httpContext = CreateProtoContext(ambientValues: new { c = "Products", a = "Edit", id = 10 });
 
             // Act
             var success = linkGenerator.TryProcessTemplate(
@@ -1640,7 +1640,7 @@ namespace Microsoft.AspNetCore.Routing
                 requiredValues: requiredValues,
                 defaults: defaults);
             var linkGenerator = CreateLinkGenerator(endpoint);
-            var httpContext = CreateHttpContext(ambientValues);
+            var httpContext = CreateProtoContext(ambientValues);
 
             // Act
             var success = linkGenerator.TryProcessTemplate(

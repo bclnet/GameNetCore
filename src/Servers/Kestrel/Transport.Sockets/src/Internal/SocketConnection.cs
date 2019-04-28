@@ -10,11 +10,11 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Sockets.Internal
 {
     internal sealed class SocketConnection : TransportConnection, IDisposable
     {
@@ -57,7 +57,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal
 
             // On *nix platforms, Sockets already dispatches to the ThreadPool.
             // Yes, the IOQueues are still used for the PipeSchedulers. This is intentional.
-            // https://github.com/aspnet/KestrelHttpServer/issues/2573
+            // https://github.com/aspnet/KestrelProtoServer/issues/2573
             var awaiterScheduler = IsWindows ? _scheduler : PipeScheduler.Inline;
 
             _receiver = new SocketReceiver(_socket, awaiterScheduler);
@@ -280,7 +280,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal
 
                 // Make sure to close the connection only after the _aborted flag is set.
                 // Without this, the RequestsCanBeAbortedMidRead test will sometimes fail when
-                // a BadHttpRequestException is thrown instead of a TaskCanceledException.
+                // a BadProtoRequestException is thrown instead of a TaskCanceledException.
                 _socketDisposed = true;
 
                 // shutdownReason should only be null if the output was completed gracefully, so no one should ever

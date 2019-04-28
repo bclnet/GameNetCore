@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Pipelines;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
-    public class DefaultHttpRequestTests
+    public class DefaultProtoRequestTests
     {
         [Theory]
         [InlineData(0)]
@@ -120,26 +120,26 @@ namespace Microsoft.AspNetCore.Http.Internal
         }
 
         [Fact]
-        public void IsHttps_CorrectlyReflectsScheme()
+        public void IsProtos_CorrectlyReflectsScheme()
         {
-            var request = new DefaultHttpContext().Request;
+            var request = new DefaultProtoContext().Request;
             Assert.Equal(string.Empty, request.Scheme);
-            Assert.False(request.IsHttps);
-            request.IsHttps = true;
+            Assert.False(request.IsProtos);
+            request.IsProtos = true;
             Assert.Equal("https", request.Scheme);
-            request.IsHttps = false;
+            request.IsProtos = false;
             Assert.Equal("http", request.Scheme);
             request.Scheme = "ftp";
-            Assert.False(request.IsHttps);
+            Assert.False(request.IsProtos);
             request.Scheme = "HTTPS";
-            Assert.True(request.IsHttps);
+            Assert.True(request.IsProtos);
         }
 
         [Fact]
         public void Query_GetAndSet()
         {
-            var request = new DefaultHttpContext().Request;
-            var requestFeature = request.HttpContext.Features.Get<IHttpRequestFeature>();
+            var request = new DefaultProtoContext().Request;
+            var requestFeature = request.ProtoContext.Features.Get<IProtoRequestFeature>();
             Assert.Equal(string.Empty, requestFeature.QueryString);
             Assert.Equal(QueryString.Empty, request.QueryString);
             var query0 = request.Query;
@@ -167,7 +167,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void Cookies_GetAndSet()
         {
-            var request = new DefaultHttpContext().Request;
+            var request = new DefaultProtoContext().Request;
             var cookieHeaders = request.Headers["Cookie"];
             Assert.Empty(cookieHeaders);
             var cookies0 = request.Cookies;
@@ -200,11 +200,11 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void RouteValues_GetAndSet()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var request = context.Request;
 
             var routeValuesFeature = context.Features.Get<IRouteValuesFeature>();
-            // No feature set for initial DefaultHttpRequest
+            // No feature set for initial DefaultProtoRequest
             Assert.Null(routeValuesFeature);
 
             // Route values returns empty collection by default
@@ -215,15 +215,15 @@ namespace Microsoft.AspNetCore.Http.Internal
             Assert.Equal("setvalue", request.RouteValues["new"]);
 
             routeValuesFeature = context.Features.Get<IRouteValuesFeature>();
-            // Accessing DefaultHttpRequest.RouteValues creates feature
+            // Accessing DefaultProtoRequest.RouteValues creates feature
             Assert.NotNull(routeValuesFeature);
 
             request.RouteValues = new RouteValueDictionary(new { key = "value" });
-            // Can set DefaultHttpRequest.RouteValues
+            // Can set DefaultProtoRequest.RouteValues
             Assert.NotNull(request.RouteValues);
             Assert.Equal("value", request.RouteValues["key"]);
 
-            // DefaultHttpRequest.RouteValues uses feature
+            // DefaultProtoRequest.RouteValues uses feature
             Assert.Equal(routeValuesFeature.RouteValues, request.RouteValues);
 
             // Setting route values to null sets empty collection on request
@@ -235,7 +235,7 @@ namespace Microsoft.AspNetCore.Http.Internal
                 RouteValues = new RouteValueDictionary(new { key = "customvalue" })
             };
             context.Features.Set<IRouteValuesFeature>(customRouteValuesFeature);
-            // Can override DefaultHttpRequest.RouteValues with custom feature
+            // Can override DefaultProtoRequest.RouteValues with custom feature
             Assert.Equal(customRouteValuesFeature.RouteValues, request.RouteValues);
 
             // Can clear feature
@@ -246,7 +246,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyReader_CanGet()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var bodyPipe = context.Request.BodyReader;
             Assert.NotNull(bodyPipe);
         }
@@ -255,7 +255,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         public void BodyReader_CanSet()
         {
             var pipeReader = new Pipe().Reader;
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
 
             context.Request.BodyReader = pipeReader;
 
@@ -265,7 +265,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyReader_WrapsStream()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var expectedStream = new MemoryStream();
             context.Request.Body = expectedStream;
 
@@ -277,7 +277,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyReader_ThrowsWhenSettingNull()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             Assert.Throws<ArgumentNullException>(() => context.Request.BodyReader = null);
         }
 
@@ -286,34 +286,34 @@ namespace Microsoft.AspNetCore.Http.Internal
             public RouteValueDictionary RouteValues { get; set; }
         }
 
-        private static HttpRequest CreateRequest(IHeaderDictionary headers)
+        private static ProtoRequest CreateRequest(IHeaderDictionary headers)
         {
-            var context = new DefaultHttpContext();
-            context.Features.Get<IHttpRequestFeature>().Headers = headers;
+            var context = new DefaultProtoContext();
+            context.Features.Get<IProtoRequestFeature>().Headers = headers;
             return context.Request;
         }
 
-        private static HttpRequest GetRequestWithContentLength(string contentLength = null)
+        private static ProtoRequest GetRequestWithContentLength(string contentLength = null)
         {
             return GetRequestWithHeader("Content-Length", contentLength);
         }
 
-        private static HttpRequest GetRequestWithContentType(string contentType = null)
+        private static ProtoRequest GetRequestWithContentType(string contentType = null)
         {
             return GetRequestWithHeader("Content-Type", contentType);
         }
 
-        private static HttpRequest GetRequestWithAcceptHeader(string acceptHeader = null)
+        private static ProtoRequest GetRequestWithAcceptHeader(string acceptHeader = null)
         {
             return GetRequestWithHeader("Accept", acceptHeader);
         }
 
-        private static HttpRequest GetRequestWithAcceptCharsetHeader(string acceptCharset = null)
+        private static ProtoRequest GetRequestWithAcceptCharsetHeader(string acceptCharset = null)
         {
             return GetRequestWithHeader("Accept-Charset", acceptCharset);
         }
 
-        private static HttpRequest GetRequestWithHeader(string headerName, string headerValue)
+        private static ProtoRequest GetRequestWithHeader(string headerName, string headerValue)
         {
             var headers = new HeaderDictionary();
             if (headerValue != null)

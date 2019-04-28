@@ -8,16 +8,16 @@ using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     // According to the RFC, in places where a "parameter" is required, the value is mandatory
     // (e.g. Media-Type, Accept). However, we don't introduce a dedicated type for it. So NameValueHeaderValue supports
     // name-only values in addition to name/value pairs.
     public class NameValueHeaderValue
     {
-        private static readonly HttpHeaderParser<NameValueHeaderValue> SingleValueParser
+        private static readonly ProtoHeaderParser<NameValueHeaderValue> SingleValueParser
             = new GenericHeaderParser<NameValueHeaderValue>(false, GetNameValueLength);
-        internal static readonly HttpHeaderParser<NameValueHeaderValue> MultipleValueParser
+        internal static readonly ProtoHeaderParser<NameValueHeaderValue> MultipleValueParser
             = new GenericHeaderParser<NameValueHeaderValue>(true, GetNameValueLength);
 
         private StringSegment _name;
@@ -278,7 +278,7 @@ namespace Microsoft.Net.Http.Headers
 
             // Parse the name, i.e. <name> in name/value string "<name>=<value>". Caller must remove
             // leading whitespaces.
-            var nameLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var nameLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (nameLength == 0)
             {
@@ -287,7 +287,7 @@ namespace Microsoft.Net.Http.Headers
 
             var name = input.Subsegment(startIndex, nameLength);
             var current = startIndex + nameLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // Parse the separator between name and value
             if ((current == input.Length) || (input[current] != '='))
@@ -295,12 +295,12 @@ namespace Microsoft.Net.Http.Headers
                 // We only have a name and that's OK. Return.
                 parsedValue = new NameValueHeaderValue();
                 parsedValue._name = name;
-                current = current + HttpRuleParser.GetWhitespaceLength(input, current); // skip whitespaces
+                current = current + ProtoRuleParser.GetWhitespaceLength(input, current); // skip whitespaces
                 return current - startIndex;
             }
 
             current++; // skip delimiter.
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
             // Parse the value, i.e. <value> in name/value string "<name>=<value>"
             int valueLength = GetValueLength(input, current);
@@ -311,7 +311,7 @@ namespace Microsoft.Net.Http.Headers
             parsedValue._name = name;
             parsedValue._value = input.Subsegment(current, valueLength);
             current = current + valueLength;
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current); // skip whitespaces
+            current = current + ProtoRuleParser.GetWhitespaceLength(input, current); // skip whitespaces
             return current - startIndex;
         }
 
@@ -331,7 +331,7 @@ namespace Microsoft.Net.Http.Headers
                 return 0;
             }
 
-            var current = startIndex + HttpRuleParser.GetWhitespaceLength(input, startIndex);
+            var current = startIndex + ProtoRuleParser.GetWhitespaceLength(input, startIndex);
             while (true)
             {
                 NameValueHeaderValue parameter = null;
@@ -345,7 +345,7 @@ namespace Microsoft.Net.Http.Headers
 
                 nameValueCollection.Add(parameter);
                 current = current + nameValueLength;
-                current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
 
                 if ((current == input.Length) || (input[current] != delimiter))
                 {
@@ -355,7 +355,7 @@ namespace Microsoft.Net.Http.Headers
 
                 // input[current] is 'delimiter'. Skip the delimiter and whitespaces and try to parse again.
                 current++; // skip delimiter.
-                current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                current = current + ProtoRuleParser.GetWhitespaceLength(input, current);
             }
         }
 
@@ -388,12 +388,12 @@ namespace Microsoft.Net.Http.Headers
                 return 0;
             }
 
-            var valueLength = HttpRuleParser.GetTokenLength(input, startIndex);
+            var valueLength = ProtoRuleParser.GetTokenLength(input, startIndex);
 
             if (valueLength == 0)
             {
                 // A value can either be a token or a quoted string. Check if it is a quoted string.
-                if (HttpRuleParser.GetQuotedStringLength(input, startIndex, out valueLength) != HttpParseResult.Parsed)
+                if (ProtoRuleParser.GetQuotedStringLength(input, startIndex, out valueLength) != ProtoParseResult.Parsed)
                 {
                     // We have an invalid value. Reset the name and return.
                     return 0;

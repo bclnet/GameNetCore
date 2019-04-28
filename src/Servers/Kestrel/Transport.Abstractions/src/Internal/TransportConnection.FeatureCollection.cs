@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Net;
 using System.Threading;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
-    public partial class TransportConnection : IHttpConnectionFeature,
+    public partial class TransportConnection : IProtoConnectionFeature,
                                                IConnectionIdFeature,
                                                IConnectionTransportFeature,
                                                IConnectionItemsFeature,
@@ -27,31 +27,31 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
         // then the list of `features` in the generated code project MUST also be updated.
         // See also: tools/CodeGenerator/TransportConnectionFeatureCollection.cs
 
-        string IHttpConnectionFeature.ConnectionId
+        string IProtoConnectionFeature.ConnectionId
         {
             get => ConnectionId;
             set => ConnectionId = value;
         }
 
-        IPAddress IHttpConnectionFeature.RemoteIpAddress
+        IPAddress IProtoConnectionFeature.RemoteIpAddress
         {
             get => RemoteAddress;
             set => RemoteAddress = value;
         }
 
-        IPAddress IHttpConnectionFeature.LocalIpAddress
+        IPAddress IProtoConnectionFeature.LocalIpAddress
         {
             get => LocalAddress;
             set => LocalAddress = value;
         }
 
-        int IHttpConnectionFeature.RemotePort
+        int IProtoConnectionFeature.RemotePort
         {
             get => RemotePort;
             set => RemotePort = value;
         }
 
-        int IHttpConnectionFeature.LocalPort
+        int IProtoConnectionFeature.LocalPort
         {
             get => LocalPort;
             set => LocalPort = value;

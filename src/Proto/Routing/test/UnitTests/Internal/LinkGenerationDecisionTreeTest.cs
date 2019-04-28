@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Tree;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Internal.Routing
+namespace Contoso.GameNetCore.Routing.Internal.Routing
 {
     public class LinkGenerationDecisionTreeTest
     {
@@ -760,7 +760,7 @@ namespace Microsoft.AspNetCore.Routing.Internal.Routing
         private VirtualPathContext CreateContext(object values, object ambientValues = null)
         {
             var context = new VirtualPathContext(
-                new DefaultHttpContext(),
+                new DefaultProtoContext(),
                 new RouteValueDictionary(ambientValues),
                 new RouteValueDictionary(values));
 

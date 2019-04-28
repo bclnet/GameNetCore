@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Matching;
 
-namespace Microsoft.AspNetCore.Routing.TestObjects
+namespace Contoso.GameNetCore.Routing.TestObjects
 {
     internal class TestMatcher : Matcher
     {
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Routing.TestObjects
             _isHandled = isHandled;
         }
 
-        public override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             if (_isHandled)
             {

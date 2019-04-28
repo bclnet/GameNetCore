@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Rewrite.Logging
+namespace Contoso.GameNetCore.Rewrite.Logging
 {
     internal static class RewriteMiddlewareLoggingExtensions
     {

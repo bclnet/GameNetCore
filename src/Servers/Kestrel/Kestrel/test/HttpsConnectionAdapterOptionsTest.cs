@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Https;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Tests
 {
     public class HttpsConnectionAdapterOptionsTests
     {

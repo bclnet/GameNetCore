@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
 {
     /// <summary>
     /// Summary description for UvWriteRequest

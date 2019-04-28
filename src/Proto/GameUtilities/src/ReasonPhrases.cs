@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public static class ReasonPhrases
     {
@@ -78,10 +78,6 @@ namespace Microsoft.AspNetCore.WebUtilities
             { 511, "Network Authentication Required" },
         };
 
-        public static string GetReasonPhrase(int statusCode)
-        {
-            string phrase;
-            return Phrases.TryGetValue(statusCode, out phrase) ? phrase : string.Empty;
-        }
+        public static string GetReasonPhrase(int statusCode) => Phrases.TryGetValue(statusCode, out var phrase) ? phrase : string.Empty;
     }
 }

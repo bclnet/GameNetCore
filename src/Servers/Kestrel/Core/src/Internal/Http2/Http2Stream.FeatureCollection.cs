@@ -1,25 +1,25 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal partial class Http2Stream : IHttp2StreamIdFeature, IHttpResponseTrailersFeature
+    internal partial class Proto2Stream : IProto2StreamIdFeature, IProtoResponseTrailersFeature
     {
-        internal HttpResponseTrailers Trailers { get; set; }
+        internal ProtoResponseTrailers Trailers { get; set; }
         private IHeaderDictionary _userTrailers;
 
-        IHeaderDictionary IHttpResponseTrailersFeature.Trailers
+        IHeaderDictionary IProtoResponseTrailersFeature.Trailers
         {
             get
             {
                 if (Trailers == null)
                 {
-                    Trailers = new HttpResponseTrailers();
+                    Trailers = new ProtoResponseTrailers();
                 }
                 return _userTrailers ?? Trailers;
             }
@@ -29,6 +29,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        int IHttp2StreamIdFeature.StreamId => _context.StreamId;
+        int IProto2StreamIdFeature.StreamId => _context.StreamId;
     }
 }

@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     public class UriBuilderContextPooledObjectPolicy : IPooledObjectPolicy<UriBuildingContext>
     {

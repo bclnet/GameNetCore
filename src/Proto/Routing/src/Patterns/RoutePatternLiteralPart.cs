@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     /// <summary>
     /// Resprents a literal text part of a route pattern. Instances of <see cref="RoutePatternLiteralPart"/>

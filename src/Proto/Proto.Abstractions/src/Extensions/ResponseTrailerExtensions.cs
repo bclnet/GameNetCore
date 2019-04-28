@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public static class ResponseTrailerExtensions
     {
@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Http
         /// </summary>
         /// <param name="response"></param>
         /// <param name="trailerName"></param>
-        public static void DeclareTrailer(this HttpResponse response, string trailerName)
+        public static void DeclareTrailer(this ProtoResponse response, string trailerName)
         {
             response.Headers.AppendCommaSeparatedValues(Trailer, trailerName);
         }
@@ -26,9 +26,9 @@ namespace Microsoft.AspNetCore.Http
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
-        public static bool SupportsTrailers(this HttpResponse response)
+        public static bool SupportsTrailers(this ProtoResponse response)
         {
-            var feature = response.HttpContext.Features.Get<IHttpResponseTrailersFeature>();
+            var feature = response.ProtoContext.Features.Get<IProtoResponseTrailersFeature>();
             return feature?.Trailers != null && !feature.Trailers.IsReadOnly;
         }
 
@@ -39,9 +39,9 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="response"></param>
         /// <param name="trailerName"></param>
         /// <param name="trailerValues"></param>
-        public static void AppendTrailer(this HttpResponse response, string trailerName, StringValues trailerValues)
+        public static void AppendTrailer(this ProtoResponse response, string trailerName, StringValues trailerValues)
         {
-            var feature = response.HttpContext.Features.Get<IHttpResponseTrailersFeature>();
+            var feature = response.ProtoContext.Features.Get<IProtoResponseTrailersFeature>();
             if (feature?.Trailers == null || feature.Trailers.IsReadOnly)
             {
                 throw new InvalidOperationException("Trailers are not supported for this response.");

@@ -1,13 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Implements <see cref="IAuthenticationService"/>.
@@ -45,26 +39,22 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Authenticate for the specified authentication scheme.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="scheme">The name of the authentication scheme.</param>
         /// <returns>The result.</returns>
-        public virtual async Task<AuthenticateResult> AuthenticateAsync(HttpContext context, string scheme)
+        public virtual async Task<AuthenticateResult> AuthenticateAsync(ProtoContext context, string scheme)
         {
             if (scheme == null)
             {
                 var defaultScheme = await Schemes.GetDefaultAuthenticateSchemeAsync();
                 scheme = defaultScheme?.Name;
                 if (scheme == null)
-                {
                     throw new InvalidOperationException($"No authenticationScheme was specified, and there was no DefaultAuthenticateScheme found.");
-                }
             }
 
             var handler = await Handlers.GetHandlerAsync(context, scheme);
             if (handler == null)
-            {
                 throw await CreateMissingHandlerException(scheme);
-            }
 
             var result = await handler.AuthenticateAsync();
             if (result != null && result.Succeeded)
@@ -78,27 +68,23 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Challenge the specified authentication scheme.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="scheme">The name of the authentication scheme.</param>
         /// <param name="properties">The <see cref="AuthenticationProperties"/>.</param>
         /// <returns>A task.</returns>
-        public virtual async Task ChallengeAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+        public virtual async Task ChallengeAsync(ProtoContext context, string scheme, AuthenticationProperties properties)
         {
             if (scheme == null)
             {
                 var defaultChallengeScheme = await Schemes.GetDefaultChallengeSchemeAsync();
                 scheme = defaultChallengeScheme?.Name;
                 if (scheme == null)
-                {
                     throw new InvalidOperationException($"No authenticationScheme was specified, and there was no DefaultChallengeScheme found.");
-                }
             }
 
             var handler = await Handlers.GetHandlerAsync(context, scheme);
             if (handler == null)
-            {
                 throw await CreateMissingHandlerException(scheme);
-            }
 
             await handler.ChallengeAsync(properties);
         }
@@ -106,27 +92,23 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Forbid the specified authentication scheme.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="scheme">The name of the authentication scheme.</param>
         /// <param name="properties">The <see cref="AuthenticationProperties"/>.</param>
         /// <returns>A task.</returns>
-        public virtual async Task ForbidAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+        public virtual async Task ForbidAsync(ProtoContext context, string scheme, AuthenticationProperties properties)
         {
             if (scheme == null)
             {
                 var defaultForbidScheme = await Schemes.GetDefaultForbidSchemeAsync();
                 scheme = defaultForbidScheme?.Name;
                 if (scheme == null)
-                {
                     throw new InvalidOperationException($"No authenticationScheme was specified, and there was no DefaultForbidScheme found.");
-                }
             }
 
             var handler = await Handlers.GetHandlerAsync(context, scheme);
             if (handler == null)
-            {
                 throw await CreateMissingHandlerException(scheme);
-            }
 
             await handler.ForbidAsync(properties);
         }
@@ -134,39 +116,30 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Sign a principal in for the specified authentication scheme.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="scheme">The name of the authentication scheme.</param>
         /// <param name="principal">The <see cref="ClaimsPrincipal"/> to sign in.</param>
         /// <param name="properties">The <see cref="AuthenticationProperties"/>.</param>
         /// <returns>A task.</returns>
-        public virtual async Task SignInAsync(HttpContext context, string scheme, ClaimsPrincipal principal, AuthenticationProperties properties)
+        public virtual async Task SignInAsync(ProtoContext context, string scheme, ClaimsPrincipal principal, AuthenticationProperties properties)
         {
             if (principal == null)
-            {
                 throw new ArgumentNullException(nameof(principal));
-            }
 
             if (scheme == null)
             {
                 var defaultScheme = await Schemes.GetDefaultSignInSchemeAsync();
                 scheme = defaultScheme?.Name;
                 if (scheme == null)
-                {
                     throw new InvalidOperationException($"No authenticationScheme was specified, and there was no DefaultSignInScheme found.");
-                }
             }
 
             var handler = await Handlers.GetHandlerAsync(context, scheme);
             if (handler == null)
-            {
                 throw await CreateMissingSignInHandlerException(scheme);
-            }
 
-            var signInHandler = handler as IAuthenticationSignInHandler;
-            if (signInHandler == null)
-            {
+            if (!(handler is IAuthenticationSignInHandler signInHandler))
                 throw await CreateMismatchedSignInHandlerException(scheme, handler);
-            }
 
             await signInHandler.SignInAsync(principal, properties);
         }
@@ -174,33 +147,26 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Sign out the specified authentication scheme.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/>.</param>
+        /// <param name="context">The <see cref="ProtoContext"/>.</param>
         /// <param name="scheme">The name of the authentication scheme.</param>
         /// <param name="properties">The <see cref="AuthenticationProperties"/>.</param>
         /// <returns>A task.</returns>
-        public virtual async Task SignOutAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+        public virtual async Task SignOutAsync(ProtoContext context, string scheme, AuthenticationProperties properties)
         {
             if (scheme == null)
             {
                 var defaultScheme = await Schemes.GetDefaultSignOutSchemeAsync();
                 scheme = defaultScheme?.Name;
                 if (scheme == null)
-                {
                     throw new InvalidOperationException($"No authenticationScheme was specified, and there was no DefaultSignOutScheme found.");
-                }
             }
 
             var handler = await Handlers.GetHandlerAsync(context, scheme);
             if (handler == null)
-            {
                 throw await CreateMissingSignOutHandlerException(scheme);
-            }
 
-            var signOutHandler = handler as IAuthenticationSignOutHandler;
-            if (signOutHandler == null)
-            {
+            if (!(handler is IAuthenticationSignOutHandler signOutHandler))
                 throw await CreateMismatchedSignOutHandlerException(scheme, handler);
-            }
 
             await signOutHandler.SignOutAsync(properties);
         }
@@ -212,21 +178,17 @@ namespace Microsoft.AspNetCore.Authentication
             var footer = $" Did you forget to call AddAuthentication().Add[SomeAuthHandler](\"{scheme}\",...)?";
 
             if (string.IsNullOrEmpty(schemes))
-            {
                 return new InvalidOperationException(
                     $"No authentication handlers are registered." + footer);
-            }
 
             return new InvalidOperationException(
                 $"No authentication handler is registered for the scheme '{scheme}'. The registered schemes are: {schemes}." + footer);
         }
 
-        private async Task<string> GetAllSignInSchemeNames()
-        {
-            return string.Join(", ", (await Schemes.GetAllSchemesAsync())
-                .Where(sch => typeof(IAuthenticationSignInHandler).IsAssignableFrom(sch.HandlerType))
-                .Select(sch => sch.Name));
-        }
+        private async Task<string> GetAllSignInSchemeNames() =>
+            string.Join(", ", (await Schemes.GetAllSchemesAsync())
+            .Where(sch => typeof(IAuthenticationSignInHandler).IsAssignableFrom(sch.HandlerType))
+            .Select(sch => sch.Name));
 
         private async Task<Exception> CreateMissingSignInHandlerException(string scheme)
         {
@@ -236,10 +198,8 @@ namespace Microsoft.AspNetCore.Authentication
             var footer = $" Did you forget to call AddAuthentication().AddCookies(\"{scheme}\",...)?";
 
             if (string.IsNullOrEmpty(schemes))
-            {
                 return new InvalidOperationException(
                     $"No sign-in authentication handlers are registered." + footer);
-            }
 
             return new InvalidOperationException(
                 $"No sign-in authentication handler is registered for the scheme '{scheme}'. The registered sign-in schemes are: {schemes}." + footer);
@@ -252,21 +212,17 @@ namespace Microsoft.AspNetCore.Authentication
             var mismatchError = $"The authentication handler registered for scheme '{scheme}' is '{handler.GetType().Name}' which cannot be used for SignInAsync. ";
 
             if (string.IsNullOrEmpty(schemes))
-            {
                 // CookieAuth is the only implementation of sign-in.
                 return new InvalidOperationException(mismatchError
                     + $"Did you forget to call AddAuthentication().AddCookies(\"Cookies\") and SignInAsync(\"Cookies\",...)?");
-            }
 
             return new InvalidOperationException(mismatchError + $"The registered sign-in schemes are: {schemes}.");
         }
 
-        private async Task<string> GetAllSignOutSchemeNames()
-        {
-            return string.Join(", ", (await Schemes.GetAllSchemesAsync())
-                .Where(sch => typeof(IAuthenticationSignOutHandler).IsAssignableFrom(sch.HandlerType))
-                .Select(sch => sch.Name));
-        }
+        private async Task<string> GetAllSignOutSchemeNames() =>
+            string.Join(", ", (await Schemes.GetAllSchemesAsync())
+            .Where(sch => typeof(IAuthenticationSignOutHandler).IsAssignableFrom(sch.HandlerType))
+            .Select(sch => sch.Name));
 
         private async Task<Exception> CreateMissingSignOutHandlerException(string scheme)
         {
@@ -275,10 +231,8 @@ namespace Microsoft.AspNetCore.Authentication
             var footer = $" Did you forget to call AddAuthentication().AddCookies(\"{scheme}\",...)?";
 
             if (string.IsNullOrEmpty(schemes))
-            {
                 // CookieAuth is the most common implementation of sign-out, but OpenIdConnect and WsFederation also support it.
                 return new InvalidOperationException($"No sign-out authentication handlers are registered." + footer);
-            }
 
             return new InvalidOperationException(
                 $"No sign-out authentication handler is registered for the scheme '{scheme}'. The registered sign-out schemes are: {schemes}." + footer);
@@ -291,11 +245,9 @@ namespace Microsoft.AspNetCore.Authentication
             var mismatchError = $"The authentication handler registered for scheme '{scheme}' is '{handler.GetType().Name}' which cannot be used for {nameof(SignOutAsync)}. ";
 
             if (string.IsNullOrEmpty(schemes))
-            {
                 // CookieAuth is the most common implementation of sign-out, but OpenIdConnect and WsFederation also support it.
                 return new InvalidOperationException(mismatchError
                     + $"Did you forget to call AddAuthentication().AddCookies(\"Cookies\") and {nameof(SignOutAsync)}(\"Cookies\",...)?");
-            }
 
             return new InvalidOperationException(mismatchError + $"The registered sign-out schemes are: {schemes}.");
         }

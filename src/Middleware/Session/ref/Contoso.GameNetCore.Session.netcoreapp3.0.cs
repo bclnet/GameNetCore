@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class SessionMiddlewareExtensions
     {
@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Builder
         public System.TimeSpan IOTimeout { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.Session
+namespace Contoso.GameNetCore.Session
 {
     public partial class DistributedSession : Microsoft.AspNetCore.Http.ISession
     {

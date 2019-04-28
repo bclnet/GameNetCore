@@ -1,4 +1,4 @@
-namespace Microsoft.AspNetCore.NodeServices.HostingModels
+namespace Contoso.GameNetCore.NodeServices.HostingModels
 {
     /// <summary>
     /// Describes an RPC call sent from .NET code to Node.js code.

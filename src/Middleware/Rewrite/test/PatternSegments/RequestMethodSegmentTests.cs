@@ -1,11 +1,11 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.PatternSegments;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Tests.PatternSegments
 {
     public class RequestMethodSegmentTests
     {

@@ -4,7 +4,7 @@
 using System;
 using System.Text;
 
-namespace Microsoft.AspNetCore.Http.Extensions
+namespace Contoso.GameNetCore.Proto.Extensions
 {
     /// <summary>
     /// A helper class for constructing encoded Uris for use in headers and other Uris.
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         /// </summary>
         /// <param name="request">The request to assemble the uri pieces from.</param>
         /// <returns></returns>
-        public static string GetEncodedUrl(this HttpRequest request)
+        public static string GetEncodedUrl(this ProtoRequest request)
         {
             return BuildAbsolute(request.Scheme, request.Host, request.PathBase, request.Path, request.QueryString);
         }
@@ -182,7 +182,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         /// </summary>
         /// <param name="request">The request to assemble the uri pieces from.</param>
         /// <returns></returns>
-        public static string GetEncodedPathAndQuery(this HttpRequest request)
+        public static string GetEncodedPathAndQuery(this ProtoRequest request)
         {
             return BuildRelative(request.PathBase, request.Path, request.QueryString);
         }
@@ -193,7 +193,7 @@ namespace Microsoft.AspNetCore.Http.Extensions
         /// </summary>
         /// <param name="request">The request to assemble the uri pieces from.</param>
         /// <returns></returns>
-        public static string GetDisplayUrl(this HttpRequest request)
+        public static string GetDisplayUrl(this ProtoRequest request)
         {
             var scheme = request.Scheme ?? string.Empty;            
             var host = request.Host.Value ?? string.Empty;

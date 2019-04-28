@@ -2,20 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Reflection;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
-    public static class WebHostBuilderFactory
+    public static class GameHostBuilderFactory
     {
-        public static IWebHostBuilder CreateFromAssemblyEntryPoint(Assembly assembly, string[] args)
+        public static IGameHostBuilder CreateFromAssemblyEntryPoint(Assembly assembly, string[] args)
         {
-            var factory = HostFactoryResolver.ResolveWebHostBuilderFactory<IWebHostBuilder>(assembly);
+            var factory = HostFactoryResolver.ResolveGameHostBuilderFactory<IGameHostBuilder>(assembly);
             return factory?.Invoke(args);
         }
 
-        public static IWebHostBuilder CreateFromTypesAssemblyEntryPoint<T>(string[] args) =>
+        public static IGameHostBuilder CreateFromTypesAssemblyEntryPoint<T>(string[] args) =>
             CreateFromAssemblyEntryPoint(typeof(T).Assembly, args);
     }
 }

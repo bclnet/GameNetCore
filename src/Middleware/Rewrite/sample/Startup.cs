@@ -3,10 +3,10 @@
 
 using System.IO;
 using System.Net;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace RewriteSample

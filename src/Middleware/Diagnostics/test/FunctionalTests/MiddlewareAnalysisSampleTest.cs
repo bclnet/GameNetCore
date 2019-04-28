@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Diagnostics.FunctionalTests
+namespace Contoso.GameNetCore.Diagnostics.FunctionalTests
 {
     public class MiddlewareAnalysisSampleTest : IClassFixture<TestFixture<MiddlewareAnaysisSample.Startup>>
     {

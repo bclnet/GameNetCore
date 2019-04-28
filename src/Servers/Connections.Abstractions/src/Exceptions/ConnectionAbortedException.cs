@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace Microsoft.AspNetCore.Connections
+namespace Contoso.GameNetCore.Connections
 {
     public class ConnectionAbortedException : OperationCanceledException
     {
         public ConnectionAbortedException() :
             this("The connection was aborted")
         {
-
         }
 
         public ConnectionAbortedException(string message) : base(message)

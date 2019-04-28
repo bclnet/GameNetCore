@@ -5,14 +5,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
     public partial class TransportConnection : IFeatureCollection
     {
-        private static readonly Type IHttpConnectionFeatureType = typeof(IHttpConnectionFeature);
+        private static readonly Type IProtoConnectionFeatureType = typeof(IProtoConnectionFeature);
         private static readonly Type IConnectionIdFeatureType = typeof(IConnectionIdFeature);
         private static readonly Type IConnectionTransportFeatureType = typeof(IConnectionTransportFeature);
         private static readonly Type IConnectionItemsFeatureType = typeof(IConnectionItemsFeature);
@@ -23,7 +23,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
         private static readonly Type IConnectionHeartbeatFeatureType = typeof(IConnectionHeartbeatFeature);
         private static readonly Type IConnectionLifetimeNotificationFeatureType = typeof(IConnectionLifetimeNotificationFeature);
 
-        private object _currentIHttpConnectionFeature;
+        private object _currentIProtoConnectionFeature;
         private object _currentIConnectionIdFeature;
         private object _currentIConnectionTransportFeature;
         private object _currentIConnectionItemsFeature;
@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
 
         private void FastReset()
         {
-            _currentIHttpConnectionFeature = this;
+            _currentIProtoConnectionFeature = this;
             _currentIConnectionIdFeature = this;
             _currentIConnectionTransportFeature = this;
             _currentIConnectionItemsFeature = this;
@@ -105,9 +105,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
             get
             {
                 object feature = null;
-                if (key == IHttpConnectionFeatureType)
+                if (key == IProtoConnectionFeatureType)
                 {
-                    feature = _currentIHttpConnectionFeature;
+                    feature = _currentIProtoConnectionFeature;
                 }
                 else if (key == IConnectionIdFeatureType)
                 {
@@ -157,9 +157,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
             {
                 _featureRevision++;
 
-                if (key == IHttpConnectionFeatureType)
+                if (key == IProtoConnectionFeatureType)
                 {
-                    _currentIHttpConnectionFeature = value;
+                    _currentIProtoConnectionFeature = value;
                 }
                 else if (key == IConnectionIdFeatureType)
                 {
@@ -207,9 +207,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
         TFeature IFeatureCollection.Get<TFeature>()
         {
             TFeature feature = default;
-            if (typeof(TFeature) == typeof(IHttpConnectionFeature))
+            if (typeof(TFeature) == typeof(IProtoConnectionFeature))
             {
-                feature = (TFeature)_currentIHttpConnectionFeature;
+                feature = (TFeature)_currentIProtoConnectionFeature;
             }
             else if (typeof(TFeature) == typeof(IConnectionIdFeature))
             {
@@ -258,9 +258,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
         void IFeatureCollection.Set<TFeature>(TFeature feature)
         {
             _featureRevision++;
-            if (typeof(TFeature) == typeof(IHttpConnectionFeature))
+            if (typeof(TFeature) == typeof(IProtoConnectionFeature))
             {
-                _currentIHttpConnectionFeature = feature;
+                _currentIProtoConnectionFeature = feature;
             }
             else if (typeof(TFeature) == typeof(IConnectionIdFeature))
             {
@@ -306,9 +306,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
 
         private IEnumerable<KeyValuePair<Type, object>> FastEnumerable()
         {
-            if (_currentIHttpConnectionFeature != null)
+            if (_currentIProtoConnectionFeature != null)
             {
-                yield return new KeyValuePair<Type, object>(IHttpConnectionFeatureType, _currentIHttpConnectionFeature);
+                yield return new KeyValuePair<Type, object>(IProtoConnectionFeatureType, _currentIProtoConnectionFeature);
             }
             if (_currentIConnectionIdFeature != null)
             {

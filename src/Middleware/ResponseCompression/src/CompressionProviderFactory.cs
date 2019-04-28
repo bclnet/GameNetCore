@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.ResponseCompression
+namespace Contoso.GameNetCore.ResponseCompression
 {
     /// <summary>
     /// This is a placeholder for the CompressionProviderCollection that allows creating the given type via

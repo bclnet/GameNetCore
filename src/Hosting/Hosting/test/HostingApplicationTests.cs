@@ -7,16 +7,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting.Tests
+namespace Contoso.GameNetCore.Hosting.Tests
 {
     public class HostingApplicationTests
     {

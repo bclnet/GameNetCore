@@ -1,5 +1,5 @@
 using System;
-using Microsoft.AspNetCore.NodeServices;
+using Contoso.GameNetCore.NodeServices;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

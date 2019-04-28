@@ -4,7 +4,7 @@
 using System;
 using System.Buffers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
     public static class KestrelMemoryPool
     {

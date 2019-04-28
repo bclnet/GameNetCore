@@ -5,14 +5,14 @@ using System;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.DataProtection;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Session
+namespace Contoso.GameNetCore.Session
 {
     /// <summary>
     /// Enables the session state for the application.

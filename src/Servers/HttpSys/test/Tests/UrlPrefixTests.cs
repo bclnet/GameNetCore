@@ -5,7 +5,7 @@ using System;
 using System.Text;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     public class UrlPrefixTests
     {

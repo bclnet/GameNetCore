@@ -2,17 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.WebUtilities;
+using Contoso.GameNetCore.Proto.Internal;
+using Contoso.GameNetCore.GameUtilities;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class QueryFeature : IQueryFeature
     {
         // Lambda hoisted to static readonly field to improve inlining https://github.com/dotnet/roslyn/issues/13624
-        private readonly static Func<IFeatureCollection, IHttpRequestFeature> _nullRequestFeature = f => null;
+        private readonly static Func<IFeatureCollection, IProtoRequestFeature> _nullRequestFeature = f => null;
 
-        private FeatureReferences<IHttpRequestFeature> _features;
+        private FeatureReferences<IProtoRequestFeature> _features;
 
         private string _original;
         private IQueryCollection _parsedValues;
@@ -37,7 +37,7 @@ namespace Microsoft.AspNetCore.Http.Features
             _features.Initalize(features);
         }
 
-        private IHttpRequestFeature HttpRequestFeature =>
+        private IProtoRequestFeature ProtoRequestFeature =>
             _features.Fetch(ref _features.Cache, _nullRequestFeature);
 
         public IQueryCollection Query
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Http.Features
                     return _parsedValues;
                 }
 
-                var current = HttpRequestFeature.QueryString;
+                var current = ProtoRequestFeature.QueryString;
                 if (_parsedValues == null || !string.Equals(_original, current, StringComparison.Ordinal))
                 {
                     _original = current;
@@ -79,12 +79,12 @@ namespace Microsoft.AspNetCore.Http.Features
                     if (value == null)
                     {
                         _original = string.Empty;
-                        HttpRequestFeature.QueryString = string.Empty;
+                        ProtoRequestFeature.QueryString = string.Empty;
                     }
                     else
                     {
                         _original = QueryString.Create(_parsedValues).ToString();
-                        HttpRequestFeature.QueryString = _original;
+                        ProtoRequestFeature.QueryString = _original;
                     }
                 }
             }

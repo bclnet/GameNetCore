@@ -4,31 +4,31 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
-    internal class TestWebSocket : WebSocket
+    internal class TestGameSocket : GameSocket
     {
         private ReceiverSenderBuffer _receiveBuffer;
         private ReceiverSenderBuffer _sendBuffer;
         private readonly string _subProtocol;
-        private WebSocketState _state;
-        private WebSocketCloseStatus? _closeStatus;
+        private GameSocketState _state;
+        private GameSocketCloseStatus? _closeStatus;
         private string _closeStatusDescription;
         private Message _receiveMessage;
 
-        public static Tuple<TestWebSocket, TestWebSocket> CreatePair(string subProtocol)
+        public static Tuple<TestGameSocket, TestGameSocket> CreatePair(string subProtocol)
         {
             var buffers = new[] { new ReceiverSenderBuffer(), new ReceiverSenderBuffer() };
             return Tuple.Create(
-                new TestWebSocket(subProtocol, buffers[0], buffers[1]),
-                new TestWebSocket(subProtocol, buffers[1], buffers[0]));
+                new TestGameSocket(subProtocol, buffers[0], buffers[1]),
+                new TestGameSocket(subProtocol, buffers[1], buffers[0]));
         }
 
-        public override WebSocketCloseStatus? CloseStatus
+        public override GameSocketCloseStatus? CloseStatus
         {
             get { return _closeStatus; }
         }
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.TestHost
             get { return _closeStatusDescription; }
         }
 
-        public override WebSocketState State
+        public override GameSocketState State
         {
             get { return _state; }
         }
@@ -48,30 +48,30 @@ namespace Microsoft.AspNetCore.TestHost
             get { return _subProtocol; }
         }
 
-        public async override Task CloseAsync(WebSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
+        public async override Task CloseAsync(GameSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
 
-            if (State == WebSocketState.Open || State == WebSocketState.CloseReceived)
+            if (State == GameSocketState.Open || State == GameSocketState.CloseReceived)
             {
                 // Send a close message.
                 await CloseOutputAsync(closeStatus, statusDescription, cancellationToken);
             }
 
-            if (State == WebSocketState.CloseSent)
+            if (State == GameSocketState.CloseSent)
             {
                 // Do a receiving drain
                 var data = new byte[1024];
-                WebSocketReceiveResult result;
+                GameSocketReceiveResult result;
                 do
                 {
                     result = await ReceiveAsync(new ArraySegment<byte>(data), cancellationToken);
                 }
-                while (result.MessageType != WebSocketMessageType.Close);
+                while (result.MessageType != GameSocketMessageType.Close);
             }
         }
 
-        public async override Task CloseOutputAsync(WebSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
+        public async override Task CloseOutputAsync(GameSocketCloseStatus closeStatus, string statusDescription, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
             ThrowIfOutputClosed();
@@ -79,40 +79,40 @@ namespace Microsoft.AspNetCore.TestHost
             var message = new Message(closeStatus, statusDescription);
             await _sendBuffer.SendAsync(message, cancellationToken);
 
-            if (State == WebSocketState.Open)
+            if (State == GameSocketState.Open)
             {
-                _state = WebSocketState.CloseSent;
+                _state = GameSocketState.CloseSent;
             }
-            else if (State == WebSocketState.CloseReceived)
+            else if (State == GameSocketState.CloseReceived)
             {
-                _state = WebSocketState.Closed;
+                _state = GameSocketState.Closed;
                 Close();
             }
         }
 
         public override void Abort()
         {
-            if (_state >= WebSocketState.Closed) // or Aborted
+            if (_state >= GameSocketState.Closed) // or Aborted
             {
                 return;
             }
 
-            _state = WebSocketState.Aborted;
+            _state = GameSocketState.Aborted;
             Close();
         }
 
         public override void Dispose()
         {
-            if (_state >= WebSocketState.Closed) // or Aborted
+            if (_state >= GameSocketState.Closed) // or Aborted
             {
                 return;
             }
 
-            _state = WebSocketState.Closed;
+            _state = GameSocketState.Closed;
             Close();
         }
 
-        public override async Task<WebSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken)
+        public override async Task<GameSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
             ThrowIfInputClosed();
@@ -125,18 +125,18 @@ namespace Microsoft.AspNetCore.TestHost
             {
                 receiveMessage = await _receiveBuffer.ReceiveAsync(cancellationToken);
             }
-            if (receiveMessage.MessageType == WebSocketMessageType.Close)
+            if (receiveMessage.MessageType == GameSocketMessageType.Close)
             {
                 _closeStatus = receiveMessage.CloseStatus;
                 _closeStatusDescription = receiveMessage.CloseStatusDescription ?? string.Empty;
-                var result = new WebSocketReceiveResult(0, WebSocketMessageType.Close, true, _closeStatus, _closeStatusDescription);
-                if (_state == WebSocketState.Open)
+                var result = new GameSocketReceiveResult(0, GameSocketMessageType.Close, true, _closeStatus, _closeStatusDescription);
+                if (_state == GameSocketState.Open)
                 {
-                    _state = WebSocketState.CloseReceived;
+                    _state = GameSocketState.CloseReceived;
                 }
-                else if (_state == WebSocketState.CloseSent)
+                else if (_state == GameSocketState.CloseSent)
                 {
-                    _state = WebSocketState.Closed;
+                    _state = GameSocketState.Closed;
                     Close();
                 }
                 return result;
@@ -152,14 +152,14 @@ namespace Microsoft.AspNetCore.TestHost
                     _receiveMessage = receiveMessage;
                 }
                 endOfMessage = endOfMessage && receiveMessage.EndOfMessage;
-                return new WebSocketReceiveResult(count, receiveMessage.MessageType, endOfMessage);
+                return new GameSocketReceiveResult(count, receiveMessage.MessageType, endOfMessage);
             }
         }
 
-        public override Task SendAsync(ArraySegment<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken)
+        public override Task SendAsync(ArraySegment<byte> buffer, GameSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken)
         {
             ValidateSegment(buffer);
-            if (messageType != WebSocketMessageType.Binary && messageType != WebSocketMessageType.Text)
+            if (messageType != GameSocketMessageType.Binary && messageType != GameSocketMessageType.Text)
             {
                 // Block control frames
                 throw new ArgumentOutOfRangeException(nameof(messageType), messageType, string.Empty);
@@ -177,15 +177,15 @@ namespace Microsoft.AspNetCore.TestHost
 
         private void ThrowIfDisposed()
         {
-            if (_state >= WebSocketState.Closed) // or Aborted
+            if (_state >= GameSocketState.Closed) // or Aborted
             {
-                throw new ObjectDisposedException(typeof(TestWebSocket).FullName);
+                throw new ObjectDisposedException(typeof(TestGameSocket).FullName);
             }
         }
 
         private void ThrowIfOutputClosed()
         {
-            if (State == WebSocketState.CloseSent)
+            if (State == GameSocketState.CloseSent)
             {
                 throw new InvalidOperationException("Close already sent.");
             }
@@ -193,7 +193,7 @@ namespace Microsoft.AspNetCore.TestHost
 
         private void ThrowIfInputClosed()
         {
-            if (State == WebSocketState.CloseReceived)
+            if (State == GameSocketState.CloseReceived)
             {
                 throw new InvalidOperationException("Close already received.");
             }
@@ -215,9 +215,9 @@ namespace Microsoft.AspNetCore.TestHost
             }
         }
 
-        private TestWebSocket(string subProtocol, ReceiverSenderBuffer readBuffer, ReceiverSenderBuffer writeBuffer)
+        private TestGameSocket(string subProtocol, ReceiverSenderBuffer readBuffer, ReceiverSenderBuffer writeBuffer)
         {
-            _state = WebSocketState.Open;
+            _state = GameSocketState.Open;
             _subProtocol = subProtocol;
             _receiveBuffer = readBuffer;
             _sendBuffer = writeBuffer;
@@ -225,7 +225,7 @@ namespace Microsoft.AspNetCore.TestHost
 
         private class Message
         {
-            public Message(ArraySegment<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken token)
+            public Message(ArraySegment<byte> buffer, GameSocketMessageType messageType, bool endOfMessage, CancellationToken token)
             {
                 Buffer = buffer;
                 CloseStatus = null;
@@ -234,20 +234,20 @@ namespace Microsoft.AspNetCore.TestHost
                 MessageType = messageType;
             }
 
-            public Message(WebSocketCloseStatus? closeStatus, string closeStatusDescription)
+            public Message(GameSocketCloseStatus? closeStatus, string closeStatusDescription)
             {
                 Buffer = new ArraySegment<byte>(new byte[0]);
                 CloseStatus = closeStatus;
                 CloseStatusDescription = closeStatusDescription;
-                MessageType = WebSocketMessageType.Close;
+                MessageType = GameSocketMessageType.Close;
                 EndOfMessage = true;
             }
 
-            public WebSocketCloseStatus? CloseStatus { get; set; }
+            public GameSocketCloseStatus? CloseStatus { get; set; }
             public string CloseStatusDescription { get; set; }
             public ArraySegment<byte> Buffer { get; set; }
             public bool EndOfMessage { get; set; }
-            public WebSocketMessageType MessageType { get; set; }
+            public GameSocketMessageType MessageType { get; set; }
         }
 
         private class ReceiverSenderBuffer
@@ -289,11 +289,11 @@ namespace Microsoft.AspNetCore.TestHost
                 {
                     if (_senderClosed)
                     {
-                        throw new ObjectDisposedException(typeof(TestWebSocket).FullName);
+                        throw new ObjectDisposedException(typeof(TestGameSocket).FullName);
                     }
                     if (_receiverClosed)
                     {
-                        throw new IOException("The remote end closed the connection.", new ObjectDisposedException(typeof(TestWebSocket).FullName));
+                        throw new IOException("The remote end closed the connection.", new ObjectDisposedException(typeof(TestGameSocket).FullName));
                     }
 
                     // we return immediately so we need to copy the buffer since the sender can re-use it
@@ -342,11 +342,11 @@ namespace Microsoft.AspNetCore.TestHost
             {
                 if (_receiverClosed)
                 {
-                    throw new ObjectDisposedException(typeof(TestWebSocket).FullName);
+                    throw new ObjectDisposedException(typeof(TestGameSocket).FullName);
                 }
                 else // _senderClosed
                 {
-                    throw new IOException("The remote end closed the connection.", new ObjectDisposedException(typeof(TestWebSocket).FullName));
+                    throw new IOException("The remote end closed the connection.", new ObjectDisposedException(typeof(TestGameSocket).FullName));
                 }
             }
         }

@@ -4,10 +4,10 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Represents the parsed form values sent with the HttpRequest.
+    /// Represents the parsed form values sent with the ProtoRequest.
     /// </summary>
     public interface IFormCollection : IEnumerable<KeyValuePair<string, StringValues>>
     {

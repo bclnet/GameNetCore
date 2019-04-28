@@ -4,9 +4,9 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
-namespace Microsoft.AspNetCore.MiddlewareAnalysis
+namespace Contoso.GameNetCore.MiddlewareAnalysis
 {
     public class AnalysisMiddleware
     {

@@ -3,9 +3,9 @@
 
 using System;
 using System.Buffers;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.HPack
 {
     internal class HPackDecoder
     {
@@ -108,7 +108,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
             _headerValueOctets = new byte[maxRequestHeaderFieldSize];
         }
 
-        public void Decode(ReadOnlySequence<byte> data, bool endHeaders, IHttpHeadersHandler handler)
+        public void Decode(ReadOnlySequence<byte> data, bool endHeaders, IProtoHeadersHandler handler)
         {
             foreach (var segment in data)
             {
@@ -130,7 +130,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
             }
         }
 
-        private void OnByte(byte b, IHttpHeadersHandler handler)
+        private void OnByte(byte b, IProtoHeadersHandler handler)
         {
             int intResult;
             switch (_state)
@@ -328,7 +328,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
             }
         }
 
-        private void ProcessHeaderValue(IHttpHeadersHandler handler)
+        private void ProcessHeaderValue(IProtoHeadersHandler handler)
         {
             OnString(nextState: State.Ready);
 
@@ -343,7 +343,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack
             }
         }
 
-        private void OnIndexedHeaderField(int index, IHttpHeadersHandler handler)
+        private void OnIndexedHeaderField(int index, IProtoHeadersHandler handler)
         {
             var header = GetHeader(index);
             handler.OnHeader(new Span<byte>(header.Name), new Span<byte>(header.Value));

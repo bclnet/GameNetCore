@@ -3,7 +3,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Microsoft.AspNetCore.Rewrite.Internal.UrlMatches
+namespace Contoso.GameNetCore.Rewrite.Internal.UrlMatches
 {
     public class RegexMatch : UrlMatch
     {

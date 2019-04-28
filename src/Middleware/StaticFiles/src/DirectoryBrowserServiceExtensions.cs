@@ -18,12 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDirectoryBrowser(this IServiceCollection services)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
-
-            services.AddWebEncoders();
-
+            services.AddGameEncoders();
             return services;
         }
     }

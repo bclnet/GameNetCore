@@ -4,30 +4,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit.Sdk;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal static class MatcherAssert
     {
-        public static void AssertMatch(EndpointSelectorContext context, HttpContext httpContext, Endpoint expected)
+        public static void AssertMatch(EndpointSelectorContext context, ProtoContext httpContext, Endpoint expected)
         {
             AssertMatch(context, httpContext, expected, new RouteValueDictionary());
         }
 
-        public static void AssertMatch(EndpointSelectorContext context, HttpContext httpContext, Endpoint expected, bool ignoreValues)
+        public static void AssertMatch(EndpointSelectorContext context, ProtoContext httpContext, Endpoint expected, bool ignoreValues)
         {
             AssertMatch(context, httpContext, expected, new RouteValueDictionary(), ignoreValues);
         }
 
-        public static void AssertMatch(EndpointSelectorContext context, HttpContext httpContext, Endpoint expected, object values)
+        public static void AssertMatch(EndpointSelectorContext context, ProtoContext httpContext, Endpoint expected, object values)
         {
             AssertMatch(context, httpContext, expected, new RouteValueDictionary(values));
         }
 
-        public static void AssertMatch(EndpointSelectorContext context, HttpContext httpContext, Endpoint expected, string[] keys, string[] values)
+        public static void AssertMatch(EndpointSelectorContext context, ProtoContext httpContext, Endpoint expected, string[] keys, string[] values)
         {
             keys = keys ?? Array.Empty<string>();
             values = values ?? Array.Empty<string>();
@@ -43,7 +43,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
         public static void AssertMatch(
             EndpointSelectorContext context,
-            HttpContext httpContext,
+            ProtoContext httpContext,
             Endpoint expected,
             RouteValueDictionary values,
             bool ignoreValues = false)
@@ -81,7 +81,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             }
         }
 
-        public static void AssertNotMatch(EndpointSelectorContext context, HttpContext httpContext)
+        public static void AssertNotMatch(EndpointSelectorContext context, ProtoContext httpContext)
         {
             if (context.Endpoint != null)
             {

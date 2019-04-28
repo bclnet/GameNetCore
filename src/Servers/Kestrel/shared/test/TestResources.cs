@@ -4,7 +4,7 @@
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Microsoft.AspNetCore.Testing
+namespace Contoso.GameNetCore.Testing
 {
     public static class TestResources
     {

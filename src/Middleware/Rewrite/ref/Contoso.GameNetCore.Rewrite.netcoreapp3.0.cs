@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class RewriteBuilderExtensions
     {
@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseRewriter(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, Microsoft.AspNetCore.Rewrite.RewriteOptions options) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Rewrite
+namespace Contoso.GameNetCore.Rewrite
 {
     public static partial class ApacheModRewriteOptionsExtensions
     {
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Rewrite
         SkipRemainingRules = 2,
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal
+namespace Contoso.GameNetCore.Rewrite.Internal
 {
     public partial class BackReferenceCollection
     {
@@ -154,7 +154,7 @@ namespace Microsoft.AspNetCore.Rewrite.Internal
         public abstract Microsoft.AspNetCore.Rewrite.Internal.MatchResults Evaluate(string input, Microsoft.AspNetCore.Rewrite.RewriteContext context);
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.ApacheModRewrite
 {
     public partial class ApacheModRewriteRule : Microsoft.AspNetCore.Rewrite.IRule
     {
@@ -303,7 +303,7 @@ namespace Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
         public System.Collections.Generic.IList<string> Tokenize(string rule) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite
 {
     public enum ActionType
     {
@@ -474,7 +474,7 @@ namespace Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite
         public void ConfigureConditionBehavior(Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite.LogicalGrouping logicalGrouping, bool trackAllCaptures) { }
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal.PatternSegments
+namespace Contoso.GameNetCore.Rewrite.Internal.PatternSegments
 {
     public partial class ConditionMatchSegment : Microsoft.AspNetCore.Rewrite.Internal.PatternSegment
     {
@@ -583,7 +583,7 @@ namespace Microsoft.AspNetCore.Rewrite.Internal.PatternSegments
         public override string Evaluate(Microsoft.AspNetCore.Rewrite.RewriteContext context, Microsoft.AspNetCore.Rewrite.Internal.BackReferenceCollection ruleBackReferences, Microsoft.AspNetCore.Rewrite.Internal.BackReferenceCollection conditionBackReferences) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal.UrlActions
+namespace Contoso.GameNetCore.Rewrite.Internal.UrlActions
 {
     public partial class AbortAction : Microsoft.AspNetCore.Rewrite.Internal.UrlAction
     {
@@ -647,7 +647,7 @@ namespace Microsoft.AspNetCore.Rewrite.Internal.UrlActions
         public override void ApplyAction(Microsoft.AspNetCore.Rewrite.RewriteContext context, Microsoft.AspNetCore.Rewrite.Internal.BackReferenceCollection ruleBackReferences, Microsoft.AspNetCore.Rewrite.Internal.BackReferenceCollection conditionBackReferences) { }
     }
 }
-namespace Microsoft.AspNetCore.Rewrite.Internal.UrlMatches
+namespace Contoso.GameNetCore.Rewrite.Internal.UrlMatches
 {
     public partial class ExactMatch : Microsoft.AspNetCore.Rewrite.Internal.UrlMatch
     {

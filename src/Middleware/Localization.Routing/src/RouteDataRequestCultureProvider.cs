@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Routing;
 using Microsoft.Extensions.Internal;
 
-namespace Microsoft.AspNetCore.Localization.Routing
+namespace Contoso.GameNetCore.Localization.Routing
 {
     /// <summary>
     /// Determines the culture information for a request via values in the route data.

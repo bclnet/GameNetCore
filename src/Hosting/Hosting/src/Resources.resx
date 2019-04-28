@@ -126,7 +126,7 @@
   <data name="ErrorPageHtml_UnknownLocation" xml:space="preserve">
     <value>Unknown location</value>
   </data>
-  <data name="WebHostBuilder_SingleInstance" xml:space="preserve">
-    <value>WebHostBuilder allows creation only of a single instance of WebHost</value>
+  <data name="GameHostBuilder_SingleInstance" xml:space="preserve">
+    <value>GameHostBuilder allows creation only of a single instance of GameHost</value>
   </data>
 </root>

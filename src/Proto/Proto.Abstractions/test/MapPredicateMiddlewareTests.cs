@@ -3,19 +3,19 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
-    using Predicate = Func<HttpContext, bool>;
+    using Predicate = Func<ProtoContext, bool>;
 
     public class MapPredicateMiddlewareTests
     {
         private static readonly Predicate NotImplementedPredicate = new Predicate(environment => { throw new NotImplementedException(); });
 
-        private static Task Success(HttpContext context)
+        private static Task Success(ProtoContext context)
         {
             context.Response.StatusCode = 200;
             return Task.FromResult<object>(null);
@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             app.Run(Success);
         }
 
-        private static Task NotImplemented(HttpContext context)
+        private static Task NotImplemented(ProtoContext context)
         {
             throw new NotImplementedException();
         }
@@ -36,12 +36,12 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             app.Run(NotImplemented);
         }
 
-        private bool TruePredicate(HttpContext context)
+        private bool TruePredicate(ProtoContext context)
         {
             return true;
         }
 
-        private bool FalsePredicate(HttpContext context)
+        private bool FalsePredicate(ProtoContext context)
         {
             return false;
         }
@@ -63,7 +63,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [Fact]
         public void PredicateTrue_BranchTaken()
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.MapWhen(TruePredicate, UseSuccess);
             var app = builder.Build();
@@ -75,7 +75,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [Fact]
         public void PredicateTrueAction_BranchTaken()
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.MapWhen(TruePredicate, UseSuccess);
             var app = builder.Build();
@@ -87,7 +87,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [Fact]
         public void PredicateFalseAction_PassThrough()
         {
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.MapWhen(FalsePredicate, UseNotImplemented);
             builder.Run(Success);
@@ -109,14 +109,14 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             });
             var app = builder.Build();
 
-            HttpContext context = CreateRequest();
+            ProtoContext context = CreateRequest();
             app.Invoke(context).Wait();
             Assert.Equal(200, context.Response.StatusCode);
         }
 
-        private HttpContext CreateRequest()
+        private ProtoContext CreateRequest()
         {
-            HttpContext context = new DefaultHttpContext();
+            ProtoContext context = new DefaultProtoContext();
             return context;
         }
     }

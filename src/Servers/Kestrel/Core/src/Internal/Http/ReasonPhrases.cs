@@ -4,9 +4,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     internal static class ReasonPhrases
     {
@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private static readonly byte[] _bytesStatus502 = CreateStatusBytes(StatusCodes.Status502BadGateway);
         private static readonly byte[] _bytesStatus503 = CreateStatusBytes(StatusCodes.Status503ServiceUnavailable);
         private static readonly byte[] _bytesStatus504 = CreateStatusBytes(StatusCodes.Status504GatewayTimeout);
-        private static readonly byte[] _bytesStatus505 = CreateStatusBytes(StatusCodes.Status505HttpVersionNotsupported);
+        private static readonly byte[] _bytesStatus505 = CreateStatusBytes(StatusCodes.Status505ProtoVersionNotsupported);
         private static readonly byte[] _bytesStatus506 = CreateStatusBytes(StatusCodes.Status506VariantAlsoNegotiates);
         private static readonly byte[] _bytesStatus507 = CreateStatusBytes(StatusCodes.Status507InsufficientStorage);
         private static readonly byte[] _bytesStatus508 = CreateStatusBytes(StatusCodes.Status508LoopDetected);
@@ -79,7 +79,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         private static byte[] CreateStatusBytes(int statusCode)
         {
-            var reasonPhrase = WebUtilities.ReasonPhrases.GetReasonPhrase(statusCode);
+            var reasonPhrase = GameUtilities.ReasonPhrases.GetReasonPhrase(statusCode);
             Debug.Assert(!string.IsNullOrEmpty(reasonPhrase));
 
             return Encoding.ASCII.GetBytes(statusCode.ToString(CultureInfo.InvariantCulture) + " " + reasonPhrase);
@@ -207,7 +207,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                         return _bytesStatus503;
                     case StatusCodes.Status504GatewayTimeout:
                         return _bytesStatus504;
-                    case StatusCodes.Status505HttpVersionNotsupported:
+                    case StatusCodes.Status505ProtoVersionNotsupported:
                         return _bytesStatus505;
                     case StatusCodes.Status506VariantAlsoNegotiates:
                         return _bytesStatus506;
@@ -221,7 +221,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                         return _bytesStatus511;
 
                     default:
-                        var predefinedReasonPhrase = WebUtilities.ReasonPhrases.GetReasonPhrase(statusCode);
+                        var predefinedReasonPhrase = GameUtilities.ReasonPhrases.GetReasonPhrase(statusCode);
                         // https://tools.ietf.org/html/rfc7230#section-3.1.2 requires trailing whitespace regardless of reason phrase
                         var formattedStatusCode = statusCode.ToString(CultureInfo.InvariantCulture) + " ";
                         return string.IsNullOrEmpty(predefinedReasonPhrase)

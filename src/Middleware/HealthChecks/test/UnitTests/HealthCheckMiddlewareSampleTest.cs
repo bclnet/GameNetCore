@@ -3,11 +3,11 @@
 
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.TestHost;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Diagnostics.HealthChecks
+namespace Contoso.GameNetCore.Diagnostics.HealthChecks
 {
     public class HealthCheckMiddlewareSampleTest
     {

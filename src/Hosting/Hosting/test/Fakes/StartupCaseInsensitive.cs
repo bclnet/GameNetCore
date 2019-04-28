@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting.Fakes;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting.Fakes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Hosting.Tests.Fakes
+namespace Contoso.GameNetCore.Hosting.Tests.Fakes
 {
     class StartupCaseInsensitive
     {

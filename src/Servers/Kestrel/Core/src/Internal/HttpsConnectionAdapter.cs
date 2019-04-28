@@ -9,32 +9,32 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Connections.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Connections.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Protos.Internal
 {
-    internal class HttpsConnectionAdapter : IConnectionAdapter
+    internal class ProtosConnectionAdapter : IConnectionAdapter
     {
         private static readonly ClosedAdaptedConnection _closedAdaptedConnection = new ClosedAdaptedConnection();
 
-        private readonly HttpsConnectionAdapterOptions _options;
+        private readonly ProtosConnectionAdapterOptions _options;
         private readonly X509Certificate2 _serverCertificate;
         private readonly Func<ConnectionContext, string, X509Certificate2> _serverCertificateSelector;
 
         private readonly ILogger _logger;
 
-        public HttpsConnectionAdapter(HttpsConnectionAdapterOptions options)
+        public ProtosConnectionAdapter(ProtosConnectionAdapterOptions options)
             : this(options, loggerFactory: null)
         {
         }
 
-        public HttpsConnectionAdapter(HttpsConnectionAdapterOptions options, ILoggerFactory loggerFactory)
+        public ProtosConnectionAdapter(ProtosConnectionAdapterOptions options, ILoggerFactory loggerFactory)
         {
             if (options == null)
             {
@@ -61,10 +61,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
             }
 
             _options = options;
-            _logger = loggerFactory?.CreateLogger<HttpsConnectionAdapter>();
+            _logger = loggerFactory?.CreateLogger<ProtosConnectionAdapter>();
         }
 
-        public bool IsHttps => true;
+        public bool IsProtos => true;
 
         public Task<IAdaptedConnection> OnConnectionAsync(ConnectionAdapterContext context)
         {
@@ -158,16 +158,16 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
                 };
 
                 // This is order sensitive
-                if ((_options.HttpProtocols & HttpProtocols.Http2) != 0)
+                if ((_options.ProtoProtocols & ProtoProtocols.Proto2) != 0)
                 {
-                    sslOptions.ApplicationProtocols.Add(SslApplicationProtocol.Http2);
+                    sslOptions.ApplicationProtocols.Add(SslApplicationProtocol.Proto2);
                     // https://tools.ietf.org/html/rfc7540#section-9.2.1
                     sslOptions.AllowRenegotiation = false;
                 }
 
-                if ((_options.HttpProtocols & HttpProtocols.Http1) != 0)
+                if ((_options.ProtoProtocols & ProtoProtocols.Proto1) != 0)
                 {
-                    sslOptions.ApplicationProtocols.Add(SslApplicationProtocol.Http11);
+                    sslOptions.ApplicationProtocols.Add(SslApplicationProtocol.Proto11);
                 }
 
                 await sslStream.AuthenticateAsServerAsync(sslOptions, CancellationToken.None);
@@ -200,7 +200,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
             feature.KeyExchangeStrength = sslStream.KeyExchangeStrength;
             feature.Protocol = sslStream.SslProtocol;
 
-            return new HttpsAdaptedConnection(sslStream);
+            return new ProtosAdaptedConnection(sslStream);
         }
 
         private static void EnsureCertificateIsAllowedForServerAuth(X509Certificate2 certificate)
@@ -226,11 +226,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Https.Internal
             return new X509Certificate2(certificate);
         }
 
-        private class HttpsAdaptedConnection : IAdaptedConnection
+        private class ProtosAdaptedConnection : IAdaptedConnection
         {
             private readonly SslStream _sslStream;
 
-            public HttpsAdaptedConnection(SslStream sslStream)
+            public ProtosAdaptedConnection(SslStream sslStream)
             {
                 _sslStream = sslStream;
             }

@@ -4,16 +4,16 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting.Server;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Hosting.Server;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
-    public static class WebHostBuilderExtensions
+    public static class GameHostBuilderExtensions
     {
-        public static IWebHostBuilder UseTestServer(this IWebHostBuilder builder)
+        public static IGameHostBuilder UseTestServer(this IGameHostBuilder builder)
         {
             return builder.ConfigureServices(services =>
             {
@@ -21,11 +21,11 @@ namespace Microsoft.AspNetCore.TestHost
             });
         }
 
-        public static IWebHostBuilder ConfigureTestServices(this IWebHostBuilder webHostBuilder, Action<IServiceCollection> servicesConfiguration)
+        public static IGameHostBuilder ConfigureTestServices(this IGameHostBuilder gameHostBuilder, Action<IServiceCollection> servicesConfiguration)
         {
-            if (webHostBuilder == null)
+            if (gameHostBuilder == null)
             {
-                throw new ArgumentNullException(nameof(webHostBuilder));
+                throw new ArgumentNullException(nameof(gameHostBuilder));
             }
 
             if (servicesConfiguration == null)
@@ -33,26 +33,26 @@ namespace Microsoft.AspNetCore.TestHost
                 throw new ArgumentNullException(nameof(servicesConfiguration));
             }
 
-            if (webHostBuilder.GetType().Name.Equals("GenericWebHostBuilder"))
+            if (gameHostBuilder.GetType().Name.Equals("GenericGameHostBuilder"))
             {
                 // Generic host doesn't need to do anything special here since there's only one container.
-                webHostBuilder.ConfigureServices(servicesConfiguration);
+                gameHostBuilder.ConfigureServices(servicesConfiguration);
             }
             else
             {
-                webHostBuilder.ConfigureServices(
+                gameHostBuilder.ConfigureServices(
                     s => s.AddSingleton<IStartupConfigureServicesFilter>(
                         new ConfigureTestServicesStartupConfigureServicesFilter(servicesConfiguration)));
             }
 
-            return webHostBuilder;
+            return gameHostBuilder;
         }
 
-        public static IWebHostBuilder ConfigureTestContainer<TContainer>(this IWebHostBuilder webHostBuilder, Action<TContainer> servicesConfiguration)
+        public static IGameHostBuilder ConfigureTestContainer<TContainer>(this IGameHostBuilder gameHostBuilder, Action<TContainer> servicesConfiguration)
         {
-            if (webHostBuilder == null)
+            if (gameHostBuilder == null)
             {
-                throw new ArgumentNullException(nameof(webHostBuilder));
+                throw new ArgumentNullException(nameof(gameHostBuilder));
             }
 
             if (servicesConfiguration == null)
@@ -60,23 +60,23 @@ namespace Microsoft.AspNetCore.TestHost
                 throw new ArgumentNullException(nameof(servicesConfiguration));
             }
 
-            webHostBuilder.ConfigureServices(
+            gameHostBuilder.ConfigureServices(
                 s => s.AddSingleton<IStartupConfigureContainerFilter<TContainer>>(
                     new ConfigureTestServicesStartupConfigureContainerFilter<TContainer>(servicesConfiguration)));
 
-            return webHostBuilder;
+            return gameHostBuilder;
         }
 
-        public static IWebHostBuilder UseSolutionRelativeContentRoot(
-            this IWebHostBuilder builder,
+        public static IGameHostBuilder UseSolutionRelativeContentRoot(
+            this IGameHostBuilder builder,
             string solutionRelativePath,
             string solutionName = "*.sln")
         {
             return builder.UseSolutionRelativeContentRoot(solutionRelativePath, AppContext.BaseDirectory, solutionName);
         }
 
-        public static IWebHostBuilder UseSolutionRelativeContentRoot(
-            this IWebHostBuilder builder,
+        public static IGameHostBuilder UseSolutionRelativeContentRoot(
+            this IGameHostBuilder builder,
             string solutionRelativePath,
             string applicationBasePath,
             string solutionName = "*.sln")

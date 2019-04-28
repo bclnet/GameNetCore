@@ -1,13 +1,13 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
     /// <summary>
     /// Indicates if the client should include a cookie on "same-site" or "cross-site" requests.
     /// RFC Draft: https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00
     /// </summary>
-    // This mirrors Microsoft.AspNetCore.Http.SameSiteMode
+    // This mirrors Microsoft.AspNetCore.Proto.SameSiteMode
     public enum SameSiteMode
     {
         /// <summary>No SameSite field will be set, the client should follow its default cookie policy.</summary>

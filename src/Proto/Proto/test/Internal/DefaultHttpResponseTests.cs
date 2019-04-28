@@ -8,14 +8,14 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Internal
+namespace Contoso.GameNetCore.Proto.Internal
 {
-    public class DefaultHttpResponseTests
+    public class DefaultProtoResponseTests
     {
         [Theory]
         [InlineData(0)]
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyWriter_CanGet()
         {
-            var response = new DefaultHttpContext();
+            var response = new DefaultProtoContext();
             var bodyPipe = response.Response.BodyWriter;
 
             Assert.NotNull(bodyPipe);
@@ -76,7 +76,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyWriter_CanSet()
         {
-            var response = new DefaultHttpContext();
+            var response = new DefaultProtoContext();
             var pipeWriter = new Pipe().Writer;
             response.Response.BodyWriter = pipeWriter;
 
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyWriter_WrapsStream()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var expectedStream = new MemoryStream();
             context.Response.Body = expectedStream;
 
@@ -98,7 +98,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public void BodyWriter_ThrowsWhenSettingNull()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             Assert.Throws<ArgumentNullException>(() => context.Response.BodyWriter = null);
         }
 
@@ -106,15 +106,15 @@ namespace Microsoft.AspNetCore.Http.Internal
         public async Task ResponseStart_CallsFeatureIfSet()
         {
             var features = new FeatureCollection();
-            var mock = new Mock<IHttpResponseStartFeature>();
+            var mock = new Mock<IProtoResponseStartFeature>();
             mock.Setup(o => o.StartAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
             features.Set(mock.Object);
 
-            var responseMock = new Mock<IHttpResponseFeature>();
+            var responseMock = new Mock<IProtoResponseFeature>();
             responseMock.Setup(o => o.HasStarted).Returns(false);
             features.Set(responseMock.Object);
 
-            var context = new DefaultHttpContext(features);
+            var context = new DefaultProtoContext(features);
             await context.Response.StartAsync();
 
             mock.Verify(m => m.StartAsync(default), Times.Once());
@@ -125,16 +125,16 @@ namespace Microsoft.AspNetCore.Http.Internal
         {
             var features = new FeatureCollection();
 
-            var mock = new Mock<IHttpResponseStartFeature>();
+            var mock = new Mock<IProtoResponseStartFeature>();
             var ct = new CancellationToken();
             mock.Setup(o => o.StartAsync(It.Is<CancellationToken>((localCt) => localCt.Equals(ct)))).Returns(Task.CompletedTask);
             features.Set(mock.Object);
 
-            var responseMock = new Mock<IHttpResponseFeature>();
+            var responseMock = new Mock<IProtoResponseFeature>();
             responseMock.Setup(o => o.HasStarted).Returns(false);
             features.Set(responseMock.Object);
 
-            var context = new DefaultHttpContext(features);
+            var context = new DefaultProtoContext(features);
             await context.Response.StartAsync(ct);
 
             mock.Verify(m => m.StartAsync(default), Times.Once());
@@ -145,15 +145,15 @@ namespace Microsoft.AspNetCore.Http.Internal
         {
             var features = new FeatureCollection();
 
-            var startMock = new Mock<IHttpResponseStartFeature>();
+            var startMock = new Mock<IProtoResponseStartFeature>();
             startMock.Setup(o => o.StartAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
             features.Set(startMock.Object);
 
-            var responseMock = new Mock<IHttpResponseFeature>();
+            var responseMock = new Mock<IProtoResponseFeature>();
             responseMock.Setup(o => o.HasStarted).Returns(true);
             features.Set(responseMock.Object);
 
-            var context = new DefaultHttpContext(features);
+            var context = new DefaultProtoContext(features);
             await context.Response.StartAsync();
 
             startMock.Verify(m => m.StartAsync(default), Times.Never());
@@ -162,7 +162,7 @@ namespace Microsoft.AspNetCore.Http.Internal
         [Fact]
         public async Task ResponseStart_CallsResponseBodyFlushIfNotSet()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var mock = new FlushAsyncCheckStream();
             context.Response.Body = mock;
 
@@ -171,24 +171,24 @@ namespace Microsoft.AspNetCore.Http.Internal
             Assert.True(mock.IsCalled);
         }
 
-        private static HttpResponse CreateResponse(IHeaderDictionary headers)
+        private static ProtoResponse CreateResponse(IHeaderDictionary headers)
         {
-            var context = new DefaultHttpContext();
-            context.Features.Get<IHttpResponseFeature>().Headers = headers;
+            var context = new DefaultProtoContext();
+            context.Features.Get<IProtoResponseFeature>().Headers = headers;
             return context.Response;
         }
 
-        private static HttpResponse GetResponseWithContentLength(string contentLength = null)
+        private static ProtoResponse GetResponseWithContentLength(string contentLength = null)
         {
             return GetResponseWithHeader("Content-Length", contentLength);
         }
 
-        private static HttpResponse GetResponseWithContentType(string contentType = null)
+        private static ProtoResponse GetResponseWithContentType(string contentType = null)
         {
             return GetResponseWithHeader("Content-Type", contentType);
         }
 
-        private static HttpResponse GetResponseWithHeader(string headerName, string headerValue)
+        private static ProtoResponse GetResponseWithHeader(string headerName, string headerValue)
         {
             var headers = new HeaderDictionary();
             if (headerValue != null)

@@ -3,9 +3,9 @@
 
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
-    public interface IHttpRequestLifetimeFeature
+    public interface IProtoRequestLifetimeFeature
     {
         /// <summary>
         /// A <see cref="CancellationToken"/> that fires if the request is aborted and

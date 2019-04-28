@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
 
 namespace WelcomePageSample
 {

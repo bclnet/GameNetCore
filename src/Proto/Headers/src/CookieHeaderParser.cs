@@ -4,9 +4,9 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.Net.Http.Headers
+namespace Microsoft.Net.Proto.Headers
 {
-    internal class CookieHeaderParser : HttpHeaderParser<CookieHeaderValue>
+    internal class CookieHeaderParser : ProtoHeaderParser<CookieHeaderValue>
     {
         internal CookieHeaderParser(bool supportsMultipleValues)
             : base(supportsMultipleValues)
@@ -23,41 +23,26 @@ namespace Microsoft.Net.Http.Headers
             //  Accept:
             //  Accept: text/plain; q=0.2
             if (StringSegment.IsNullOrEmpty(value) || (index == value.Length))
-            {
                 return SupportsMultipleValues;
-            }
 
-            var separatorFound = false;
-            var current = GetNextNonEmptyOrWhitespaceIndex(value, index, SupportsMultipleValues, out separatorFound);
-
+            var current = GetNextNonEmptyOrWhitespaceIndex(value, index, SupportsMultipleValues, out var separatorFound);
             if (separatorFound && !SupportsMultipleValues)
-            {
                 return false; // leading separators not allowed if we don't support multiple values.
-            }
 
             if (current == value.Length)
             {
                 if (SupportsMultipleValues)
-                {
                     index = current;
-                }
                 return SupportsMultipleValues;
             }
 
-            CookieHeaderValue result = null;
-            if (!CookieHeaderValue.TryGetCookieLength(value, ref current, out result))
-            {
+            if (!CookieHeaderValue.TryGetCookieLength(value, ref current, out var result))
                 return false;
-            }
-
             current = GetNextNonEmptyOrWhitespaceIndex(value, current, SupportsMultipleValues, out separatorFound);
 
             // If we support multiple values and we've not reached the end of the string, then we must have a separator.
-            if ((separatorFound && !SupportsMultipleValues) || (!separatorFound && (current < value.Length)))
-            {
+            if ((separatorFound && !SupportsMultipleValues) || (!separatorFound && current < value.Length))
                 return false;
-            }
-
             index = current;
             parsedValue = result;
             return true;
@@ -69,28 +54,24 @@ namespace Microsoft.Net.Http.Headers
             Contract.Requires(startIndex <= input.Length); // it's OK if index == value.Length.
 
             separatorFound = false;
-            var current = startIndex + HttpRuleParser.GetWhitespaceLength(input, startIndex);
+            var current = startIndex + ProtoRuleParser.GetWhitespaceLength(input, startIndex);
 
-            if ((current == input.Length) || (input[current] != ',' && input[current] != ';'))
-            {
+            if (current == input.Length || (input[current] != ',' && input[current] != ';'))
                 return current;
-            }
 
             // If we have a separator, skip the separator and all following whitespaces. If we support
             // empty values, continue until the current character is neither a separator nor a whitespace.
             separatorFound = true;
             current++; // skip delimiter.
-            current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+            current += ProtoRuleParser.GetWhitespaceLength(input, current);
 
             if (skipEmptyValues)
-            {
                 // Most headers only split on ',', but cookies primarily split on ';'
                 while ((current < input.Length) && ((input[current] == ',') || (input[current] == ';')))
                 {
                     current++; // skip delimiter.
-                    current = current + HttpRuleParser.GetWhitespaceLength(input, current);
+                    current += ProtoRuleParser.GetWhitespaceLength(input, current);
                 }
-            }
 
             return current;
         }

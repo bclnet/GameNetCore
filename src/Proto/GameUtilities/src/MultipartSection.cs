@@ -1,39 +1,17 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public class MultipartSection
     {
-        public string ContentType
-        {
-            get
-            {
-                StringValues values;
-                if (Headers.TryGetValue("Content-Type", out values))
-                {
-                    return values;
-                }
-                return null;
-            }
-        }
+        public string ContentType => Headers.TryGetValue("Content-Type", out var values) ? (string)values : null;
 
-        public string ContentDisposition
-        {
-            get
-            {
-                StringValues values;
-                if (Headers.TryGetValue("Content-Disposition", out values))
-                {
-                    return values;
-                }
-                return null;
-            }
-        }
+        public string ContentDisposition => Headers.TryGetValue("Content-Disposition", out var values) ? (string)values : null;
 
         public Dictionary<string, StringValues> Headers { get; set; }
 

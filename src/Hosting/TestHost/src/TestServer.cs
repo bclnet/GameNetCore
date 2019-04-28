@@ -2,26 +2,26 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Context = Microsoft.AspNetCore.Hosting.Internal.HostingApplication.Context;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Hosting.Server;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Context = Microsoft.GameNetCore.Hosting.Internal.HostingApplication.Context;
 
-namespace Microsoft.AspNetCore.TestHost
+namespace Contoso.GameNetCore.TestHost
 {
     public class TestServer : IServer
     {
-        private IWebHost _hostInstance;
+        private IGameHost _hostInstance;
         private bool _disposed = false;
-        private IHttpApplication<Context> _application;
+        private IProtoApplication<Context> _application;
 
         /// <summary>
-        /// For use with IHostBuilder or IWebHostBuilder.
+        /// For use with IHostBuilder or IGameHostBuilder.
         /// </summary>
         public TestServer()
             : this(new FeatureCollection())
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.TestHost
         }
 
         /// <summary>
-        /// For use with IHostBuilder or IWebHostBuilder.
+        /// For use with IHostBuilder or IGameHostBuilder.
         /// </summary>
         /// <param name="featureCollection"></param>
         public TestServer(IFeatureCollection featureCollection)
@@ -38,20 +38,20 @@ namespace Microsoft.AspNetCore.TestHost
         }
 
         /// <summary>
-        /// For use with IWebHostBuilder.
+        /// For use with IGameHostBuilder.
         /// </summary>
         /// <param name="builder"></param>
-        public TestServer(IWebHostBuilder builder)
+        public TestServer(IGameHostBuilder builder)
             : this(builder, new FeatureCollection())
         {
         }
 
         /// <summary>
-        /// For use with IWebHostBuilder.
+        /// For use with IGameHostBuilder.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="featureCollection"></param>
-        public TestServer(IWebHostBuilder builder, IFeatureCollection featureCollection)
+        public TestServer(IGameHostBuilder builder, IFeatureCollection featureCollection)
             : this(featureCollection)
         {
             if (builder == null)
@@ -66,45 +66,45 @@ namespace Microsoft.AspNetCore.TestHost
 
         public Uri BaseAddress { get; set; } = new Uri("http://localhost/");
 
-        public IWebHost Host
+        public IGameHost Host
         {
             get
             {
                 return _hostInstance
-                    ?? throw new InvalidOperationException("The TestServer constructor was not called with a IWebHostBuilder so IWebHost is not available.");
+                    ?? throw new InvalidOperationException("The TestServer constructor was not called with a IGameHostBuilder so IGameHost is not available.");
             }
         }
 
         public IFeatureCollection Features { get; }
 
         /// <summary>
-        /// Gets or sets a value that controls whether synchronous IO is allowed for the <see cref="HttpContext.Request"/> and <see cref="HttpContext.Response"/>
+        /// Gets or sets a value that controls whether synchronous IO is allowed for the <see cref="ProtoContext.Request"/> and <see cref="ProtoContext.Response"/>
         /// </summary>
         /// <remarks>
         /// Defaults to false.
         /// </remarks>
         public bool AllowSynchronousIO { get; set; } = false;
 
-        private IHttpApplication<Context> Application
+        private IProtoApplication<Context> Application
         {
-            get => _application ?? throw new InvalidOperationException("The server has not been started or no web application was configured.");
+            get => _application ?? throw new InvalidOperationException("The server has not been started or no game application was configured.");
         }
 
-        public HttpMessageHandler CreateHandler()
+        public ProtoMessageHandler CreateHandler()
         {
             var pathBase = BaseAddress == null ? PathString.Empty : PathString.FromUriComponent(BaseAddress);
             return new ClientHandler(pathBase, Application) { AllowSynchronousIO = AllowSynchronousIO };
         }
 
-        public HttpClient CreateClient()
+        public ProtoClient CreateClient()
         {
-            return new HttpClient(CreateHandler()) { BaseAddress = BaseAddress };
+            return new ProtoClient(CreateHandler()) { BaseAddress = BaseAddress };
         }
 
-        public WebSocketClient CreateWebSocketClient()
+        public GameSocketClient CreateGameSocketClient()
         {
             var pathBase = BaseAddress == null ? PathString.Empty : PathString.FromUriComponent(BaseAddress);
-            return new WebSocketClient(pathBase, Application) { AllowSynchronousIO = AllowSynchronousIO };
+            return new GameSocketClient(pathBase, Application) { AllowSynchronousIO = AllowSynchronousIO };
         }
 
         /// <summary>
@@ -118,17 +118,17 @@ namespace Microsoft.AspNetCore.TestHost
         }
 
         /// <summary>
-        /// Creates, configures, sends, and returns a <see cref="HttpContext"/>. This completes as soon as the response is started.
+        /// Creates, configures, sends, and returns a <see cref="ProtoContext"/>. This completes as soon as the response is started.
         /// </summary>
         /// <returns></returns>
-        public async Task<HttpContext> SendAsync(Action<HttpContext> configureContext, CancellationToken cancellationToken = default)
+        public async Task<ProtoContext> SendAsync(Action<ProtoContext> configureContext, CancellationToken cancellationToken = default)
         {
             if (configureContext == null)
             {
                 throw new ArgumentNullException(nameof(configureContext));
             }
 
-            var builder = new HttpContextBuilder(Application, AllowSynchronousIO);
+            var builder = new ProtoContextBuilder(Application, AllowSynchronousIO);
             builder.Configure(context =>
             {
                 var request = context.Request;
@@ -159,9 +159,9 @@ namespace Microsoft.AspNetCore.TestHost
             }
         }
 
-        Task IServer.StartAsync<TContext>(IHttpApplication<TContext> application, CancellationToken cancellationToken)
+        Task IServer.StartAsync<TContext>(IProtoApplication<TContext> application, CancellationToken cancellationToken)
         {
-            _application = new ApplicationWrapper<Context>((IHttpApplication<Context>)application, () =>
+            _application = new ApplicationWrapper<Context>((IProtoApplication<Context>)application, () =>
             {
                 if (_disposed)
                 {
@@ -177,12 +177,12 @@ namespace Microsoft.AspNetCore.TestHost
             return Task.CompletedTask;
         }
 
-        private class ApplicationWrapper<TContext> : IHttpApplication<TContext>
+        private class ApplicationWrapper<TContext> : IProtoApplication<TContext>
         {
-            private readonly IHttpApplication<TContext> _application;
+            private readonly IProtoApplication<TContext> _application;
             private readonly Action _preProcessRequestAsync;
 
-            public ApplicationWrapper(IHttpApplication<TContext> application, Action preProcessRequestAsync)
+            public ApplicationWrapper(IProtoApplication<TContext> application, Action preProcessRequestAsync)
             {
                 _application = application;
                 _preProcessRequestAsync = preProcessRequestAsync;

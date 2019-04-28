@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static partial class WebSocketMiddlewareExtensions
     {
@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Builder
         public int ReceiveBufferSize { [System.Runtime.CompilerServices.CompilerGeneratedAttribute]get { throw null; } [System.Runtime.CompilerServices.CompilerGeneratedAttribute]set { } }
     }
 }
-namespace Microsoft.AspNetCore.WebSockets
+namespace Contoso.GameNetCore.WebSockets
 {
     public partial class ExtendedWebSocketAcceptContext : Microsoft.AspNetCore.Http.WebSocketAcceptContext
     {
@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.WebSockets
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddWebSockets(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Microsoft.AspNetCore.Builder.WebSocketOptions> configure) { throw null; }
     }
 }
-namespace Microsoft.AspNetCore.WebSockets.Internal
+namespace Contoso.GameNetCore.WebSockets.Internal
 {
     public static partial class Constants
     {

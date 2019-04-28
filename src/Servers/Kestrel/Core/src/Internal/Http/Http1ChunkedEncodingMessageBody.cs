@@ -8,15 +8,15 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
     /// <summary>
     ///   http://tools.ietf.org/html/rfc2616#section-3.6.1
     /// </summary>
-    internal class Http1ChunkedEncodingMessageBody : Http1MessageBody
+    internal class Proto1ChunkedEncodingMessageBody : Proto1MessageBody
     {
         // byte consts don't have a data type annotation so we pre-cast it
         private const byte ByteCR = (byte)'\r';
@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private Pipe _requestBodyPipe;
         private ReadResult _readResult;
 
-        public Http1ChunkedEncodingMessageBody(bool keepAlive, Http1Connection context)
+        public Proto1ChunkedEncodingMessageBody(bool keepAlive, Proto1Connection context)
             : base(context)
         {
             RequestKeepAlive = keepAlive;
@@ -129,7 +129,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
                     if (_context.RequestTimedOut)
                     {
-                        BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
+                        BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
                     }
 
                     var readableBuffer = result.Buffer;
@@ -365,7 +365,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
 
             // At this point, 10 bytes have been consumed which is enough to parse the max value "7FFFFFFF\r\n".
-            BadHttpRequestException.Throw(RequestRejectionReason.BadChunkSizeData);
+            BadProtoRequestException.Throw(RequestRejectionReason.BadChunkSizeData);
         }
 
         private void ParseExtension(ReadOnlySequence<byte> buffer, out SequencePosition consumed, out SequencePosition examined)
@@ -463,7 +463,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
             else
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.BadChunkSuffix);
+                BadProtoRequestException.Throw(RequestRejectionReason.BadChunkSuffix);
             }
         }
 
@@ -521,7 +521,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 throw new IOException(CoreStrings.BadRequest_BadChunkSizeData, ex);
             }
 
-            BadHttpRequestException.Throw(RequestRejectionReason.BadChunkSizeData);
+            BadProtoRequestException.Throw(RequestRejectionReason.BadChunkSizeData);
             return -1; // can't happen, but compiler complains
         }
 
@@ -536,7 +536,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             Complete
         };
 
-        private Pipe CreateRequestBodyPipe(Http1Connection context)
+        private Pipe CreateRequestBodyPipe(Proto1Connection context)
             => new Pipe(new PipeOptions
             (
                 pool: context.MemoryPool,

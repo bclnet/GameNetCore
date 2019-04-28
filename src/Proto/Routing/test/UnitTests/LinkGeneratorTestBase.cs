@@ -2,21 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public abstract class LinkGeneratorTestBase
     {
-        protected HttpContext CreateHttpContext(object ambientValues = null)
+        protected ProtoContext CreateProtoContext(object ambientValues = null)
         {
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             var context = new EndpointSelectorContext
             {

@@ -3,12 +3,12 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Feature to identify a request.
     /// </summary>
-    public interface IHttpRequestIdentifierFeature
+    public interface IProtoRequestIdentifierFeature
     {
         /// <summary>
         /// Identifier to trace a request.

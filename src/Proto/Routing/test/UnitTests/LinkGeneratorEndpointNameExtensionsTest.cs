@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     // Integration tests for GetXyzByName. These are basic because important behavioral details
     // are covered elsewhere.
@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Routing
     public class LinkGeneratorEndpointNameExtensionsTest : LinkGeneratorTestBase
     {
         [Fact]
-        public void GetPathByName_WithHttpContext_DoesNotUseAmbientValues()
+        public void GetPathByName_WithProtoContext_DoesNotUseAmbientValues()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("some-endpoint/{p}", metadata: new[] { new EndpointNameMetadata("name1"), });
@@ -30,7 +30,7 @@ namespace Microsoft.AspNetCore.Routing
             {
                 RouteValues = new RouteValueDictionary(new { p = "5", })
             };
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Features.Set<IRouteValuesFeature>(context);
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
 
@@ -49,7 +49,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByName_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetPathByName_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("some-endpoint/{p}",  metadata: new[] { new EndpointNameMetadata("name1"), });
@@ -72,7 +72,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetPathByName_WithHttpContext_WithPathBaseAndFragment()
+        public void GetPathByName_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("some-endpoint/{p}", metadata: new[] { new EndpointNameMetadata("name1"), });
@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");
 
             var values = new { p = "In?dex", query = "some?query", };
@@ -98,7 +98,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByRouteValues_WithoutHttpContext_WithPathBaseAndFragment()
+        public void GetUriByRouteValues_WithoutProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("some-endpoint/{p}", metadata: new[] { new EndpointNameMetadata("name1"), });
@@ -123,7 +123,7 @@ namespace Microsoft.AspNetCore.Routing
         }
 
         [Fact]
-        public void GetUriByName_WithHttpContext_WithPathBaseAndFragment()
+        public void GetUriByName_WithProtoContext_WithPathBaseAndFragment()
         {
             // Arrange
             var endpoint1 = EndpointFactory.CreateRouteEndpoint("some-endpoint/{p}", metadata: new[] { new EndpointNameMetadata("name1"), });
@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Routing
 
             var linkGenerator = CreateLinkGenerator(endpoint1, endpoint2);
 
-            var httpContext = CreateHttpContext();
+            var httpContext = CreateProtoContext();
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("example.com");
             httpContext.Request.PathBase = new PathString("/Foo/Bar?encodeme?");

@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Template;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Template;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     public class RoutePatternFactoryTest
     {

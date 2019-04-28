@@ -1,6 +1,6 @@
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Extensions;
 
 namespace SampleApp
 {

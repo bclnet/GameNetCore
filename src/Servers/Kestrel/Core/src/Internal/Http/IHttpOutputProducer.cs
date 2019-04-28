@@ -6,14 +6,14 @@ using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal interface IHttpOutputProducer
+    internal interface IProtoOutputProducer
     {
         ValueTask<FlushResult> WriteChunkAsync(ReadOnlySpan<byte> data, CancellationToken cancellationToken);
         ValueTask<FlushResult> FlushAsync(CancellationToken cancellationToken);
         ValueTask<FlushResult> Write100ContinueAsync();
-        void WriteResponseHeaders(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk);
+        void WriteResponseHeaders(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk);
         // This takes ReadOnlySpan instead of ReadOnlyMemory because it always synchronously copies data before flushing.
         ValueTask<FlushResult> WriteDataToPipeAsync(ReadOnlySpan<byte> data, CancellationToken cancellationToken);
         Task WriteDataAsync(ReadOnlySpan<byte> data, CancellationToken cancellationToken);
@@ -23,8 +23,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         Memory<byte> GetMemory(int sizeHint = 0);
         void CancelPendingFlush();
         void Complete();
-        ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken);
-        ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, HttpResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken);
+        ValueTask<FlushResult> FirstWriteAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken);
+        ValueTask<FlushResult> FirstWriteChunkedAsync(int statusCode, string reasonPhrase, ProtoResponseHeaders responseHeaders, bool autoChunk, ReadOnlySpan<byte> data, CancellationToken cancellationToken);
         void Reset();
     }
 }

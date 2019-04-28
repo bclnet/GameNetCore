@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal class RouteMatcherBuilder : MatcherBuilder
     {
@@ -95,13 +95,13 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
             public async Task RouteAsync(RouteContext routeContext)
             {
-                var context = (EndpointSelectorContext)routeContext.HttpContext.Features.Get<IEndpointFeature>();
+                var context = (EndpointSelectorContext)routeContext.ProtoContext.Features.Get<IEndpointFeature>();
                 
                 // This is needed due to a quirk of our tests - they reuse the endpoint feature
                 // across requests.
                 context.Endpoint = null;
 
-                await _selector.SelectAsync(routeContext.HttpContext, context, new CandidateSet(_candidates, _values, _scores));
+                await _selector.SelectAsync(routeContext.ProtoContext, context, new CandidateSet(_candidates, _values, _scores));
                 if (context.Endpoint != null)
                 {
                     routeContext.Handler = (_) => Task.CompletedTask;

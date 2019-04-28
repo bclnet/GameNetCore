@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     /// <summary>
     /// Represents a middleware that maps a request path to a sub-request pipeline.
@@ -39,9 +39,9 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         /// <summary>
         /// Executes the middleware.
         /// </summary>
-        /// <param name="context">The <see cref="HttpContext"/> for the current request.</param>
+        /// <param name="context">The <see cref="ProtoContext"/> for the current request.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(ProtoContext context)
         {
             if (context == null)
             {

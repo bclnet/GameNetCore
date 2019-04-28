@@ -4,11 +4,11 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
+using Contoso.GameNetCore.Diagnostics;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.WebUtilities;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Options for StatusCodePagesMiddleware.

@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlActions
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlActions
 {
     public class ChangeCookieActionTests
     {

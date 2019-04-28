@@ -74,9 +74,9 @@ namespace CodeGenerator
             };
             
             var usings = $@"
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;";
+using Contoso.GameNetCore.Http.Features;
+using Contoso.GameNetCore.Http.Features.Authentication;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;";
 
             return FeatureCollectionGenerator.GenerateFile(
                 namespaceName: "Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http",

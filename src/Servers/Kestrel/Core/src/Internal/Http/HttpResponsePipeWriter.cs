@@ -7,17 +7,17 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class HttpResponsePipeWriter : PipeWriter
+    internal class ProtoResponsePipeWriter : PipeWriter
     {
-        private HttpStreamState _state;
-        private readonly IHttpResponseControl _pipeControl;
+        private ProtoStreamState _state;
+        private readonly IProtoResponseControl _pipeControl;
 
-        public HttpResponsePipeWriter(IHttpResponseControl pipeControl)
+        public ProtoResponsePipeWriter(IProtoResponseControl pipeControl)
         {
             _pipeControl = pipeControl;
-            _state = HttpStreamState.Closed;
+            _state = ProtoStreamState.Closed;
         }
 
         public override void Advance(int bytes)
@@ -71,9 +71,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public void StartAcceptingWrites()
         {
             // Only start if not aborted
-            if (_state == HttpStreamState.Closed)
+            if (_state == ProtoStreamState.Closed)
             {
-                _state = HttpStreamState.Open;
+                _state = ProtoStreamState.Open;
             }
         }
 
@@ -81,15 +81,15 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             // Can't use dispose (or close) as can be disposed too early by user code
             // As exampled in EngineTests.ZeroContentLengthNotSetAutomaticallyForCertainStatusCodes
-            _state = HttpStreamState.Closed;
+            _state = ProtoStreamState.Closed;
         }
 
         public void Abort()
         {
             // We don't want to throw an ODE until the app func actually completes.
-            if (_state != HttpStreamState.Closed)
+            if (_state != ProtoStreamState.Closed)
             {
-                _state = HttpStreamState.Aborted;
+                _state = ProtoStreamState.Aborted;
             }
         }
 
@@ -97,7 +97,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private void ValidateState(CancellationToken cancellationToken = default)
         {
             var state = _state;
-            if (state == HttpStreamState.Open || state == HttpStreamState.Aborted)
+            if (state == ProtoStreamState.Open || state == ProtoStreamState.Aborted)
             {
                 // Aborted state only throws on write if cancellationToken requests it
                 cancellationToken.ThrowIfCancellationRequested();
@@ -109,7 +109,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
             void ThrowObjectDisposedException()
             {
-                throw new ObjectDisposedException(nameof(HttpResponseStream), CoreStrings.WritingToResponseBodyAfterResponseCompleted);
+                throw new ObjectDisposedException(nameof(ProtoResponseStream), CoreStrings.WritingToResponseBodyAfterResponseCompleted);
             }
         }
     }

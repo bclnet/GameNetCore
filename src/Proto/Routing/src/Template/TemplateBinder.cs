@@ -8,13 +8,13 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Patterns;
+using System.Text.Encodings.Game;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Microsoft.AspNetCore.Routing.Template
+namespace Contoso.GameNetCore.Routing.Template
 {
     public class TemplateBinder
     {
@@ -379,7 +379,7 @@ namespace Microsoft.AspNetCore.Routing.Template
         // Processes the constraints **if** they were passed in to the TemplateBinder constructor.
         // Returns true on success
         // Returns false + sets the name/constraint for logging on failure.
-        public bool TryProcessConstraints(HttpContext httpContext, RouteValueDictionary combinedValues, out string parameterName, out IRouteConstraint constraint)
+        public bool TryProcessConstraints(ProtoContext httpContext, RouteValueDictionary combinedValues, out string parameterName, out IRouteConstraint constraint)
         {
             var constraints = _constraints;
             for (var i = 0; i < constraints.Length; i++)

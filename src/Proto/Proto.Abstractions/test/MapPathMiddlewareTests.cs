@@ -3,17 +3,17 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     public class MapPathMiddlewareTests
     {
         private static readonly Action<IApplicationBuilder> ActionNotImplemented = new Action<IApplicationBuilder>(_ => { throw new NotImplementedException(); });
 
-        private static Task Success(HttpContext context)
+        private static Task Success(ProtoContext context)
         {
             context.Response.StatusCode = 200;
             context.Items["test.PathBase"] = context.Request.PathBase.Value;
@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             app.Run(Success);
         }
 
-        private static Task NotImplemented(HttpContext context)
+        private static Task NotImplemented(ProtoContext context)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [InlineData("/foo/cho", "/Bar", "/foo/cho/do")]
         public void PathMatchFunc_BranchTaken(string matchPath, string basePath, string requestPath)
         {
-            HttpContext context = CreateRequest(basePath, requestPath);
+            ProtoContext context = CreateRequest(basePath, requestPath);
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.Map(matchPath, UseSuccess);
             var app = builder.Build();
@@ -84,7 +84,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [InlineData("/foo/cho", "/Bar", "/Foo/Cho/do")]
         public void PathMatchAction_BranchTaken(string matchPath, string basePath, string requestPath)
         {
-            HttpContext context = CreateRequest(basePath, requestPath);
+            ProtoContext context = CreateRequest(basePath, requestPath);
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.Map(matchPath, subBuilder => subBuilder.Run(Success));
             var app = builder.Build();
@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [InlineData("/foo/bar", "/foo", "/bar")]
         public void PathMismatchFunc_PassedThrough(string matchPath, string basePath, string requestPath)
         {
-            HttpContext context = CreateRequest(basePath, requestPath);
+            ProtoContext context = CreateRequest(basePath, requestPath);
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.Map(matchPath, UseNotImplemented);
             builder.Run(Success);
@@ -136,7 +136,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
         [InlineData("/foo/bar", "/foo", "/bar")]
         public void PathMismatchAction_PassedThrough(string matchPath, string basePath, string requestPath)
         {
-            HttpContext context = CreateRequest(basePath, requestPath);
+            ProtoContext context = CreateRequest(basePath, requestPath);
             var builder = new ApplicationBuilder(serviceProvider: null);
             builder.Map(matchPath, UseNotImplemented);
             builder.Run(Success);
@@ -160,7 +160,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             builder.Map("/route2/subroute2", UseSuccess);
             var app = builder.Build();
 
-            HttpContext context = CreateRequest(string.Empty, "/route1");
+            ProtoContext context = CreateRequest(string.Empty, "/route1");
             Assert.Throws<AggregateException>(() => app.Invoke(context).Wait());
 
             context = CreateRequest(string.Empty, "/route1/subroute1");
@@ -188,9 +188,9 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             Assert.Equal("/route2/subroute2/subsub2", context.Request.Path.Value);
         }
 
-        private HttpContext CreateRequest(string basePath, string requestPath)
+        private ProtoContext CreateRequest(string basePath, string requestPath)
         {
-            HttpContext context = new DefaultHttpContext();
+            ProtoContext context = new DefaultProtoContext();
             context.Request.PathBase = new PathString(basePath);
             context.Request.Path = new PathString(requestPath);
             return context;

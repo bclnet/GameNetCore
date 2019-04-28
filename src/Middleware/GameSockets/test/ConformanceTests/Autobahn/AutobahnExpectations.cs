@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Contoso.GameNetCore.Server.IntegrationTesting;
 
-namespace Microsoft.AspNetCore.WebSockets.ConformanceTest.Autobahn
+namespace Contoso.GameNetCore.GameSockets.ConformanceTest.Autobahn
 {
     public class AutobahnExpectations
     {

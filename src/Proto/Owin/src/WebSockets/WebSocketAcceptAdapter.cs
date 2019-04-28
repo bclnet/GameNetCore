@@ -3,83 +3,83 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+using System.Net.GameSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Owin
+namespace Contoso.GameNetCore.Owin
 {
     using AppFunc = Func<IDictionary<string, object>, Task>;
-    using WebSocketAccept =
+    using GameSocketAccept =
         Action
         <
-            IDictionary<string, object>, // WebSocket Accept parameters
-            Func // WebSocketFunc callback
+            IDictionary<string, object>, // GameSocket Accept parameters
+            Func // GameSocketFunc callback
             <
-                IDictionary<string, object>, // WebSocket environment
+                IDictionary<string, object>, // GameSocket environment
                 Task // Complete
             >
         >;
-    using WebSocketAcceptAlt =
+    using GameSocketAcceptAlt =
         Func
         <
-            WebSocketAcceptContext, // WebSocket Accept parameters
-            Task<WebSocket>
+            GameSocketAcceptContext, // GameSocket Accept parameters
+            Task<GameSocket>
         >;
 
     /// <summary>
-    /// This adapts the ASP.NET Core WebSocket Accept flow to match the OWIN WebSocket accept flow.
-    /// This enables OWIN based components to use WebSockets on ASP.NET Core servers.
+    /// This adapts the ASP.NET Core GameSocket Accept flow to match the OWIN GameSocket accept flow.
+    /// This enables OWIN based components to use GameSockets on ASP.NET Core servers.
     /// </summary>
-    public class WebSocketAcceptAdapter
+    public class GameSocketAcceptAdapter
     {
         private IDictionary<string, object> _env;
-        private WebSocketAcceptAlt _accept;
+        private GameSocketAcceptAlt _accept;
         private AppFunc _callback;
         private IDictionary<string, object> _options;
 
-        public WebSocketAcceptAdapter(IDictionary<string, object> env, WebSocketAcceptAlt accept)
+        public GameSocketAcceptAdapter(IDictionary<string, object> env, GameSocketAcceptAlt accept)
 	    {
             _env = env;
             _accept = accept;
         }
 
-        private void AcceptWebSocket(IDictionary<string, object> options, AppFunc callback)
+        private void AcceptGameSocket(IDictionary<string, object> options, AppFunc callback)
         {
             _options = options;
             _callback = callback;
             _env[OwinConstants.ResponseStatusCode] = 101;
         }
 
-        public static AppFunc AdaptWebSockets(AppFunc next)
+        public static AppFunc AdaptGameSockets(AppFunc next)
         {
             return async environment =>
             {
                 object accept;
-                if (environment.TryGetValue(OwinConstants.WebSocket.AcceptAlt, out accept) && accept is WebSocketAcceptAlt)
+                if (environment.TryGetValue(OwinConstants.GameSocket.AcceptAlt, out accept) && accept is GameSocketAcceptAlt)
                 {
-                    var adapter = new WebSocketAcceptAdapter(environment, (WebSocketAcceptAlt)accept);
+                    var adapter = new GameSocketAcceptAdapter(environment, (GameSocketAcceptAlt)accept);
 
-                    environment[OwinConstants.WebSocket.Accept] = new WebSocketAccept(adapter.AcceptWebSocket);
+                    environment[OwinConstants.GameSocket.Accept] = new GameSocketAccept(adapter.AcceptGameSocket);
                     await next(environment);
                     if ((int)environment[OwinConstants.ResponseStatusCode] == 101 && adapter._callback != null)
                     {
-                        WebSocketAcceptContext acceptContext = null;
+                        GameSocketAcceptContext acceptContext = null;
                         object obj;
-                        if (adapter._options != null && adapter._options.TryGetValue(typeof(WebSocketAcceptContext).FullName, out obj))
+                        if (adapter._options != null && adapter._options.TryGetValue(typeof(GameSocketAcceptContext).FullName, out obj))
                         {
-                            acceptContext = obj as WebSocketAcceptContext;
+                            acceptContext = obj as GameSocketAcceptContext;
                         }
                         else if (adapter._options != null)
                         {
-                            acceptContext = new OwinWebSocketAcceptContext(adapter._options);
+                            acceptContext = new OwinGameSocketAcceptContext(adapter._options);
                         }
 
-                        var webSocket = await adapter._accept(acceptContext);
-                        var webSocketAdapter = new WebSocketAdapter(webSocket, (CancellationToken)environment[OwinConstants.CallCancelled]);
-                        await adapter._callback(webSocketAdapter.Environment);
-                        await webSocketAdapter.CleanupAsync();
+                        var gameSocket = await adapter._accept(acceptContext);
+                        var gameSocketAdapter = new GameSocketAdapter(gameSocket, (CancellationToken)environment[OwinConstants.CallCancelled]);
+                        await adapter._callback(gameSocketAdapter.Environment);
+                        await gameSocketAdapter.CleanupAsync();
                     }
                 }
                 else

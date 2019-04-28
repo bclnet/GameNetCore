@@ -3,9 +3,9 @@
 
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // Generated from https://github.com/APIs-guru/openapi-directory
     // Use https://editor2.swagger.io/ to convert from yaml to json-

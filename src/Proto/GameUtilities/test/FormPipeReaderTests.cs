@@ -1,16 +1,16 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipelines;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.WebUtilities.Test
+namespace Contoso.GameNetCore.GameUtilities.Test
 {
     public class FormPipeReaderTests
     {
@@ -291,8 +291,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.KeyLengthLimit = 2;
+            var formReader = new FormPipeReader(null)
+            {
+                KeyLengthLimit = 2
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form key length limit 2 exceeded.", exception.Message);
@@ -305,8 +307,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.KeyLengthLimit = 2;
+            var formReader = new FormPipeReader(null)
+            {
+                KeyLengthLimit = 2
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form key length limit 2 exceeded.", exception.Message);
@@ -319,8 +323,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.ValueLengthLimit = 2;
+            var formReader = new FormPipeReader(null)
+            {
+                ValueLengthLimit = 2
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form value length limit 2 exceeded.", exception.Message);
@@ -333,8 +339,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.ValueLengthLimit = 2;
+            var formReader = new FormPipeReader(null)
+            {
+                ValueLengthLimit = 2
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form value length limit 2 exceeded.", exception.Message);
@@ -347,8 +355,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.KeyLengthLimit = 10;
+            var formReader = new FormPipeReader(null)
+            {
+                KeyLengthLimit = 10
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form key length limit 10 exceeded.", exception.Message);
@@ -361,8 +371,10 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             KeyValueAccumulator accumulator = default;
 
-            var formReader = new FormPipeReader(null);
-            formReader.ValueLengthLimit = 10;
+            var formReader = new FormPipeReader(null)
+            {
+                ValueLengthLimit = 10
+            };
 
             var exception = Assert.Throws<InvalidDataException>(() => formReader.ParseFormValues(ref readOnlySequence, ref accumulator, isFinalBlock: true));
             Assert.Equal("Form value length limit 10 exceeded.", exception.Message);
@@ -386,15 +398,12 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             }
         }
 
-        internal virtual Task<Dictionary<string, StringValues>> ReadFormAsync(FormPipeReader reader)
-        {
-            return reader.ReadFormAsync();
-        }
+        internal virtual Task<Dictionary<string, StringValues>> ReadFormAsync(FormPipeReader reader) => reader.ReadFormAsync();
 
         private static async Task<PipeReader> MakePipeReader(string text)
         {
             var formContent = Encoding.UTF8.GetBytes(text);
-            Pipe bodyPipe = new Pipe();
+            var bodyPipe = new Pipe();
 
             await bodyPipe.Writer.WriteAsync(formContent);
 

@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.WebSockets.Test
+namespace Contoso.GameNetCore.GameSockets.Test
 {
     // This steam accepts writes from one side, buffers them internally, and returns the data via Reads
     // when requested on the other side.
@@ -32,59 +32,34 @@ namespace Microsoft.AspNetCore.WebSockets.Test
             _readWaitingForData = new TaskCompletionSource<object>();
         }
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
-        public override bool CanWrite
-        {
-            get { return true; }
-        }
+        public override bool CanWrite => true;
 
         #region NotSupported
 
-        public override long Length
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public override long Length => throw new NotSupportedException();
 
         public override long Position
         {
-            get { throw new NotSupportedException(); }
-            set { throw new NotSupportedException(); }
+            get => throw new NotSupportedException();
+            set => throw new NotSupportedException();
         }
 
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException();
-        }
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
 
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException();
-        }
+        public override void SetLength(long value) => throw new NotSupportedException();
 
         #endregion NotSupported
 
         /// <summary>
         /// Ends the stream, meaning all future reads will return '0'.
         /// </summary>
-        public void End()
-        {
-            _terminated = true;
-        }
+        public void End() => _terminated = true;
 
-        public override void Flush()
-        {
-            CheckDisposed();
-            // TODO: Wait for data to drain?
-        }
+        public override void Flush() => CheckDisposed();// TODO: Wait for data to drain?
 
         public override Task FlushAsync(CancellationToken cancellationToken)
         {
@@ -104,16 +79,14 @@ namespace Microsoft.AspNetCore.WebSockets.Test
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if(_terminated)
-            {
+            if (_terminated)
                 return 0;
-            }
 
             VerifyBuffer(buffer, offset, count, allowEmpty: false);
             _readLock.Wait();
             try
             {
-                int totalRead = 0;
+                var totalRead = 0;
                 do
                 {
                     // Don't drain buffered data when signaling an abort.
@@ -133,7 +106,7 @@ namespace Microsoft.AspNetCore.WebSockets.Test
                         }
                         _topBuffer = new ArraySegment<byte>(topBuffer);
                     }
-                    int actualCount = Math.Min(count, _topBuffer.Count);
+                    var actualCount = Math.Min(count, _topBuffer.Count);
                     Buffer.BlockCopy(_topBuffer.Array, _topBuffer.Offset, buffer, offset, actualCount);
                     _topBuffer = new ArraySegment<byte>(_topBuffer.Array,
                         _topBuffer.Offset + actualCount,
@@ -152,25 +125,19 @@ namespace Microsoft.AspNetCore.WebSockets.Test
             }
         }
 
-        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
-        {
+        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state) =>
             // TODO: This option doesn't preserve the state object.
             // return ReadAsync(buffer, offset, count);
-            return base.BeginRead(buffer, offset, count, callback, state);
-        }
+            base.BeginRead(buffer, offset, count, callback, state);
 
-        public override int EndRead(IAsyncResult asyncResult)
-        {
+        public override int EndRead(IAsyncResult asyncResult) =>
             // return ((Task<int>)asyncResult).Result;
-            return base.EndRead(asyncResult);
-        }
+            base.EndRead(asyncResult);
 
         public async override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (_terminated)
-            {
                 return 0;
-            }
 
             VerifyBuffer(buffer, offset, count, allowEmpty: false);
             var registration = cancellationToken.Register(Abort);
@@ -249,10 +216,7 @@ namespace Microsoft.AspNetCore.WebSockets.Test
             var tcs = new TaskCompletionSource<object>(state);
             tcs.TrySetResult(null);
             var result = tcs.Task;
-            if (callback != null)
-            {
-                callback(result);
-            }
+            callback?.Invoke(result);
             return result;
         }
 
@@ -275,39 +239,28 @@ namespace Microsoft.AspNetCore.WebSockets.Test
         private static void VerifyBuffer(byte[] buffer, int offset, int count, bool allowEmpty)
         {
             if (offset < 0 || offset > buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException(nameof(offset), offset, string.Empty);
-            }
             if (count < 0 || count > buffer.Length - offset
                 || (!allowEmpty && count == 0))
-            {
                 throw new ArgumentOutOfRangeException(nameof(count), count, string.Empty);
-            }
         }
 
-        private void SignalDataAvailable()
-        {
+        private void SignalDataAvailable() =>
             // Dispatch, as TrySetResult will synchronously execute the waiters callback and block our Write.
             Task.Factory.StartNew(() => _readWaitingForData.TrySetResult(null));
-        }
 
         private Task WaitForDataAsync()
         {
             _readWaitingForData = new TaskCompletionSource<object>();
 
             if (!_bufferedData.IsEmpty || _disposed)
-            {
                 // Race, data could have arrived before we created the TCS.
                 _readWaitingForData.TrySetResult(null);
-            }
 
             return _readWaitingForData.Task;
         }
 
-        internal void Abort()
-        {
-            Abort(new OperationCanceledException());
-        }
+        internal void Abort() => Abort(new OperationCanceledException());
 
         internal void Abort(Exception innerException)
         {
@@ -320,9 +273,7 @@ namespace Microsoft.AspNetCore.WebSockets.Test
         private void CheckAborted()
         {
             if (_aborted)
-            {
                 throw new IOException(string.Empty, _abortException);
-            }
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_writeLock", Justification = "ODEs from the locks would mask IOEs from abort.")]
@@ -342,9 +293,7 @@ namespace Microsoft.AspNetCore.WebSockets.Test
         private void CheckDisposed()
         {
             if (_disposed)
-            {
                 throw new ObjectDisposedException(GetType().FullName);
-            }
         }
     }
 }

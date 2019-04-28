@@ -3,7 +3,7 @@
 
 using Contoso.GameNetCore.Builder;
 using Contoso.GameNetCore.Hosting;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using System;
 
 namespace Contoso.GameNetCore

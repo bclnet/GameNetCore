@@ -6,18 +6,18 @@ using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal sealed partial class HttpRequestHeaders : HttpHeaders
+    internal sealed partial class ProtoRequestHeaders : ProtoHeaders
     {
         private readonly bool _reuseHeaderValues;
         private long _previousBits = 0;
 
-        public HttpRequestHeaders(bool reuseHeaderValues = true)
+        public ProtoRequestHeaders(bool reuseHeaderValues = true)
         {
             _reuseHeaderValues = reuseHeaderValues;
         }
@@ -62,7 +62,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             if (!HeaderUtilities.TryParseNonNegativeInt64(value, out var parsed))
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.InvalidContentLength, value);
+                BadProtoRequestException.Throw(RequestRejectionReason.InvalidContentLength, value);
             }
 
             return parsed;
@@ -73,14 +73,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             if (_contentLength.HasValue)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.MultipleContentLengths);
+                BadProtoRequestException.Throw(RequestRejectionReason.MultipleContentLengths);
             }
 
             if (!Utf8Parser.TryParse(value, out long parsed, out var consumed) ||
                 parsed < 0 ||
                 consumed != value.Length)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.InvalidContentLength, value.GetAsciiOrUTF8StringNonNullCharacters());
+                BadProtoRequestException.Throw(RequestRejectionReason.InvalidContentLength, value.GetAsciiOrUTF8StringNonNullCharacters());
             }
 
             _contentLength = parsed;
@@ -101,7 +101,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 if (!StringUtilities.TryGetAsciiString(pKeyBytes, keyBuffer, name.Length))
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.InvalidCharactersInHeaderName);
+                    BadProtoRequestException.Throw(RequestRejectionReason.InvalidCharactersInHeaderName);
                 }
             }
 
@@ -121,14 +121,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public partial struct Enumerator : IEnumerator<KeyValuePair<string, StringValues>>
         {
-            private readonly HttpRequestHeaders _collection;
+            private readonly ProtoRequestHeaders _collection;
             private readonly long _bits;
             private int _next;
             private KeyValuePair<string, StringValues> _current;
             private readonly bool _hasUnknown;
             private Dictionary<string, StringValues>.Enumerator _unknownEnumerator;
 
-            internal Enumerator(HttpRequestHeaders collection)
+            internal Enumerator(ProtoRequestHeaders collection)
             {
                 _collection = collection;
                 _bits = collection._bits;

@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking
 {
     internal abstract class UvHandle : UvMemory
     {

@@ -4,7 +4,7 @@
 using System.Net;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Tests
 {
     public class KestrelServerOptionsTests
     {

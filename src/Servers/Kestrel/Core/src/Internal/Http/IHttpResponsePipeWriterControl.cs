@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal interface IHttpResponsePipeWriterControl
+    internal interface IProtoResponsePipeWriterControl
     {
         void ProduceContinue();
         Memory<byte> GetMemory(int sizeHint = 0);

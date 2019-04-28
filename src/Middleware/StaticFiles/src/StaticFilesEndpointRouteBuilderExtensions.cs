@@ -1,13 +1,13 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.StaticFiles;
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.StaticFiles;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Contains extension methods for using static files with endpoint routing.
@@ -37,22 +37,8 @@ namespace Microsoft.AspNetCore.Builder
         /// <c>{*path:nonfile}</c>. The order of the registered endpoint will be <c>int.MaxValue</c>.
         /// </para>
         /// </remarks>
-        public static IEndpointConventionBuilder MapFallbackToFile(
-            this IEndpointRouteBuilder endpoints,
-            string filePath)
-        {
-            if (endpoints == null)
-            {
-                throw new ArgumentNullException(nameof(endpoints));
-            }
-
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            return endpoints.MapFallback(CreateRequestDelegate(endpoints, filePath));
-        }
+        public static IEndpointConventionBuilder MapFallbackToFile(this IEndpointRouteBuilder endpoints, string filePath) =>
+            (endpoints ?? throw new ArgumentNullException(nameof(endpoints))).MapFallback(CreateRequestDelegate(endpoints, filePath ?? throw new ArgumentNullException(nameof(filePath))));
 
         /// <summary>
         /// Adds a specialized <see cref="RouteEndpoint"/> to the <see cref="IEndpointRouteBuilder"/> that will match
@@ -75,23 +61,8 @@ namespace Microsoft.AspNetCore.Builder
         /// <c>{*path:nonfile}</c>. The order of the registered endpoint will be <c>int.MaxValue</c>.
         /// </para>
         /// </remarks>
-        public static IEndpointConventionBuilder MapFallbackToFile(
-            this IEndpointRouteBuilder endpoints,
-            string filePath,
-            StaticFileOptions options)
-        {
-            if (endpoints == null)
-            {
-                throw new ArgumentNullException(nameof(endpoints));
-            }
-
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            return endpoints.MapFallback(CreateRequestDelegate(endpoints, filePath, options));
-        }
+        public static IEndpointConventionBuilder MapFallbackToFile(this IEndpointRouteBuilder endpoints, string filePath, StaticFileOptions options) =>
+            (endpoints ?? throw new ArgumentNullException(nameof(endpoints))).MapFallback(CreateRequestDelegate(endpoints, filePath ?? throw new ArgumentNullException(nameof(filePath)), options));
 
         /// <summary>
         /// Adds a specialized <see cref="RouteEndpoint"/> to the <see cref="IEndpointRouteBuilder"/> that will match
@@ -120,28 +91,8 @@ namespace Microsoft.AspNetCore.Builder
         /// to exclude requests for static files.
         /// </para>
         /// </remarks>
-        public static IEndpointConventionBuilder MapFallbackToFile(
-            this IEndpointRouteBuilder endpoints,
-            string pattern,
-            string filePath)
-        {
-            if (endpoints == null)
-            {
-                throw new ArgumentNullException(nameof(endpoints));
-            }
-
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            return endpoints.MapFallback(pattern, CreateRequestDelegate(endpoints, filePath));
-        }
+        public static IEndpointConventionBuilder MapFallbackToFile(this IEndpointRouteBuilder endpoints, string pattern, string filePath) =>
+            (endpoints ?? throw new ArgumentNullException(nameof(endpoints))).MapFallback(pattern ?? throw new ArgumentNullException(nameof(filePath)), CreateRequestDelegate(endpoints, filePath ?? throw new ArgumentNullException(nameof(filePath))));
 
         /// <summary>
         /// Adds a specialized <see cref="RouteEndpoint"/> to the <see cref="IEndpointRouteBuilder"/> that will match
@@ -168,34 +119,10 @@ namespace Microsoft.AspNetCore.Builder
         /// to exclude requests for static files.
         /// </para>
         /// </remarks>
-        public static IEndpointConventionBuilder MapFallbackToFile(
-            this IEndpointRouteBuilder endpoints,
-            string pattern,
-            string filePath,
-            StaticFileOptions options)
-        {
-            if (endpoints == null)
-            {
-                throw new ArgumentNullException(nameof(endpoints));
-            }
+        public static IEndpointConventionBuilder MapFallbackToFile(this IEndpointRouteBuilder endpoints, string pattern, string filePath, StaticFileOptions options) =>
+            (endpoints ?? throw new ArgumentNullException(nameof(endpoints))).MapFallback(pattern ?? throw new ArgumentNullException(nameof(filePath)), CreateRequestDelegate(endpoints, filePath ?? throw new ArgumentNullException(nameof(filePath)), options));
 
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            return endpoints.MapFallback(pattern, CreateRequestDelegate(endpoints, filePath, options));
-        }
-
-        private static RequestDelegate CreateRequestDelegate(
-            IEndpointRouteBuilder endpoints,
-            string filePath,
-            StaticFileOptions options = null)
+        private static RequestDelegate CreateRequestDelegate(IEndpointRouteBuilder endpoints, string filePath, StaticFileOptions options = null)
         {
             var app = endpoints.CreateApplicationBuilder();
             app.Use(next => context =>
@@ -209,13 +136,9 @@ namespace Microsoft.AspNetCore.Builder
             });
 
             if (options == null)
-            {
                 app.UseStaticFiles();
-            }
             else
-            {
                 app.UseStaticFiles(options);
-            }
 
             return app.Build();
         }

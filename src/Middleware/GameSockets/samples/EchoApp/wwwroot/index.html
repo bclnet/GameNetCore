@@ -11,10 +11,10 @@
     </style>
 </head>
 <body>
-    <h1>WebSocket Test Page</h1>
+    <h1>GameSocket Test Page</h1>
     <p id="stateLabel">Ready to connect...</p>
     <div>
-        <label for="connectionUrl">WebSocket Server URL:</label>
+        <label for="connectionUrl">GameSocket Server URL:</label>
         <input id="connectionUrl" />
         <button id="connectButton" type="submit">Connect</button>
     </div>
@@ -76,26 +76,26 @@
                 disable();
             } else {
                 switch (socket.readyState) {
-                    case WebSocket.CLOSED:
+                    case GameSocket.CLOSED:
                         stateLabel.innerHTML = "Closed";
                         disable();
                         connectionUrl.disabled = false;
                         connectButton.disabled = false;
                         break;
-                    case WebSocket.CLOSING:
+                    case GameSocket.CLOSING:
                         stateLabel.innerHTML = "Closing...";
                         disable();
                         break;
-                    case WebSocket.CONNECTING:
+                    case GameSocket.CONNECTING:
                         stateLabel.innerHTML = "Connecting...";
                         disable();
                         break;
-                    case WebSocket.OPEN:
+                    case GameSocket.OPEN:
                         stateLabel.innerHTML = "Open";
                         enable();
                         break;
                     default:
-                        stateLabel.innerHTML = "Unknown WebSocket State: " + socket.readyState;
+                        stateLabel.innerHTML = "Unknown GameSocket State: " + socket.readyState;
                         disable();
                         break;
                 }
@@ -103,14 +103,14 @@
         }
 
         closeButton.onclick = function () {
-            if (!socket || socket.readyState != WebSocket.OPEN) {
+            if (!socket || socket.readyState != GameSocket.OPEN) {
                 alert("socket not connected");
             }
             socket.close(1000, "Closing from client");
         }
 
         sendButton.onclick = function () {
-            if (!socket || socket.readyState != WebSocket.OPEN) {
+            if (!socket || socket.readyState != GameSocket.OPEN) {
                 alert("socket not connected");
             }
             var data = sendMessage.value;
@@ -124,7 +124,7 @@
 
         connectButton.onclick = function() {
             stateLabel.innerHTML = "Connecting";
-            socket = new WebSocket(connectionUrl.value);
+            socket = new GameSocket(connectionUrl.value);
             socket.onopen = function (event) {
                 updateState();
                 commsLog.innerHTML += '<tr>' +

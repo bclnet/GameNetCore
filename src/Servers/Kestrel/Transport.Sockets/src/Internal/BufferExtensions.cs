@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Sockets.Internal
 {
     public static class BufferExtensions
     {

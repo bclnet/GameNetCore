@@ -8,18 +8,18 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Certificates.Generation;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
-using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
+using Contoso.GameNetCore.Certificates.Generation;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Server.Kestrel.Core;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Protos;
+using Contoso.GameNetCore.Server.Kestrel.Protos.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.Kestrel
+namespace Contoso.GameNetCore.Server.Kestrel
 {
     public class KestrelConfigurationLoader
     {
@@ -234,12 +234,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel
                     listenOptions.Protocols = endpoint.Protocols.Value;
                 }
 
-                // Compare to UseHttps(httpsOptions => { })
-                var httpsOptions = new HttpsConnectionAdapterOptions();
+                // Compare to UseProtos(httpsOptions => { })
+                var httpsOptions = new ProtosConnectionAdapterOptions();
                 if (https)
                 {
                     // Defaults
-                    Options.ApplyHttpsDefaults(httpsOptions);
+                    Options.ApplyProtosDefaults(httpsOptions);
 
                     // Specified
                     httpsOptions.ServerCertificate = LoadCertificate(endpoint.Certificate, endpoint.Name)
@@ -256,14 +256,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel
                 }
 
                 // EndpointDefaults or configureEndpoint may have added an https adapter.
-                if (https && !listenOptions.ConnectionAdapters.Any(f => f.IsHttps))
+                if (https && !listenOptions.ConnectionAdapters.Any(f => f.IsProtos))
                 {
                     if (httpsOptions.ServerCertificate == null && httpsOptions.ServerCertificateSelector == null)
                     {
                         throw new InvalidOperationException(CoreStrings.NoCertSpecifiedNoDevelopmentCertificateFound);
                     }
 
-                    listenOptions.UseHttps(httpsOptions);
+                    listenOptions.UseProtos(httpsOptions);
                 }
 
                 Options.ListenOptions.Add(listenOptions);
@@ -333,7 +333,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel
 
             foreach (var ext in certificate.Extensions)
             {
-                if (string.Equals(ext.Oid.Value, CertificateManager.AspNetHttpsOid, StringComparison.Ordinal))
+                if (string.Equals(ext.Oid.Value, CertificateManager.AspNetProtosOid, StringComparison.Ordinal))
                 {
                     return true;
                 }

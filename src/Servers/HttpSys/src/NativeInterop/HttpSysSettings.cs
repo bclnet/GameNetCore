@@ -8,7 +8,7 @@ using System.IO;
 using System.Security;
 using Microsoft.Win32;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal static class HttpSysSettings
     {

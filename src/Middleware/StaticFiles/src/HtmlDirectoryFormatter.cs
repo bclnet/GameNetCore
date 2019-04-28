@@ -1,17 +1,17 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Contoso.GameNetCore.Proto;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
+using System.Text.Encodings.Game;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// Generates an HTML view for a directory.
@@ -26,38 +26,26 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// Constructs the <see cref="HtmlDirectoryFormatter"/>.
         /// </summary>
         /// <param name="encoder">The character encoding representation to use.</param>
-        public HtmlDirectoryFormatter(HtmlEncoder encoder)
-        {
-            if (encoder == null)
-            {
-                throw new ArgumentNullException(nameof(encoder));
-            }
-            _htmlEncoder = encoder;
-        } 
+        public HtmlDirectoryFormatter(HtmlEncoder encoder) =>
+            _htmlEncoder = encoder ?? throw new ArgumentNullException(nameof(encoder));
 
         /// <summary>
         /// Generates an HTML view for a directory.
         /// </summary>
-        public virtual Task GenerateContentAsync(HttpContext context, IEnumerable<IFileInfo> contents)
+        public virtual Task GenerateContentAsync(ProtoContext context, IEnumerable<IFileInfo> contents)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException(nameof(context));
-            }
             if (contents == null)
-            {
                 throw new ArgumentNullException(nameof(contents));
-            }
 
             context.Response.ContentType = TextHtmlUtf8;
 
-            if (HttpMethods.IsHead(context.Request.Method))
-            {
+            if (ProtoMethods.IsHead(context.Request.Method))
                 // HEAD, no response body
                 return Task.CompletedTask;
-            }
 
-            PathString requestPath = context.Request.PathBase + context.Request.Path;
+            var requestPath = context.Request.PathBase + context.Request.Path;
 
             var builder = new StringBuilder();
 
@@ -109,7 +97,7 @@ namespace Microsoft.AspNetCore.StaticFiles
             builder.AppendFormat(@"
     <header><h1>{0} <a href=""/"">/</a>", HtmlEncode(Resources.HtmlDir_IndexOf));
 
-            string cumulativePath = "/";
+            var cumulativePath = "/";
             foreach (var segment in requestPath.Value.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 cumulativePath = cumulativePath + segment + "/";
@@ -161,15 +149,12 @@ namespace Microsoft.AspNetCore.StaticFiles
   </section>
 </body>
 </html>");
-            string data = builder.ToString();
-            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            var data = builder.ToString();
+            var bytes = Encoding.UTF8.GetBytes(data);
             context.Response.ContentLength = bytes.Length;
             return context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
         }
 
-        private string HtmlEncode(string body)
-        {
-            return _htmlEncoder.Encode(body);
-        }
+        private string HtmlEncode(string body) => _htmlEncoder.Encode(body);
     }
 }

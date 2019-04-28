@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Net.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using System.Net.Proto;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.TestHost;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
     public class RoutingTestFixture<TStartup> : IDisposable
     {
@@ -14,7 +14,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
 
         public RoutingTestFixture()
         {
-            var builder = new WebHostBuilder()
+            var builder = new GameHostBuilder()
                 .UseStartup(typeof(TStartup));
 
             _server = new TestServer(builder);
@@ -23,9 +23,9 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             Client.BaseAddress = new Uri("http://localhost");
         }
 
-        public HttpClient Client { get; }
+        public ProtoClient Client { get; }
 
-        public HttpClient CreateClient(string baseAddress)
+        public ProtoClient CreateClient(string baseAddress)
         {
             var client = _server.CreateClient();
             client.BaseAddress = new Uri(baseAddress);

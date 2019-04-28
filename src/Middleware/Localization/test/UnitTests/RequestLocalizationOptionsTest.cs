@@ -4,10 +4,10 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     public class RequestLocalizationOptionsTest : IDisposable
     {

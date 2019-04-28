@@ -3,10 +3,10 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     /// <summary>
-    /// Represents the HttpRequest cookie collection
+    /// Represents the ProtoRequest cookie collection
     /// </summary>
     public interface IRequestCookieCollection : IEnumerable<KeyValuePair<string, string>>
     {

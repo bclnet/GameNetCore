@@ -4,19 +4,19 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Endpoints;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Endpoints;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public class EndpointRoutingApplicationBuilderExtensionsTest
     {
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Builder
             app.UseRouting();
 
             var appFunc = app.Build();
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             // Act
             await appFunc(httpContext);
@@ -97,7 +97,7 @@ namespace Microsoft.AspNetCore.Builder
             });
 
             var appFunc = app.Build();
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             // Act
             await appFunc(httpContext);
@@ -161,7 +161,7 @@ namespace Microsoft.AspNetCore.Builder
             app.UseEndpoints(endpoints => { });
 
             var appFunc = app.Build();
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             // Act
             await appFunc(httpContext);
@@ -206,7 +206,7 @@ namespace Microsoft.AspNetCore.Builder
             // This triggers the middleware to be created and the matcher factory to be called
             // with the datasource we want to test
             var requestDelegate = app.Build();
-            requestDelegate(new DefaultHttpContext());
+            requestDelegate(new DefaultProtoContext());
 
             // Assert
             Assert.Equal(2, matcherEndpointDataSources.Count);
@@ -271,8 +271,8 @@ namespace Microsoft.AspNetCore.Builder
             // This triggers the middleware to be created and the matcher factory to be called
             // with the datasource we want to test
             var requestDelegate = app.Build();
-            requestDelegate(new DefaultHttpContext());
-            requestDelegate(new DefaultHttpContext() { Request = { Path = "/Foo", }, });
+            requestDelegate(new DefaultProtoContext());
+            requestDelegate(new DefaultProtoContext() { Request = { Path = "/Foo", }, });
 
             // Assert
             Assert.Equal(2, matcherEndpointDataSources.Count);
@@ -318,7 +318,7 @@ namespace Microsoft.AspNetCore.Builder
             app.UseEndpointExecutor(); // No services required, no UseRouting required
 
             var appFunc = app.Build();
-            var httpContext = new DefaultHttpContext();
+            var httpContext = new DefaultProtoContext();
 
             // Act
             await appFunc(httpContext);

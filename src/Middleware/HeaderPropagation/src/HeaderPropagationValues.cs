@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.HeaderPropagation
+namespace Contoso.GameNetCore.HeaderPropagation
 {
     /// <summary>
     /// Contains the headers values for the <see cref="HeaderPropagationMiddleware"/>.

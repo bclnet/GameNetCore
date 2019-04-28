@@ -3,9 +3,9 @@
 
 using System;
 using System.Buffers;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Libuv
 {
     /// <summary>
     /// Provides programmatic configuration of Libuv transport features.

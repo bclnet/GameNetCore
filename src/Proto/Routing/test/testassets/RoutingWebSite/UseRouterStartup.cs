@@ -3,13 +3,13 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Constraints;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RoutingWebSite
+namespace RoutingGameSite
 {
     public class UseRouterStartup
     {

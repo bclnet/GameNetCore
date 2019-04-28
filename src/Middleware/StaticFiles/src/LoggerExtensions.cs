@@ -1,11 +1,11 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using System;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// Defines *all* the logger messages produced by static files
@@ -82,73 +82,35 @@ namespace Microsoft.AspNetCore.StaticFiles
                 formatString: "Static files was skipped as the request already matched an endpoint.");
         }
 
-        public static void RequestMethodNotSupported(this ILogger logger, string method)
-        {
-            _methodNotSupported(logger, method, null);
-        }
+        public static void RequestMethodNotSupported(this ILogger logger, string method) => _methodNotSupported(logger, method, null);
 
         public static void FileServed(this ILogger logger, string virtualPath, string physicalPath)
         {
             if (string.IsNullOrEmpty(physicalPath))
-            {
                 physicalPath = "N/A";
-            }
             _fileServed(logger, virtualPath, physicalPath, null);
         }
 
-        public static void EndpointMatched(this ILogger logger)
-        {
-            _endpointMatched(logger, null);
-        }
+        public static void EndpointMatched(this ILogger logger) => _endpointMatched(logger, null);
 
-        public static void PathMismatch(this ILogger logger, string path)
-        {
-            _pathMismatch(logger, path, null);
-        }
+        public static void PathMismatch(this ILogger logger, string path) => _pathMismatch(logger, path, null);
 
-        public static void FileTypeNotSupported(this ILogger logger, string path)
-        {
-            _fileTypeNotSupported(logger, path, null);
-        }
+        public static void FileTypeNotSupported(this ILogger logger, string path) => _fileTypeNotSupported(logger, path, null);
 
-        public static void FileNotFound(this ILogger logger, string path)
-        {
-            _fileNotFound(logger, path, null);
-        }
+        public static void FileNotFound(this ILogger logger, string path) => _fileNotFound(logger, path, null);
 
-        public static void FileNotModified(this ILogger logger, string path)
-        {
-            _fileNotModified(logger, path, null);
-        }
+        public static void FileNotModified(this ILogger logger, string path) => _fileNotModified(logger, path, null);
 
-        public static void PreconditionFailed(this ILogger logger, string path)
-        {
-            _preconditionFailed(logger, path, null);
-        }
+        public static void PreconditionFailed(this ILogger logger, string path) => _preconditionFailed(logger, path, null);
 
-        public static void Handled(this ILogger logger, int statusCode, string path)
-        {
-            _handled(logger, statusCode, path, null);
-        }
+        public static void Handled(this ILogger logger, int statusCode, string path) => _handled(logger, statusCode, path, null);
 
-        public static void RangeNotSatisfiable(this ILogger logger, string path)
-        {
-            _rangeNotSatisfiable(logger, path, null);
-        }
+        public static void RangeNotSatisfiable(this ILogger logger, string path) => _rangeNotSatisfiable(logger, path, null);
 
-        public static void SendingFileRange(this ILogger logger, StringValues range, string path)
-        {
-            _sendingFileRange(logger, range, path, null);
-        }
+        public static void SendingFileRange(this ILogger logger, StringValues range, string path) => _sendingFileRange(logger, range, path, null);
 
-        public static void CopyingFileRange(this ILogger logger, StringValues range, string path)
-        {
-            _copyingFileRange(logger, range, path, null);
-        }
+        public static void CopyingFileRange(this ILogger logger, StringValues range, string path) => _copyingFileRange(logger, range, path, null);
 
-        public static void WriteCancelled(this ILogger logger, Exception ex)
-        {
-            _writeCancelled(logger, ex);
-        }
+        public static void WriteCancelled(this ILogger logger, Exception ex) => _writeCancelled(logger, ex);
     }
 }

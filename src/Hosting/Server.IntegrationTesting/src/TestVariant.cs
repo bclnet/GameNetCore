@@ -3,7 +3,7 @@
 
 using Xunit.Abstractions;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     public class TestVariant : IXunitSerializable
     {

@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Routing.DecisionTree;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Routing.DecisionTree;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Tree;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     // A decision tree that matches link generation entries based on route data.
     [DebuggerDisplay("{DebuggerDisplayString,nq}")]

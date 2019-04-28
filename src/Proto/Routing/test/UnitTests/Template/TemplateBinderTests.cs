@@ -4,17 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.TestObjects;
+using System.Text.Encodings.Game;
+using Contoso.GameNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.TestObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Template.Tests
+namespace Contoso.GameNetCore.Routing.Template.Tests
 {
     public class TemplateBinderTests
     {
@@ -766,7 +766,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             values.Add("ValidateParam1", "valid1");
 
             // Act
-            var vpd = rc.GetVirtualPath(GetHttpContext("/app1", "", ""), values);
+            var vpd = rc.GetVirtualPath(GetProtoContext("/app1", "", ""), values);
 
             // Assert
             Assert.NotNull(vpd);
@@ -806,7 +806,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             values.Add("Action", "List");
 
             // Act
-            var vpd = rc.GetVirtualPath(GetHttpContext("/app1", "", ""), values);
+            var vpd = rc.GetVirtualPath(GetProtoContext("/app1", "", ""), values);
 
             // Assert
             Assert.NotNull(vpd);
@@ -834,7 +834,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             values.Add("Controller", "foo");
 
             // Act
-            var vpd = rc.GetVirtualPath(GetHttpContext("/app1", "", ""), values);
+            var vpd = rc.GetVirtualPath(GetProtoContext("/app1", "", ""), values);
 
             // Assert
             Assert.NotNull(vpd);
@@ -859,7 +859,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             values.Add("Action", "Index");
 
             // Act
-            var vpd = rc.GetVirtualPath(GetHttpContext("/app1", "", ""), values);
+            var vpd = rc.GetVirtualPath(GetProtoContext("/app1", "", ""), values);
 
             // Assert
             Assert.NotNull(vpd);
@@ -879,18 +879,18 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             rc.Add(CreateRoute(
                 "foo.mvc/{action}",
                 new RouteValueDictionary(new { controller = "Home" }),
-                new RouteValueDictionary(new { controller = "Home", action = "Contact", httpMethod = CreateHttpMethodConstraint("get") })));
+                new RouteValueDictionary(new { controller = "Home", action = "Contact", httpMethod = CreateProtoMethodConstraint("get") })));
 
             rc.Add(CreateRoute(
                 "{controller}.mvc/{action}",
                 new RouteValueDictionary(new { action = "Index" }),
-                new RouteValueDictionary(new { controller = "Home", action = "(Index|About)", httpMethod = CreateHttpMethodConstraint("post") })));
+                new RouteValueDictionary(new { controller = "Home", action = "(Index|About)", httpMethod = CreateProtoMethodConstraint("post") })));
 
             var values = CreateRouteValueDictionary();
             values.Add("Action", "Index");
 
             // Act
-            var vpd = rc.GetVirtualPath(GetHttpContext("/app1", "", ""), values);
+            var vpd = rc.GetVirtualPath(GetProtoContext("/app1", "", ""), values);
 
             // Assert
             Assert.NotNull(vpd);
@@ -901,7 +901,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetUrlWithValuesThatAreCompletelyDifferentFromTheCurrentRoute()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
             IRouteCollection rt = new DefaultRouteCollection();
             rt.Add(CreateRoute("date/{y}/{m}/{d}", null));
             rt.Add(CreateRoute("{controller}/{action}/{id}", null));
@@ -927,7 +927,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetUrlWithValuesThatAreCompletelyDifferentFromTheCurrentRouteAsSecondRoute()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
 
             IRouteCollection rt = new DefaultRouteCollection();
             rt.Add(CreateRoute("{controller}/{action}/{id}"));
@@ -954,7 +954,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetVirtualPathUsesCurrentValuesNotInRouteToMatch()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
             TemplateRoute r1 = CreateRoute(
                 "ParameterMatching.mvc/{Action}/{product}",
                 new RouteValueDictionary(new { Controller = "ParameterMatching", product = (string)null }),
@@ -994,7 +994,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetVirtualPathWithDataTokensCopiesThemFromRouteToVirtualPathData()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
             TemplateRoute r = CreateRoute("{controller}/{action}", null, null, new RouteValueDictionary(new { foo = "bar", qux = "quux" }));
 
             var rd = CreateRouteData();
@@ -1078,7 +1078,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
             RunTest(
                 "{Controller}.mvc/{action}/{end}",
                 null,
-                new RouteValueDictionary(new { foo = CreateHttpMethodConstraint("GET") }),
+                new RouteValueDictionary(new { foo = CreateProtoMethodConstraint("GET") }),
                 new RouteValueDictionary(),
                 new RouteValueDictionary(new { controller = "Orders", action = "Index", end = "end", foo = "GET" }),
                 "Orders.mvc/Index/end");
@@ -1088,7 +1088,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetVirtualPathWithValidCustomConstraints()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
             CustomConstraintTemplateRoute r = new CustomConstraintTemplateRoute("{controller}/{action}", null, new RouteValueDictionary(new { action = 5 }));
 
             var rd = CreateRouteData();
@@ -1114,7 +1114,7 @@ namespace Microsoft.AspNetCore.Routing.Template.Tests
         public void GetVirtualPathWithInvalidCustomConstraints()
         {
             // Arrange
-            HttpContext context = GetHttpContext("/app", null, null);
+            ProtoContext context = GetProtoContext("/app", null, null);
             CustomConstraintTemplateRoute r = new CustomConstraintTemplateRoute("{controller}/{action}", null, new RouteValueDictionary(new { action = 5 }));
 
             var rd = CreateRouteData();

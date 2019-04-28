@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Threading;
-#if !NET3
+#if NET2
 using IHostApplicationLifetime = Contoso.GameNetCore.Hosting.IApplicationLifetime;
 #endif
 
@@ -12,7 +12,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
     internal class GenericGameHostApplicationLifetime : IApplicationLifetime
 #pragma warning restore CS0618 // Type or member is obsolete
     {
-        readonly IHostApplicationLifetime _applicationLifetime;
+        private readonly IHostApplicationLifetime _applicationLifetime;
 
         public GenericGameHostApplicationLifetime(IHostApplicationLifetime applicationLifetime) =>
             _applicationLifetime = applicationLifetime;

@@ -9,16 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class FormFeatureTests
     {
         [Fact]
         public async Task ReadFormAsync_0ContentLength_ReturnsEmptyForm()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.ContentLength = 0;
 
@@ -31,9 +31,9 @@ namespace Microsoft.AspNetCore.Http.Features
         }
 
         [Fact]
-        public async Task FormFeatureReadsOptionsFromDefaultHttpContext()
+        public async Task FormFeatureReadsOptionsFromDefaultProtoContext()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.Request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             context.FormOptions = new FormOptions
             {
@@ -54,9 +54,9 @@ namespace Microsoft.AspNetCore.Http.Features
         public async Task ReadFormAsync_SimpleData_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes("foo=bar&baz=2");
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -89,9 +89,9 @@ namespace Microsoft.AspNetCore.Http.Features
         public async Task ReadFormAsync_SimpleData_ReplacePipeReader_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes("foo=bar&baz=2");
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
 
             var pipe = new Pipe();
@@ -118,42 +118,42 @@ namespace Microsoft.AspNetCore.Http.Features
             await responseFeature.CompleteAsync();
         }
 
-        private const string MultipartContentType = "multipart/form-data; boundary=WebKitFormBoundary5pDRpGheQXaM8k3T";
+        private const string MultipartContentType = "multipart/form-data; boundary=GameKitFormBoundary5pDRpGheQXaM8k3T";
 
-        private const string MultipartContentTypeWithSpecialCharacters = "multipart/form-data; boundary=\"WebKitFormBoundary/:5pDRpGheQXaM8k3T\"";
+        private const string MultipartContentTypeWithSpecialCharacters = "multipart/form-data; boundary=\"GameKitFormBoundary/:5pDRpGheQXaM8k3T\"";
 
-        private const string EmptyMultipartForm = "--WebKitFormBoundary5pDRpGheQXaM8k3T--";
+        private const string EmptyMultipartForm = "--GameKitFormBoundary5pDRpGheQXaM8k3T--";
 
         // Note that CRLF (\r\n) is required. You can't use multi-line C# strings here because the line breaks on Linux are just LF.
-        private const string MultipartFormEnd = "--WebKitFormBoundary5pDRpGheQXaM8k3T--\r\n";
+        private const string MultipartFormEnd = "--GameKitFormBoundary5pDRpGheQXaM8k3T--\r\n";
 
-        private const string MultipartFormEndWithSpecialCharacters = "--WebKitFormBoundary/:5pDRpGheQXaM8k3T--\r\n";
+        private const string MultipartFormEndWithSpecialCharacters = "--GameKitFormBoundary/:5pDRpGheQXaM8k3T--\r\n";
 
-        private const string MultipartFormField = "--WebKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
+        private const string MultipartFormField = "--GameKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: form-data; name=\"description\"\r\n" +
 "\r\n" +
 "Foo\r\n";
 
-        private const string MultipartFormFile = "--WebKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
+        private const string MultipartFormFile = "--GameKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: form-data; name=\"myfile1\"; filename=\"temp.html\"\r\n" +
 "Content-Type: text/html\r\n" +
 "\r\n" +
 "<html><body>Hello World</body></html>\r\n";
 
-        private const string MultipartFormEncodedFilename = "--WebKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
+        private const string MultipartFormEncodedFilename = "--GameKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: form-data; name=\"myfile1\"; filename=\"temp.html\"; filename*=utf-8\'\'t%c3%a9mp.html\r\n" +
 "Content-Type: text/html\r\n" +
 "\r\n" +
 "<html><body>Hello World</body></html>\r\n";
 
-        private const string MultipartFormFileSpecialCharacters = "--WebKitFormBoundary/:5pDRpGheQXaM8k3T\r\n" +
+        private const string MultipartFormFileSpecialCharacters = "--GameKitFormBoundary/:5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: form-data; name=\"description\"\r\n" +
 "\r\n" +
 "Foo\r\n";
 
         private const string InvalidContentDispositionValue = "form-data; name=\"description\" - filename=\"temp.html\"";
 
-        private const string MultipartFormFileInvalidContentDispositionValue = "--WebKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
+        private const string MultipartFormFileInvalidContentDispositionValue = "--GameKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: " +
 InvalidContentDispositionValue +
 "\r\n" +
@@ -191,9 +191,9 @@ InvalidContentDispositionValue +
         public async Task ReadForm_EmptyMultipart_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(EmptyMultipartForm);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -226,9 +226,9 @@ InvalidContentDispositionValue +
         public async Task ReadForm_MultipartWithField_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithField);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -263,9 +263,9 @@ InvalidContentDispositionValue +
         public async Task ReadFormAsync_MultipartWithFile_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithFile);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -311,9 +311,9 @@ InvalidContentDispositionValue +
         public async Task ReadFormAsync_MultipartWithFileAndQuotedBoundaryString_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithSpecialCharacters);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentTypeWithSpecialCharacters;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -348,9 +348,9 @@ InvalidContentDispositionValue +
         public async Task ReadFormAsync_MultipartWithEncodedFilename_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithEncodedFilename);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -396,9 +396,9 @@ InvalidContentDispositionValue +
         public async Task ReadFormAsync_MultipartWithFieldAndFile_ReturnsParsedFormCollection(bool bufferRequest)
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithFieldAndFile);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -448,9 +448,9 @@ InvalidContentDispositionValue +
             formContent.AddRange(Encoding.UTF8.GetBytes(MultipartFormField));
             formContent.AddRange(Encoding.UTF8.GetBytes(MultipartFormEnd));
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent.ToArray());
 
@@ -473,9 +473,9 @@ InvalidContentDispositionValue +
             formContent.AddRange(Encoding.UTF8.GetBytes(MultipartFormEnd));
 
 
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent.ToArray());
 
@@ -498,9 +498,9 @@ InvalidContentDispositionValue +
         {
             var fileContents = CreateFile(fileSize);
             var formContent = CreateMultipartWithFormAndFile(fileContents);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -541,9 +541,9 @@ InvalidContentDispositionValue +
         public async Task ReadFormAsync_MultipartWithInvalidContentDisposition_Throw()
         {
             var formContent = Encoding.UTF8.GetBytes(MultipartFormWithInvalidContentDispositionValue);
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var responseFeature = new FakeResponseFeature();
-            context.Features.Set<IHttpResponseFeature>(responseFeature);
+            context.Features.Set<IProtoResponseFeature>(responseFeature);
             context.Request.ContentType = MultipartContentType;
             context.Request.Body = new NonSeekableReadStream(formContent);
 
@@ -575,12 +575,12 @@ InvalidContentDispositionValue +
             var stream = new MemoryStream();
             var header =
 MultipartFormField +
-"--WebKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
+"--GameKitFormBoundary5pDRpGheQXaM8k3T\r\n" +
 "Content-Disposition: form-data; name=\"myfile1\"; filename=\"temp.html\"\r\n" +
 "Content-Type: text/html\r\n" +
 "\r\n";
             var footer =
-"\r\n--WebKitFormBoundary5pDRpGheQXaM8k3T--";
+"\r\n--GameKitFormBoundary5pDRpGheQXaM8k3T--";
 
             var bytes = Encoding.ASCII.GetBytes(header);
             stream.Write(bytes, 0, bytes.Length);

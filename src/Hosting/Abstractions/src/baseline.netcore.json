@@ -44,7 +44,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.HostingAbstractionsWebHostBuilderExtensions",
+      "Name": "Microsoft.AspNetCore.Hosting.HostingAbstractionsGameHostBuilderExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -58,14 +58,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "configuration",
               "Type": "Microsoft.Extensions.Configuration.IConfiguration"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -77,14 +77,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "captureStartupErrors",
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -96,14 +96,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "startupAssemblyName",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -115,14 +115,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "server",
               "Type": "Microsoft.AspNetCore.Hosting.Server.IServer"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -134,14 +134,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "environment",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -153,14 +153,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "contentRoot",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -168,18 +168,18 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseWebRoot",
+          "Name": "UseGameRoot",
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
-              "Name": "webRoot",
+              "Name": "gameRoot",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -191,7 +191,7 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "urls",
@@ -199,7 +199,7 @@
               "IsParams": true
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -211,14 +211,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "preferHostingUrls",
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -230,14 +230,14 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "timeout",
               "Type": "System.TimeSpan"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -249,7 +249,7 @@
           "Parameters": [
             {
               "Name": "hostBuilder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             },
             {
               "Name": "urls",
@@ -257,7 +257,7 @@
               "IsParams": true
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHost",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHost",
           "Static": true,
           "Extension": true,
           "Visibility": "Public",
@@ -458,14 +458,14 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_WebRootPath",
+          "Name": "get_GameRootPath",
           "Parameters": [],
           "ReturnType": "System.String",
           "GenericParameter": []
         },
         {
           "Kind": "Method",
-          "Name": "set_WebRootPath",
+          "Name": "set_GameRootPath",
           "Parameters": [
             {
               "Name": "value",
@@ -477,14 +477,14 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_WebRootFileProvider",
+          "Name": "get_GameRootFileProvider",
           "Parameters": [],
           "ReturnType": "Microsoft.Extensions.FileProviders.IFileProvider",
           "GenericParameter": []
         },
         {
           "Kind": "Method",
-          "Name": "set_WebRootFileProvider",
+          "Name": "set_GameRootFileProvider",
           "Parameters": [
             {
               "Name": "value",
@@ -548,7 +548,7 @@
           "Parameters": [
             {
               "Name": "builder",
-              "Type": "Microsoft.AspNetCore.Hosting.IWebHostBuilder"
+              "Type": "Microsoft.AspNetCore.Hosting.IGameHostBuilder"
             }
           ],
           "ReturnType": "System.Void",
@@ -614,7 +614,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.IWebHost",
+      "Name": "Microsoft.AspNetCore.Hosting.IGameHost",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -626,7 +626,7 @@
           "Kind": "Method",
           "Name": "get_ServerFeatures",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "GenericParameter": []
         },
         {
@@ -673,7 +673,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+      "Name": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -683,7 +683,7 @@
           "Kind": "Method",
           "Name": "Build",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHost",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHost",
           "GenericParameter": []
         },
         {
@@ -692,10 +692,10 @@
           "Parameters": [
             {
               "Name": "configureDelegate",
-              "Type": "System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.Configuration.IConfigurationBuilder>"
+              "Type": "System.Action<Microsoft.AspNetCore.Hosting.GameHostBuilderContext, Microsoft.Extensions.Configuration.IConfigurationBuilder>"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "GenericParameter": []
         },
         {
@@ -707,7 +707,7 @@
               "Type": "System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection>"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "GenericParameter": []
         },
         {
@@ -716,10 +716,10 @@
           "Parameters": [
             {
               "Name": "configureServices",
-              "Type": "System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection>"
+              "Type": "System.Action<Microsoft.AspNetCore.Hosting.GameHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection>"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "GenericParameter": []
         },
         {
@@ -747,14 +747,14 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "Microsoft.AspNetCore.Hosting.IWebHostBuilder",
+          "ReturnType": "Microsoft.AspNetCore.Hosting.IGameHostBuilder",
           "GenericParameter": []
         }
       ],
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.WebHostBuilderContext",
+      "Name": "Microsoft.AspNetCore.Hosting.GameHostBuilderContext",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -812,7 +812,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.WebHostDefaults",
+      "Name": "Microsoft.AspNetCore.Hosting.GameHostDefaults",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -872,7 +872,7 @@
         },
         {
           "Kind": "Field",
-          "Name": "WebRootKey",
+          "Name": "GameRootKey",
           "Parameters": [],
           "ReturnType": "System.String",
           "Static": true,

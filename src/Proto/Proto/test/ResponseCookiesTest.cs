@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.Net.Http.Headers;
+using Contoso.GameNetCore.Proto.Internal;
+using Microsoft.Net.Proto.Headers;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Tests
+namespace Contoso.GameNetCore.Proto.Tests
 {
     public class ResponseCookiesTest
     {
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Http.Tests
             var options = new CookieOptions
             {
                 Secure = true,
-                HttpOnly = true,
+                ProtoOnly = true,
                 Path = "/",
                 Expires = time,
                 Domain = "example.com",

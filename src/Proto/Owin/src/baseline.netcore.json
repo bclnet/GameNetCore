@@ -185,7 +185,7 @@
           "Parameters": [
             {
               "Name": "context",
-              "Type": "Microsoft.AspNetCore.Http.HttpContext"
+              "Type": "Microsoft.AspNetCore.Proto.ProtoContext"
             }
           ],
           "Visibility": "Public",
@@ -244,16 +244,16 @@
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [
-        "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
-        "Microsoft.AspNetCore.Http.Features.IHttpRequestFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpResponseFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpConnectionFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpSendFileFeature",
-        "Microsoft.AspNetCore.Http.Features.ITlsConnectionFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpRequestIdentifierFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpRequestLifetimeFeature",
-        "Microsoft.AspNetCore.Http.Features.Authentication.IHttpAuthenticationFeature",
-        "Microsoft.AspNetCore.Http.Features.IHttpWebSocketFeature",
+        "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
+        "Microsoft.AspNetCore.Proto.Features.IProtoRequestFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoResponseFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoConnectionFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoSendFileFeature",
+        "Microsoft.AspNetCore.Proto.Features.ITlsConnectionFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoRequestIdentifierFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoRequestLifetimeFeature",
+        "Microsoft.AspNetCore.Proto.Features.Authentication.IProtoAuthenticationFeature",
+        "Microsoft.AspNetCore.Proto.Features.IProtoGameSocketFeature",
         "Microsoft.AspNetCore.Owin.IOwinEnvironmentFeature"
       ],
       "Members": [
@@ -297,7 +297,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_SupportsWebSockets",
+          "Name": "get_SupportsGameSockets",
           "Parameters": [],
           "ReturnType": "System.Boolean",
           "Visibility": "Public",
@@ -305,7 +305,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "set_SupportsWebSockets",
+          "Name": "set_SupportsGameSockets",
           "Parameters": [
             {
               "Name": "value",
@@ -323,7 +323,7 @@
           "ReturnType": "System.Int32",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -334,7 +334,7 @@
           "ReturnType": "System.Boolean",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -350,7 +350,7 @@
           "ReturnType": "System.Object",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -370,7 +370,7 @@
           "ReturnType": "System.Void",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -411,7 +411,7 @@
           "ReturnType": "T0",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": [
             {
@@ -433,7 +433,7 @@
           "ReturnType": "System.Void",
           "Sealed": true,
           "Virtual": true,
-          "ImplementedInterface": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ImplementedInterface": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Visibility": "Public",
           "GenericParameter": [
             {
@@ -467,14 +467,14 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Owin.OwinWebSocketAcceptAdapter",
+      "Name": "Microsoft.AspNetCore.Owin.OwinGameSocketAcceptAdapter",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
       "Members": [
         {
           "Kind": "Method",
-          "Name": "AdaptWebSockets",
+          "Name": "AdaptGameSockets",
           "Parameters": [
             {
               "Name": "next",
@@ -490,10 +490,10 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Owin.OwinWebSocketAcceptContext",
+      "Name": "Microsoft.AspNetCore.Owin.OwinGameSocketAcceptContext",
       "Visibility": "Public",
       "Kind": "Class",
-      "BaseType": "Microsoft.AspNetCore.Http.WebSocketAcceptContext",
+      "BaseType": "Microsoft.AspNetCore.Proto.GameSocketAcceptContext",
       "ImplementedInterfaces": [],
       "Members": [
         {
@@ -552,10 +552,10 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Owin.OwinWebSocketAdapter",
+      "Name": "Microsoft.AspNetCore.Owin.OwinGameSocketAdapter",
       "Visibility": "Public",
       "Kind": "Class",
-      "BaseType": "System.Net.WebSockets.WebSocket",
+      "BaseType": "System.Net.GameSockets.GameSocket",
       "ImplementedInterfaces": [],
       "Members": [
         {
@@ -573,7 +573,7 @@
           "Kind": "Method",
           "Name": "get_CloseStatus",
           "Parameters": [],
-          "ReturnType": "System.Nullable<System.Net.WebSockets.WebSocketCloseStatus>",
+          "ReturnType": "System.Nullable<System.Net.GameSockets.GameSocketCloseStatus>",
           "Virtual": true,
           "Override": true,
           "Visibility": "Public",
@@ -603,7 +603,7 @@
           "Kind": "Method",
           "Name": "get_State",
           "Parameters": [],
-          "ReturnType": "System.Net.WebSockets.WebSocketState",
+          "ReturnType": "System.Net.GameSockets.GameSocketState",
           "Virtual": true,
           "Override": true,
           "Visibility": "Public",
@@ -622,7 +622,7 @@
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task<System.Net.WebSockets.WebSocketReceiveResult>",
+          "ReturnType": "System.Threading.Tasks.Task<System.Net.GameSockets.GameSocketReceiveResult>",
           "Virtual": true,
           "Override": true,
           "Visibility": "Public",
@@ -638,7 +638,7 @@
             },
             {
               "Name": "messageType",
-              "Type": "System.Net.WebSockets.WebSocketMessageType"
+              "Type": "System.Net.GameSockets.GameSocketMessageType"
             },
             {
               "Name": "endOfMessage",
@@ -661,7 +661,7 @@
           "Parameters": [
             {
               "Name": "closeStatus",
-              "Type": "System.Net.WebSockets.WebSocketCloseStatus"
+              "Type": "System.Net.GameSockets.GameSocketCloseStatus"
             },
             {
               "Name": "statusDescription",
@@ -684,7 +684,7 @@
           "Parameters": [
             {
               "Name": "closeStatus",
-              "Type": "System.Net.WebSockets.WebSocketCloseStatus"
+              "Type": "System.Net.GameSockets.GameSocketCloseStatus"
             },
             {
               "Name": "statusDescription",
@@ -716,7 +716,7 @@
           "Name": ".ctor",
           "Parameters": [
             {
-              "Name": "websocketContext",
+              "Name": "gamesocketContext",
               "Type": "System.Collections.Generic.IDictionary<System.String, System.Object>"
             },
             {
@@ -731,14 +731,14 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Owin.WebSocketAcceptAdapter",
+      "Name": "Microsoft.AspNetCore.Owin.GameSocketAcceptAdapter",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
       "Members": [
         {
           "Kind": "Method",
-          "Name": "AdaptWebSockets",
+          "Name": "AdaptGameSockets",
           "Parameters": [
             {
               "Name": "next",
@@ -760,7 +760,7 @@
             },
             {
               "Name": "accept",
-              "Type": "System.Func<Microsoft.AspNetCore.Http.WebSocketAcceptContext, System.Threading.Tasks.Task<System.Net.WebSockets.WebSocket>>"
+              "Type": "System.Func<Microsoft.AspNetCore.Proto.GameSocketAcceptContext, System.Threading.Tasks.Task<System.Net.GameSockets.GameSocket>>"
             }
           ],
           "Visibility": "Public",
@@ -770,7 +770,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Owin.WebSocketAdapter",
+      "Name": "Microsoft.AspNetCore.Owin.GameSocketAdapter",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],

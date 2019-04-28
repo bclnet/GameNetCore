@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.Template;
-using static Microsoft.AspNetCore.Routing.Matching.BarebonesMatcher;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Template;
+using static Microsoft.GameNetCore.Routing.Matching.BarebonesMatcher;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     internal class BarebonesMatcherBuilder : MatcherBuilder
     {

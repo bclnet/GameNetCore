@@ -3,9 +3,9 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 
-namespace Microsoft.AspNetCore.ResponseCaching.Internal
+namespace Contoso.GameNetCore.ResponseCaching.Internal
 {
     public class CachedResponse : IResponseCacheEntry
     {

@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     public class TokenExtensionTests
     {
@@ -127,7 +127,7 @@ namespace Microsoft.AspNetCore.Authentication
         [Fact]
         public async Task GetTokenWorksWithDefaultAuthenticateScheme()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var services = new ServiceCollection().AddOptions()
                 .AddAuthenticationCore(o =>
                 {
@@ -144,7 +144,7 @@ namespace Microsoft.AspNetCore.Authentication
         [Fact]
         public async Task GetTokenWorksWithExplicitScheme()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var services = new ServiceCollection().AddOptions()
                 .AddAuthenticationCore(o => o.AddScheme("simple", s => s.HandlerType = typeof(SimpleAuth)));
             context.RequestServices = services.BuildServiceProvider();
@@ -170,30 +170,15 @@ namespace Microsoft.AspNetCore.Authentication
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(), props, "simple")));
             }
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
 
-            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => throw new NotImplementedException();
         }
 
     }

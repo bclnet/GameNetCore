@@ -4,25 +4,25 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     /// <summary>
     /// An <see cref="MatcherPolicy"/> that implements filtering and selection by
     /// the HTTP method of a request.
     /// </summary>
-    public sealed class HttpMethodMatcherPolicy : MatcherPolicy, IEndpointComparerPolicy, INodeBuilderPolicy
+    public sealed class ProtoMethodMatcherPolicy : MatcherPolicy, IEndpointComparerPolicy, INodeBuilderPolicy
     {
         // Used in tests
         internal static readonly string OriginHeader = "Origin";
         internal static readonly string AccessControlRequestMethod = "Access-Control-Request-Method";
-        internal static readonly string PreflightHttpMethod = "OPTIONS";
+        internal static readonly string PreflightProtoMethod = "OPTIONS";
 
         // Used in tests
-        internal const string Http405EndpointDisplayName = "405 HTTP Method Not Supported";
+        internal const string Proto405EndpointDisplayName = "405 HTTP Method Not Supported";
 
         // Used in tests
         internal const string AnyMethod = "*";
@@ -30,7 +30,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
         /// <summary>
         /// For framework use only.
         /// </summary>
-        public IComparer<Endpoint> Comparer => new HttpMethodMetadataEndpointComparer();
+        public IComparer<Endpoint> Comparer => new ProtoMethodMetadataEndpointComparer();
 
         // The order value is chosen to be less than 0, so that it comes before naively
         // written policies.
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
             for (var i = 0; i < endpoints.Count; i++)
             {
-                if (endpoints[i].Metadata.GetMetadata<IHttpMethodMetadata>()?.HttpMethods.Count > 0)
+                if (endpoints[i].Metadata.GetMetadata<IProtoMethodMetadata>()?.ProtoMethods.Count > 0)
                 {
                     return true;
                 }
@@ -77,12 +77,12 @@ namespace Microsoft.AspNetCore.Routing.Matching
             //
             // For now we're just building up the set of keys. We don't add any endpoints
             // to lists now because we don't want ordering problems.
-            var allHttpMethods = new List<string>();
+            var allProtoMethods = new List<string>();
             var edges = new Dictionary<EdgeKey, List<Endpoint>>();
             for (var i = 0; i < endpoints.Count; i++)
             {
                 var endpoint = endpoints[i];
-                var (httpMethods, acceptCorsPreFlight) = GetHttpMethods(endpoint);
+                var (httpMethods, acceptCorsPreFlight) = GetProtoMethods(endpoint);
 
                 // If the action doesn't list HTTP methods then it supports all methods.
                 // In this phase we use a sentinel value to represent the *other* HTTP method
@@ -117,22 +117,22 @@ namespace Microsoft.AspNetCore.Routing.Matching
                     // Also if it's not the *any* method key, then track it.
                     if (!string.Equals(AnyMethod, httpMethod, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (!ContainsHttpMethod(allHttpMethods, httpMethod))
+                        if (!ContainsProtoMethod(allProtoMethods, httpMethod))
                         {
-                            allHttpMethods.Add(httpMethod);
+                            allProtoMethods.Add(httpMethod);
                         }
                     }
                 }
             }
 
-            allHttpMethods.Sort(StringComparer.OrdinalIgnoreCase);
+            allProtoMethods.Sort(StringComparer.OrdinalIgnoreCase);
 
             // Now in a second loop, add endpoints to these lists. We've enumerated all of
             // the states, so we want to see which states this endpoint matches.
             for (var i = 0; i < endpoints.Count; i++)
             {
                 var endpoint = endpoints[i];
-                var (httpMethods, acceptCorsPreFlight) = GetHttpMethods(endpoint);
+                var (httpMethods, acceptCorsPreFlight) = GetProtoMethods(endpoint);
 
                 if (httpMethods.Count == 0)
                 {
@@ -187,7 +187,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             if (!edges.TryGetValue(new EdgeKey(AnyMethod, false), out var matches))
             {
                 // Methods sorted for testability.
-                var endpoint = CreateRejectionEndpoint(allHttpMethods);
+                var endpoint = CreateRejectionEndpoint(allProtoMethods);
                 matches = new List<Endpoint>() { endpoint, };
                 edges[new EdgeKey(AnyMethod, false)] = matches;
             }
@@ -201,10 +201,10 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
             return policyNodeEdges;
 
-            (IReadOnlyList<string> httpMethods, bool acceptCorsPreflight) GetHttpMethods(Endpoint e)
+            (IReadOnlyList<string> httpMethods, bool acceptCorsPreflight) GetProtoMethods(Endpoint e)
             {
-                var metadata = e.Metadata.GetMetadata<IHttpMethodMetadata>();
-                return metadata == null ? (Array.Empty<string>(), false) : (metadata.HttpMethods, metadata.AcceptCorsPreflight);
+                var metadata = e.Metadata.GetMetadata<IProtoMethodMetadata>();
+                return metadata == null ? (Array.Empty<string>(), false) : (metadata.ProtoMethods, metadata.AcceptCorsPreflight);
             }
         }
 
@@ -229,7 +229,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                         corsPreflightDestinations = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
                     }
 
-                    corsPreflightDestinations.Add(key.HttpMethod, edges[i].Destination);
+                    corsPreflightDestinations.Add(key.ProtoMethod, edges[i].Destination);
                 }
                 else
                 {
@@ -238,7 +238,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                         destinations = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
                     }
 
-                    destinations.Add(key.HttpMethod, edges[i].Destination);
+                    destinations.Add(key.ProtoMethod, edges[i].Destination);
                 }
             }
 
@@ -257,7 +257,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 destinations.Remove(AnyMethod);
             }
 
-            return new HttpMethodPolicyJumpTable(
+            return new ProtoMethodPolicyJumpTable(
                 exitDestination,
                 destinations,
                 corsPreflightExitDestination,
@@ -279,10 +279,10 @@ namespace Microsoft.AspNetCore.Routing.Matching
                     return Task.CompletedTask;
                 },
                 EndpointMetadataCollection.Empty,
-                Http405EndpointDisplayName);
+                Proto405EndpointDisplayName);
         }
 
-        private static bool ContainsHttpMethod(List<string> httpMethods, string httpMethod)
+        private static bool ContainsProtoMethod(List<string> httpMethods, string httpMethod)
         {
             for (var i = 0; i < httpMethods.Count; i++)
             {
@@ -295,7 +295,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             return false;
         }
 
-        private class HttpMethodPolicyJumpTable : PolicyJumpTable
+        private class ProtoMethodPolicyJumpTable : PolicyJumpTable
         {
             private readonly int _exitDestination;
             private readonly Dictionary<string, int> _destinations;
@@ -304,7 +304,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
 
             private readonly bool _supportsCorsPreflight;
 
-            public HttpMethodPolicyJumpTable(
+            public ProtoMethodPolicyJumpTable(
                 int exitDestination,
                 Dictionary<string, int> destinations,
                 int corsPreflightExitDestination,
@@ -318,13 +318,13 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 _supportsCorsPreflight = _corsPreflightDestinations != null && _corsPreflightDestinations.Count > 0;
             }
 
-            public override int GetDestination(HttpContext httpContext)
+            public override int GetDestination(ProtoContext httpContext)
             {
                 int destination;
 
                 var httpMethod = httpContext.Request.Method;
                 if (_supportsCorsPreflight &&
-                    string.Equals(httpMethod, PreflightHttpMethod, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(httpMethod, PreflightProtoMethod, StringComparison.OrdinalIgnoreCase) &&
                     httpContext.Request.Headers.ContainsKey(OriginHeader) &&
                     httpContext.Request.Headers.TryGetValue(AccessControlRequestMethod, out var accessControlRequestMethod) &&
                     !StringValues.IsNullOrEmpty(accessControlRequestMethod))
@@ -340,14 +340,14 @@ namespace Microsoft.AspNetCore.Routing.Matching
             }
         }
 
-        private class HttpMethodMetadataEndpointComparer : EndpointMetadataComparer<IHttpMethodMetadata>
+        private class ProtoMethodMetadataEndpointComparer : EndpointMetadataComparer<IProtoMethodMetadata>
         {
-            protected override int CompareMetadata(IHttpMethodMetadata x, IHttpMethodMetadata y)
+            protected override int CompareMetadata(IProtoMethodMetadata x, IProtoMethodMetadata y)
             {
                 // Ignore the metadata if it has an empty list of HTTP methods.
                 return base.CompareMetadata(
-                    x?.HttpMethods.Count > 0 ? x : null,
-                    y?.HttpMethods.Count > 0 ? y : null);
+                    x?.ProtoMethods.Count > 0 ? x : null,
+                    y?.ProtoMethods.Count > 0 ? y : null);
             }
         }
 
@@ -357,18 +357,18 @@ namespace Microsoft.AspNetCore.Routing.Matching
             // rather than a list of what's allowed. We represent CORS and non-CORS requests as separate
             // states.
             public readonly bool IsCorsPreflightRequest;
-            public readonly string HttpMethod;
+            public readonly string ProtoMethod;
 
             public EdgeKey(string httpMethod, bool isCorsPreflightRequest)
             {
-                HttpMethod = httpMethod;
+                ProtoMethod = httpMethod;
                 IsCorsPreflightRequest = isCorsPreflightRequest;
             }
 
             // These are comparable so they can be sorted in tests.
             public int CompareTo(EdgeKey other)
             {
-                var compare = HttpMethod.CompareTo(other.HttpMethod);
+                var compare = ProtoMethod.CompareTo(other.ProtoMethod);
                 if (compare != 0)
                 {
                     return compare;
@@ -386,7 +386,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             {
                 return
                     IsCorsPreflightRequest == other.IsCorsPreflightRequest &&
-                    string.Equals(HttpMethod, other.HttpMethod, StringComparison.OrdinalIgnoreCase);
+                    string.Equals(ProtoMethod, other.ProtoMethod, StringComparison.OrdinalIgnoreCase);
             }
 
             public override bool Equals(object obj)
@@ -399,14 +399,14 @@ namespace Microsoft.AspNetCore.Routing.Matching
             {
                 var hash = new HashCodeCombiner();
                 hash.Add(IsCorsPreflightRequest ? 1 : 0);
-                hash.Add(HttpMethod, StringComparer.Ordinal);
+                hash.Add(ProtoMethod, StringComparer.Ordinal);
                 return hash;
             }
 
             // Used in GraphViz output.
             public override string ToString()
             {
-                return IsCorsPreflightRequest ? $"CORS: {HttpMethod}" : $"HTTP: {HttpMethod}";
+                return IsCorsPreflightRequest ? $"CORS: {ProtoMethod}" : $"HTTP: {ProtoMethod}";
             }
         }
     }

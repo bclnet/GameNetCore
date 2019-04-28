@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Testing;
 using Xunit;
-using static Microsoft.AspNetCore.Routing.Patterns.RoutePatternFactory;
+using static Microsoft.GameNetCore.Routing.Patterns.RoutePatternFactory;
 
-namespace Microsoft.AspNetCore.Routing.Patterns
+namespace Contoso.GameNetCore.Routing.Patterns
 {
     public class RoutePatternParameterParserTest
     {

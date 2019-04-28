@@ -8,43 +8,43 @@ using System.IO.Pipelines;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal partial class HttpProtocol : IHttpRequestFeature,
-                                        IHttpResponseFeature,
+    internal partial class ProtoProtocol : IProtoRequestFeature,
+                                        IProtoResponseFeature,
                                         IResponseBodyPipeFeature,
                                         IRequestBodyPipeFeature,
-                                        IHttpUpgradeFeature,
-                                        IHttpConnectionFeature,
-                                        IHttpRequestLifetimeFeature,
-                                        IHttpRequestIdentifierFeature,
-                                        IHttpBodyControlFeature,
-                                        IHttpMaxRequestBodySizeFeature,
-                                        IHttpResponseStartFeature
+                                        IProtoUpgradeFeature,
+                                        IProtoConnectionFeature,
+                                        IProtoRequestLifetimeFeature,
+                                        IProtoRequestIdentifierFeature,
+                                        IProtoBodyControlFeature,
+                                        IProtoMaxRequestBodySizeFeature,
+                                        IProtoResponseStartFeature
     {
-        // NOTE: When feature interfaces are added to or removed from this HttpProtocol class implementation,
+        // NOTE: When feature interfaces are added to or removed from this ProtoProtocol class implementation,
         // then the list of `implementedFeatures` in the generated code project MUST also be updated.
-        // See also: tools/CodeGenerator/HttpProtocolFeatureCollection.cs
+        // See also: tools/CodeGenerator/ProtoProtocolFeatureCollection.cs
 
-        string IHttpRequestFeature.Protocol
+        string IProtoRequestFeature.Protocol
         {
-            get => HttpVersion;
-            set => HttpVersion = value;
+            get => ProtoVersion;
+            set => ProtoVersion = value;
         }
 
-        string IHttpRequestFeature.Scheme
+        string IProtoRequestFeature.Scheme
         {
             get => Scheme ?? "http";
             set => Scheme = value;
         }
 
-        string IHttpRequestFeature.Method
+        string IProtoRequestFeature.Method
         {
             get
             {
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     return _methodText;
                 }
 
-                _methodText = HttpUtilities.MethodToString(Method) ?? string.Empty;
+                _methodText = ProtoUtilities.MethodToString(Method) ?? string.Empty;
                 return _methodText;
             }
             set
@@ -62,37 +62,37 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        string IHttpRequestFeature.PathBase
+        string IProtoRequestFeature.PathBase
         {
             get => PathBase ?? "";
             set => PathBase = value;
         }
 
-        string IHttpRequestFeature.Path
+        string IProtoRequestFeature.Path
         {
             get => Path;
             set => Path = value;
         }
 
-        string IHttpRequestFeature.QueryString
+        string IProtoRequestFeature.QueryString
         {
             get => QueryString;
             set => QueryString = value;
         }
 
-        string IHttpRequestFeature.RawTarget
+        string IProtoRequestFeature.RawTarget
         {
             get => RawTarget;
             set => RawTarget = value;
         }
 
-        IHeaderDictionary IHttpRequestFeature.Headers
+        IHeaderDictionary IProtoRequestFeature.Headers
         {
             get => RequestHeaders;
             set => RequestHeaders = value;
         }
 
-        Stream IHttpRequestFeature.Body
+        Stream IProtoRequestFeature.Body
         {
             get
             {
@@ -129,79 +129,79 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        int IHttpResponseFeature.StatusCode
+        int IProtoResponseFeature.StatusCode
         {
             get => StatusCode;
             set => StatusCode = value;
         }
 
-        string IHttpResponseFeature.ReasonPhrase
+        string IProtoResponseFeature.ReasonPhrase
         {
             get => ReasonPhrase;
             set => ReasonPhrase = value;
         }
 
-        IHeaderDictionary IHttpResponseFeature.Headers
+        IHeaderDictionary IProtoResponseFeature.Headers
         {
             get => ResponseHeaders;
             set => ResponseHeaders = value;
         }
 
-        CancellationToken IHttpRequestLifetimeFeature.RequestAborted
+        CancellationToken IProtoRequestLifetimeFeature.RequestAborted
         {
             get => RequestAborted;
             set => RequestAborted = value;
         }
 
-        bool IHttpResponseFeature.HasStarted => HasResponseStarted;
+        bool IProtoResponseFeature.HasStarted => HasResponseStarted;
 
-        bool IHttpUpgradeFeature.IsUpgradableRequest => IsUpgradableRequest;
+        bool IProtoUpgradeFeature.IsUpgradableRequest => IsUpgradableRequest;
 
-        IPAddress IHttpConnectionFeature.RemoteIpAddress
+        IPAddress IProtoConnectionFeature.RemoteIpAddress
         {
             get => RemoteIpAddress;
             set => RemoteIpAddress = value;
         }
 
-        IPAddress IHttpConnectionFeature.LocalIpAddress
+        IPAddress IProtoConnectionFeature.LocalIpAddress
         {
             get => LocalIpAddress;
             set => LocalIpAddress = value;
         }
 
-        int IHttpConnectionFeature.RemotePort
+        int IProtoConnectionFeature.RemotePort
         {
             get => RemotePort;
             set => RemotePort = value;
         }
 
-        int IHttpConnectionFeature.LocalPort
+        int IProtoConnectionFeature.LocalPort
         {
             get => LocalPort;
             set => LocalPort = value;
         }
 
-        string IHttpConnectionFeature.ConnectionId
+        string IProtoConnectionFeature.ConnectionId
         {
             get => ConnectionIdFeature;
             set => ConnectionIdFeature = value;
         }
 
-        string IHttpRequestIdentifierFeature.TraceIdentifier
+        string IProtoRequestIdentifierFeature.TraceIdentifier
         {
             get => TraceIdentifier;
             set => TraceIdentifier = value;
         }
 
-        bool IHttpBodyControlFeature.AllowSynchronousIO
+        bool IProtoBodyControlFeature.AllowSynchronousIO
         {
             get => AllowSynchronousIO;
             set => AllowSynchronousIO = value;
         }
 
-        bool IHttpMaxRequestBodySizeFeature.IsReadOnly => HasStartedConsumingRequestBody || IsUpgraded;
+        bool IProtoMaxRequestBodySizeFeature.IsReadOnly => HasStartedConsumingRequestBody || IsUpgraded;
 
-        long? IHttpMaxRequestBodySizeFeature.MaxRequestBodySize
+        long? IProtoMaxRequestBodySizeFeature.MaxRequestBodySize
         {
             get => MaxRequestBodySize;
             set
@@ -236,7 +236,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        Stream IHttpResponseFeature.Body
+        Stream IProtoResponseFeature.Body
         {
             get
             {
@@ -257,29 +257,29 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        protected void ResetHttp1Features()
+        protected void ResetProto1Features()
         {
-            _currentIHttpMinRequestBodyDataRateFeature = this;
-            _currentIHttpMinResponseDataRateFeature = this;
+            _currentIProtoMinRequestBodyDataRateFeature = this;
+            _currentIProtoMinResponseDataRateFeature = this;
         }
 
-        protected void ResetHttp2Features()
+        protected void ResetProto2Features()
         {
-            _currentIHttp2StreamIdFeature = this;
-            _currentIHttpResponseTrailersFeature = this;
+            _currentIProto2StreamIdFeature = this;
+            _currentIProtoResponseTrailersFeature = this;
         }
 
-        void IHttpResponseFeature.OnStarting(Func<object, Task> callback, object state)
+        void IProtoResponseFeature.OnStarting(Func<object, Task> callback, object state)
         {
             OnStarting(callback, state);
         }
 
-        void IHttpResponseFeature.OnCompleted(Func<object, Task> callback, object state)
+        void IProtoResponseFeature.OnCompleted(Func<object, Task> callback, object state)
         {
             OnCompleted(callback, state);
         }
 
-        async Task<Stream> IHttpUpgradeFeature.UpgradeAsync()
+        async Task<Stream> IProtoUpgradeFeature.UpgradeAsync()
         {
             if (!IsUpgradableRequest)
             {
@@ -309,12 +309,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             return bodyControl.Upgrade();
         }
 
-        void IHttpRequestLifetimeFeature.Abort()
+        void IProtoRequestLifetimeFeature.Abort()
         {
             ApplicationAbort();
         }
 
-        Task IHttpResponseStartFeature.StartAsync(CancellationToken cancellationToken)
+        Task IProtoResponseStartFeature.StartAsync(CancellationToken cancellationToken)
         {
             if (HasResponseStarted)
             {

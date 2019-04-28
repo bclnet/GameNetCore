@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
+using Contoso.GameNetCore.Builder;
 using static Microsoft.AspNetCore.Hosting.Tests.StartupManagerTests;
 
-namespace Microsoft.AspNetCore.Hosting.Fakes
+namespace Contoso.GameNetCore.Hosting.Fakes
 {
     public class StartupWithScopedServices
     {

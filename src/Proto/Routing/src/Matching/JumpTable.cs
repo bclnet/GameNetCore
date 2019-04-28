@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     [DebuggerDisplay("{DebuggerToString(),nq}")]
     internal abstract class JumpTable

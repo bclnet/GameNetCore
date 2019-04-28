@@ -4,10 +4,10 @@
 using System.Diagnostics.Tracing;
 using System.Net;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure
 {
     [EventSource(Name = "Microsoft-AspNetCore-Server-Kestrel")]
     internal sealed class KestrelEventSource : EventSource
@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         }
 
         [NonEvent]
-        public void RequestStart(HttpProtocol httpProtocol)
+        public void RequestStart(ProtoProtocol httpProtocol)
         {
             // avoid allocating the trace identifier unless logging is enabled
             if (IsEnabled())
@@ -97,7 +97,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         }
 
         [NonEvent]
-        public void RequestStop(HttpProtocol httpProtocol)
+        public void RequestStop(ProtoProtocol httpProtocol)
         {
             // avoid allocating the trace identifier unless logging is enabled
             if (IsEnabled())

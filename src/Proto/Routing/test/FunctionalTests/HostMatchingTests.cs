@@ -3,12 +3,12 @@
 
 using System;
 using System.Net;
-using System.Net.Http;
+using System.Net.Proto;
 using System.Threading.Tasks;
-using RoutingWebSite;
+using RoutingGameSite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.FunctionalTests
+namespace Contoso.GameNetCore.Routing.FunctionalTests
 {
     public class HostMatchingTests : IClassFixture<RoutingTestFixture<UseEndpointRoutingStartup>>
     {
@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             _fixture = fixture;
         }
 
-        private HttpClient CreateClient(string baseAddress)
+        private ProtoClient CreateClient(string baseAddress)
         {
             var client = _fixture.CreateClient(baseAddress);
 
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_CatchAll(string baseAddress)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/DomainWildcard");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "api/DomainWildcard");
 
             // Act
             var client = CreateClient(baseAddress);
@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("*:*", responseContent);
         }
 
@@ -50,7 +50,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_MatchWildcardDomain(string baseAddress)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/DomainWildcard");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "api/DomainWildcard");
 
             // Act
             var client = CreateClient(baseAddress);
@@ -58,7 +58,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("*.0.0.1:*", responseContent);
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_MatchDomain(string baseAddress)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/DomainWildcard");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "api/DomainWildcard");
 
             // Act
             var client = CreateClient(baseAddress);
@@ -76,7 +76,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("127.0.0.1:*", responseContent);
         }
 
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_MatchWildcardDomainAndPort(string baseAddress)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/DomainWildcard");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "api/DomainWildcard");
 
             // Act
             var client = CreateClient(baseAddress);
@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("*.0.0.1:5000,*.0.0.1:5001", responseContent);
         }
 
@@ -104,7 +104,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
         public async Task Get_MatchWildcardDomainAndSubdomain(string baseAddress)
         {
             // Arrange
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/DomainWildcard");
+            var request = new ProtoRequestMessage(ProtoMethod.Get, "api/DomainWildcard");
 
             // Act
             var client = CreateClient(baseAddress);
@@ -112,7 +112,7 @@ namespace Microsoft.AspNetCore.Routing.FunctionalTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(ProtoStatusCode.OK, response.StatusCode);
             Assert.Equal("contoso.com:*,*.contoso.com:*", responseContent);
         }
     }

@@ -4,13 +4,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Rewrite.Internal;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Rewrite.Internal;
+using Contoso.GameNetCore.Rewrite.Internal.UrlActions;
+using Contoso.GameNetCore.Rewrite.Internal.UrlMatches;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.UrlRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.UrlRewrite
 {
     public class FileParserTests
     {

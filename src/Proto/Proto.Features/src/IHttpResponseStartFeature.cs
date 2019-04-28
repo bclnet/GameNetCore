@@ -4,12 +4,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Feature to start response writing.
     /// </summary>
-    public interface IHttpResponseStartFeature
+    public interface IProtoResponseStartFeature
     {
         /// <summary>
         /// Starts the response by calling OnStarting() and making headers unmodifiable.

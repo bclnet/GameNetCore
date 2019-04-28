@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.ResponseCompression.Internal
+namespace Contoso.GameNetCore.ResponseCompression.Internal
 {
     internal static class ResponseCompressionLoggingExtensions
     {

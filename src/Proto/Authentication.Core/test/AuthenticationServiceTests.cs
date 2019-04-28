@@ -4,11 +4,11 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     public class AuthenticationServiceTests
     {
@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Authentication
             {
                 o.AddScheme<BaseHandler>("base", "whatever");
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.AuthenticateAsync("base");
@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Authentication
             {
                 o.AddScheme<BaseHandler>("base", "whatever");
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.ChallengeAsync("base");
@@ -49,7 +49,7 @@ namespace Microsoft.AspNetCore.Authentication
             {
                 o.AddScheme<BaseHandler>("base", "whatever");
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.ForbidAsync("base");
@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<SignInHandler>("signin", "whatever");
                 o.AddScheme<SignOutHandler>("signout", "whatever");
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.SignInAsync("uber", new ClaimsPrincipal(), null);
@@ -90,7 +90,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<SignInHandler>("signin", "whatever");
                 o.AddScheme<SignOutHandler>("signout", "whatever");
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.SignOutAsync("uber");
@@ -109,7 +109,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<BaseHandler>("base", "whatever");
                 o.DefaultScheme = "base";
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.AuthenticateAsync();
@@ -129,7 +129,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<UberHandler>("base", "whatever");
                 o.DefaultScheme = "base";
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.AuthenticateAsync();
@@ -147,7 +147,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<SignInHandler>("base", "whatever");
                 o.DefaultScheme = "base";
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.AuthenticateAsync();
@@ -165,7 +165,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<SignOutHandler>("base", "whatever");
                 o.DefaultScheme = "base";
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.AuthenticateAsync();
@@ -184,7 +184,7 @@ namespace Microsoft.AspNetCore.Authentication
                 o.AddScheme<ForbidHandler>("forbid", "whatever");
                 o.DefaultForbidScheme = "forbid";
             }).BuildServiceProvider();
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             context.RequestServices = services;
 
             await context.ForbidAsync();
@@ -193,162 +193,75 @@ namespace Microsoft.AspNetCore.Authentication
 
         private class BaseHandler : IAuthenticationHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => Task.FromResult(AuthenticateResult.NoResult());
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
         }
 
         private class SignInHandler : IAuthenticationSignInHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => Task.FromResult(AuthenticateResult.NoResult());
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
 
-            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => Task.FromResult(0);
         }
 
         public class SignOutHandler : IAuthenticationSignOutHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => Task.FromResult(AuthenticateResult.NoResult());
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => Task.FromResult(0);
         }
 
         private class UberHandler : IAuthenticationHandler, IAuthenticationRequestHandler, IAuthenticationSignInHandler, IAuthenticationSignOutHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => Task.FromResult(AuthenticateResult.NoResult());
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task<bool> HandleRequestAsync()
-            {
-                return Task.FromResult(false);
-            }
+            public Task<bool> HandleRequestAsync() => Task.FromResult(false);
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
 
-            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => Task.FromResult(0);
         }
 
         private class ForbidHandler : IAuthenticationHandler, IAuthenticationRequestHandler, IAuthenticationSignInHandler, IAuthenticationSignOutHandler
         {
-            public Task<AuthenticateResult> AuthenticateAsync()
-            {
-                throw new NotImplementedException();
-            }
+            public Task<AuthenticateResult> AuthenticateAsync() => throw new NotImplementedException();
 
-            public Task ChallengeAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task ChallengeAsync(AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task ForbidAsync(AuthenticationProperties properties)
-            {
-                return Task.FromResult(0);
-            }
+            public Task ForbidAsync(AuthenticationProperties properties) => Task.FromResult(0);
 
-            public Task<bool> HandleRequestAsync()
-            {
-                throw new NotImplementedException();
-            }
+            public Task<bool> HandleRequestAsync() => throw new NotImplementedException();
 
-            public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
-            {
-                return Task.FromResult(0);
-            }
+            public Task InitializeAsync(AuthenticationScheme scheme, ProtoContext context) => Task.FromResult(0);
 
-            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties) => throw new NotImplementedException();
 
-            public Task SignOutAsync(AuthenticationProperties properties)
-            {
-                throw new NotImplementedException();
-            }
+            public Task SignOutAsync(AuthenticationProperties properties) => throw new NotImplementedException();
         }
 
     }

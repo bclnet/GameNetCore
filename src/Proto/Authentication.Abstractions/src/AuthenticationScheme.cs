@@ -2,9 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Reflection;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// AuthenticationSchemes assign a name to a specific <see cref="IAuthenticationHandler"/>
@@ -20,20 +19,11 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="handlerType">The <see cref="IAuthenticationHandler"/> type that handles this scheme.</param>
         public AuthenticationScheme(string name, string displayName, Type handlerType)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
             if (handlerType == null)
-            {
                 throw new ArgumentNullException(nameof(handlerType));
-            }
             if (!typeof(IAuthenticationHandler).IsAssignableFrom(handlerType))
-            {
                 throw new ArgumentException("handlerType must implement IAuthenticationHandler.");
-            }
-
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             HandlerType = handlerType;
             DisplayName = displayName;
         }

@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Contoso.GameNetCore.Hosting
 {
     [System.ObsoleteAttribute("This type is obsolete and will be removed in a future version. The recommended alternative is Microsoft.Extensions.Hosting.Environments.", false)]
     public static partial class EnvironmentName
@@ -115,7 +115,7 @@ namespace Microsoft.AspNetCore.Hosting
         public static readonly string WebRootKey;
     }
 }
-namespace Microsoft.AspNetCore.Hosting.Internal
+namespace Contoso.GameNetCore.Hosting.Internal
 {
     public partial interface IStartupConfigureContainerFilter<TContainerBuilder>
     {

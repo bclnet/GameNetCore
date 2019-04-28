@@ -2,18 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core
+namespace Contoso.GameNetCore.Server.Kestrel.Core
 {
     /// <summary>
     /// Limits only applicable to HTTP/2 connections.
     /// </summary>
-    public class Http2Limits
+    public class Proto2Limits
     {
         private int _maxStreamsPerConnection = 100;
-        private int _headerTableSize = (int)Http2PeerSettings.DefaultHeaderTableSize;
-        private int _maxFrameSize = (int)Http2PeerSettings.DefaultMaxFrameSize;
+        private int _headerTableSize = (int)Proto2PeerSettings.DefaultHeaderTableSize;
+        private int _maxFrameSize = (int)Proto2PeerSettings.DefaultMaxFrameSize;
         private int _maxRequestHeaderFieldSize = 8192;
         private int _initialConnectionWindowSize = 1024 * 128; // Larger than the default 64kb, and larger than any one single stream.
         private int _initialStreamWindowSize = 1024 * 96; // Larger than the default 64kb
@@ -69,9 +69,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
             get => _maxFrameSize;
             set
             {
-                if (value < Http2PeerSettings.MinAllowedMaxFrameSize || value > Http2PeerSettings.MaxAllowedMaxFrameSize)
+                if (value < Proto2PeerSettings.MinAllowedMaxFrameSize || value > Proto2PeerSettings.MaxAllowedMaxFrameSize)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), value, CoreStrings.FormatArgumentOutOfRange(Http2PeerSettings.MinAllowedMaxFrameSize, Http2PeerSettings.MaxAllowedMaxFrameSize));
+                    throw new ArgumentOutOfRangeException(nameof(value), value, CoreStrings.FormatArgumentOutOfRange(Proto2PeerSettings.MinAllowedMaxFrameSize, Proto2PeerSettings.MaxAllowedMaxFrameSize));
                 }
 
                 _maxFrameSize = value;
@@ -110,10 +110,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
             get => _initialConnectionWindowSize;
             set
             {
-                if (value < Http2PeerSettings.DefaultInitialWindowSize || value > Http2PeerSettings.MaxWindowSize)
+                if (value < Proto2PeerSettings.DefaultInitialWindowSize || value > Proto2PeerSettings.MaxWindowSize)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), value,
-                        CoreStrings.FormatArgumentOutOfRange(Http2PeerSettings.DefaultInitialWindowSize, Http2PeerSettings.MaxWindowSize));
+                        CoreStrings.FormatArgumentOutOfRange(Proto2PeerSettings.DefaultInitialWindowSize, Proto2PeerSettings.MaxWindowSize));
                 }
 
                 _initialConnectionWindowSize = value;
@@ -132,10 +132,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core
             get => _initialStreamWindowSize;
             set
             {
-                if (value < Http2PeerSettings.DefaultInitialWindowSize || value > Http2PeerSettings.MaxWindowSize)
+                if (value < Proto2PeerSettings.DefaultInitialWindowSize || value > Proto2PeerSettings.MaxWindowSize)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), value,
-                        CoreStrings.FormatArgumentOutOfRange(Http2PeerSettings.DefaultInitialWindowSize, Http2PeerSettings.MaxWindowSize));
+                        CoreStrings.FormatArgumentOutOfRange(Proto2PeerSettings.DefaultInitialWindowSize, Proto2PeerSettings.MaxWindowSize));
                 }
 
                 _initialStreamWindowSize = value;

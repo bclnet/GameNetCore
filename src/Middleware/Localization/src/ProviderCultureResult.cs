@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Localization
+namespace Contoso.GameNetCore.Localization
 {
     /// <summary>
     /// Details about the cultures obtained from <see cref="IRequestCultureProvider"/>.

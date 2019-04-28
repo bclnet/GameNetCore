@@ -3,13 +3,13 @@
 
 using System;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Hosting.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Hosting.Tests
+namespace Contoso.GameNetCore.Hosting.Tests
 {
     public class ConfigureBuilderTests
     {

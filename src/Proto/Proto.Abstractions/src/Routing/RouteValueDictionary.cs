@@ -7,10 +7,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Http.Abstractions;
+using Contoso.GameNetCore.Proto.Abstractions;
 using Microsoft.Extensions.Internal;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// An <see cref="IDictionary{String, Object}"/> type for route values.

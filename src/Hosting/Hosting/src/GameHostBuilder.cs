@@ -3,7 +3,6 @@
 
 using Contoso.GameNetCore.Hosting.Builder;
 using Contoso.GameNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,7 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-#if !NET3
+using Microsoft.Extensions.Hosting;
+#if NET2
 using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 #endif
 
@@ -32,7 +32,7 @@ namespace Contoso.GameNetCore.Hosting
         IConfiguration _config;
         GameHostOptions _options;
         GameHostBuilderContext _context;
-        bool _webHostBuilt;
+        bool _gameHostBuilt;
         Action<GameHostBuilderContext, IConfigurationBuilder> _configureAppConfigurationBuilder;
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Contoso.GameNetCore.Hosting
         }
 
         /// <summary>
-        /// Adds a delegate for configuring additional services for the host or web application. This may be called
+        /// Adds a delegate for configuring additional services for the host or game application. This may be called
         /// multiple times.
         /// </summary>
         /// <param name="configureServices">A delegate for configuring the <see cref="IServiceCollection"/>.</param>
@@ -95,7 +95,7 @@ namespace Contoso.GameNetCore.Hosting
         }
 
         /// <summary>
-        /// Adds a delegate for configuring additional services for the host or web application. This may be called
+        /// Adds a delegate for configuring additional services for the host or game application. This may be called
         /// multiple times.
         /// </summary>
         /// <param name="configureServices">A delegate for configuring the <see cref="IServiceCollection"/>.</param>
@@ -122,13 +122,13 @@ namespace Contoso.GameNetCore.Hosting
         }
 
         /// <summary>
-        /// Builds the required services and an <see cref="IGameHost"/> which hosts a web application.
+        /// Builds the required services and an <see cref="IGameHost"/> which hosts a game application.
         /// </summary>
         public IGameHost Build()
         {
-            if (_webHostBuilt)
+            if (_gameHostBuilt)
                 throw new InvalidOperationException("Resources.GameHostBuilder_SingleInstance");
-            _webHostBuilt = true;
+            _gameHostBuilt = true;
 
             var hostingServices = BuildCommonServices(out var hostingStartupErrors);
             var applicationServices = hostingServices.Clone();
@@ -238,7 +238,7 @@ namespace Contoso.GameNetCore.Hosting
             services.AddSingleton<IHostEnvironment>(_hostingEnvironment);
 #pragma warning disable CS0618 // Type or member is obsolete
             services.AddSingleton<GameNetCore.Hosting.IHostingEnvironment>(_hostingEnvironment);
-#if NET3
+#if !NET2
             services.AddSingleton<Extensions.Hosting.IHostingEnvironment>(_hostingEnvironment);
 #endif
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -246,10 +246,10 @@ namespace Contoso.GameNetCore.Hosting
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(_hostingEnvironment.ContentRootPath)
-#if !NET3
-                .AddConfiguration(_config);
-#else
+#if !NET2
                 .AddConfiguration(_config, shouldDisposeConfiguration: true);
+#else
+                .AddConfiguration(_config);
 #endif
 
             _configureAppConfigurationBuilder?.Invoke(_context, builder);
@@ -264,7 +264,7 @@ namespace Contoso.GameNetCore.Hosting
             services.AddSingleton<DiagnosticSource>(listener);
 
             services.AddTransient<IApplicationBuilderFactory, ApplicationBuilderFactory>();
-            //services.AddTransient<IHttpContextFactory, DefaultHttpContextFactory>();
+            //services.AddTransient<IProtoContextFactory, DefaultProtoContextFactory>();
             //services.AddScoped<IMiddlewareFactory, MiddlewareFactory>();
             services.AddOptions();
             services.AddLogging();

@@ -5,11 +5,11 @@ using System;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
+using Contoso.GameNetCore.Connections;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal class Http1ContentLengthMessageBody : Http1MessageBody
+    internal class Proto1ContentLengthMessageBody : Proto1MessageBody
     {
         private ReadResult _readResult;
         private readonly long _contentLength;
@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private long _totalExaminedInPreviousReadResult;
         private bool _finalAdvanceCalled;
 
-        public Http1ContentLengthMessageBody(bool keepAlive, long contentLength, Http1Connection context)
+        public Proto1ContentLengthMessageBody(bool keepAlive, long contentLength, Proto1Connection context)
             : base(context)
         {
             RequestKeepAlive = keepAlive;
@@ -46,7 +46,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
             TryStart();
 
-            // The while(true) loop is required because the Http1 connection calls CancelPendingRead to unblock
+            // The while(true) loop is required because the Proto1 connection calls CancelPendingRead to unblock
             // the call to StartTimingReadAsync to check if the request timed out.
             // However, if the user called CancelPendingRead, we want that to return a canceled ReadResult
             // We internally track an int for that.
@@ -56,7 +56,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 // which is unknown to StartTimingReadAsync. 
                 if (_context.RequestTimedOut)
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
+                    BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
                 }
 
                 try
@@ -73,7 +73,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
                 if (_context.RequestTimedOut)
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
+                    BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTimeout);
                 }
 
                 // Make sure to handle when this is canceled here.
@@ -235,7 +235,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             if (_contentLength > _context.MaxRequestBodySize)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
+                BadProtoRequestException.Throw(RequestRejectionReason.RequestBodyTooLarge);
             }
         }
 

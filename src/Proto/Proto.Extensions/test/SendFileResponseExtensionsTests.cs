@@ -3,27 +3,27 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Extensions.Tests
+namespace Contoso.GameNetCore.Proto.Extensions.Tests
 {
     public class SendFileResponseExtensionsTests
     {
         [Fact]
         public Task SendFileWhenFileNotFoundThrows()
         {
-            var response = new DefaultHttpContext().Response;
+            var response = new DefaultProtoContext().Response;
             return Assert.ThrowsAsync<FileNotFoundException>(() => response.SendFileAsync("foo"));
         }
 
         [Fact]
         public async Task SendFileWorks()
         {
-            var context = new DefaultHttpContext();
+            var context = new DefaultProtoContext();
             var response = context.Response;
             var fakeFeature = new FakeSendFileFeature();
-            context.Features.Set<IHttpSendFileFeature>(fakeFeature);
+            context.Features.Set<IProtoSendFileFeature>(fakeFeature);
 
             await response.SendFileAsync("bob", 1, 3, CancellationToken.None);
 
@@ -33,7 +33,7 @@ namespace Microsoft.AspNetCore.Http.Extensions.Tests
             Assert.Equal(CancellationToken.None, fakeFeature.token);
         }
 
-        private class FakeSendFileFeature : IHttpSendFileFeature
+        private class FakeSendFileFeature : IProtoSendFileFeature
         {
             public string name = null;
             public long offset = 0;

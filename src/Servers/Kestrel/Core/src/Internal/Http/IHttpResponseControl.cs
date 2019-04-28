@@ -6,9 +6,9 @@ using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal interface IHttpResponseControl
+    internal interface IProtoResponseControl
     {
         void ProduceContinue();
         Memory<byte> GetMemory(int sizeHint = 0);

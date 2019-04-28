@@ -9,26 +9,26 @@ using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.FlowControl;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.FlowControl;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2.HPack;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto2
 {
-    internal class Http2FrameWriter
+    internal class Proto2FrameWriter
     {
         // Literal Header Field without Indexing - Indexed Name (Index 8 - :status)
         private static ReadOnlySpan<byte> _continueBytes => new byte[] { 0x08, 0x03, (byte)'1', (byte)'0', (byte)'0' };
 
         private readonly object _writeLock = new object();
-        private readonly Http2Frame _outgoingFrame;
+        private readonly Proto2Frame _outgoingFrame;
         private readonly HPackEncoder _hpackEncoder = new HPackEncoder();
         private readonly PipeWriter _outputWriter;
         private readonly ConnectionContext _connectionContext;
-        private readonly Http2Connection _http2Connection;
+        private readonly Proto2Connection _http2Connection;
         private readonly OutputFlowControl _connectionOutputFlowControl;
         private readonly string _connectionId;
         private readonly IKestrelTrace _log;
@@ -36,17 +36,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         private readonly MinDataRate _minResponseDataRate;
         private readonly TimingPipeFlusher _flusher;
 
-        private uint _maxFrameSize = Http2PeerSettings.MinAllowedMaxFrameSize;
+        private uint _maxFrameSize = Proto2PeerSettings.MinAllowedMaxFrameSize;
         private byte[] _headerEncodingBuffer;
         private long _unflushedBytes;
 
         private bool _completed;
         private bool _aborted;
 
-        public Http2FrameWriter(
+        public Proto2FrameWriter(
             PipeWriter outputPipeWriter,
             ConnectionContext connectionContext,
-            Http2Connection http2Connection,
+            Proto2Connection http2Connection,
             OutputFlowControl connectionOutputFlowControl,
             ITimeoutControl timeoutControl,
             MinDataRate minResponseDataRate,
@@ -62,7 +62,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             _timeoutControl = timeoutControl;
             _minResponseDataRate = minResponseDataRate;
             _flusher = new TimingPipeFlusher(_outputWriter, timeoutControl, log);
-            _outgoingFrame = new Http2Frame();
+            _outgoingFrame = new Proto2Frame();
             _headerEncodingBuffer = new byte[_maxFrameSize];
         }
 
@@ -109,7 +109,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        public ValueTask<FlushResult> FlushAsync(IHttpOutputAborter outputAborter, CancellationToken cancellationToken)
+        public ValueTask<FlushResult> FlushAsync(IProtoOutputAborter outputAborter, CancellationToken cancellationToken)
         {
             lock (_writeLock)
             {
@@ -134,7 +134,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     return default;
                 }
 
-                _outgoingFrame.PrepareHeaders(Http2HeadersFrameFlags.END_HEADERS, streamId);
+                _outgoingFrame.PrepareHeaders(Proto2HeadersFrameFlags.END_HEADERS, streamId);
                 _outgoingFrame.PayloadLength = _continueBytes.Length;
                 WriteHeaderUnsynchronized();
                 _outputWriter.Write(_continueBytes);
@@ -167,7 +167,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
                 try
                 {
-                    _outgoingFrame.PrepareHeaders(Http2HeadersFrameFlags.NONE, streamId);
+                    _outgoingFrame.PrepareHeaders(Proto2HeadersFrameFlags.NONE, streamId);
                     var buffer = _headerEncodingBuffer.AsSpan();
                     var done = _hpackEncoder.BeginEncode(statusCode, EnumerateHeaders(headers), buffer, out var payloadLength);
                     FinishWritingHeaders(streamId, payloadLength, done);
@@ -181,7 +181,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        public ValueTask<FlushResult> WriteResponseTrailers(int streamId, HttpResponseTrailers headers)
+        public ValueTask<FlushResult> WriteResponseTrailers(int streamId, ProtoResponseTrailers headers)
         {
             lock (_writeLock)
             {
@@ -192,7 +192,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
                 try
                 {
-                    _outgoingFrame.PrepareHeaders(Http2HeadersFrameFlags.END_STREAM, streamId);
+                    _outgoingFrame.PrepareHeaders(Proto2HeadersFrameFlags.END_STREAM, streamId);
                     var buffer = _headerEncodingBuffer.AsSpan();
                     var done = _hpackEncoder.BeginEncode(EnumerateHeaders(headers), buffer, out var payloadLength);
                     FinishWritingHeaders(streamId, payloadLength, done);
@@ -213,7 +213,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             _outgoingFrame.PayloadLength = payloadLength;
             if (done)
             {
-                _outgoingFrame.HeadersFlags |= Http2HeadersFrameFlags.END_HEADERS;
+                _outgoingFrame.HeadersFlags |= Proto2HeadersFrameFlags.END_HEADERS;
             }
 
             WriteHeaderUnsynchronized();
@@ -221,14 +221,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
             while (!done)
             {
-                _outgoingFrame.PrepareContinuation(Http2ContinuationFrameFlags.NONE, streamId);
+                _outgoingFrame.PrepareContinuation(Proto2ContinuationFrameFlags.NONE, streamId);
 
                 done = _hpackEncoder.Encode(buffer, out payloadLength);
                 _outgoingFrame.PayloadLength = payloadLength;
 
                 if (done)
                 {
-                    _outgoingFrame.ContinuationFlags = Http2ContinuationFrameFlags.END_HEADERS;
+                    _outgoingFrame.ContinuationFlags = Proto2ContinuationFrameFlags.END_HEADERS;
                 }
 
                 WriteHeaderUnsynchronized();
@@ -297,7 +297,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
             if (endStream)
             {
-                _outgoingFrame.DataFlags |= Http2DataFrameFlags.END_STREAM;
+                _outgoingFrame.DataFlags |= Proto2DataFrameFlags.END_STREAM;
             }
 
             _outgoingFrame.PayloadLength = (int)data.Length; // Plus padding
@@ -417,7 +417,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             |                        Error Code (32)                        |
             +---------------------------------------------------------------+
         */
-        public ValueTask<FlushResult> WriteRstStreamAsync(int streamId, Http2ErrorCode errorCode)
+        public ValueTask<FlushResult> WriteRstStreamAsync(int streamId, Proto2ErrorCode errorCode)
         {
             lock (_writeLock)
             {
@@ -444,7 +444,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             |                        Value (32)                             |
             +---------------------------------------------------------------+
         */
-        public ValueTask<FlushResult> WriteSettingsAsync(IList<Http2PeerSetting> settings)
+        public ValueTask<FlushResult> WriteSettingsAsync(IList<Proto2PeerSetting> settings)
         {
             lock (_writeLock)
             {
@@ -453,8 +453,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     return default;
                 }
 
-                _outgoingFrame.PrepareSettings(Http2SettingsFrameFlags.NONE);
-                var settingsSize = settings.Count * Http2FrameReader.SettingSize;
+                _outgoingFrame.PrepareSettings(Proto2SettingsFrameFlags.NONE);
+                var settingsSize = settings.Count * Proto2FrameReader.SettingSize;
                 _outgoingFrame.PayloadLength = settingsSize;
                 WriteHeaderUnsynchronized();
 
@@ -466,13 +466,13 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
         }
 
-        internal static void WriteSettings(IList<Http2PeerSetting> settings, Span<byte> destination)
+        internal static void WriteSettings(IList<Proto2PeerSetting> settings, Span<byte> destination)
         {
             foreach (var setting in settings)
             {
                 BinaryPrimitives.WriteUInt16BigEndian(destination, (ushort)setting.Parameter);
                 BinaryPrimitives.WriteUInt32BigEndian(destination.Slice(2), setting.Value);
-                destination = destination.Slice(Http2FrameReader.SettingSize);
+                destination = destination.Slice(Proto2FrameReader.SettingSize);
             }
         }
 
@@ -486,7 +486,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     return default;
                 }
 
-                _outgoingFrame.PrepareSettings(Http2SettingsFrameFlags.ACK);
+                _outgoingFrame.PrepareSettings(Proto2SettingsFrameFlags.ACK);
                 WriteHeaderUnsynchronized();
                 return TimeFlushUnsynchronizedAsync();
             }
@@ -499,7 +499,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             |                                                               |
             +---------------------------------------------------------------+
         */
-        public ValueTask<FlushResult> WritePingAsync(Http2PingFrameFlags flags, ReadOnlySequence<byte> payload)
+        public ValueTask<FlushResult> WritePingAsync(Proto2PingFrameFlags flags, ReadOnlySequence<byte> payload)
         {
             lock (_writeLock)
             {
@@ -508,7 +508,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
                     return default;
                 }
 
-                _outgoingFrame.PreparePing(Http2PingFrameFlags.ACK);
+                _outgoingFrame.PreparePing(Proto2PingFrameFlags.ACK);
                 Debug.Assert(payload.Length == _outgoingFrame.PayloadLength); // 8
                 WriteHeaderUnsynchronized();
                 foreach (var segment in payload)
@@ -529,7 +529,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             |                  Additional Debug Data (*)                    | (not implemented)
             +---------------------------------------------------------------+
         */
-        public ValueTask<FlushResult> WriteGoAwayAsync(int lastStreamId, Http2ErrorCode errorCode)
+        public ValueTask<FlushResult> WriteGoAwayAsync(int lastStreamId, Proto2ErrorCode errorCode)
         {
             lock (_writeLock)
             {
@@ -553,11 +553,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         private void WriteHeaderUnsynchronized()
         {
-            _log.Http2FrameSending(_connectionId, _outgoingFrame);
+            _log.Proto2FrameSending(_connectionId, _outgoingFrame);
             WriteHeader(_outgoingFrame, _outputWriter);
 
             // We assume the payload will be written prior to the next flush.
-            _unflushedBytes += Http2FrameReader.HeaderLength + _outgoingFrame.PayloadLength;
+            _unflushedBytes += Proto2FrameReader.HeaderLength + _outgoingFrame.PayloadLength;
         }
 
         /* https://tools.ietf.org/html/rfc7540#section-4.1
@@ -571,9 +571,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             |                   Frame Payload (0...)                      ...
             +---------------------------------------------------------------+
         */
-        internal static void WriteHeader(Http2Frame frame, PipeWriter output)
+        internal static void WriteHeader(Proto2Frame frame, PipeWriter output)
         {
-            var buffer = output.GetSpan(Http2FrameReader.HeaderLength);
+            var buffer = output.GetSpan(Proto2FrameReader.HeaderLength);
 
             Bitshifter.WriteUInt24BigEndian(buffer, (uint)frame.PayloadLength);
             buffer = buffer.Slice(3);
@@ -584,7 +584,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
             Bitshifter.WriteUInt31BigEndian(buffer, (uint)frame.StreamId, preserveHighestBit: false);
 
-            output.Advance(Http2FrameReader.HeaderLength);
+            output.Advance(Proto2FrameReader.HeaderLength);
         }
 
         private ValueTask<FlushResult> TimeFlushUnsynchronizedAsync()

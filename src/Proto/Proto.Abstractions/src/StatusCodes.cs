@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     // Status Codes listed at http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
     public static class StatusCodes
@@ -69,7 +69,7 @@ namespace Microsoft.AspNetCore.Http
         public const int Status502BadGateway = 502;
         public const int Status503ServiceUnavailable = 503;
         public const int Status504GatewayTimeout = 504;
-        public const int Status505HttpVersionNotsupported = 505;
+        public const int Status505ProtoVersionNotsupported = 505;
         public const int Status506VariantAlsoNegotiates = 506;
         public const int Status507InsufficientStorage = 507;
         public const int Status508LoopDetected = 508;

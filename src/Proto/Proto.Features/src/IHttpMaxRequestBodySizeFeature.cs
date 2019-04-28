@@ -1,17 +1,17 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
     /// Feature to inspect and modify the maximum request body size for a single request.
     /// </summary>
-    public interface IHttpMaxRequestBodySizeFeature
+    public interface IProtoMaxRequestBodySizeFeature
     {
         /// <summary>
         /// Indicates whether <see cref="MaxRequestBodySize"/> is read-only.
         /// If true, this could mean that the request body has already been read from
-        /// or that <see cref="IHttpUpgradeFeature.UpgradeAsync"/> was called.
+        /// or that <see cref="IProtoUpgradeFeature.UpgradeAsync"/> was called.
         /// </summary>
         bool IsReadOnly { get; }
 

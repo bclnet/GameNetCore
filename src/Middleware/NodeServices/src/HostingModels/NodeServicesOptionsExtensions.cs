@@ -1,4 +1,4 @@
-namespace Microsoft.AspNetCore.NodeServices.HostingModels
+namespace Contoso.GameNetCore.NodeServices.HostingModels
 {
     /// <summary>
     /// Extension methods that help with populating a <see cref="NodeServicesOptions"/> object.

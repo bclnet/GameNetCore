@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
@@ -13,7 +13,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
 {
     internal static class HostingLoggerExtensions
     {
-        public static IDisposable RequestScope(this ILogger logger, HttpContext httpContext, string correlationId) =>
+        public static IDisposable RequestScope(this ILogger logger, ProtoContext httpContext, string correlationId) =>
             logger.BeginScope(new HostingLogScope(httpContext, correlationId));
 
         public static void ApplicationError(this ILogger logger, Exception exception) =>
@@ -94,7 +94,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 }
             }
 
-            public HostingLogScope(HttpContext httpContext, string correlationId)
+            public HostingLogScope(ProtoContext httpContext, string correlationId)
             {
                 _traceIdentifier = httpContext.TraceIdentifier;
                 _path = (httpContext.Request.PathBase.HasValue

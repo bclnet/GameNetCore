@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.AspNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Matching;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     /// <summary>
     /// <para>
@@ -15,7 +15,7 @@ namespace Microsoft.AspNetCore.Routing.Internal
     /// in GraphViz DOT language https://www.graphviz.org/doc/info/lang.html
     /// </para>
     /// <para>
-    /// You can use http://www.webgraphviz.com/ to visualize the results.
+    /// You can use http://www.gamegraphviz.com/ to visualize the results.
     /// </para>
     /// <para>
     /// This type has no support contract, and may be removed or changed at any time in

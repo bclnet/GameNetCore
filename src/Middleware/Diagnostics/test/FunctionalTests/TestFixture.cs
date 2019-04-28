@@ -3,11 +3,11 @@
 
 using System;
 using System.Net.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Testing;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.TestHost;
+using Contoso.GameNetCore.Testing;
 
-namespace Microsoft.AspNetCore.Diagnostics.FunctionalTests
+namespace Contoso.GameNetCore.Diagnostics.FunctionalTests
 {
     public class TestFixture<TStartup> : IDisposable
     {

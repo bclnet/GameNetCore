@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Buffers;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal
 {
     internal class RawStream : Stream
     {

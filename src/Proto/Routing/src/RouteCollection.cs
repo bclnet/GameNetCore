@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     public class RouteCollection : IRouteCollection
     {
@@ -86,7 +86,7 @@ namespace Microsoft.AspNetCore.Routing
 
         public virtual VirtualPathData GetVirtualPath(VirtualPathContext context)
         {
-            EnsureOptions(context.HttpContext);
+            EnsureOptions(context.ProtoContext);
 
             if (!string.IsNullOrEmpty(context.RouteName))
             {
@@ -175,7 +175,7 @@ namespace Microsoft.AspNetCore.Routing
             return pathData;
         }
 
-        private void EnsureOptions(HttpContext context)
+        private void EnsureOptions(ProtoContext context)
         {
             if (_options == null)
             {

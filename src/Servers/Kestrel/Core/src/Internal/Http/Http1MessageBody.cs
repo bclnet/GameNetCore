@@ -4,16 +4,16 @@
 using System;
 using System.IO.Pipelines;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal abstract class Http1MessageBody : MessageBody
+    internal abstract class Proto1MessageBody : MessageBody
     {
-        protected readonly Http1Connection _context;
+        protected readonly Proto1Connection _context;
 
-        protected Http1MessageBody(Http1Connection context)
+        protected Proto1MessageBody(Proto1Connection context)
             : base(context, context.MinRequestBodyDataRate)
         {
             _context = context;
@@ -30,7 +30,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 // closing the connection without a response as expected.
                 _context.OnInputOrOutputCompleted();
 
-                BadHttpRequestException.Throw(RequestRejectionReason.UnexpectedEndOfRequestContent);
+                BadProtoRequestException.Throw(RequestRejectionReason.UnexpectedEndOfRequestContent);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     }
                 }
             }
-            catch (BadHttpRequestException ex)
+            catch (BadProtoRequestException ex)
             {
                 // At this point, the response has already been written, so this won't result in a 4XX response;
                 // however, we still need to stop the request processing loop and log.
@@ -83,7 +83,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     AdvanceTo(result.Buffer.End);
                 } while (!result.IsCompleted);
             }
-            catch (BadHttpRequestException ex)
+            catch (BadProtoRequestException ex)
             {
                 _context.SetBadRequestState(ex);
             }
@@ -106,17 +106,17 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         }
 
         public static MessageBody For(
-            HttpVersion httpVersion,
-            HttpRequestHeaders headers,
-            Http1Connection context)
+            ProtoVersion httpVersion,
+            ProtoRequestHeaders headers,
+            Proto1Connection context)
         {
             // see also http://tools.ietf.org/html/rfc2616#section-4.4
-            var keepAlive = httpVersion != HttpVersion.Http10;
+            var keepAlive = httpVersion != ProtoVersion.Proto10;
 
             var upgrade = false;
             if (headers.HasConnection)
             {
-                var connectionOptions = HttpHeaders.ParseConnection(headers.HeaderConnection);
+                var connectionOptions = ProtoHeaders.ParseConnection(headers.HeaderConnection);
 
                 upgrade = (connectionOptions & ConnectionOptions.Upgrade) == ConnectionOptions.Upgrade;
                 keepAlive = (connectionOptions & ConnectionOptions.KeepAlive) == ConnectionOptions.KeepAlive;
@@ -126,16 +126,16 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 if (headers.HeaderTransferEncoding.Count > 0 || (headers.ContentLength.HasValue && headers.ContentLength.Value != 0))
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.UpgradeRequestCannotHavePayload);
+                    BadProtoRequestException.Throw(RequestRejectionReason.UpgradeRequestCannotHavePayload);
                 }
 
-                return new Http1UpgradeMessageBody(context);
+                return new Proto1UpgradeMessageBody(context);
             }
 
             if (headers.HasTransferEncoding)
             {
                 var transferEncoding = headers.HeaderTransferEncoding;
-                var transferCoding = HttpHeaders.GetFinalTransferCoding(transferEncoding);
+                var transferCoding = ProtoHeaders.GetFinalTransferCoding(transferEncoding);
 
                 // https://tools.ietf.org/html/rfc7230#section-3.3.3
                 // If a Transfer-Encoding header field
@@ -145,12 +145,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 // status code and then close the connection.
                 if (transferCoding != TransferCoding.Chunked)
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.FinalTransferCodingNotChunked, transferEncoding);
+                    BadProtoRequestException.Throw(RequestRejectionReason.FinalTransferCodingNotChunked, transferEncoding);
                 }
 
                 // TODO may push more into the wrapper rather than just calling into the message body
                 // NBD for now.
-                return new Http1ChunkedEncodingMessageBody(keepAlive, context);
+                return new Proto1ChunkedEncodingMessageBody(keepAlive, context);
             }
 
             if (headers.ContentLength.HasValue)
@@ -162,15 +162,15 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     return keepAlive ? MessageBody.ZeroContentLengthKeepAlive : MessageBody.ZeroContentLengthClose;
                 }
 
-                return new Http1ContentLengthMessageBody(keepAlive, contentLength, context);
+                return new Proto1ContentLengthMessageBody(keepAlive, contentLength, context);
             }
 
             // If we got here, request contains no Content-Length or Transfer-Encoding header.
             // Reject with 411 Length Required.
-            if (context.Method == HttpMethod.Post || context.Method == HttpMethod.Put)
+            if (context.Method == ProtoMethod.Post || context.Method == ProtoMethod.Put)
             {
-                var requestRejectionReason = httpVersion == HttpVersion.Http11 ? RequestRejectionReason.LengthRequired : RequestRejectionReason.LengthRequiredHttp10;
-                BadHttpRequestException.Throw(requestRejectionReason, context.Method);
+                var requestRejectionReason = httpVersion == ProtoVersion.Proto11 ? RequestRejectionReason.LengthRequired : RequestRejectionReason.LengthRequiredProto10;
+                BadProtoRequestException.Throw(requestRejectionReason, context.Method);
             }
 
             return keepAlive ? MessageBody.ZeroContentLengthKeepAlive : MessageBody.ZeroContentLengthClose;

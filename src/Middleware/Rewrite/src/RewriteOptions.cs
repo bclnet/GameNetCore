@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 
-namespace Microsoft.AspNetCore.Rewrite
+namespace Contoso.GameNetCore.Rewrite
 {
     /// <summary>
     /// Options for the <see cref="RewriteMiddleware"/>

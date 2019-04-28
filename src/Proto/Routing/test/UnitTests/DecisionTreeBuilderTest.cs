@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.DecisionTree
+namespace Contoso.GameNetCore.Routing.DecisionTree
 {
     public class DecisionTreeBuilderTest
     {

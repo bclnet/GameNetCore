@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Microsoft.AspNetCore.Authentication
+namespace Contoso.GameNetCore.Authentication
 {
     /// <summary>
     /// Dictionary used to store state values about the authentication session.
@@ -22,17 +22,13 @@ namespace Microsoft.AspNetCore.Authentication
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationProperties"/> class.
         /// </summary>
-        public AuthenticationProperties()
-            : this(items: null, parameters: null)
-        { }
+        public AuthenticationProperties() : this(items: null, parameters: null) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationProperties"/> class.
         /// </summary>
         /// <param name="items">State values dictionary to use.</param>
-        public AuthenticationProperties(IDictionary<string, string> items)
-            : this(items, parameters: null)
-        { }
+        public AuthenticationProperties(IDictionary<string, string> items) : this(items, parameters: null) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationProperties"/> class.
@@ -106,10 +102,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// </summary>
         /// <param name="key">Property key.</param>
         /// <returns>Retrieved value or <c>null</c> if the property is not set.</returns>
-        public string GetString(string key)
-        {
-            return Items.TryGetValue(key, out string value) ? value : null;
-        }
+        public string GetString(string key) => Items.TryGetValue(key, out string value) ? value : null;
 
         /// <summary>
         /// Set a string value in the <see cref="Items"/> collection.
@@ -119,13 +112,9 @@ namespace Microsoft.AspNetCore.Authentication
         public void SetString(string key, string value)
         {
             if (value != null)
-            {
                 Items[key] = value;
-            }
             else
-            {
                 Items.Remove(key);
-            }
         }
 
         /// <summary>
@@ -134,8 +123,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// <typeparam name="T">Parameter type.</typeparam>
         /// <param name="key">Parameter key.</param>
         /// <returns>Retrieved value or the default value if the property is not set.</returns>
-        public T GetParameter<T>(string key)
-            => Parameters.TryGetValue(key, out var obj) && obj is T value ? value : default;
+        public T GetParameter<T>(string key) => Parameters.TryGetValue(key, out var obj) && obj is T value ? value : default;
 
         /// <summary>
         /// Set a parameter value in the <see cref="Parameters"/> collection.
@@ -143,22 +131,14 @@ namespace Microsoft.AspNetCore.Authentication
         /// <typeparam name="T">Parameter type.</typeparam>
         /// <param name="key">Parameter key.</param>
         /// <param name="value">Value to set.</param>
-        public void SetParameter<T>(string key, T value)
-            => Parameters[key] = value;
+        public void SetParameter<T>(string key, T value) => Parameters[key] = value;
 
         /// <summary>
         /// Get a bool value from the <see cref="Items"/> collection.
         /// </summary>
         /// <param name="key">Property key.</param>
         /// <returns>Retrieved value or <c>null</c> if the property is not set.</returns>
-        protected bool? GetBool(string key)
-        {
-            if (Items.TryGetValue(key, out string value) && bool.TryParse(value, out bool boolValue))
-            {
-                return boolValue;
-            }
-            return null;
-        }
+        protected bool? GetBool(string key) => Items.TryGetValue(key, out string value) && bool.TryParse(value, out bool boolValue) ? boolValue : (bool?)null;
 
         /// <summary>
         /// Set a bool value in the <see cref="Items"/> collection.
@@ -168,13 +148,9 @@ namespace Microsoft.AspNetCore.Authentication
         protected void SetBool(string key, bool? value)
         {
             if (value.HasValue)
-            {
                 Items[key] = value.GetValueOrDefault().ToString();
-            }
             else
-            {
                 Items.Remove(key);
-            }
         }
 
         /// <summary>
@@ -182,15 +158,11 @@ namespace Microsoft.AspNetCore.Authentication
         /// </summary>
         /// <param name="key">Property key.</param>
         /// <returns>Retrieved value or <c>null</c> if the property is not set.</returns>
-        protected DateTimeOffset? GetDateTimeOffset(string key)
-        {
-            if (Items.TryGetValue(key, out string value)
-                && DateTimeOffset.TryParseExact(value, UtcDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTimeOffset dateTimeOffset))
-            {
-                return dateTimeOffset;
-            }
-            return null;
-        }
+        protected DateTimeOffset? GetDateTimeOffset(string key) =>
+            Items.TryGetValue(key, out string value)
+            && DateTimeOffset.TryParseExact(value, UtcDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTimeOffset dateTimeOffset)
+            ? (DateTimeOffset?)dateTimeOffset
+            : null;
 
         /// <summary>
         /// Set a DateTimeOffset value in the <see cref="Items"/> collection.
@@ -200,13 +172,9 @@ namespace Microsoft.AspNetCore.Authentication
         protected void SetDateTimeOffset(string key, DateTimeOffset? value)
         {
             if (value.HasValue)
-            {
                 Items[key] = value.GetValueOrDefault().ToString(UtcDateTimeFormat, CultureInfo.InvariantCulture);
-            }
             else
-            {
                 Items.Remove(key);
-            }
         }
     }
 }

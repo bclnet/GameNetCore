@@ -3,13 +3,13 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     public class DfaGraphWriterTest
     {
@@ -73,7 +73,7 @@ namespace Microsoft.AspNetCore.Routing.Internal
                     (context) => null,
                     RoutePatternFactory.Parse("/"),
                     0,
-                    new EndpointMetadataCollection(new HttpMethodMetadata(new[] { "GET" })),
+                    new EndpointMetadataCollection(new ProtoMethodMetadata(new[] { "GET" })),
                     string.Empty));
 
             // Act

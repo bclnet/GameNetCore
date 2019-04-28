@@ -3,11 +3,11 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Adapter.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Adapter.Internal
 {
     public interface IConnectionAdapter
     {
-        bool IsHttps { get; }
+        bool IsProtos { get; }
         Task<IAdaptedConnection> OnConnectionAsync(ConnectionAdapterContext context);
     }
 }

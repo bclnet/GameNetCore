@@ -5,14 +5,14 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Proto;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.StaticFiles
+namespace Contoso.GameNetCore.StaticFiles
 {
     /// <summary>
     /// Enables serving static files for a given request path
@@ -30,37 +30,19 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// Creates a new instance of the StaticFileMiddleware.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="hostingEnv">The <see cref="IWebHostEnvironment"/> used by this middleware.</param>
+        /// <param name="hostingEnv">The <see cref="IGameHostEnvironment"/> used by this middleware.</param>
         /// <param name="options">The configuration options.</param>
         /// <param name="loggerFactory">An <see cref="ILoggerFactory"/> instance used to create loggers.</param>
-        public StaticFileMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, IOptions<StaticFileOptions> options, ILoggerFactory loggerFactory)
+        public StaticFileMiddleware(RequestDelegate next, IGameHostEnvironment hostingEnv, IOptions<StaticFileOptions> options, ILoggerFactory loggerFactory)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-
             if (hostingEnv == null)
-            {
                 throw new ArgumentNullException(nameof(hostingEnv));
-            }
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
-
-            _next = next;
-            _options = options.Value;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
             _contentTypeProvider = options.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
             _fileProvider = _options.FileProvider ?? Helpers.ResolveFileProvider(hostingEnv);
             _matchUrl = _options.RequestPath;
-            _logger = loggerFactory.CreateLogger<StaticFileMiddleware>();
+            _logger = (loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory))).CreateLogger<StaticFileMiddleware>();
         }
 
         /// <summary>
@@ -68,35 +50,25 @@ namespace Microsoft.AspNetCore.StaticFiles
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(ProtoContext context)
         {
             var fileContext = new StaticFileContext(context, _options, _matchUrl, _logger, _fileProvider, _contentTypeProvider);
 
             if (!fileContext.ValidateNoEndpoint())
-            {
                 _logger.EndpointMatched();
-            }
             else if (!fileContext.ValidateMethod())
-            {
                 _logger.RequestMethodNotSupported(context.Request.Method);
-            }
             else if (!fileContext.ValidatePath())
-            {
                 _logger.PathMismatch(fileContext.SubPath);
-            }
             else if (!fileContext.LookupContentType())
-            {
                 _logger.FileTypeNotSupported(fileContext.SubPath);
-            }
             else if (!fileContext.LookupFileInfo())
-            {
                 _logger.FileNotFound(fileContext.SubPath);
-            }
             else
             {
                 // If we get here, we can try to serve the file
                 fileContext.ComprehendRequestHeaders();
-                switch (fileContext.GetPreconditionState())
+                switch (fileContext.PreconditionState)
                 {
                     case StaticFileContext.PreconditionState.Unspecified:
                     case StaticFileContext.PreconditionState.ShouldProcess:
@@ -134,7 +106,7 @@ namespace Microsoft.AspNetCore.StaticFiles
                         return;
 
                     default:
-                        var exception = new NotImplementedException(fileContext.GetPreconditionState().ToString());
+                        var exception = new NotImplementedException(fileContext.PreconditionState.ToString());
                         Debug.Fail(exception.ToString());
                         throw exception;
                 }

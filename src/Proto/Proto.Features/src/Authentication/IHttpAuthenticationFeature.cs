@@ -4,9 +4,9 @@
 using System;
 using System.Security.Claims;
 
-namespace Microsoft.AspNetCore.Http.Features.Authentication
+namespace Contoso.GameNetCore.Proto.Features.Authentication
 {
-    public interface IHttpAuthenticationFeature
+    public interface IProtoAuthenticationFeature
     {
         ClaimsPrincipal User { get; set; }
     }

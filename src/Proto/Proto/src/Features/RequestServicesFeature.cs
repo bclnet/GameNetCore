@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class RequestServicesFeature : IServiceProvidersFeature, IDisposable, IAsyncDisposable
     {
@@ -13,9 +13,9 @@ namespace Microsoft.AspNetCore.Http.Features
         private IServiceProvider _requestServices;
         private IServiceScope _scope;
         private bool _requestServicesSet;
-        private readonly HttpContext _context;
+        private readonly ProtoContext _context;
 
-        public RequestServicesFeature(HttpContext context, IServiceScopeFactory scopeFactory)
+        public RequestServicesFeature(ProtoContext context, IServiceScopeFactory scopeFactory)
         {
             _context = context;
             _scopeFactory = scopeFactory;

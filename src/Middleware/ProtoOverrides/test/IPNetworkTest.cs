@@ -3,7 +3,7 @@
 using System.Net;
 using Xunit;
 
-namespace Microsoft.AspNetCore.HttpOverrides
+namespace Contoso.GameNetCore.HttpOverrides
 {
     public class IPNetworkTest
     {

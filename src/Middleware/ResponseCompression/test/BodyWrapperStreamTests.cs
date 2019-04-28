@@ -6,12 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.ResponseCompression.Tests
+namespace Contoso.GameNetCore.ResponseCompression.Tests
 {
     public class BodyWrapperStreamTests
     {

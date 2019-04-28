@@ -8,22 +8,22 @@ using System.Globalization;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Proto.Features;
+using Contoso.GameNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal partial class Http1Connection : HttpProtocol, IRequestProcessor
+    internal partial class Proto1Connection : ProtoProtocol, IRequestProcessor
     {
         private const byte ByteAsterisk = (byte)'*';
         private const byte ByteForwardSlash = (byte)'/';
         private const string Asterisk = "*";
         private const string ForwardSlash = "/";
 
-        private readonly HttpConnectionContext _context;
-        private readonly IHttpParser<Http1ParsingHandler> _parser;
-        private readonly Http1OutputProducer _http1Output;
+        private readonly ProtoConnectionContext _context;
+        private readonly IProtoParser<Proto1ParsingHandler> _parser;
+        private readonly Proto1OutputProducer _http1Output;
         protected readonly long _keepAliveTicks;
         private readonly long _requestHeadersTimeoutTicks;
 
@@ -31,20 +31,20 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private volatile bool _requestTimedOut;
         private uint _requestCount;
 
-        private HttpRequestTarget _requestTargetForm = HttpRequestTarget.Unknown;
+        private ProtoRequestTarget _requestTargetForm = ProtoRequestTarget.Unknown;
         private Uri _absoluteRequestTarget;
 
         private int _remainingRequestHeadersBytesAllowed;
 
-        public Http1Connection(HttpConnectionContext context)
+        public Proto1Connection(ProtoConnectionContext context)
             : base(context)
         {
             _context = context;
-            _parser = ServiceContext.HttpParser;
+            _parser = ServiceContext.ProtoParser;
             _keepAliveTicks = ServerOptions.Limits.KeepAliveTimeout.Ticks;
             _requestHeadersTimeoutTicks = ServerOptions.Limits.RequestHeadersTimeout.Ticks;
 
-            _http1Output = new Http1OutputProducer(
+            _http1Output = new Proto1OutputProducer(
                 _context.Transport.Output,
                 _context.ConnectionId,
                 _context.ConnectionContext,
@@ -182,10 +182,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 overLength = true;
             }
 
-            var result = _parser.ParseRequestLine(new Http1ParsingHandler(this), buffer, out consumed, out examined);
+            var result = _parser.ParseRequestLine(new Proto1ParsingHandler(this), buffer, out consumed, out examined);
             if (!result && overLength)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.RequestLineTooLong);
+                BadProtoRequestException.Throw(RequestRejectionReason.RequestLineTooLong);
             }
 
             return result;
@@ -204,12 +204,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                 overLength = true;
             }
 
-            var result = _parser.ParseHeaders(new Http1ParsingHandler(this), buffer, out consumed, out examined, out var consumedBytes);
+            var result = _parser.ParseHeaders(new Proto1ParsingHandler(this), buffer, out consumed, out examined, out var consumedBytes);
             _remainingRequestHeadersBytesAllowed -= consumedBytes;
 
             if (!result && overLength)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.HeadersExceedMaxTotalSize);
+                BadProtoRequestException.Throw(RequestRejectionReason.HeadersExceedMaxTotalSize);
             }
             if (result)
             {
@@ -219,7 +219,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             return result;
         }
 
-        public void OnStartLine(HttpMethod method, HttpVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
+        public void OnStartLine(ProtoMethod method, ProtoVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
         {
             Debug.Assert(target.Length != 0, "Request target must be non-zero length");
 
@@ -235,7 +235,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 OnAsteriskFormTarget(method);
             }
-            else if (target.GetKnownHttpScheme(out var scheme))
+            else if (target.GetKnownProtoScheme(out var scheme))
             {
                 OnAbsoluteFormTarget(target, query);
             }
@@ -248,7 +248,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
 
             Method = method;
-            if (method == HttpMethod.Custom)
+            if (method == ProtoMethod.Custom)
             {
                 _methodText = customMethod.GetAsciiStringNonNullCharacters();
             }
@@ -256,18 +256,18 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _httpVersion = version;
 
             Debug.Assert(RawTarget != null, "RawTarget was not set");
-            Debug.Assert(((IHttpRequestFeature)this).Method != null, "Method was not set");
+            Debug.Assert(((IProtoRequestFeature)this).Method != null, "Method was not set");
             Debug.Assert(Path != null, "Path was not set");
             Debug.Assert(QueryString != null, "QueryString was not set");
-            Debug.Assert(HttpVersion != null, "HttpVersion was not set");
+            Debug.Assert(ProtoVersion != null, "ProtoVersion was not set");
         }
 
-        // Compare with Http2Stream.TryValidatePseudoHeaders
-        private void OnOriginFormTarget(HttpMethod method, HttpVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
+        // Compare with Proto2Stream.TryValidatePseudoHeaders
+        private void OnOriginFormTarget(ProtoMethod method, ProtoVersion version, Span<byte> target, Span<byte> path, Span<byte> query, Span<byte> customMethod, bool pathEncoded)
         {
             Debug.Assert(target[0] == ByteForwardSlash, "Should only be called when path starts with /");
 
-            _requestTargetForm = HttpRequestTarget.OriginForm;
+            _requestTargetForm = ProtoRequestTarget.OriginForm;
 
             if (target.Length == 1)
             {
@@ -338,22 +338,22 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        private void OnAuthorityFormTarget(HttpMethod method, Span<byte> target)
+        private void OnAuthorityFormTarget(ProtoMethod method, Span<byte> target)
         {
-            _requestTargetForm = HttpRequestTarget.AuthorityForm;
+            _requestTargetForm = ProtoRequestTarget.AuthorityForm;
 
             // This is not complete validation. It is just a quick scan for invalid characters
             // but doesn't check that the target fully matches the URI spec.
-            if (HttpCharacters.ContainsInvalidAuthorityChar(target))
+            if (ProtoCharacters.ContainsInvalidAuthorityChar(target))
             {
                 ThrowRequestTargetRejected(target);
             }
 
             // The authority-form of request-target is only used for CONNECT
             // requests (https://tools.ietf.org/html/rfc7231#section-4.3.6).
-            if (method != HttpMethod.Connect)
+            if (method != ProtoMethod.Connect)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.ConnectMethodRequired);
+                BadProtoRequestException.Throw(RequestRejectionReason.ConnectMethodRequired);
             }
 
             // When making a CONNECT request to establish a tunnel through one or
@@ -388,15 +388,15 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _parsedPath = _parsedQueryString = null;
         }
 
-        private void OnAsteriskFormTarget(HttpMethod method)
+        private void OnAsteriskFormTarget(ProtoMethod method)
         {
-            _requestTargetForm = HttpRequestTarget.AsteriskForm;
+            _requestTargetForm = ProtoRequestTarget.AsteriskForm;
 
             // The asterisk-form of request-target is only used for a server-wide
             // OPTIONS request (https://tools.ietf.org/html/rfc7231#section-4.3.7).
-            if (method != HttpMethod.Options)
+            if (method != ProtoMethod.Options)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.OptionsMethodRequired);
+                BadProtoRequestException.Throw(RequestRejectionReason.OptionsMethodRequired);
             }
 
             RawTarget = Asterisk;
@@ -409,7 +409,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         private void OnAbsoluteFormTarget(Span<byte> target, Span<byte> query)
         {
-            _requestTargetForm = HttpRequestTarget.AbsoluteForm;
+            _requestTargetForm = ProtoRequestTarget.AbsoluteForm;
 
             // absolute-form
             // https://tools.ietf.org/html/rfc7230#section-5.3.2
@@ -473,41 +473,41 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             // request message that contains more than one Host header field or a
             // Host header field with an invalid field-value.
 
-            var hostCount = HttpRequestHeaders.HostCount;
-            var hostText = HttpRequestHeaders.HeaderHost.ToString();
+            var hostCount = ProtoRequestHeaders.HostCount;
+            var hostText = ProtoRequestHeaders.HeaderHost.ToString();
             if (hostCount <= 0)
             {
-                if (_httpVersion == Http.HttpVersion.Http10)
+                if (_httpVersion == Proto.ProtoVersion.Proto10)
                 {
                     return;
                 }
-                BadHttpRequestException.Throw(RequestRejectionReason.MissingHostHeader);
+                BadProtoRequestException.Throw(RequestRejectionReason.MissingHostHeader);
             }
             else if (hostCount > 1)
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.MultipleHostHeaders);
+                BadProtoRequestException.Throw(RequestRejectionReason.MultipleHostHeaders);
             }
-            else if (_requestTargetForm != HttpRequestTarget.OriginForm)
+            else if (_requestTargetForm != ProtoRequestTarget.OriginForm)
             {
                 // Tail call
                 ValidateNonOriginHostHeader(hostText);
             }
-            else if (!HttpUtilities.IsHostHeaderValid(hostText))
+            else if (!ProtoUtilities.IsHostHeaderValid(hostText))
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
+                BadProtoRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
             }
         }
 
         private void ValidateNonOriginHostHeader(string hostText)
         {
-            if (_requestTargetForm == HttpRequestTarget.AuthorityForm)
+            if (_requestTargetForm == ProtoRequestTarget.AuthorityForm)
             {
                 if (hostText != RawTarget)
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
+                    BadProtoRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
                 }
             }
-            else if (_requestTargetForm == HttpRequestTarget.AbsoluteForm)
+            else if (_requestTargetForm == ProtoRequestTarget.AbsoluteForm)
             {
                 // If the target URI includes an authority component, then a
                 // client MUST send a field - value for Host that is identical to that
@@ -521,23 +521,23 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     if (!_absoluteRequestTarget.IsDefaultPort
                         || hostText != _absoluteRequestTarget.Authority + ":" + _absoluteRequestTarget.Port.ToString(CultureInfo.InvariantCulture))
                     {
-                        BadHttpRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
+                        BadProtoRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
                     }
                 }
             }
 
-            if (!HttpUtilities.IsHostHeaderValid(hostText))
+            if (!ProtoUtilities.IsHostHeaderValid(hostText))
             {
-                BadHttpRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
+                BadProtoRequestException.Throw(RequestRejectionReason.InvalidHostHeader, hostText);
             }
         }
 
         protected override void OnReset()
         {
-            ResetHttp1Features();
+            ResetProto1Features();
 
             _requestTimedOut = false;
-            _requestTargetForm = HttpRequestTarget.Unknown;
+            _requestTargetForm = ProtoRequestTarget.Unknown;
             _absoluteRequestTarget = null;
             _remainingRequestHeadersBytesAllowed = ServerOptions.Limits.MaxRequestHeadersTotalSize + 2;
             _requestCount++;
@@ -554,7 +554,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             => StringUtilities.ConcatAsHexSuffix(ConnectionId, ':', _requestCount);
 
         protected override MessageBody CreateMessageBody()
-            => Http1MessageBody.For(_httpVersion, HttpRequestHeaders, this);
+            => Proto1MessageBody.For(_httpVersion, ProtoRequestHeaders, this);
 
         protected override void BeginRequestProcessing()
         {
@@ -582,7 +582,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 if (_requestProcessingStatus == RequestProcessingStatus.ParsingHeaders)
                 {
-                    BadHttpRequestException.Throw(RequestRejectionReason.MalformedRequestInvalidHeaders);
+                    BadProtoRequestException.Throw(RequestRejectionReason.MalformedRequestInvalidHeaders);
                 }
                 throw;
             }
@@ -599,10 +599,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                         endConnection = true;
                         return true;
                     case RequestProcessingStatus.ParsingRequestLine:
-                        BadHttpRequestException.Throw(RequestRejectionReason.InvalidRequestLine);
+                        BadProtoRequestException.Throw(RequestRejectionReason.InvalidRequestLine);
                         break;
                     case RequestProcessingStatus.ParsingHeaders:
-                        BadHttpRequestException.Throw(RequestRejectionReason.MalformedRequestInvalidHeaders);
+                        BadProtoRequestException.Throw(RequestRejectionReason.MalformedRequestInvalidHeaders);
                         break;
                 }
             }
@@ -617,7 +617,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             {
                 // In this case, there is an ongoing request but the start line/header parsing has timed out, so send
                 // a 408 response.
-                BadHttpRequestException.Throw(RequestRejectionReason.RequestHeadersTimeout);
+                BadProtoRequestException.Throw(RequestRejectionReason.RequestHeadersTimeout);
             }
 
             endConnection = false;

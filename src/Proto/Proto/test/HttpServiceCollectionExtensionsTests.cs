@@ -5,29 +5,29 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Http.Tests
+namespace Contoso.GameNetCore.Proto.Tests
 {
-    public class HttpServiceCollectionExtensionsTests
+    public class ProtoServiceCollectionExtensionsTests
     {
         [Fact]
-        public void AddHttpContextAccessor_AddsWithCorrectLifetime()
+        public void AddProtoContextAccessor_AddsWithCorrectLifetime()
         {
             // Arrange
             var services = new ServiceCollection();
 
             // Act
-            services.AddHttpContextAccessor();
+            services.AddProtoContextAccessor();
 
             // Assert
             var descriptor = services[0];
             Assert.Equal(ServiceLifetime.Singleton, descriptor.Lifetime);
-            Assert.Equal(typeof(HttpContextAccessor), descriptor.ImplementationType);
+            Assert.Equal(typeof(ProtoContextAccessor), descriptor.ImplementationType);
         }
 
         [Fact]
-        public void AddHttpContextAccessor_ThrowsWithoutServices()
+        public void AddProtoContextAccessor_ThrowsWithoutServices()
         {
-            Assert.Throws<ArgumentNullException>("services", () => HttpServiceCollectionExtensions.AddHttpContextAccessor(null));
+            Assert.Throws<ArgumentNullException>("services", () => ProtoServiceCollectionExtensions.AddProtoContextAccessor(null));
         }
     }
 }

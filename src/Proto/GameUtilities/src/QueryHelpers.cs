@@ -1,13 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.Encodings.Web;
-using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.WebUtilities
+namespace Contoso.GameNetCore.GameUtilities
 {
     public static class QueryHelpers
     {
@@ -18,26 +17,9 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="name">The name of the query key.</param>
         /// <param name="value">The query value.</param>
         /// <returns>The combined result.</returns>
-        public static string AddQueryString(string uri, string name, string value)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            return AddQueryString(
-                uri, new[] { new KeyValuePair<string, string>(name, value) });
-        }
+        public static string AddQueryString(string uri, string name, string value) =>
+            AddQueryString(
+                uri ?? throw new ArgumentNullException(nameof(uri)), new[] { new KeyValuePair<string, string>(name ?? throw new ArgumentNullException(nameof(name)), value ?? throw new ArgumentNullException(nameof(value))) });
 
         /// <summary>
         /// Append the given query keys and values to the uri.
@@ -45,35 +27,17 @@ namespace Microsoft.AspNetCore.WebUtilities
         /// <param name="uri">The base uri.</param>
         /// <param name="queryString">A collection of name value query pairs to append.</param>
         /// <returns>The combined result.</returns>
-        public static string AddQueryString(string uri, IDictionary<string, string> queryString)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
-            if (queryString == null)
-            {
-                throw new ArgumentNullException(nameof(queryString));
-            }
-
-            return AddQueryString(uri, (IEnumerable<KeyValuePair<string, string>>)queryString);
-        }
+        public static string AddQueryString(string uri, IDictionary<string, string> queryString) =>
+            AddQueryString(uri ?? throw new ArgumentNullException(nameof(uri)), (IEnumerable<KeyValuePair<string, string>>)queryString ?? throw new ArgumentNullException(nameof(queryString)));
 
         private static string AddQueryString(
             string uri,
             IEnumerable<KeyValuePair<string, string>> queryString)
         {
             if (uri == null)
-            {
                 throw new ArgumentNullException(nameof(uri));
-            }
-
             if (queryString == null)
-            {
                 throw new ArgumentNullException(nameof(queryString));
-            }
-
             var anchorIndex = uri.IndexOf('#');
             var uriToBeAppended = uri;
             var anchorText = "";
@@ -110,15 +74,8 @@ namespace Microsoft.AspNetCore.WebUtilities
         public static Dictionary<string, StringValues> ParseQuery(string queryString)
         {
             var result = ParseNullableQuery(queryString);
-
-            if (result == null)
-            {
-                return new Dictionary<string, StringValues>();
-            }
-
-            return result;
+            return result ?? new Dictionary<string, StringValues>();
         }
-
 
         /// <summary>
         /// Parse a query string into its component key and value parts.
@@ -130,62 +87,41 @@ namespace Microsoft.AspNetCore.WebUtilities
             var accumulator = new KeyValueAccumulator();
 
             if (string.IsNullOrEmpty(queryString) || queryString == "?")
-            {
                 return null;
-            }
-
-            int scanIndex = 0;
+            var scanIndex = 0;
             if (queryString[0] == '?')
-            {
                 scanIndex = 1;
-            }
-
-            int textLength = queryString.Length;
-            int equalIndex = queryString.IndexOf('=');
+            var textLength = queryString.Length;
+            var equalIndex = queryString.IndexOf('=');
             if (equalIndex == -1)
-            {
                 equalIndex = textLength;
-            }
             while (scanIndex < textLength)
             {
-                int delimiterIndex = queryString.IndexOf('&', scanIndex);
+                var delimiterIndex = queryString.IndexOf('&', scanIndex);
                 if (delimiterIndex == -1)
-                {
                     delimiterIndex = textLength;
-                }
                 if (equalIndex < delimiterIndex)
                 {
                     while (scanIndex != equalIndex && char.IsWhiteSpace(queryString[scanIndex]))
-                    {
                         ++scanIndex;
-                    }
-                    string name = queryString.Substring(scanIndex, equalIndex - scanIndex);
-                    string value = queryString.Substring(equalIndex + 1, delimiterIndex - equalIndex - 1);
+                    var name = queryString.Substring(scanIndex, equalIndex - scanIndex);
+                    var value = queryString.Substring(equalIndex + 1, delimiterIndex - equalIndex - 1);
                     accumulator.Append(
                         Uri.UnescapeDataString(name.Replace('+', ' ')),
                         Uri.UnescapeDataString(value.Replace('+', ' ')));
                     equalIndex = queryString.IndexOf('=', delimiterIndex);
                     if (equalIndex == -1)
-                    {
                         equalIndex = textLength;
-                    }
                 }
                 else
                 {
                     if (delimiterIndex > scanIndex)
-                    {
                         accumulator.Append(queryString.Substring(scanIndex, delimiterIndex - scanIndex), string.Empty);
-                    }
                 }
                 scanIndex = delimiterIndex + 1;
             }
 
-            if (!accumulator.HasValues)
-            {
-                return null;
-            }
-
-            return accumulator.GetResults();
+            return !accumulator.HasValues ? null : accumulator.GetResults();
         }
     }
 }

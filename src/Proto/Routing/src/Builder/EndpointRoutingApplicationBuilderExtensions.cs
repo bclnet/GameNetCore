@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     public static class EndpointRoutingApplicationBuilderExtensions
     {
@@ -27,10 +27,10 @@ namespace Microsoft.AspNetCore.Builder
         /// </para>
         /// <para>
         /// The <see cref="EndpointRoutingMiddleware"/> defines a point in the middleware pipeline where routing decisions are
-        /// made, and an <see cref="Endpoint"/> is associated with the <see cref="HttpContext"/>. The <see cref="EndpointMiddleware"/>
+        /// made, and an <see cref="Endpoint"/> is associated with the <see cref="ProtoContext"/>. The <see cref="EndpointMiddleware"/>
         /// defines a point in the middleware pipeline where the current <see cref="Endpoint"/> is executed. Middleware between
         /// the <see cref="EndpointRoutingMiddleware"/> and <see cref="EndpointMiddleware"/> may observe or change the
-        /// <see cref="Endpoint"/> associated with the <see cref="HttpContext"/>.
+        /// <see cref="Endpoint"/> associated with the <see cref="ProtoContext"/>.
         /// </para>
         /// </remarks>
         public static IApplicationBuilder UseRouting(this IApplicationBuilder builder)
@@ -65,10 +65,10 @@ namespace Microsoft.AspNetCore.Builder
         /// </para>
         /// <para>
         /// The <see cref="EndpointRoutingMiddleware"/> defines a point in the middleware pipeline where routing decisions are
-        /// made, and an <see cref="Endpoint"/> is associated with the <see cref="HttpContext"/>. The <see cref="EndpointMiddleware"/>
+        /// made, and an <see cref="Endpoint"/> is associated with the <see cref="ProtoContext"/>. The <see cref="EndpointMiddleware"/>
         /// defines a point in the middleware pipeline where the current <see cref="Endpoint"/> is executed. Middleware between
         /// the <see cref="EndpointRoutingMiddleware"/> and <see cref="EndpointMiddleware"/> may observe or change the
-        /// <see cref="Endpoint"/> associated with the <see cref="HttpContext"/>.
+        /// <see cref="Endpoint"/> associated with the <see cref="ProtoContext"/>.
         /// </para>
         /// </remarks>
         public static IApplicationBuilder UseEndpoints(this IApplicationBuilder builder, Action<IEndpointRouteBuilder> configure)

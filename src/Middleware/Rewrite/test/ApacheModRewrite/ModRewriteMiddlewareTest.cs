@@ -5,13 +5,13 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.TestHost;
+using Contoso.GameNetCore.Builder;
+using Contoso.GameNetCore.Hosting;
+using Contoso.GameNetCore.Http;
+using Contoso.GameNetCore.TestHost;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Rewrite.Tests.ModRewrite
+namespace Contoso.GameNetCore.Rewrite.Tests.ModRewrite
 {
     public class ModRewriteMiddlewareTest
     {

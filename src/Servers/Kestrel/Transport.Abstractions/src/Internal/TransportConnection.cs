@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Net;
 using System.Threading;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Connections;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal
+namespace Contoso.GameNetCore.Server.Kestrel.Transport.Abstractions.Internal
 {
     public abstract partial class TransportConnection : ConnectionContext
     {

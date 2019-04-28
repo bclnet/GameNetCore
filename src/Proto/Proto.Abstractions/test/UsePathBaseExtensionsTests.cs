@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Builder.Internal;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Contoso.GameNetCore.Builder.Extensions
 {
     public class UsePathBaseExtensionsTests
     {
@@ -133,7 +133,7 @@ namespace Microsoft.AspNetCore.Builder.Extensions
 
         private static void TestPathBase(string registeredPathBase, string pathBase, string requestPath, string expectedPathBase, string expectedPath)
         {
-            HttpContext requestContext = CreateRequest(pathBase, requestPath);
+            ProtoContext requestContext = CreateRequest(pathBase, requestPath);
             var builder = CreateBuilder()
                 .UsePathBase(registeredPathBase);
             builder.Run(context =>
@@ -152,9 +152,9 @@ namespace Microsoft.AspNetCore.Builder.Extensions
             Assert.Equal(requestPath, requestContext.Request.Path.Value);
         }
 
-        private static HttpContext CreateRequest(string pathBase, string requestPath)
+        private static ProtoContext CreateRequest(string pathBase, string requestPath)
         {
-            HttpContext context = new DefaultHttpContext();
+            ProtoContext context = new DefaultProtoContext();
             context.Request.PathBase = new PathString(pathBase);
             context.Request.Path = new PathString(requestPath);
             return context;

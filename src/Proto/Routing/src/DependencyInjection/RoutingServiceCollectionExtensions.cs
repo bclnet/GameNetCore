@@ -3,11 +3,11 @@
 
 using System;
 using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Internal;
-using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Routing.Tree;
+using Contoso.GameNetCore.Routing;
+using Contoso.GameNetCore.Routing.Internal;
+using Contoso.GameNetCore.Routing.Matching;
+using Contoso.GameNetCore.Routing.Patterns;
+using Contoso.GameNetCore.Routing.Tree;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
@@ -82,7 +82,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // Endpoint Selection
             //
             services.TryAddSingleton<EndpointSelector, DefaultEndpointSelector>();
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<MatcherPolicy, HttpMethodMatcherPolicy>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<MatcherPolicy, ProtoMethodMatcherPolicy>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<MatcherPolicy, HostMatcherPolicy>());
 
             //

@@ -6,16 +6,16 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.WebUtilities;
+using Contoso.GameNetCore.Proto.Internal;
+using Contoso.GameNetCore.GameUtilities;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Proto.Headers;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     public class FormFeature : IFormFeature
     {
-        private readonly HttpRequest _request;
+        private readonly ProtoRequest _request;
         private readonly FormOptions _options;
         private Task<IFormCollection> _parsedFormTask;
         private IFormCollection _form;
@@ -29,12 +29,12 @@ namespace Microsoft.AspNetCore.Http.Features
 
             Form = form;
         }
-        public FormFeature(HttpRequest request)
+        public FormFeature(ProtoRequest request)
             : this(request, FormOptions.Default)
         {
         }
 
-        public FormFeature(HttpRequest request, FormOptions options)
+        public FormFeature(ProtoRequest request, FormOptions options)
         {
             if (request == null)
             {
@@ -143,7 +143,7 @@ namespace Microsoft.AspNetCore.Http.Features
             FormFileCollection files = null;
 
             // Some of these code paths use StreamReader which does not support cancellation tokens.
-            using (cancellationToken.Register((state) => ((HttpContext)state).Abort(), _request.HttpContext))
+            using (cancellationToken.Register((state) => ((ProtoContext)state).Abort(), _request.ProtoContext))
             {
                 var contentType = ContentType;
                 // Check the content-type
@@ -184,7 +184,7 @@ namespace Microsoft.AspNetCore.Http.Features
 
                             // Enable buffering for the file if not already done for the full body
                             section.EnableRewind(
-                                _request.HttpContext.Response.RegisterForDispose,
+                                _request.ProtoContext.Response.RegisterForDispose,
                                 _options.MemoryBufferThreshold, _options.MultipartBodyLengthLimit);
 
                             // Find the end
@@ -289,7 +289,7 @@ namespace Microsoft.AspNetCore.Http.Features
 
         private bool HasMultipartFormContentType(MediaTypeHeaderValue contentType)
         {
-            // Content-Type: multipart/form-data; boundary=----WebKitFormBoundarymx2fSWqWSd0OxQqq
+            // Content-Type: multipart/form-data; boundary=----GameKitFormBoundarymx2fSWqWSd0OxQqq
             return contentType != null && contentType.MediaType.Equals("multipart/form-data", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -307,7 +307,7 @@ namespace Microsoft.AspNetCore.Http.Features
                 && (!StringSegment.IsNullOrEmpty(contentDisposition.FileName) || !StringSegment.IsNullOrEmpty(contentDisposition.FileNameStar));
         }
 
-        // Content-Type: multipart/form-data; boundary="----WebKitFormBoundarymx2fSWqWSd0OxQqq"
+        // Content-Type: multipart/form-data; boundary="----GameKitFormBoundarymx2fSWqWSd0OxQqq"
         // The spec says 70 characters is a reasonable limit.
         private static string GetBoundary(MediaTypeHeaderValue contentType, int lengthLimit)
         {

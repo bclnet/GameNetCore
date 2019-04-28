@@ -10,7 +10,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Microsoft.AspNetCore.Routing.Internal
+namespace Contoso.GameNetCore.Routing.Internal
 {
     /// <summary>
     /// Helper type for avoiding allocations while building arrays.

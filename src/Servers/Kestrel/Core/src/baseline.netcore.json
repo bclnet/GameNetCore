@@ -48,7 +48,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Hosting.ListenOptionsHttpsExtensions",
+      "Name": "Microsoft.AspNetCore.Hosting.ListenOptionsProtosExtensions",
       "Visibility": "Public",
       "Kind": "Class",
       "Abstract": true,
@@ -58,7 +58,7 @@
       "Members": [
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -73,7 +73,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -92,7 +92,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -115,7 +115,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -131,7 +131,7 @@
             },
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions",
@@ -142,7 +142,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -165,7 +165,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -192,7 +192,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -223,7 +223,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -247,7 +247,7 @@
             },
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions",
@@ -258,7 +258,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -277,7 +277,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -289,7 +289,7 @@
             },
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions",
@@ -300,7 +300,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -308,7 +308,7 @@
             },
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions>"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions",
@@ -319,7 +319,7 @@
         },
         {
           "Kind": "Method",
-          "Name": "UseHttps",
+          "Name": "UseProtos",
           "Parameters": [
             {
               "Name": "listenOptions",
@@ -327,7 +327,7 @@
             },
             {
               "Name": "httpsOptions",
-              "Type": "Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions"
+              "Type": "Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions"
             }
           ],
           "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions",
@@ -393,7 +393,7 @@
       "Members": [
         {
           "Kind": "Method",
-          "Name": "get_IsHttps",
+          "Name": "get_IsProtos",
           "Parameters": [],
           "ReturnType": "System.Boolean",
           "Visibility": "Public",
@@ -409,9 +409,9 @@
         },
         {
           "Kind": "Method",
-          "Name": "get_HttpsOptions",
+          "Name": "get_ProtosOptions",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions",
+          "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -665,7 +665,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Protos.ClientCertificateMode",
       "Visibility": "Public",
       "Kind": "Enumeration",
       "Sealed": true,
@@ -696,7 +696,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions",
       "Visibility": "Public",
       "Kind": "Class",
       "ImplementedInterfaces": [],
@@ -747,7 +747,7 @@
           "Kind": "Method",
           "Name": "get_ClientCertificateMode",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode",
+          "ReturnType": "Microsoft.AspNetCore.Server.Kestrel.Protos.ClientCertificateMode",
           "Visibility": "Public",
           "GenericParameter": []
         },
@@ -757,7 +757,7 @@
           "Parameters": [
             {
               "Name": "value",
-              "Type": "Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode"
+              "Type": "Microsoft.AspNetCore.Server.Kestrel.Protos.ClientCertificateMode"
             }
           ],
           "ReturnType": "System.Void",
@@ -859,7 +859,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.BadProtoRequestException",
       "Visibility": "Public",
       "Kind": "Class",
       "Sealed": true,
@@ -872,11 +872,11 @@
           "Parameters": [
             {
               "Name": "reason",
-              "Type": "Microsoft.AspNetCore.Server.Kestrel.Core.Http.RequestRejectionReason"
+              "Type": "Microsoft.AspNetCore.Server.Kestrel.Core.Proto.RequestRejectionReason"
             },
             {
               "Name": "method",
-              "Type": "Microsoft.AspNetCore.Server.Kestrel.Core.Http.HttpMethod"
+              "Type": "Microsoft.AspNetCore.Server.Kestrel.Core.Proto.ProtoMethod"
             }
           ],
           "ReturnType": "System.Void",
@@ -888,7 +888,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.ProtoProtocols",
       "Visibility": "Public",
       "Kind": "Enumeration",
       "Sealed": true,
@@ -903,21 +903,21 @@
         },
         {
           "Kind": "Field",
-          "Name": "Http1",
+          "Name": "Proto1",
           "Parameters": [],
           "GenericParameter": [],
           "Literal": "1"
         },
         {
           "Kind": "Field",
-          "Name": "Http2",
+          "Name": "Proto2",
           "Parameters": [],
           "GenericParameter": [],
           "Literal": "2"
         },
         {
           "Kind": "Field",
-          "Name": "Http1AndHttp2",
+          "Name": "Proto1AndProto2",
           "Parameters": [],
           "GenericParameter": [],
           "Literal": "3"
@@ -948,7 +948,7 @@
           "Kind": "Method",
           "Name": "get_Features",
           "Parameters": [],
-          "ReturnType": "Microsoft.AspNetCore.Http.Features.IFeatureCollection",
+          "ReturnType": "Microsoft.AspNetCore.Proto.Features.IFeatureCollection",
           "Sealed": true,
           "Virtual": true,
           "ImplementedInterface": "Microsoft.AspNetCore.Hosting.Server.IServer",
@@ -969,7 +969,7 @@
           "Parameters": [
             {
               "Name": "application",
-              "Type": "Microsoft.AspNetCore.Hosting.Server.IHttpApplication<T0>"
+              "Type": "Microsoft.AspNetCore.Hosting.Server.IProtoApplication<T0>"
             },
             {
               "Name": "cancellationToken",
@@ -1430,11 +1430,11 @@
         },
         {
           "Kind": "Method",
-          "Name": "ConfigureHttpsDefaults",
+          "Name": "ConfigureProtosDefaults",
           "Parameters": [
             {
               "Name": "configureOptions",
-              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions>"
+              "Type": "System.Action<Microsoft.AspNetCore.Server.Kestrel.Protos.ProtosConnectionAdapterOptions>"
             }
           ],
           "ReturnType": "System.Void",
@@ -2060,7 +2060,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IHttp2StreamIdFeature",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IProto2StreamIdFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2077,7 +2077,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IHttpMinRequestBodyDataRateFeature",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IProtoMinRequestBodyDataRateFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,
@@ -2106,7 +2106,7 @@
       "GenericParameters": []
     },
     {
-      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IHttpMinResponseDataRateFeature",
+      "Name": "Microsoft.AspNetCore.Server.Kestrel.Core.Features.IProtoMinResponseDataRateFeature",
       "Visibility": "Public",
       "Kind": "Interface",
       "Abstract": true,

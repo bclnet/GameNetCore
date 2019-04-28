@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Routing.Logging
+namespace Contoso.GameNetCore.Routing.Logging
 {
     internal static class RouteConstraintMatcherExtensions
     {

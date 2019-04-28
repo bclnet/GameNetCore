@@ -3,12 +3,12 @@
 
 using System;
 using System.Linq.Expressions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing.Constraints;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Routing.Tests
+namespace Contoso.GameNetCore.Routing.Tests
 {
     public class CompositeRouteConstraintTests
     {
@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Routing.Tests
 
         static Expression<Func<IRouteConstraint, bool>> ConstraintMatchMethodExpression =
             c => c.Match(
-                It.IsAny<HttpContext>(),
+                It.IsAny<ProtoContext>(),
                 It.IsAny<IRouter>(),
                 It.IsAny<string>(),
                 It.IsAny<RouteValueDictionary>(),

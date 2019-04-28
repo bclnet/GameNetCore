@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     // A test-only matcher implementation - used as a baseline for more compilated
     // perf tests. The idea with this matcher is that we can cheat on the requirements
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
             Matchers = matchers;
         }
 
-        public override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+        public override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
         {
             if (httpContext == null)
             {
@@ -121,7 +121,7 @@ namespace Microsoft.AspNetCore.Routing.Matching
                 return Array.Empty<Candidate>();
             }
 
-            public override Task MatchAsync(HttpContext httpContext, EndpointSelectorContext context)
+            public override Task MatchAsync(ProtoContext httpContext, EndpointSelectorContext context)
             {
                 if (TryMatch(httpContext.Request.Path.Value))
                 {

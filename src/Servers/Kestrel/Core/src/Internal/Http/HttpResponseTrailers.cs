@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
+namespace Contoso.GameNetCore.Server.Kestrel.Core.Internal.Proto
 {
-    internal partial class HttpResponseTrailers : HttpHeaders
+    internal partial class ProtoResponseTrailers : ProtoHeaders
     {
         public Enumerator GetEnumerator()
         {
@@ -30,14 +30,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public partial struct Enumerator : IEnumerator<KeyValuePair<string, StringValues>>
         {
-            private readonly HttpResponseTrailers _collection;
+            private readonly ProtoResponseTrailers _collection;
             private readonly long _bits;
             private int _next;
             private KeyValuePair<string, StringValues> _current;
             private readonly bool _hasUnknown;
             private Dictionary<string, StringValues>.Enumerator _unknownEnumerator;
 
-            internal Enumerator(HttpResponseTrailers collection)
+            internal Enumerator(ProtoResponseTrailers collection)
             {
                 _collection = collection;
                 _bits = collection._bits;

@@ -3,9 +3,9 @@
 
 using System;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
-    public static class HttpMethods
+    public static class ProtoMethods
     {
         public static readonly string Connect = "CONNECT";
         public static readonly string Delete = "DELETE";

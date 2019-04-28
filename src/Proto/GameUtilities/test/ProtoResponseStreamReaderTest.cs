@@ -10,10 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-
-namespace Microsoft.AspNetCore.WebUtilities.Test
+namespace Contoso.GameNetCore.GameUtilities.Test
 {
-    public class HttpResponseStreamReaderTest
+    public class ProtoResponseStreamReaderTest
     {
         private static readonly char[] CharData = new char[]
         {
@@ -48,7 +47,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
         public static async Task ReadToEndAsync()
         {
             // Arrange
-            var reader = new HttpRequestStreamReader(GetLargeStream(), Encoding.UTF8);
+            var reader = new ProtoRequestStreamReader(GetLargeStream(), Encoding.UTF8);
 
             var result = await reader.ReadToEndAsync();
 
@@ -89,7 +88,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
         public static void EmptyStream()
         {
             // Arrange
-            var reader = new HttpRequestStreamReader(new MemoryStream(), Encoding.UTF8);
+            var reader = new ProtoRequestStreamReader(new MemoryStream(), Encoding.UTF8);
             var buffer = new char[10];
 
             // Act
@@ -112,9 +111,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             // Assert
             Assert.Equal(chars.Length, read);
             for (var i = 0; i < CharData.Length; i++)
-            {
                 Assert.Equal(CharData[i], chars[i]);
-            }
         }
 
         [Fact]
@@ -130,9 +127,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             // Assert
             Assert.Equal(3, read);
             for (var i = 0; i < 3; i++)
-            {
                 Assert.Equal(CharData[i], chars[i + 4]);
-            }
         }
 
         [Fact]
@@ -182,7 +177,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             writer.Flush();
             stream.Position = 0;
 
-            var reader = new HttpRequestStreamReader(stream, Encoding.UTF8);
+            var reader = new ProtoRequestStreamReader(stream, Encoding.UTF8);
 
             // Act & Assert
             for (var i = 0; i < 4; i++)
@@ -196,15 +191,14 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
         }
 
         [Theory]
-        [MemberData(nameof(HttpRequestNullData))]
+        [MemberData(nameof(ProtoRequestNullData))]
         public static void NullInputsInConstructor_ExpectArgumentNullException(Stream stream, Encoding encoding, ArrayPool<byte> bytePool, ArrayPool<char> charPool)
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var httpRequestStreamReader = new HttpRequestStreamReader(stream, encoding, 1, bytePool, charPool);
+                var httpRequestStreamReader = new ProtoRequestStreamReader(stream, encoding, 1, bytePool, charPool);
             });
         }
-
 
 
         [Theory]
@@ -214,7 +208,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                var httpRequestStreamReader = new HttpRequestStreamReader(new MemoryStream(), Encoding.UTF8, size, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
+                var httpRequestStreamReader = new ProtoRequestStreamReader(new MemoryStream(), Encoding.UTF8, size, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
             });
         }
 
@@ -225,15 +219,15 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             mockStream.Setup(m => m.CanRead).Returns(false);
             Assert.Throws<ArgumentException>(() =>
             {
-                var httpRequestStreamReader = new HttpRequestStreamReader(mockStream.Object, Encoding.UTF8, 1, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
+                var httpRequestStreamReader = new ProtoRequestStreamReader(mockStream.Object, Encoding.UTF8, 1, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
             });
         }
 
         [Theory]
-        [MemberData(nameof(HttpRequestDisposeData))]
-        public static void StreamDisposed_ExpectedObjectDisposedException(Action<HttpRequestStreamReader> action)
+        [MemberData(nameof(ProtoRequestDisposeData))]
+        public static void StreamDisposed_ExpectedObjectDisposedException(Action<ProtoRequestStreamReader> action)
         {
-            var httpRequestStreamReader = new HttpRequestStreamReader(new MemoryStream(), Encoding.UTF8, 10, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
+            var httpRequestStreamReader = new ProtoRequestStreamReader(new MemoryStream(), Encoding.UTF8, 10, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
             httpRequestStreamReader.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() =>
@@ -245,7 +239,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
         [Fact]
         public static async Task StreamDisposed_ExpectObjectDisposedExceptionAsync()
         {
-            var httpRequestStreamReader = new HttpRequestStreamReader(new MemoryStream(), Encoding.UTF8, 10, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
+            var httpRequestStreamReader = new ProtoRequestStreamReader(new MemoryStream(), Encoding.UTF8, 10, ArrayPool<byte>.Shared, ArrayPool<char>.Shared);
             httpRequestStreamReader.Dispose();
 
             await Assert.ThrowsAsync<ObjectDisposedException>(() =>
@@ -253,7 +247,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
                 return httpRequestStreamReader.ReadAsync(new char[10], 0, 1);
             });
         }
-        private static HttpRequestStreamReader CreateReader()
+        private static ProtoRequestStreamReader CreateReader()
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -261,7 +255,7 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             writer.Flush();
             stream.Position = 0;
 
-            return new HttpRequestStreamReader(stream, Encoding.UTF8);
+            return new ProtoRequestStreamReader(stream, Encoding.UTF8);
         }
 
         private static MemoryStream GetSmallStream()
@@ -277,14 +271,12 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
 
             var data = new List<byte>();
             for (var i = 0; i < 1000; i++)
-            {
                 data.AddRange(testData);
-            }
 
             return new MemoryStream(data.ToArray());
         }
 
-        public static IEnumerable<object[]> HttpRequestNullData()
+        public static IEnumerable<object[]> ProtoRequestNullData()
         {
             yield return new object[] { null, Encoding.UTF8, ArrayPool<byte>.Shared, ArrayPool<char>.Shared };
             yield return new object[] { new MemoryStream(), null, ArrayPool<byte>.Shared, ArrayPool<char>.Shared };
@@ -292,18 +284,18 @@ namespace Microsoft.AspNetCore.WebUtilities.Test
             yield return new object[] { new MemoryStream(), Encoding.UTF8, ArrayPool<byte>.Shared, null };
         }
 
-        public static IEnumerable<object[]> HttpRequestDisposeData()
+        public static IEnumerable<object[]> ProtoRequestDisposeData()
         {
-            yield return new object[] { new Action<HttpRequestStreamReader>((httpRequestStreamReader) =>
+            yield return new object[] { new Action<ProtoRequestStreamReader>((httpRequestStreamReader) =>
             {
                  var res = httpRequestStreamReader.Read();
             })};
-            yield return new object[] { new Action<HttpRequestStreamReader>((httpRequestStreamReader) =>
+            yield return new object[] { new Action<ProtoRequestStreamReader>((httpRequestStreamReader) =>
             {
                  var res = httpRequestStreamReader.Read(new char[10], 0, 1);
             })};
 
-            yield return new object[] { new Action<HttpRequestStreamReader>((httpRequestStreamReader) =>
+            yield return new object[] { new Action<ProtoRequestStreamReader>((httpRequestStreamReader) =>
             {
                 var res = httpRequestStreamReader.Peek();
             })};

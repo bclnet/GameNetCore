@@ -3,10 +3,10 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.HttpSys.Internal;
+using Contoso.GameNetCore.HttpSys.Internal;
 using static Microsoft.AspNetCore.HttpSys.Internal.HttpApiTypes;
 
-namespace Microsoft.AspNetCore.Server.HttpSys
+namespace Contoso.GameNetCore.Server.HttpSys
 {
     internal static unsafe class HttpApi
     {

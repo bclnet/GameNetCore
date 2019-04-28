@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Microsoft.AspNetCore.Hosting.Fakes
+namespace Contoso.GameNetCore.Hosting.Fakes
 {
     public class StartupThrowTypeLoadException
     {

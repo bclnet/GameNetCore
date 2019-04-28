@@ -3,10 +3,10 @@
 
 using System;
 using System.Text;
-using Microsoft.AspNetCore.DataProtection;
+using Contoso.GameNetCore.DataProtection;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Session
+namespace Contoso.GameNetCore.Session
 {
     internal static class CookieProtection
     {

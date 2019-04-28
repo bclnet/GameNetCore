@@ -3,10 +3,10 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Rewrite.Internal.IISUrlRewrite;
+using Contoso.GameNetCore.Rewrite.Internal.IISUrlRewrite;
 using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.AspNetCore.Rewrite
+namespace Contoso.GameNetCore.Rewrite
 {
     /// <summary>
     /// Extensions for adding IIS Url Rewrite rules to <see cref="RewriteOptions"/>

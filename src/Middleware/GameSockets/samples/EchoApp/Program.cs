@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+using Contoso.GameNetCore.Hosting;
 
 namespace EchoApp
 {
@@ -11,7 +11,7 @@ namespace EchoApp
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
+            var host = new GameHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

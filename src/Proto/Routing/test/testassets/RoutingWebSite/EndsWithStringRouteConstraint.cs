@@ -3,10 +3,10 @@
 
 using System;
 using System.Globalization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Proto;
+using Contoso.GameNetCore.Routing;
 
-namespace RoutingWebSite
+namespace RoutingGameSite
 {
     internal class EndsWithStringRouteConstraint : IRouteConstraint
     {
@@ -17,7 +17,7 @@ namespace RoutingWebSite
             _endsWith = endsWith;
         }
 
-        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(ProtoContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
             var value = values[routeKey];
             if (value == null)

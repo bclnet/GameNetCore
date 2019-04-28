@@ -1,13 +1,13 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using Contoso.GameNetCore.Proto;
 
-namespace Microsoft.AspNetCore.Routing.Matching
+namespace Contoso.GameNetCore.Routing.Matching
 {
     public abstract class PolicyJumpTable
     {
-        public abstract int GetDestination(HttpContext httpContext);
+        public abstract int GetDestination(ProtoContext httpContext);
 
         internal virtual string DebuggerToString()
         {

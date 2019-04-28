@@ -9,11 +9,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.AspNetCore.Server.IntegrationTesting.Common;
+using Contoso.GameNetCore.Server.IntegrationTesting.Common;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Server.IntegrationTesting
+namespace Contoso.GameNetCore.Server.IntegrationTesting
 {
     public class RemoteWindowsDeployer : ApplicationDeployer
     {

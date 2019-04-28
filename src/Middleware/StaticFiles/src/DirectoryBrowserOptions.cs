@@ -1,10 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.AspNetCore.StaticFiles.Infrastructure;
+using Contoso.GameNetCore.StaticFiles;
+using Contoso.GameNetCore.StaticFiles.Infrastructure;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Contoso.GameNetCore.Builder
 {
     /// <summary>
     /// Directory browsing options
@@ -15,18 +15,13 @@ namespace Microsoft.AspNetCore.Builder
         /// Enabled directory browsing for all request paths
         /// </summary>
         public DirectoryBrowserOptions()
-            : this(new SharedOptions())
-        {
-        }
-
+            : this(new SharedOptions()) { }
         /// <summary>
         /// Enabled directory browsing all request paths
         /// </summary>
         /// <param name="sharedOptions"></param>
         public DirectoryBrowserOptions(SharedOptions sharedOptions)
-            : base(sharedOptions)
-        {
-        }
+            : base(sharedOptions) { }
 
         /// <summary>
         /// The component that generates the view.

@@ -2,20 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http.Features;
+using Contoso.GameNetCore.Proto.Features;
 
-namespace Microsoft.AspNetCore.Http
+namespace Contoso.GameNetCore.Proto
 {
     public static class ResponseExtensions
     {
-        public static void Clear(this HttpResponse response)
+        public static void Clear(this ProtoResponse response)
         {
             if (response.HasStarted)
             {
                 throw new InvalidOperationException("The response cannot be cleared, it has already started sending.");
             }
             response.StatusCode = 200;
-            response.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = null;
+            response.ProtoContext.Features.Get<IProtoResponseFeature>().ReasonPhrase = null;
             response.Headers.Clear();
             if (response.Body.CanSeek)
             {

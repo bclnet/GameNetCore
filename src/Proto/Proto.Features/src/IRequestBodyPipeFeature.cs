@@ -3,10 +3,10 @@
 
 using System.IO.Pipelines;
 
-namespace Microsoft.AspNetCore.Http.Features
+namespace Contoso.GameNetCore.Proto.Features
 {
     /// <summary>
-    /// Represents the HttpRequestBody as a PipeReader.
+    /// Represents the ProtoRequestBody as a PipeReader.
     /// </summary>
     public interface IRequestBodyPipeFeature
     {

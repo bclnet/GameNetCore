@@ -6,42 +6,42 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Microsoft.AspNetCore.Routing
+namespace Contoso.GameNetCore.Routing
 {
     /// <summary>
     /// Represents HTTP method metadata used during routing.
     /// </summary>
     [DebuggerDisplay("{DebuggerToString(),nq}")]
-    public sealed class HttpMethodMetadata : IHttpMethodMetadata
+    public sealed class ProtoMethodMetadata : IProtoMethodMetadata
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpMethodMetadata" /> class.
+        /// Initializes a new instance of the <see cref="ProtoMethodMetadata" /> class.
         /// </summary>
         /// <param name="httpMethods">
         /// The HTTP methods used during routing.
         /// An empty collection means any HTTP method will be accepted.
         /// </param>
-        public HttpMethodMetadata(IEnumerable<string> httpMethods)
+        public ProtoMethodMetadata(IEnumerable<string> httpMethods)
             : this(httpMethods, acceptCorsPreflight: false)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpMethodMetadata" /> class.
+        /// Initializes a new instance of the <see cref="ProtoMethodMetadata" /> class.
         /// </summary>
         /// <param name="httpMethods">
         /// The HTTP methods used during routing.
         /// An empty collection means any HTTP method will be accepted.
         /// </param>
         /// <param name="acceptCorsPreflight">A value indicating whether routing accepts CORS preflight requests.</param>
-        public HttpMethodMetadata(IEnumerable<string> httpMethods, bool acceptCorsPreflight)
+        public ProtoMethodMetadata(IEnumerable<string> httpMethods, bool acceptCorsPreflight)
         {
             if (httpMethods == null)
             {
                 throw new ArgumentNullException(nameof(httpMethods));
             }
 
-            HttpMethods = httpMethods.ToArray();
+            ProtoMethods = httpMethods.ToArray();
             AcceptCorsPreflight = acceptCorsPreflight;
         }
 
@@ -54,11 +54,11 @@ namespace Microsoft.AspNetCore.Routing
         /// Returns a read-only collection of HTTP methods used during routing.
         /// An empty collection means any HTTP method will be accepted.
         /// </summary>
-        public IReadOnlyList<string> HttpMethods { get; }
+        public IReadOnlyList<string> ProtoMethods { get; }
 
         private string DebuggerToString()
         {
-            return $"HttpMethods: {string.Join(",", HttpMethods)} - Cors: {AcceptCorsPreflight}";
+            return $"ProtoMethods: {string.Join(",", ProtoMethods)} - Cors: {AcceptCorsPreflight}";
         }
     }
 }

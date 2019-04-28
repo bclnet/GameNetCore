@@ -3,7 +3,7 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Routing;
+using Contoso.GameNetCore.Routing;
 
 namespace RoutingSandbox
 {
