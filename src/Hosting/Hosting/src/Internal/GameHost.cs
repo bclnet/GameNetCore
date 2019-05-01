@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Contoso.GameNetCore.Hosting.Builder;
+using Contoso.GameNetCore.Hosting.Client;
+using Contoso.GameNetCore.Hosting.Client.Features;
 using Contoso.GameNetCore.Hosting.Server;
 using Contoso.GameNetCore.Hosting.Server.Features;
 using Contoso.GameNetCore.Hosting.Views;
@@ -55,6 +57,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
         // Used for testing only
         internal GameHostOptions Options { get; }
 
+        IClient Client { get; set; }
         IServer Server { get; set; }
 
         public GameHost(
@@ -82,6 +85,15 @@ namespace Contoso.GameNetCore.Hosting.Internal
         }
 
         public IServiceProvider Services { get; private set; }
+
+        public IFeatureCollection ClientFeatures
+        {
+            get
+            {
+                EnsureClient();
+                return Client?.Features;
+            }
+        }
 
         public IFeatureCollection ServerFeatures
         {
@@ -125,6 +137,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
             var diagnosticSource = Services.GetRequiredService<DiagnosticListener>();
             var protoContextFactory = Services.GetRequiredService<IProtoContextFactory>();
             var hostingApp = new HostingApplication(application, _logger, diagnosticSource, protoContextFactory);
+            if (Client != null)
+                await Client.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
             if (Server != null)
                 await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
 
@@ -171,6 +185,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
             try
             {
                 _applicationServicesException?.Throw();
+                EnsureClient();
                 EnsureServer();
 
                 var builderFactory = Services.GetRequiredService<IApplicationBuilderFactory>();
@@ -197,6 +212,7 @@ namespace Contoso.GameNetCore.Hosting.Internal
                 if (!Options.CaptureStartupErrors)
                     throw;
 
+                EnsureClient();
                 EnsureServer();
 
                 // Generate an HTML error page.
@@ -236,6 +252,28 @@ namespace Contoso.GameNetCore.Hosting.Internal
                     context.Response.Headers["Cache-Control"] = "no-cache";
                     return errorPage.ExecuteAsync(context);
                 };
+            }
+        }
+
+        void EnsureClient()
+        {
+            if (Client == null && Services.GetService<IClient>() != null)
+            {
+                Client = Services.GetRequiredService<IClient>();
+
+                var clientAddressesFeature = Client.Features?.Get<IClientAddressesFeature>();
+                var addresses = clientAddressesFeature?.Addresses;
+                if (addresses != null && !addresses.IsReadOnly && addresses.Count == 0)
+                {
+                    var urls = _config[GameHostDefaults.ClientUrlsKey];
+                    if (!string.IsNullOrEmpty(urls))
+                    {
+                        clientAddressesFeature.PreferHostingUrls = GameHostUtilities.ParseBool(_config, GameHostDefaults.PreferHostingUrlsKey);
+
+                        foreach (var value in urls.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                            addresses.Add(value);
+                    }
+                }
             }
         }
 

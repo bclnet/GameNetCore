@@ -10,6 +10,8 @@ namespace Contoso.GameNetCore.Hosting
         public static readonly string HostingStartupAssembliesKey = "hostingStartupAssemblies";
         public static readonly string HostingStartupExcludeAssembliesKey = "hostingStartupExcludeAssemblies";
 
+        public static readonly string ClientUrlsKey = "curls";
+
         public static readonly string DetailedErrorsKey = "detailedErrors";
         public static readonly string EnvironmentKey = "environment";
         public static readonly string GameRootKey = "gameroot";

@@ -71,7 +71,7 @@
     <Compile Include="..\..\src\Hosting\Hosting\src\Startup\ExceptionPage\Views\ErrorPageModel.cs" Link="Hosting\Startup\ExceptionPage\Views\ErrorPageModel.cs" />
     <Compile Include="..\..\src\Hosting\Hosting\src\Startup\StartupBase.cs" Link="Hosting\Startup\StartupBase.cs" />
     <Compile Include="..\..\src\Hosting\Server.Abstractions\src\Features\IServerAddressesFeature.cs" Link="Server.Abstractions\Features\IServerAddressesFeature.cs" />
-    <Compile Include="..\..\src\Hosting\Server.Abstractions\src\IHttpApplication.cs" Link="Server.Abstractions\IHttpApplication.cs" />
+    <Compile Include="..\..\src\Hosting\Server.Abstractions\src\IProtoApplication.cs" Link="Server.Abstractions\IProtoApplication.cs" />
     <Compile Include="..\..\src\Hosting\Server.Abstractions\src\IServer.cs" Link="Server.Abstractions\IServer.cs" />
     <Compile Include="..\..\src\Hosting\WindowsServices\src\GameHostService.cs" Link="WindowsServices\GameHostService.cs" />
     <Compile Include="..\..\src\Hosting\WindowsServices\src\GameHostWindowsServiceExtensions.cs" Link="WindowsServices\GameHostWindowsServiceExtensions.cs" />

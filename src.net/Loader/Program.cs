@@ -13,7 +13,8 @@ namespace Loader
         public static IGameHostBuilder CreateGameHostBuilder(string[] args) =>
             GameHost.CreateDefaultBuilder(args)
                 //.UseClient()
-                //.UseSimple()
+                .UseStandard()
+                .UseSimple()
                 .UseStartup<Startup>();
     }
 }
