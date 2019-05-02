@@ -11,9 +11,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Contoso.GameNetCore.Server\Contoso.GameNetCore.Server.csproj" />
-    <ProjectReference Include="..\Contoso.GameNetCore\Contoso.GameNetCore.csproj" />
-  </ItemGroup>
-
 </Project>

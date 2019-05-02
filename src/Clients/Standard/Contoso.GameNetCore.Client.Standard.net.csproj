@@ -13,16 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\src\DefaultBuilder\src\GameHost.cs" Link="DefaultBuilder\GameHost.cs" />
-    <Compile Include="..\..\src\DefaultBuilder\src\GenericHostBuilderExtensions.cs" Link="DefaultBuilder\GenericHostBuilderExtensions.cs" />
-    <Compile Include="..\..\src\DefaultBuilder\src\HostFilteringStartupFilter.cs" Link="DefaultBuilder\HostFilteringStartupFilter.cs" />
-    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringBuilderExtensions.cs" Link="Middleware\HostFiltering\HostFilteringBuilderExtensions.cs" />
-    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringMiddleware.cs" Link="Middleware\HostFiltering\HostFilteringMiddleware.cs" />
-    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringOptions.cs" Link="Middleware\HostFiltering\HostFilteringOptions.cs" />
-    <Compile Include="..\..\src\Middleware\HostFiltering\src\HostFilteringServicesExtensions.cs" Link="Middleware\HostFiltering\HostFilteringServicesExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
@@ -33,10 +23,5 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DefaultBuilder\" />
-    <Folder Include="Middleware\HostFiltering\" />
   </ItemGroup>
 </Project>
