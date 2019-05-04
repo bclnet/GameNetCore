@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\EnvironmentName.cs" Link="EnvironmentName.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\GameHostBuilderContext.cs" Link="GameHostBuilderContext.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\GameHostDefaults.cs" Link="GameHostDefaults.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\HostingAbstractionsGameHostBuilderExtensions.cs" Link="HostingAbstractionsGameHostBuilderExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\HostingEnvironmentExtensions.cs" Link="HostingEnvironmentExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\HostingStartupAttribute.cs" Link="HostingStartupAttribute.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IApplicationLifetime.cs" Link="IApplicationLifetime.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IGameHost.cs" Link="IGameHost.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IGameHostBuilder.cs" Link="IGameHostBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IGameHostEnvironment .cs" Link="IGameHostEnvironment .cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IHostingEnvironment.cs" Link="IHostingEnvironment.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IHostingStartup.cs" Link="IHostingStartup.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\Internal\IStartupConfigureContainerFilter.cs" Link="Internal\IStartupConfigureContainerFilter.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\Internal\IStartupConfigureServicesFilter.cs" Link="Internal\IStartupConfigureServicesFilter.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IStartup.cs" Link="IStartup.cs" />
+    <Compile Include="..\..\..\src\Hosting\Abstractions\src\IStartupFilter.cs" Link="IStartupFilter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Internal\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client.Abstractions\Contoso.GameNetCore.Hosting.Client.Abstractions.csproj" />
+    <ProjectReference Include="..\Server.Abstractions\Contoso.GameNetCore.Hosting.Server.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DefaultBuilder\**" />
+    <Compile Remove="Middleware\**" />
+    <EmbeddedResource Remove="DefaultBuilder\**" />
+    <EmbeddedResource Remove="Middleware\**" />
+    <None Remove="DefaultBuilder\**" />
+    <None Remove="Middleware\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\Internal\ConfigurationReader.cs" Link="Core\Internal\ConfigurationReader.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\Internal\Infrastructure\IStandardTrace.cs" Link="Core\Internal\Infrastructure\IStandardTrace.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\Internal\Infrastructure\StandardTrace.cs" Link="Core\Internal\Infrastructure\StandardTrace.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\Internal\ServiceContext.cs" Link="Core\Internal\ServiceContext.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\Internal\StandardClientOptionsSetup.cs" Link="Core\Internal\StandardClientOptionsSetup.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\ListenOptions.cs" Link="Core\ListenOptions.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\StandardClient.cs" Link="Core\StandardClient.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\StandardClientOptions.cs" Link="Core\StandardClientOptions.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\Core\StandardConfigurationLoader.cs" Link="Core\StandardConfigurationLoader.cs" />
+    <Compile Include="..\..\..\src\Clients\src\Standard\GameHostBuilderStandardExtensions.cs" Link="GameHostBuilderStandardExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\Internal\Infrastructure\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hosting\Hosting\Contoso.GameNetCore.Hosting.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DefaultBuilder\**" />
+    <Compile Remove="Middleware\**" />
+    <EmbeddedResource Remove="DefaultBuilder\**" />
+    <EmbeddedResource Remove="Middleware\**" />
+    <None Remove="DefaultBuilder\**" />
+    <None Remove="Middleware\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Middleware\HostFiltering\src\HostFilteringBuilderExtensions.cs" Link="HostFilteringBuilderExtensions.cs" />
+    <Compile Include="..\..\..\src\Middleware\HostFiltering\src\HostFilteringMiddleware.cs" Link="HostFilteringMiddleware.cs" />
+    <Compile Include="..\..\..\src\Middleware\HostFiltering\src\HostFilteringOptions.cs" Link="HostFilteringOptions.cs" />
+    <Compile Include="..\..\..\src\Middleware\HostFiltering\src\HostFilteringServicesExtensions.cs" Link="HostFilteringServicesExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hosting\Abstractions\Contoso.GameNetCore.Hosting.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

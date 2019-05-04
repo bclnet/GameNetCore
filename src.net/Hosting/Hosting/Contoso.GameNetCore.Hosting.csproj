@@ -1,0 +1,97 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstractions\**" />
+    <Compile Remove="Hosting\**" />
+    <Compile Remove="Server.Abstractions\**" />
+    <Compile Remove="WindowsServices\**" />
+    <EmbeddedResource Remove="Abstractions\**" />
+    <EmbeddedResource Remove="Hosting\**" />
+    <EmbeddedResource Remove="Server.Abstractions\**" />
+    <EmbeddedResource Remove="WindowsServices\**" />
+    <None Remove="Abstractions\**" />
+    <None Remove="Hosting\**" />
+    <None Remove="Server.Abstractions\**" />
+    <None Remove="WindowsServices\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Builder\ApplicationBuilderFactory.cs" Link="Builder\ApplicationBuilderFactory.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Builder\IApplicationBuilderFactory.cs" Link="Builder\IApplicationBuilderFactory.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Client\Features\IClientAddressesFeature.cs" Link="Client\Features\IClientAddressesFeature.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GameHostBuilder.cs" Link="GameHostBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GameHostBuilderExtensions.cs" Link="GameHostBuilderExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GameHostExtensions.cs" Link="GameHostExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHostGameHostBuilderExtensions.cs" Link="GenericHostGameHostBuilderExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\GenericGameHostApplicationLifetime.cs" Link="GenericHost\GenericGameHostApplicationLifetime.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\GenericGameHostBuilder.cs" Link="GenericHost\GenericGameHostBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\GenericGameHostedService.cs" Link="GenericHost\GenericGameHostedService.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\GenericGameHostServiceOptions.cs" Link="GenericHost\GenericGameHostServiceOptions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\HostingStartupGameHostBuilder.cs" Link="GenericHost\HostingStartupGameHostBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\ISupportsStartup.cs" Link="GenericHost\ISupportsStartup.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\GenericHost\ISupportsUseDefaultServiceProvider.cs" Link="GenericHost\ISupportsUseDefaultServiceProvider.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\ApplicationLifetime.cs" Link="Internal\ApplicationLifetime.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\ConfigureBuilder.cs" Link="Internal\ConfigureBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\ConfigureContainerBuilder.cs" Link="Internal\ConfigureContainerBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\ConfigureServicesBuilder.cs" Link="Internal\ConfigureServicesBuilder.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\GameHost.cs" Link="Internal\GameHost.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\GameHostLifetime.cs" Link="Internal\GameHostLifetime.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\GameHostOptions.cs" Link="Internal\GameHostOptions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\GameHostUtilities.cs" Link="Internal\GameHostUtilities.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostedServiceExecutor.cs" Link="Internal\HostedServiceExecutor.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingApplication.cs" Link="Internal\HostingApplication.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingApplicationDiagnostics.cs" Link="Internal\HostingApplicationDiagnostics.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingEnvironment.cs" Link="Internal\HostingEnvironment.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingEnvironmentExtensions.cs" Link="Internal\HostingEnvironmentExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingEventSource.cs" Link="Internal\HostingEventSource.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingLoggerExtensions.cs" Link="Internal\HostingLoggerExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingRequestFinishedLog.cs" Link="Internal\HostingRequestFinishedLog.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\HostingRequestStartingLog.cs" Link="Internal\HostingRequestStartingLog.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\LoggerEventIds.cs" Link="Internal\LoggerEventIds.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\MethodInfoExtensions.cs" Link="Internal\MethodInfoExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\ServiceCollectionExtensions.cs" Link="Internal\ServiceCollectionExtensions.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\StartupLoader.cs" Link="Internal\StartupLoader.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Internal\StartupMethods.cs" Link="Internal\StartupMethods.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Server\Features\ServerAddressesFeature.cs" Link="Server\Features\ServerAddressesFeature.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Startup\ConventionBasedStartup.cs" Link="Startup\ConventionBasedStartup.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Startup\DelegateStartup.cs" Link="Startup\DelegateStartup.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Startup\ExceptionPage\Views\ErrorPage.cs" Link="Startup\ExceptionPage\Views\ErrorPage.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Startup\ExceptionPage\Views\ErrorPageModel.cs" Link="Startup\ExceptionPage\Views\ErrorPageModel.cs" />
+    <Compile Include="..\..\..\src\Hosting\Hosting\src\Startup\StartupBase.cs" Link="Startup\StartupBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\src\Hosting\Hosting\src\Resources.resx" Link="Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="4.5.1" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abstractions\Contoso.GameNetCore.Hosting.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

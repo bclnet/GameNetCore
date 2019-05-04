@@ -137,8 +137,8 @@ namespace Contoso.GameNetCore.Hosting.Internal
             var diagnosticSource = Services.GetRequiredService<DiagnosticListener>();
             var protoContextFactory = Services.GetRequiredService<IProtoContextFactory>();
             var hostingApp = new HostingApplication(application, _logger, diagnosticSource, protoContextFactory);
-            if (Client != null)
-                await Client.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
+            //if (Client != null)
+            //    await Client.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
             if (Server != null)
                 await Server.StartAsync(hostingApp, cancellationToken).ConfigureAwait(false);
 

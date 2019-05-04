@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstractions\**" />
+    <Compile Remove="Hosting\**" />
+    <Compile Remove="Server.Abstractions\**" />
+    <Compile Remove="WindowsServices\**" />
+    <EmbeddedResource Remove="Abstractions\**" />
+    <EmbeddedResource Remove="Hosting\**" />
+    <EmbeddedResource Remove="Server.Abstractions\**" />
+    <EmbeddedResource Remove="WindowsServices\**" />
+    <None Remove="Abstractions\**" />
+    <None Remove="Hosting\**" />
+    <None Remove="Server.Abstractions\**" />
+    <None Remove="WindowsServices\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Hosting\Server.Abstractions\src\Features\IServerAddressesFeature.cs" Link="Features\IServerAddressesFeature.cs" />
+    <Compile Include="..\..\..\src\Hosting\Server.Abstractions\src\IProtoApplication.cs" Link="IProtoApplication.cs" />
+    <Compile Include="..\..\..\src\Hosting\Server.Abstractions\src\IServer.cs" Link="IServer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+  </ItemGroup>
+</Project>

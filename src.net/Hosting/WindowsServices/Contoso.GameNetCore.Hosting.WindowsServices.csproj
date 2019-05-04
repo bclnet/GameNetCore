@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET2;NETX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstractions\**" />
+    <Compile Remove="Hosting\**" />
+    <Compile Remove="Server.Abstractions\**" />
+    <Compile Remove="WindowsServices\**" />
+    <EmbeddedResource Remove="Abstractions\**" />
+    <EmbeddedResource Remove="Hosting\**" />
+    <EmbeddedResource Remove="Server.Abstractions\**" />
+    <EmbeddedResource Remove="WindowsServices\**" />
+    <None Remove="Abstractions\**" />
+    <None Remove="Hosting\**" />
+    <None Remove="Server.Abstractions\**" />
+    <None Remove="WindowsServices\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Hosting\WindowsServices\src\GameHostService.cs" Link="GameHostService.cs" />
+    <Compile Include="..\..\..\src\Hosting\WindowsServices\src\GameHostWindowsServiceExtensions.cs" Link="GameHostWindowsServiceExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hosting\Contoso.GameNetCore.Hosting.csproj" />
+  </ItemGroup>
+</Project>
