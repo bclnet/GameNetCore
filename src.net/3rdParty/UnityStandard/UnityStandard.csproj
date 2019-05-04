@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Color.cs" Link="Color.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Color32.cs" Link="Color32.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\FrustumPlanes.cs" Link="FrustumPlanes.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\GameObject.cs" Link="GameObject.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Mathf.cs" Link="Mathf.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\MathfInternal.cs" Link="MathfInternal.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Matrix4x4.cs" Link="Matrix4x4.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Plane.cs" Link="Plane.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Quaternion.cs" Link="Quaternion.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Ray.cs" Link="Ray.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\TextureFormat.cs" Link="TextureFormat.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\UnityString.cs" Link="UnityString.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Vector2.cs" Link="Vector2.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Vector2Int.cs" Link="Vector2Int.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Vector3.cs" Link="Vector3.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Vector3Int.cs" Link="Vector3Int.cs" />
+    <Compile Include="..\..\..\src\3rdParty\UnityStandard\Vector4.cs" Link="Vector4.cs" />
+  </ItemGroup>
+
+</Project>
